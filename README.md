@@ -11,7 +11,7 @@ Redux will be used for this project
 One branch per feature and per version
 !! One person must work on one branch !!
 Never push on master and dev
-Never do two pull requests on the same time
+Never do two pull requests at the same time
 
 ### `npm start`
 
