@@ -24,6 +24,8 @@ const FamilyForm = () => {
             
             {answers2 > answers1 ? <p>No trolling please !!</p> : console.log('ok')}
 
+        {/* question 3 avec un radio check oui/non : -si on est en garde partagée avec une co-famille le calendrier apparait
+        -si on a le même nb d'enfant dans question 1 et 2 = vérification si garde partagée avec un ex */}
 
             {answers2 < answers1 ? <p>Boum planning</p> : 
             <div><p className='question3'>L'enfant est-il en garde partagé avec l'autre parents ?</p>
@@ -41,8 +43,13 @@ const FamilyForm = () => {
 
         </div>
     </div>}
+
+    {/* si on a 1 ou plusieurs enfant et pas de partage avec ex ni co-partage = erreur  */}
         {answers1 === '1' && answers3 === 'non' ?<p className='error1'>Tu payes tout lol</p> : console.log('lol')}
         {answers1 === answers2 && answers3 === 'non' ? <p>Tu payes tout lol</p> : console.log('jaaj')}
+
+    {/* si on est en co-partage avec l'ex = planning apparait */}
+
         {answers1 === answers2 && answers3 === 'oui' || answers1 === '1' && answers3 === 'oui' ? <p>Boum planning</p> : console.log('joj')}
 
         </div>
