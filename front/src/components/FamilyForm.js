@@ -2,18 +2,6 @@ import React, {useState} from 'react'
 
 const FamilyForm = () => {
 
-    //const pititeOption = () => {
-    // let pitite = document.getElementsByClassName("optionQuestion");
-    // let result = pitite.options[pitite.selectedIndex].value;
-    // alert(result);}
-    
-
-    // const [question, setQuestion] = useState([{
-    //     question1 : "nounou ?",
-    //     question2 : "garde ?",
-    //     question3 : "Enfant ?"  
-    // }]);
-    
     const [answers1, setAnswers1] = useState('1')
     const [answers2, setAnswers2] = useState()
 
@@ -25,14 +13,21 @@ const FamilyForm = () => {
             {console.log(answers1)}
 
             <p className='question2'>L'enfant est-il en garde partagé avec l'autre parents ?</p>
-            <select className='optionQuestion'>
-                <option value = 'oui' onChange = {e => setAnswers2(e.target.value)} >Oui</option>
-                {console.log(answers2)}
-                <option value = 'non'>Non</option>
-            </select>
+            <div className="radio">
+          <label>
+            <input type="radio" value="option1" checked={answers2 === 'option1'} onChange = {e => setAnswers2(e.target.value)} />
+            {console.log(answers2)}
+            Oui
+          </label>
+        </div>
+        <div className="radio">
+          <label>
+            <input type="radio" value="option2" checked={answers2 === 'option2'} onChange = {e => setAnswers2(e.target.value)} />
+            {console.log(answers2)}
+            Non
+          </label>
+        </div>
 
-
-            {/* <button type="button" onClick={pititeOption()}>Get Selected Value</button> */}
 
         </div>
     )
