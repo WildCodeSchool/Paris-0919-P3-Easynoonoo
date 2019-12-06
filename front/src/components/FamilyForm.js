@@ -56,7 +56,7 @@ const FamilyForm = () => {
 
         {answers1 == 1 ?
           <div>
-            <p className='question3'>L'enfant est-il en garde partagée avec l'autre parent ?</p>
+            <p className='question3'>La garde de votre enfant est-elle partagée avec un autre parent ?</p>
             <div className="radio">
               <label>
                 <input type="radio" value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
