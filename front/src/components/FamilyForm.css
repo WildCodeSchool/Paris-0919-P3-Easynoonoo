@@ -1,0 +1,28 @@
+.familyFormParent {
+    display : flex;
+    flex-direction: column;    
+    background : #E2E5ED;
+    box-sizing: border-box;
+
+    height : 1000px; /* just for test */       
+}
+
+.familyFormParent h2 {
+    margin-top : 5%;
+    font-size: 45px;
+}
+
+.familyFormParent p {
+    font-size : 20px;
+
+}
+
+.familyForm {
+    border-top : solid black 2px;
+    padding-top : 3%;
+    
+}
+
+.error1 {
+    color : red;
+}
