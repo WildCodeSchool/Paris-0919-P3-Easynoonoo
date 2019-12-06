@@ -4,7 +4,7 @@ const FamilyForm = () => {
 
 // state en hook pour les réponses
 
-    const [answers1, setAnswers1] = useState('')
+    const [answers1, setAnswers1] = useState()
     const [answers2, setAnswers2] = useState()
     const [answers3, setAnswers3] = useState()
 
@@ -14,20 +14,17 @@ const FamilyForm = () => {
             {/* question 1 toujours visible + envoi de la valeur dans le state answers1 */}
 
             <p className='question1'>Combien d'enfants sont gardés par la nounou ?</p>
-            <input type = 'text'classname='answers1' value = {answers1} onChange = {e => setAnswers1(e.target.value)} min = '1' max = '10'/>
+            <input type = 'number'classname='answers1' value = {answers1} onChange = {e => setAnswers1(e.target.value)} min = '1' max = '10' onClick = {e => setAnswers2('')}  />
 
             {/* si on a plus d'un enfant question 2 apparait */}
 
-            {answers1 > '1' ? <div><p className='question2'>Combien sont à vous ?</p> <input type = 'text'classname='answers2' value = {answers2} onChange = {e => setAnswers2(e.target.value)} min = "1" max = "10"/> </div> : console.log('nope')}
-
-            {/* si l'utilisateur a mis plus d'enfants à lui que d'enfants gardés = message d'erreur1 */}
+            {answers1 > '1' ? <div><p className='question2'>Combien sont à vous ?</p> <input type = 'number'classname='answers2' value = {answers2} onChange = {e => setAnswers2(e.target.value)} min = "1" max = {answers1}/> </div> : console.log('nope')}
             
-            {answers2 > answers1 ? <p>No trolling please !!</p> : console.log('ok')}
-
+            
         {/* question 3 avec un radio check oui/non : -si on est en garde partagée avec une co-famille le calendrier apparait
         -si on a le même nb d'enfant dans question 1 et 2 = vérification si garde partagée avec un ex */}
 
-            {answers2 < answers1 ? <p>Boum planning</p> : 
+            {answers2 < answers1 && answers2 !== '' ? <p>Boum planning</p> : 
             <div><p className='question3'>L'enfant est-il en garde partagé avec l'autre parents ?</p>
             <div className="radio">
           <label>
