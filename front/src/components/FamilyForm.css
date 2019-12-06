@@ -10,6 +10,8 @@
 .familyFormParent h2 {
     margin-top : 5%;
     font-size: 45px;
+    color : #2E3858;
+    margin-left : 5%;
 }
 
 .familyFormParent p {
@@ -18,11 +20,27 @@
 }
 
 .familyForm {
-    border-top : solid black 2px;
-    padding-top : 3%;
+    border : solid black 2px;
+    padding : 5%;
+    background-color : #FFFFFF;
+    border : solid #687189 1px;
+    margin : 5%;
+    
+    
     
 }
 
+.familyForm input {
+    width : 50px;
+    
+    
+}
+
+.familyFormReturn {
+    text-align : right;
+    color : #687189;
+}
+
 .error1 {
-    color : red;
+    color : #EE5E6A;
 }

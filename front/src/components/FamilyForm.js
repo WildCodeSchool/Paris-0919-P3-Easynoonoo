@@ -21,19 +21,19 @@ const FamilyForm = () => {
         
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
-        <p>Combien d'enfants sont gardés par la nounou ?</p>
-        <input type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />
+        <p>Au total, combien d'enfants seront gardés par la nounou ?</p>
+        <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />
 
         {/* si on a plus d'un enfant question 2 apparait */}
 
-        {answers1 > 1 ? <div><p className='question2'>Combien sont à vous ?</p> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={e => setAnswers3('')} /> </div> : ''}
+        {answers1 > 1 ? <div><p className='question2'>Parmi ces enfants, combien sont à vous ?</p> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={e => setAnswers3('')} /> </div> : ''}
 
 
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
         {answers1 === answers2 && answers1 > 1 ?
           <div>
-            <p className='question3'>Les enfants sont-ils en garde partagée avec l'autre parent ?</p>
+            <p className='question3'>La garde de vos enfants est-elle partagée avec un autre parent ?</p>
             <div className="radio">
               <label>
                 <input type="radio" value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
@@ -81,7 +81,10 @@ const FamilyForm = () => {
         {/* si on est en co-partage : planning apparait */}
         {answers1 === answers2 && answers3 === 'oui' || answers1 === 1 && answers3 === 'oui' ? <p>Boum planning</p> : ''}
         {answers2 < answers1 && answers2 !== 0 ? <p>Boum planning</p> : ''}
+        <p className ='familyFormReturn'>Retour aux simulateurs</p>
       </div>
+
+      
 
 
 
