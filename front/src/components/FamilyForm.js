@@ -21,12 +21,14 @@ const FamilyForm = () => {
         
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
-        <p>Au total, combien d'enfants seront gardés par la nounou ?</p>
-        <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />
+        <div className='familyFormNumberInput'>
+          <label>Au total, combien d'enfants seront gardés par la nounou ?</label>
+          <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />      
+        </div>
 
         {/* si on a plus d'un enfant question 2 apparait */}
 
-        {answers1 > 1 ? <div><p className='question2'>Parmi ces enfants, combien sont à vous ?</p> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={e => setAnswers3('')} /> </div> : ''}
+        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces enfants, combien sont à vous ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={e => setAnswers3('')} /> </div> : ''}
 
 
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
@@ -75,8 +77,8 @@ const FamilyForm = () => {
         }
 
         {/* Message erreur si pas garde partagée  */}
-        {answers1 === 1 && answers3 === 'non' ? <p className='error1'>La garde de l'enfant n'étant pas partagée, l'intégralité des coût de celle-ci est à votre charge</p> : ''}
-        {answers1 === answers2 && answers3 === 'non' ? <p className='error1'>La garde des enfants n'étant pas partagée, l'intégralité des coût de celle-ci est à votre charge</p> : ''}
+        {answers1 === 1 && answers3 === 'non' ? <p className='error1'>La garde de l'enfant n'étant pas partagée, l'intégralité des coûts de celle-ci est à votre charge</p> : ''}
+        {answers1 === answers2 && answers3 === 'non' ? <p className='error1'>La garde des enfants n'étant pas partagée, l'intégralité des coûts de celle-ci est à votre charge</p> : ''}
 
         {/* si on est en co-partage : planning apparait */}
         {answers1 === answers2 && answers3 === 'oui' || answers1 === 1 && answers3 === 'oui' ? <p>Boum planning</p> : ''}

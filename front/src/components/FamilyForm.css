@@ -14,34 +14,38 @@
     margin-left : 5%;
 }
 
-.familyFormParent p {
-    font-size : 20px;
-
-}
+/*Form*/
 
 .familyForm {
-    border : solid black 2px;
-    padding : 5%;
+    border : solid black 3px;
+    padding : 3%;
     background-color : #FFFFFF;
-    border : solid #687189 1px;
+    border : dotted #687189 1px;
     margin : 5%;
-    
-    
-    
+    font-size : 20px;        
+}
+
+.familyFormNumberInput {
+    display : flex;
+    justify-content : space-between;    
+    margin-bottom : 3%;
 }
 
 .familyForm input {
-    width : 50px;
+    width : 50px; 
     
-    
+    background-color : #E2E5ED ;
 }
 
 .familyFormReturn {
     text-align : right;
     color : #687189;
-    font-family: 'Roboto', sans-serif;    
+    font-family: 'Roboto', sans-serif;
+    font-style : italic;       
 }
 
 .error1 {
     color : #EE5E6A;
 }
+
+/* Add queries for < 750px width */
