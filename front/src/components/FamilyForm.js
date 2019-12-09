@@ -1,14 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './FamilyForm.css'
 
 
 const FamilyForm = () => {
+  // initialize value to the one in the localstorage in the first render 
+  const initialAnswer1 = () => Number(window.localStorage.getItem('answers1')) || 0
+  const initialAnswer2 = () => Number(window.localStorage.getItem('answers2')) || 0
+  const initialAnswer3 = () => window.localStorage.getItem('answers3')
 
   // state en hook pour les réponses
 
-  const [answers1, setAnswers1] = useState(0)
-  const [answers2, setAnswers2] = useState(0)
-  const [answers3, setAnswers3] = useState()
+  const [answers1, setAnswers1] = useState(initialAnswer1)
+  const [answers2, setAnswers2] = useState(initialAnswer2)
+  const [answers3, setAnswers3] = useState(initialAnswer3)
+
+  //store the data in local storage
+  useEffect( () => {
+    window.localStorage.setItem('answers1', answers1)
+    window.localStorage.setItem('answers2', answers2)
+    window.localStorage.setItem('answers3', answers3)
+  }, [answers1, answers2, answers3]) //callback run only the answers change
+    
+  
 
 
 
