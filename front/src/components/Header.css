@@ -1,0 +1,21 @@
+.headerWebsite {
+    box-sizing: border-box;
+}
+
+.navbarWebsite {
+    display : flex;
+    background-color : #2E3858;
+    justify-content : space-between;
+    height : auto;
+    font-size : 20px;
+}
+
+.navbarWebsite input {
+    background-color : #EE5E6A;
+    color : #F4F6FA;
+    width : 10%;
+    border : #EE5E6A;    
+}
+
+
+
