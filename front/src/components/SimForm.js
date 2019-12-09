@@ -4,8 +4,8 @@ const SimForm = () => {
   // state en hook pour les réponses
 
   const [answers1, setAnswers1] = useState('')
-  const [answers2, setAnswers2] = useState()
-  const [answers3, setAnswers3] = useState()
+  const [answers2, setAnswers2] = useState('')
+  const [answers3, setAnswers3] = useState('')
 
   return (
     <div>
@@ -14,7 +14,7 @@ const SimForm = () => {
       <p className="question1">Salaire demandé par heure ? (BRUT)</p>
       <input
         type="number"
-        classname="answers1"
+        className="answers1"
         value={answers1}
         onChange={e => setAnswers1(e.target.value)}
       />
@@ -25,23 +25,23 @@ const SimForm = () => {
           <p className="question2">Combien d'aides avez vous ?</p>{' '}
           <input
             type="number"
-            classname="answers2"
+            className="answers2"
             value={answers2}
             onChange={e => setAnswers2(e.target.value)}
           />{' '}
         </div>
       ) : (
-        console.log('nope')
+        console.log('waiting for answer1...')
       )}
 
-      {answers2 > answers1 ? (
-        <p>No trolling please !!</p>
+      {/* {answers2 > answers1 ? (
+        <p>...</p>
       ) : (
         console.log('ok')
-      )}
+      )} */}
 
-      {answers2 == null ? (
-        <p>L'embauche de votre nounou vous coutera : ?</p>
+      {answers2 < '1' ? (
+        console.log('waiting for answer2...')
       ) : (
         <div>
           <p className="question3">
@@ -70,22 +70,6 @@ const SimForm = () => {
             </label>
           </div>
         </div>
-      )}
-      {answers1 === '1' && answers3 === 'non' ? (
-        <p className="error1">Tu payes tout lol</p>
-      ) : (
-        console.log('lol')
-      )}
-      {answers1 === answers2 && answers3 === 'non' ? (
-        <p>Tu payes tout lol</p>
-      ) : (
-        console.log('jaaj')
-      )}
-      {(answers1 === answers2 && answers3 === 'oui') ||
-      (answers1 === '1' && answers3 === 'oui') ? (
-        <p>Boum planning</p>
-      ) : (
-        console.log('joj')
       )}
     </div>
   )
