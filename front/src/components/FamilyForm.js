@@ -22,7 +22,7 @@ const FamilyForm = () => {
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
         <div className='familyFormNumberInput'>
-          <label>Au total, combien d'enfants seront gardés par la nounou ?</label>
+          <label className='question1'>Au total, combien d'enfants seront gardés par la nounou ?</label>
           <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />      
         </div>
 
@@ -38,14 +38,14 @@ const FamilyForm = () => {
             <p className='question3'>La garde de vos enfants est-elle partagée avec un autre parent ?</p>
             <div className="radio">
               <label>
-                <input type="radio" value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
+                <input type="radio" className='checked' value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
                 Oui
                   </label>
             </div>
 
             <div className="radio">
               <label>
-                <input type="radio" value="non" checked={answers3 === 'non'} onChange={e => setAnswers3(e.target.value)} />
+                <input type="radio" className='checked' value="non" checked={answers3 === 'non'} onChange={e => setAnswers3(e.target.value)} />
                 Non
                    </label>
             </div>
