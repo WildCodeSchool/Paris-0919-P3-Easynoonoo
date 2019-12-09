@@ -1,4 +1,4 @@
-## Best pratices
+## Best practices
 
 CSS : for each tag, use alphabetical order / One CSS file per component
 JSX : one tag for one HTML object to avoid conflicts
