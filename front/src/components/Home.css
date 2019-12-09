@@ -1,0 +1,15 @@
+.Homepage {
+    box-sizing: border-box;
+    background-color: #E2E5ED
+}
+
+.Homepage article {
+    display: flex;
+    margin: auto;
+    background-color: #F4F6FA;
+    border: 1px rgb(133, 129, 129);
+    border-radius: 10px;
+    box-shadow: #E2E5ED;
+    flex-direction: row;
+    margin: 5%
+}
