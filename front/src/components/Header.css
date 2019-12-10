@@ -4,12 +4,17 @@
 
 .navbarWebsite {
     display : flex;
-    background-color : black;
+    background-color : #2E3858;
     justify-content : space-between;
-    height : auto;
-    font-size : 20px;
-    color : #F4F6FA;
+    height : 100%;
+    font-size : 18px;
+    
 }
+
+.navbarWebsite p {
+    color : #EE5E6A;
+}
+
 
 .navbarWebsite input {
     background-color : #EE5E6A;

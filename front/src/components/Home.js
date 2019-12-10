@@ -9,7 +9,7 @@ const Home = () => {
 
     return (
         <div className ='Homepage'>
-            <Header/>
+            
             <article className='description'>
                 <div className='vision'>
                     <h2>Notre vision</h2>
@@ -25,7 +25,7 @@ const Home = () => {
                 </div>
             </article>
 
-            <h2>Apperçu</h2>
+            <h2>Aperçu</h2>
 
             <div className='screen1'>
                 

@@ -5,15 +5,12 @@ const Header = () => {
 
     return (
         <div className ='headerWebsite'>
-            <header className ='navbarWebsite' >
+            <nav className ='navbarWebsite' >
                 <div>
                     <p>Easynoonoo</p>
-                </div>
-                                
-                <input type='button' value = 'Sign in/Log in'/>
-            </header>
-
-            
+                </div>                                
+                <input type='button' value = 'Connexion'/>
+            </nav>            
         </div>
     )
 }
