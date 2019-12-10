@@ -1,15 +1,75 @@
 .Homepage {
     box-sizing: border-box;
-    background-color: #E2E5ED
+    background-color: #2E3858;
+}
+
+.Homepage h2 {
+    margin-left: 5%;
 }
 
 .Homepage article {
     display: flex;
     margin: auto;
-    background-color: #F4F6FA;
+    background-color: #687189;
+    color : #F4F6FA;
     border: 1px rgb(133, 129, 129);
     border-radius: 10px;
-    box-shadow: #E2E5ED;
+    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
     flex-direction: row;
     margin: 5%
+}
+
+.Homepage .screen1, .screen2 {
+    display: flex;
+    flex-direction: row
+}
+
+.Homepage .screenshot1, .screenshot2 {
+    width: 600vh;
+    height: 50vh;
+    margin-left: 5%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.Homepage .desc1, .desc2 {
+    background-color: #687189;
+    border: 1px rgb(133, 129, 129);
+    border-radius: 10px;
+    box-shadow: 12px 12px 2px 1px rgba(93, 93, 107, 0.137);
+    color : #F4F6FA;
+    margin: 5%;
+}
+
+.Homepage .simulateur {
+    margin: auto;
+    text-align: center;
+    
+}
+.Homepage .simulateurbtn {
+    background-color: #2E3858;
+}
+
+
+.Homepage .icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.Homepage .contract {
+    width: 5%;
+    height: 10vh;
+    margin-left: 5%;
+}
+
+.Homepage .money2 {
+    width: 6%;
+    height: 10vh;
+    margin-left: 5%;
+}
+
+.Homepage .calendar {
+    width: 6%;
+    height: 12vh;
+    margin-left: 5%;
 }

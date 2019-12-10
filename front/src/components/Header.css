@@ -4,10 +4,11 @@
 
 .navbarWebsite {
     display : flex;
-    background-color : #2E3858;
+    background-color : black;
     justify-content : space-between;
     height : auto;
     font-size : 20px;
+    color : #F4F6FA;
 }
 
 .navbarWebsite input {
