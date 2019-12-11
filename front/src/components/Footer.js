@@ -11,13 +11,24 @@ const Footer = () => {
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                 </div>
                 <div className ='footerLink'>
-                    <p>Link </p>
-                    <p>Link </p>
-                    <p>Link </p>
-                    <p>Link </p>
-                    <p>Contact</p>
-                    <p>Mentions légales</p>
-                </div>                           
+                    <div className='footerElements'>
+                        <p>Link </p>
+                        <p>Link </p>
+                        <p>Link </p>
+                        <p>Link </p>
+                    </div>
+                    <div className='footerElements'>
+                        <p>Link </p>
+                        <p>Link </p>
+                        <p>Link </p>                        
+                        <p>Mentions légales</p>
+                    </div>      
+                    <div className='footerElements'>
+                        <p>Contact</p>
+                        <p>Réseaux sociaux</p>
+                    </div>              
+                </div>
+                                         
             </footer>            
         </div>
     )

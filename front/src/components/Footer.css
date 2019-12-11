@@ -6,26 +6,33 @@
     align-items : center; 
     padding : 8%;
     padding-top : 0px;  
-    padding-bottom : 0px;  
-    height : 500px; /* test*/
+    padding-bottom : 4%;  
+    
 }
 
-.footerInfos {
-    font-size : 25px;
+.footerInfos {    
     width : 100%;
+    color : #687189;
 }
 
 .footerInfos h4 {
-    color :  #FFFFFF;
-
+    color :  #2E3858;
+    font-size : 25px;
+    margin-bottom : 0px;
 }
 
-
 .footerLink {
-   width : 100%;
+    width : 100%;
     border-top : solid 1px;
     font-size : 15px;
     display : flex;
-    flex-direction : column;
-    flex-wrap: nowrap;
+    justify-content : space-between;
+    padding-top : 2%;
+    color : #687189; 
+    margin-top : 3%; 
+}
+
+.footerElements {
+    display : flex;
+    flex-direction: column;
 }
