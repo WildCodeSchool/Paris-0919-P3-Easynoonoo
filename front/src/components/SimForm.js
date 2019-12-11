@@ -10,6 +10,10 @@ const SimForm = () => {
   const initialAnswer3 = () => window.localStorage.getItem("answersSim3") || 0;
   const initialAnswer4 = () => window.localStorage.getItem("answersSim4") || 0;
   const initialAnswer5 = () => window.localStorage.getItem("answersSim5") || 0;
+  const initialAnswer6 = () => window.localStorage.getItem("answersSim6") || 0;
+  const initialAnswer7 = () => window.localStorage.getItem("answersSim7") || 0;
+  const initialAnswer8 = () => window.localStorage.getItem("answersSim8") || 0;
+  const initialAnswer9 = () => window.localStorage.getItem("answersSim9") || 0;
 
   // state en hook pour les réponses
 
@@ -18,6 +22,10 @@ const SimForm = () => {
   const [answersSim3, setAnswersSim3] = useState(initialAnswer3);
   const [answersSim4, setAnswersSim4] = useState(initialAnswer4);
   const [answersSim5, setAnswersSim5] = useState(initialAnswer5);
+  const [answersSim6, setAnswersSim6] = useState(initialAnswer6);
+  const [answersSim7, setAnswersSim7] = useState(initialAnswer7);
+  const [answersSim8, setAnswersSim8] = useState(initialAnswer8);
+  const [answersSim9, setAnswersSim9] = useState(initialAnswer9);
 
   //store the data in local storage
   useEffect(() => {
@@ -26,7 +34,26 @@ const SimForm = () => {
     window.localStorage.setItem("answersSim3", answersSim3);
     window.localStorage.setItem("answersSim4", answersSim4);
     window.localStorage.setItem("answersSim5", answersSim5);
-  }, [answersSim1, answersSim2, answersSim3, answersSim4, answersSim5]); //callback run only the answers change
+    window.localStorage.setItem("answersSim6", answersSim6);
+    window.localStorage.setItem("answersSim7", answersSim7);
+    window.localStorage.setItem("answersSim8", answersSim8);
+    window.localStorage.setItem("answersSim9", answersSim9);
+  }, [answersSim1, answersSim2, answersSim3, answersSim4, answersSim5, answersSim6, answersSim7, answersSim8, answersSim9]); //callback run only the answers change
+
+  const handleQuestion9 = () => {
+    if (answersSim6 === 1 && answersSim7 <= 3) {
+      return (
+        <div>
+          <select>
+            <option>Inférieures ou égales à 20 755 €</option>
+            <option>Inférieures ou égales à 20 755 €</option>
+            <option>Inférieures ou égales à 20 755 €</option>
+
+          </select>
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="simFormParent">
@@ -78,8 +105,8 @@ const SimForm = () => {
           />
         </div>
 
-        <p className="question3">
-          4. La garde de vos enfants est-elle partagée ?
+        <p className="question4">
+          4. La garde est-elle partagée ?
         </p>
         <div className="radio">
           <label>
@@ -94,7 +121,7 @@ const SimForm = () => {
           </label>
         </div>
 
-   <div className="radio">
+        <div className="radio">
           <label>
             <input
               type="radio"
@@ -124,24 +151,91 @@ const SimForm = () => {
           ""
         )}
 
-        {/* <div className="familyFormNumberInput">
-          <label className="question1">
-            Au total, combien d'enfants seront gardés par la nounou ?
+        <div className="simFormNumberInput">
+          <label for="child-number">
+            6. Combien d'enfants avez-vous à charge ?
+          </label>
+          <select
+            name="childs"
+            id="child-select"
+            onChange={e => setAnswersSim6(e.target.value)}
+            value={answersSim6}
+          >
+            <option value="">--Merci de choisir une option--</option>
+            <option value="1">
+              1
+            </option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>            
+          </select>
+        </div>
+
+        <div className="simFormNumberInput">
+          <label>
+            7. Quel est l'âge du plus jeune enfant gardé ?
           </label>
           <input
-            className="familyFNumber"
             type="number"
-            classname="answers6"
-            value={answers1}
-            onChange={e => setAnswers1(parseInt(e.target.value, 10))}
-            min="1"
-            max="10"
-            onClick={e => setAnswers2(0)}
+            value={answersSim7}
+            onChange={e => setAnswersSim7(parseInt(e.target.value))}
+            min="0"
+            max="18"
           />
-        </div> */}
+        </div>
 
+        <p className="question8">
+          8. Elevez-vous seul.e votre enfant ?
+        </p>
+        <div className="radio">
+          <label>
+            <input
+              type="radio"
+              className="checked"
+              value="true"
+              checked={answersSim8 === "true"}
+              onChange={e => setAnswersSim8(e.target.value)}
+            />
+            Oui
+          </label>
+        </div>
+
+        <div className="radio">
+          <label>
+            <input
+              type="radio"
+              className="checked"
+              value="false"
+              checked={answersSim8 === "false"}
+              onChange={e => setAnswersSim8(e.target.value)}
+            />
+            Non
+          </label>
+        </div>
+
+        <div className="simFormNumberInput">
+          <label for="salarySelect">
+            9. Quels sont les revenus nets mensuels du foyer ?
+          </label>
+          <select
+            name="childs"
+            id="salary-select"
+            onChange={e => setAnswersSim6(e.target.value)}
+            value={answersSim6}
+          >
+            <option value="">--Merci de choisir une option--</option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>            
+          </select>
+        </div>
+        
+        
+        <p className="simFormReturn">Retour aux simulateurs</p>
       </div>
-      <p className="simFormReturn">Retour aux simulateurs</p>
     </div>
   );
 };
