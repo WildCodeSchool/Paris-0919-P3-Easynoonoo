@@ -38,22 +38,79 @@ const SimForm = () => {
     window.localStorage.setItem("answersSim7", answersSim7);
     window.localStorage.setItem("answersSim8", answersSim8);
     window.localStorage.setItem("answersSim9", answersSim9);
-  }, [answersSim1, answersSim2, answersSim3, answersSim4, answersSim5, answersSim6, answersSim7, answersSim8, answersSim9]); //callback run only the answers change
+  }, [
+    answersSim1,
+    answersSim2,
+    answersSim3,
+    answersSim4,
+    answersSim5,
+    answersSim6,
+    answersSim7,
+    answersSim8,
+    answersSim9
+  ]); //callback run only the answers change
+
+  useEffect(() => {
+    handleQuestion9();
+    console.log("bonjour");
+  }, [answersSim8]);
+
 
   const handleQuestion9 = () => {
-    if (answersSim6 === 1 && answersSim7 <= 3) {
+    if (
+      (answersSim6 == 1 && answersSim7 <= 3) ||
+      (answersSim6 == 1 && answersSim7 >= 3)
+    ) {
       return (
         <div>
           <select>
             <option>Inférieures ou égales à 20 755 €</option>
-            <option>Inférieures ou égales à 20 755 €</option>
-            <option>Inférieures ou égales à 20 755 €</option>
-
+            <option>
+              Supérieures à 20 755 € et inférieures ou égales à 46 123 €
+            </option>
+            <option>Supérieures à 46 123 €</option>
           </select>
         </div>
-      )
+      );
+    } else if (
+      (answersSim6 == 2 && answersSim7 <= 3) ||
+      (answersSim6 == 2 && answersSim7 >= 3)
+    ) {
+      return (
+        <div>
+          <select>
+            <option>Inférieures ou égales à 23 701 €</option>
+            <option>
+              Supérieures à 23 701 € et inférieures ou égales à 52 670 €
+            </option>
+            <option>Supérieures à 52 670 €</option>
+          </select>
+        </div>
+      );
+
+    } else if ((answersSim6 == 3 && answersSim7 <= 3) || (answersSim6 == 3 && answersSim7) >= 3) {
+      return (
+        <div>
+          <select>
+            <option>Inférieures ou égales à 26 647 €</option>
+            <option>Supérieures à 26 647 € et inférieures ou égales à 59 217 €</option>
+            <option>Supérieures à 59 217 €</option>
+          </select>
+        </div>
+      );
+
+    } else if ((answersSim6 == 4 && answersSim7 <= 3) || (answersSim6 == 4 && answersSim7 >= 3)) {
+      return (
+        <div>
+          <select>
+            <option>Inférieures ou égales à 29 593 €</option>
+            <option>Supérieures à 29 593 € et inférieures ou égales à 65 764 €</option>
+            <option>Supérieures à 65 764 €</option>
+          </select>
+        </div>
+      );
     }
-  }
+  };
 
   return (
     <div className="simFormParent">
@@ -105,9 +162,7 @@ const SimForm = () => {
           />
         </div>
 
-        <p className="question4">
-          4. La garde est-elle partagée ?
-        </p>
+        <p className="question4">4. La garde est-elle partagée ?</p>
         <div className="radio">
           <label>
             <input
@@ -162,20 +217,16 @@ const SimForm = () => {
             value={answersSim6}
           >
             <option value="">--Merci de choisir une option--</option>
-            <option value="1">
-              1
-            </option>
+            <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
-            <option value="5">5</option>            
+            <option value="5">5</option>
           </select>
         </div>
 
         <div className="simFormNumberInput">
-          <label>
-            7. Quel est l'âge du plus jeune enfant gardé ?
-          </label>
+          <label>7. Quel est l'âge du plus jeune enfant gardé ?</label>
           <input
             type="number"
             value={answersSim7}
@@ -185,9 +236,7 @@ const SimForm = () => {
           />
         </div>
 
-        <p className="question8">
-          8. Elevez-vous seul.e votre enfant ?
-        </p>
+        <p className="question8">8. Elevez-vous seul.e votre enfant ?</p>
         <div className="radio">
           <label>
             <input
@@ -214,26 +263,20 @@ const SimForm = () => {
           </label>
         </div>
 
-        <div className="simFormNumberInput">
-          <label for="salarySelect">
+        {answersSim8 === 'true' || answersSim8 === 'false' ? (
+          <div className="simFormNumberInput">
+            <label for="salarySelect">
             9. Quels sont les revenus nets mensuels du foyer ?
-          </label>
-          <select
-            name="childs"
-            id="salary-select"
-            onChange={e => setAnswersSim6(e.target.value)}
-            value={answersSim6}
-          >
-            <option value="">--Merci de choisir une option--</option>
-            <option value="1"></option>
-            <option value="2"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>            
-          </select>
-        </div>
-        
-        
+            </label>
+            <div onChange={e => setAnswersSim9(e.target.value)} >
+            { handleQuestion9() }
+            </div>
+
+          </div>
+        ) : (
+          ""
+        )}
+
         <p className="simFormReturn">Retour aux simulateurs</p>
       </div>
     </div>
