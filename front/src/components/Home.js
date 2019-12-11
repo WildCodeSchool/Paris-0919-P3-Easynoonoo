@@ -31,12 +31,13 @@ const Home = () => {
 
             {/* Teaser/ Screenshots from app */}
 
-            <h2>Aperçu</h2>
+            <h2 className ='h2Teaser'>Notre solution</h2>
 
             <div className='screen1'>
-                <img className='screenshot1' src='https://via.placeholder.com/650/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
+                <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                 </img>
                 <div className='desc1'>
+                    <h3>Lorem.</h3>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>
                     <p>
@@ -45,39 +46,30 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='screen1'>
-                
-                <div className='desc1'>
-                    <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant"
-                    </p>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
-                    </p>
-                    
-                </div>
-                <img className='screenshot1' src='https://via.placeholder.com/650/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
-            </div>
 
-            {/* <div className='screen2'>
+            <div className='screen2'>
                 <div className='desc2'>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    <h3>Lorem.</h3>
+                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
                     </p>
                     <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem."
+                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est "
                     </p>
                 </div>
-                <img className='screenshot2' src='https://via.placeholder.com/650/687189/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
-            </div> */}
+                <div className='imgTeaser'>
+                    <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
+                    </img>                    
+                </div>
+                
+            </div> 
 
 
             {/* SIMULATEUR */}
 
+            <h2 className ='h2Simulateur'>Essayer nos simulateurs </h2>
 
-            <h2 className ='h2Simulateur'>Essayer nos simulateurs !</h2>
+            <div className='simulateur'>   
 
-            <div className='simulateur'>                
                 {/* <div className='simulateurIcon'>
                     <img className='contract' src={contract} alt='contract'></img>
                     <img className='money2' src={money2} alt='money2'></img>

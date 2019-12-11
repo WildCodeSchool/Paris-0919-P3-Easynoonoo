@@ -3,9 +3,6 @@
     background-color: #FFFFFF;
 }
 
-.Homepage h2 {
-    /*margin-left: 5%;*/
-}
 
 .Homepage article {
     display: flex;
@@ -22,33 +19,73 @@
 
 /*Teaser*/
 
-.Homepage .screen1, .screen2 {
-    display: flex;
-    flex-direction: row;
-    align-items : center;
-    background-color: #687189; /*just for test */
-    margin-bottom : 2%; /*just for test */    
-    margin-left : 5%;
-    margin-right : 5%;
-    
+.h2Teaser {
+    font-size : 40px;
+    color : #2E3858;
+    padding-left : 8%;
+    padding-bottom : 0px;
+
 }
 
-.Homepage .desc1, .desc2 {    
-    
-    border: 1px rgb(133, 129, 129);
-    /*border-radius: 10px;*/
-    box-shadow: 12px 12px 2px 1px rgba(93, 93, 107, 0.137);
-    color : #F4F6FA;
-    margin-left : 3%;
-    margin-right : 3%;    
+
+
+.Homepage .screen1 {
+    display: flex;    
+    align-items : center;
+    justify-content: space-between;    
+    margin-bottom : 2%; /*just for test */  
+    padding : 8%;
+    padding-top : 5%;       
 }
+
+.screenshot1 {
+    box-shadow: 12px 12px 8px 12px rgba(93, 93, 107, 0.137);
+}
+
+.Homepage .desc1 {       
+    color : #2E3858;    
+    width : 30%;
+    font-size : 20px;      
+}
+
+.Homepage .desc1 h3{       
+    color : #EE5E6A;
+    font-size : 35px;             
+}
+
+.Homepage .screen2 {
+    display: flex;    
+    align-items : center;
+    justify-content: space-between;    
+    margin-bottom : 6%; /*just for test */  
+    padding : 8%;    
+    background-color : #687189;   
+}
+
+.screenshot2 {
+    box-shadow: 12px 12px 8px 12px rgba(30, 30, 32, 0.137);
+}
+
+.Homepage .desc2 {       
+    color : #FFFFFF;    
+    width : 30%;
+    font-size : 20px;      
+}
+
+.Homepage .desc2 h3{       
+    color : #000000; 
+    font-size : 35px;            
+}
+
 
 /*Partie simulateur*/
+
 
 .h2Simulateur {
     text-align : center;
     font-size : 40px;
     color : #2E3858;
+    
 }
 
 .Homepage .simulateur {        
@@ -56,8 +93,8 @@
     height : 400px;  /*test*/ 
     margin : 8%;
     margin-top : 4%;
-
 }
+
 
 /*Simulateur / Txt + btn*/
 
@@ -80,6 +117,7 @@
     color : #2E3858;
     background-color : #E2E5ED;    
 }
+
 
 .simulateur .simulateurbtn1 {
     background-color: #EE5E6A;
