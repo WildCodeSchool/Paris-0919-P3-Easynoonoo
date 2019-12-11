@@ -13,6 +13,12 @@ const FamilyForm = () => {
   const [answers1, setAnswers1] = useState(initialAnswer1)
   const [answers2, setAnswers2] = useState(initialAnswer2)
   const [answers3, setAnswers3] = useState(initialAnswer3)
+  // const [answers4, setAnswers4] = useState([{
+  //   name : myChildName,
+  //   firstname : myChildFirstname
+  // }])
+  const [myChildName, setmyChildName] = useState('')
+  const [myChildFirstname, setmyChildFirstname] = useState('')
 
   //store the data in local storage
   useEffect( () => {
@@ -36,7 +42,7 @@ const FamilyForm = () => {
 
         <div className='familyFormNumberInput'>
           <label className='question1'>Au total, combien d'enfants seront gardés par la nounou ?</label>
-          <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='10' onClick={e => setAnswers2(0)} />      
+          <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='5' onClick={e => setAnswers2(0)} />      
         </div>
 
         {/* si on a plus d'un enfant question 2 apparait */}
@@ -95,7 +101,18 @@ const FamilyForm = () => {
 
         {/* si on est en co-partage : planning apparait */}
         {answers1 === answers2 && answers3 === 'oui' || answers1 === 1 && answers3 === 'oui' ? <p>Boum planning</p> : ''}
-        {answers2 < answers1 && answers2 !== 0 ? <p>Boum planning</p> : ''}
+        {answers2 < answers1 && answers2 !== 0 ?
+        <div>
+          <p className='question4'>Comment s'appellent les enfants ?</p>
+            <div className ='arrayChild'>
+              <p>mes enfants :
+                <input type='text'onChange={e => setmyChildName(e.target.value)}/>
+                {console.log(`nom : ${myChildName}`)}</p>
+                <input type='text'onChange={event => setmyChildFirstname(event.target.value)}/>
+                {console.log(`prenom :${myChildFirstname}`)}
+              </div>
+        </div>
+         : ''}
         <p className ='familyFormReturn'>Retour aux simulateurs</p>
       </div>
 

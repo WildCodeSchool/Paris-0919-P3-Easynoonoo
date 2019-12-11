@@ -56,6 +56,11 @@
     font-style: italic
 }
 
+.arrayChild {
+    display: flex;
+    flex-direction: row
+}
+
 /* Add queries for < 750px width */
 @media screen and (min-width: 200px) and (max-width: 750px) {
 
