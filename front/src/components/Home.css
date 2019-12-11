@@ -45,39 +45,79 @@
 
 /*Partie simulateur*/
 
-.Homepage .simulateur {
-    
-    background-color : #2E3858;
+.h2Simulateur {
+    text-align : center;
+    font-size : 50px;
+    color : #2E3858;
+}
+
+.Homepage .simulateur {        
     display : flex;
-    height : 400px;  /*test*/      
+    height : 400px;  /*test*/ 
+    margin : 8%;
+    margin-top : 4%;
+
 }
 
 /*Simulateur / Txt + btn*/
 
-.simulateurDescription {
-    display : flex;
-    flex-direction : column;
-    width : 50%;
-    justify-content : center;
-    padding-left : 2%;
-    padding-right : 2%;
-    color : #FFFFFF;    
-}
-
-.simulateurDescription h2 {
+.simulateur h2 {
     font-size : 30px;
     margin : 0px;
     margin-bottom : 1%;    
 }
 
-.Homepage .simulateurbtn {
-    background-color: #687189;
+.simulateur h3 {
+    font-size : 20px;
+    margin : 0px;
+    margin-bottom : 2%;
+}
+
+.simulateurDescription {
+    display : flex;
+    flex-direction : column;
+    width : 50%;
+    justify-content : center; /*center div height wise */
+    align-items : center; /*center div width wise */
+    text-align : center; /*center text */
+    padding-left : 2%;
+    padding-right : 2%;
+    color : #2E3858;
+    background-color : #E2E5ED;    
+}
+
+.simulateur .simulateurbtn1 {
+    background-color: #EE5E6A;
     color : #FFFFFF;
-    width : 200px;
+    width : 150px;
     height : 50px;
-    margin-top : 2%;
+    margin-top : 4%;
+    border : none;
+    box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+}
+
+.simulateurDescription2 {
+    display : flex;
+    flex-direction : column;
+    width : 50%;
+    justify-content : center; /*center div height wise */
+    align-items : center; /*center div width wise */
+    text-align : center; /*center text */
+    padding-left : 2%;
+    padding-right : 2%;
+    color : #E2E5ED;
+    background-color : #2E3858;    
+}
+
+.simulateur .simulateurbtn2 {
+    background-color: #F4F6FA;
+    color : #2E3858;
+    width : 150px;
+    height : 50px;
+    margin-top : 4%;
     border : none;
 }
+
 
 /*Simulateur / icons*/
 
