@@ -47,7 +47,7 @@
 
 .h2Simulateur {
     text-align : center;
-    font-size : 50px;
+    font-size : 40px;
     color : #2E3858;
 }
 
@@ -61,11 +61,6 @@
 
 /*Simulateur / Txt + btn*/
 
-.simulateur h2 {
-    font-size : 30px;
-    margin : 0px;
-    margin-bottom : 1%;    
-}
 
 .simulateur h3 {
     font-size : 20px;
@@ -116,6 +111,7 @@
     height : 50px;
     margin-top : 4%;
     border : none;
+    box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 0, 0.2);
 }
 
 

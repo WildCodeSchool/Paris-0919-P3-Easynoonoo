@@ -75,11 +75,9 @@ const Home = () => {
             {/* SIMULATEUR */}
 
 
-            <h2 className ='h2Simulateur'>Besoin d'aide ?</h2>
+            <h2 className ='h2Simulateur'>Essayer nos simulateurs !</h2>
 
-            <div className='simulateur'>
-                
-                
+            <div className='simulateur'>                
                 {/* <div className='simulateurIcon'>
                     <img className='contract' src={contract} alt='contract'></img>
                     <img className='money2' src={money2} alt='money2'></img>
@@ -93,7 +91,6 @@ const Home = () => {
                     </p>                
                     <input type='button' className='simulateurbtn1' value='Essayer' />
                 </div>
-
                 
                 <div className='simulateurDescription2'>
                     <h3>Calculer les coûts de ma nounou</h3>
@@ -101,8 +98,7 @@ const Home = () => {
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
                     <input type='button' className='simulateurbtn2' value='Essayer' />
-                </div>
-                        
+                </div>                        
             </div>
 
         </div>
