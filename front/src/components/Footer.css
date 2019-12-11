@@ -1,7 +1,7 @@
-.footerWebsite {
+.footerWebsite  {
+    font-size : 15px;
     background-color : #E2E5ED;
+    padding : 0.5%;
+    text-align : center;
 }
 
-.footerSnsLogo {
-    background-color : transparent;
-}

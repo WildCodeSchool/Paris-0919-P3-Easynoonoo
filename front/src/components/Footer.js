@@ -9,9 +9,7 @@ const Footer = () => {
                 <div>
                     <p>Mentions légales</p>
                 </div> 
-                <div className = 'footerSnsLogo'>
-                    
-                </div>            
+                          
             </footer>            
         </div>
     )

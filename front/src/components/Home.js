@@ -72,15 +72,25 @@ const Home = () => {
             </div> */}
 
 
+            
+
             <div className='simulateur'>
-                <h2>Simulateur</h2>
-                <input type='button' className='simulateurbtn' value='Essayez les simulateurs' />
+                
+                <div className='simulateurIcon'>
+                    <img className='contract' src={contract} alt='contract'></img>
+                    <img className='money2' src={money2} alt='money2'></img>
+                    <img className='calendar' src={calendar} alt='calendar'></img>
+                </div>        
+
+                <div className='simulateurDescription'>
+                    <h2>Simulateur</h2>
+                    <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
+                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
+                    </p>                
+                    <input type='button' className='simulateurbtn' value='Essayez les simulateurs' />
+                </div>
+                        
             </div>
-            {/* <div className='icon'>
-                <img className='contract' src={contract} alt='contract'></img>
-                <img className='money2' src={money2} alt='money2'></img>
-                <img className='calendar' src={calendar} alt='calendar'></img>
-            </div> */}
 
         </div>
     )
