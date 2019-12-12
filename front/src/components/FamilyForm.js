@@ -23,6 +23,7 @@ const FamilyForm = () => {
   const [firstnameOthers, setFirstnameOthers] = useState('')
 
   const [count, setCount] = useState(1)
+  const [count2, setCount2] = useState(1)
 
   //store the data in local storage
   useEffect( () => {
@@ -46,8 +47,14 @@ const FamilyForm = () => {
   }
 
   const handleNameOthers = async () => {
-    await setNotMyChild([...notMyChild, firstnameOthers])
-    setFirstnameOthers('')
+    if (count2 <= answers1 - answers2) {
+      setNotMyChild([...notMyChild, firstnameOthers]);
+      setFirstnameOthers('');
+      setCount2(count2+1)
+     }
+      if (count2 > answers1 - answers2) {
+       setFirstnameOthers('')
+      }
    }
 
   return (
