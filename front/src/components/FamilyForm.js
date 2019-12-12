@@ -15,14 +15,14 @@ const FamilyForm = () => {
   const [answers1, setAnswers1] = useState(initialAnswer1)
   const [answers2, setAnswers2] = useState(initialAnswer2)
   const [answers3, setAnswers3] = useState(initialAnswer3)
-  // const [answers4, setAnswers4] = useState([{
-  //   name : myChildName,
-  //   firstname : myChildFirstname
-  // }])
+
   const [myChild, setmyChild] = useState([])
   const [notMyChild, setNotMyChild] = useState([])
 
   const [firstname, setFirstname] = useState('')
+  const [firstnameOthers, setFirstnameOthers] = useState('')
+
+  const [count, setCount] = useState(1)
 
   //store the data in local storage
   useEffect( () => {
@@ -31,11 +31,24 @@ const FamilyForm = () => {
     window.localStorage.setItem('answers3', answers3)
   }, [answers1, answers2, answers3]) //callback run only the answers change
     
-  const handleName = async () => {
-   await setmyChild([...myChild, firstname])
+  const handleName =  () => {
+    
+  if (count <= answers2) {
+   setmyChild([...myChild, firstname]);
+   setFirstname('');
+   setCount(count+1)
+   console.log({count})
+   console.log({answers2})
+  }
+   if (count > answers2) {
+    setFirstname('')
+   }
   }
 
-
+  const handleNameOthers = async () => {
+    await setNotMyChild([...notMyChild, firstnameOthers])
+    setFirstnameOthers('')
+   }
 
   return (
     <div className='familyFormParent'>
@@ -112,11 +125,15 @@ const FamilyForm = () => {
           <p className='question4'>Comment s'appellent les enfants ?</p>
             <div className ='arrayChild'>
               <p>mes enfants :
-                <input type='text' value={firstname} onChange={e => setFirstname(e.target.value)}/>
+                <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
                 <input type='button'onClick={() => handleName()} value='add'/>
                 {myChild.map(e => <div>{e}</div>)}
                 </p>
-              </div>
+              <p>les autres enfants</p>
+              <input type='text' value={firstnameOthers} onChange={e => setFirstnameOthers(e.target.value)}/>
+                <input type='button'onClick={() => handleNameOthers()} value='add'/>
+                {notMyChild.map(e => <div>{e}</div>)}
+            </div>
         </div>
          : ''}
         <p className ='familyFormReturn'>Retour aux simulateurs</p>
