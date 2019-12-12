@@ -24,7 +24,8 @@
     border : dotted hsl(224, 14%, 47%) 1px;
     border-radius: 20px;
     box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
-    margin : 5%;
+    margin : 20%;
+    margin-top: 5%;
     font-size : 20px;        
 }
 
@@ -58,7 +59,17 @@
 
 .arrayChild {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.arrayChild input[type=text] {
+    width: 150px;
+    margin-left: 5px;
+}
+
+.arrayChild input[type=button] {
+    margin-left: 5px;
 }
 
 /* Add queries for < 750px width */

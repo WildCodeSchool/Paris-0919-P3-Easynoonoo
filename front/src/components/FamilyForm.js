@@ -156,10 +156,11 @@ const FamilyForm = () => {
                 <input type='button'onClick={() => handleName()} value='add'/>
                 {(myChild.map(e => <div>{e}</div>))}
                 </p>
-              <p>les autres enfants</p>
+              <p>les autres enfants :
               <input type='text' value={firstnameOthers} onChange={e => setFirstnameOthers(e.target.value)}/>
                 <input type='button'onClick={() => handleNameOthers()} value='add'/>
                 {notMyChild.map(e => <div>{e}</div>)}
+              </p>
             </div>
         </div>
          : ''}
