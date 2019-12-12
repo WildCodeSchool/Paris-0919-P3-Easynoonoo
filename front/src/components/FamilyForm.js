@@ -3,6 +3,8 @@ import './FamilyForm.css'
 
 
 const FamilyForm = () => {
+
+  const childArray = []
   // initialize value to the one in the localstorage in the first render 
   const initialAnswer1 = () => Number(window.localStorage.getItem('answers1')) || 0
   const initialAnswer2 = () => Number(window.localStorage.getItem('answers2')) || 0
@@ -17,8 +19,10 @@ const FamilyForm = () => {
   //   name : myChildName,
   //   firstname : myChildFirstname
   // }])
-  const [myChildName, setmyChildName] = useState('')
-  const [myChildFirstname, setmyChildFirstname] = useState('')
+  const [myChild, setmyChild] = useState([])
+  const [notMyChild, setNotMyChild] = useState([])
+
+  const [firstname, setFirstname] = useState('')
 
   //store the data in local storage
   useEffect( () => {
@@ -27,7 +31,9 @@ const FamilyForm = () => {
     window.localStorage.setItem('answers3', answers3)
   }, [answers1, answers2, answers3]) //callback run only the answers change
     
-  
+  const handleName = async () => {
+   await setmyChild([...myChild, firstname])
+  }
 
 
 
@@ -106,10 +112,10 @@ const FamilyForm = () => {
           <p className='question4'>Comment s'appellent les enfants ?</p>
             <div className ='arrayChild'>
               <p>mes enfants :
-                <input type='text'onChange={e => setmyChildName(e.target.value)}/>
-                {console.log(`nom : ${myChildName}`)}</p>
-                <input type='text'onChange={event => setmyChildFirstname(event.target.value)}/>
-                {console.log(`prenom :${myChildFirstname}`)}
+                <input type='text' value={firstname} onChange={e => setFirstname(e.target.value)}/>
+                <input type='button'onClick={() => handleName()} value='add'/>
+                {myChild.map(e => <div>{e}</div>)}
+                </p>
               </div>
         </div>
          : ''}
