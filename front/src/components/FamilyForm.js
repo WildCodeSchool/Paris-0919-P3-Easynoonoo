@@ -42,12 +42,10 @@ const FamilyForm = () => {
   const handleName =  () => {
   if (count <= answers2) {
    setmyChild([...myChild, firstname]);
-   console.log({myChild})
    setFirstname('');
    setCount(count+1)
   } if (count === 1 && answers2 === 0) {
     setmyChild([...myChild, firstname]);
-    console.log({myChild})
     setFirstname('');
     setCount(count+1)
   } if (count > answers2) {
@@ -195,6 +193,14 @@ const FamilyForm = () => {
             </div>
         </div>
          : ''}
+        {/* enfants multiples en garde co-famille : calendrier apparait  */}
+        {count === answers2 + 1 && count2 === answers1 - answers2 + 1 && count2 !== 1 ?
+        <p>Boum Planning</p> : ''}
+
+         {/* enfants en garde partagée : calendrier apparait  */} 
+        {count === answers1 + 1 && count2 === 1 && answers3 === 'oui' ? 
+        <p>Boum Planning</p> : ''}
+
         <p className ='familyFormReturn'>Retour aux simulateurs</p>
       </div>
     </div>
