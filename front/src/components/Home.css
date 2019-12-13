@@ -8,8 +8,9 @@
 
 .Homepage .articleDescription {
     display: flex;
-    margin: auto;
+    margin: 8%;
     color : black;
+    justify-content: space-around;
 }
 
 .articleVision {
@@ -17,8 +18,8 @@
     flex-direction : column;
     width : 50%;
     justify-content : center;
-    padding-left : 12%;
-    padding-right : 5%;
+    /*padding-left : 12%;
+    padding-right : 5%;*/
     color : #687189;   
 }
 
@@ -26,10 +27,11 @@
     display : flex;
     flex-direction : row;
     width : 50%;
-    padding-left : 2%;
-    padding-right : 2%;
+    /*padding-left : 2%;
+    padding-right : 2%;*/
     margin-top: 3%;
     color : black; 
+    
      
 }
 
@@ -53,7 +55,7 @@
 
 .placeholderLogo {
     height: 25vh;
-    margin: 2%;
+    /*margin: 2%;*/
     -webkit-transition: -webkit-transform .8s ease-in-out;
     transition:         transform .8s ease-in-out;
 
@@ -257,6 +259,11 @@
         margin: 2%;
         -webkit-transition: -webkit-transform .8s ease-in-out;
         transition:         transform .8s ease-in-out;
+    
+    }
+
+    .articleMission {
+        padding : 0px;
     
     }
 
