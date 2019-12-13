@@ -1,4 +1,6 @@
 import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+
 import SimForm from './components/SimForm'
 import FamilyForm from './components/FamilyForm'
 import Home from './components/Home'
@@ -8,10 +10,12 @@ import Footer from './components/Footer'
 function App() {
   return (
     <div className="App">
-      <FamilyForm />
-      <SimForm />
       <Header/>
-      <Home />
+      <Switch>
+        <Route exact path='/' component={Home}/>
+        <Route path='/familyform' component={FamilyForm}/>
+        <Route path='/simform' component={SimForm}/>
+      </Switch>
       <Footer />
      
     </div>

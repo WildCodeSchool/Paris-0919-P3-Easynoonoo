@@ -1,9 +1,12 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Header from './Header'
 import contract from '../../src/assets/contract.png'
 import money2 from '../../src/assets/money2.png'
 import calendar from '../../src/assets/calendar.png'
 import logo from '../../src/assets/red.png'
+import Simform from './SimForm'
+import FamilyForm from './FamilyForm'
 import './Home.css'
 
 const Home = () => {
@@ -77,7 +80,7 @@ const Home = () => {
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <input type='button' className='simulateurbtn' value='Essayer' />
+                    <Link to='/simform'><input type='button' className='simulateurbtn' value='Essayer' /></Link>
                 </div>
                 
                 <div className='simulateurDescription' id ='simuDesc2'>
@@ -85,7 +88,7 @@ const Home = () => {
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' />
+                    <Link to='/familyform'><input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' /></Link>
                 </div>                        
             </div>
 
