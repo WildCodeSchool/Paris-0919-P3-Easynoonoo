@@ -36,3 +36,13 @@
     display : flex;
     flex-direction: column;
 }
+
+@media screen and (max-width: 800px) { /*For font size */
+    .footerWebsite p {
+        font-size : 2.5vw;
+    }
+
+    .footerWebsite h4 {
+        font-size : 4vw;
+    }
+}
