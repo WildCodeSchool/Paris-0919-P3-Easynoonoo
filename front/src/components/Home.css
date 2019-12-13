@@ -148,5 +148,29 @@
 }
 
 
+@media screen and (max-width: 800px) and (min-width: 550px) {
+
+    .placeholderLogo {
+        height: 20vh;
+        margin: 2%;
+        -webkit-transition: -webkit-transform .8s ease-in-out;
+        transition:         transform .8s ease-in-out;
+    
+    }
+    
+
+}
+
+@media screen and (max-width: 550px) {
+
+    .articleMission {
+        display: none
+    
+    }
+
+    .articleVision {
+        width: 100%;
+    }
+}
 
 

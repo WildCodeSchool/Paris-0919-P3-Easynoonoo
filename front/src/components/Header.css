@@ -29,5 +29,39 @@
     opacity: 0.7; 
 }
 
+@media screen and (max-width: 800px) and (min-width: 500px) {
 
+    .navbarWebsite h2 {
+        color : #EE5E6A;
+        margin-left: 10%;
+        margin-top: 2%;
+        font-size:18px
+    }
+
+    .navbarWebsite input {
+        width: 15%;
+        margin-right: 1%;
+        margin-top: 0.5%;
+        margin-bottom: 1%;
+        
+    }
+}
+
+@media screen and (max-width: 550px) {
+
+    .navbarWebsite h2 {
+        color : #EE5E6A;
+        margin-left: 10%;
+        margin-top: 2%;
+        font-size:18px
+    }
+
+    .navbarWebsite input {
+        width: 25%;
+        margin-right: 3%;
+        margin-top: 0.5%;
+        margin-bottom: 1%;
+        
+    }
+}
 
