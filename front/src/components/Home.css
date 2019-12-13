@@ -1,6 +1,9 @@
 .Homepage {
     box-sizing: border-box;
+}
 
+.Homepage p {
+    font-size : 20px;
 }
 
 .Homepage .articleDescription {
@@ -16,7 +19,7 @@
     justify-content : center;
     padding-left : 12%;
     padding-right : 5%;
-    color : black;   
+    color : #687189;   
 }
 
 .articleMission {
@@ -31,7 +34,7 @@
 }
 
 .articleDescription h2 {
-    font-size : 30px;
+    font-size : 40px;
     margin : 0px;
     margin-bottom : 1%; 
     color:#2E3858; 
@@ -213,16 +216,19 @@
         font-size : 2.5vw;      
     }
 
+    .Homepage p {
+        font-size : 2.5vw;
+    }
+
     .Homepage .desc h3{       
         font-size : 4.5vw;             
     }
 
-    .h2Teaser {
+    .Homepage h2 {
         font-size : 6vw;
     }
 
-    .h2Simulateur {
-        font-size : 6vw;
+    .h2Simulateur {        
         margin-bottom : 10%; 
     }
 
@@ -230,9 +236,6 @@
         font-size : 4.5vw; 
     }
 
-    .simulateur {
-        font-size: 2.5vw;
-    }
 
     .simulateurbtn {
         font-size : 2.5vw;
