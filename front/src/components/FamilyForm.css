@@ -1,11 +1,10 @@
 .familyFormParent {
+    position : relative;
     display : flex;
     flex-direction: column;    
     background : #E2E5ED;
     box-sizing: border-box;
-    
-
-    height : 1000px; /* just for test */       
+    height : 100%;
 }
 
 .familyFormParent h2 {
@@ -24,8 +23,6 @@
     border : dotted hsl(224, 14%, 47%) 1px;
     border-radius: 20px;
     box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
-    margin : 20%;
-    margin-top: 5%;
     font-size : 20px;        
 }
 
@@ -35,7 +32,7 @@
     margin-bottom : 3%;
 }
 
-.familyForm input {
+.addButtonInputChild {
     width : 50px; 
     background-color : #E2E5ED ;
     }
@@ -68,7 +65,7 @@
     margin-left: 5px;
 }
 
-.arrayChild input[type=button] {
+.addButtonInputChild {
     margin-left: 5px;
 }
 
