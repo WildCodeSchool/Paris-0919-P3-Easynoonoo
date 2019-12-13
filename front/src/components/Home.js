@@ -33,10 +33,10 @@ const Home = () => {
 
             <h2 className ='h2Teaser'>Notre solution</h2>
 
-            <div className='screen1'>
+            <div className='screen'>
                 <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                 </img>
-                <div className='desc1'>
+                <div className='desc'>
                     <h3>Lorem.</h3>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>
@@ -47,19 +47,19 @@ const Home = () => {
             </div>
 
 
-            <div className='screen2'>
-                <div className='desc2'>
-                    <h3>Lorem.</h3>
+            <div className='screen' id='screen2Bg'>
+                <div className='desc' id='descColor'>
+                    <h3 id='h3Color'> Lorem.</h3>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
                     </p>
                     <p>
                         "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est "
                     </p>
                 </div>
-                <div className='imgTeaser'>
-                    <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
+                
+                <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                     </img>                    
-                </div>
+                
                 
             </div> 
 
@@ -70,26 +70,20 @@ const Home = () => {
 
             <div className='simulateur'>   
 
-                {/* <div className='simulateurIcon'>
-                    <img className='contract' src={contract} alt='contract'></img>
-                    <img className='money2' src={money2} alt='money2'></img>
-                    <img className='calendar' src={calendar} alt='calendar'></img>
-                </div>         */}
-
                 <div className='simulateurDescription'>
                     <h3>Calculer mon taux de répartition</h3>
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <input type='button' className='simulateurbtn1' value='Essayer' />
+                    <input type='button' className='simulateurbtn' value='Essayer' />
                 </div>
                 
-                <div className='simulateurDescription2'>
+                <div className='simulateurDescription' id ='simuDesc2'>
                     <h3>Calculer les coûts de ma nounou</h3>
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <input type='button' className='simulateurbtn2' value='Essayer' />
+                    <input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' />
                 </div>                        
             </div>
 

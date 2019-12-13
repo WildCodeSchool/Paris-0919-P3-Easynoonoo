@@ -3,7 +3,6 @@
     background-color: #FFFFFF;
 }
 
-
 .Homepage article {
     display: flex;
     margin: auto;
@@ -27,55 +26,51 @@
 
 }
 
-
-
-.Homepage .screen1 {
+.Homepage .screen {
     display: flex;    
     align-items : center;
-    justify-content: space-between;    
-    margin-bottom : 2%; /*just for test */  
+    justify-content: space-around;     
     padding : 8%;
-    padding-top : 5%;       
+    padding-top : 5%; 
+    flex-wrap: wrap;      
 }
 
-.screenshot1 {
-    box-shadow: 12px 12px 8px 12px rgba(93, 93, 107, 0.137);
+#screen2Bg {  /*background for the second screen*/
+    background-color : #687189;  
+    flex-wrap : wrap-reverse; 
+    padding-top : 8%;
 }
 
-.Homepage .desc1 {       
+.Homepage .desc {       
     color : #2E3858;    
     width : 30%;
     font-size : 20px;      
 }
 
-.Homepage .desc1 h3{       
+#descColor { /*background for the second description */
+   color : #FFFFFF;
+}
+
+.Homepage .desc h3{       
     color : #EE5E6A;
     font-size : 35px;             
 }
 
-.Homepage .screen2 {
-    display: flex;    
-    align-items : center;
-    justify-content: space-between;    
-    margin-bottom : 6%; /*just for test */  
-    padding : 8%;    
-    background-color : #687189;   
+#h3Color {       
+    color : #000000;                 
+}
+
+
+/*img */
+
+.screenshot1 {
+    box-shadow: 12px 12px 8px 12px rgba(93, 93, 107, 0.137);
 }
 
 .screenshot2 {
     box-shadow: 12px 12px 8px 12px rgba(30, 30, 32, 0.137);
 }
 
-.Homepage .desc2 {       
-    color : #FFFFFF;    
-    width : 30%;
-    font-size : 20px;      
-}
-
-.Homepage .desc2 h3{       
-    color : #000000; 
-    font-size : 35px;            
-}
 
 
 /*Partie simulateur*/
@@ -85,14 +80,14 @@
     text-align : center;
     font-size : 40px;
     color : #2E3858;
+    margin-top : 8%;
     
 }
 
 .Homepage .simulateur {        
     display : flex;
-    height : 400px;  /*test*/ 
     margin : 8%;
-    margin-top : 4%;
+    margin-top : 6%;
 }
 
 
@@ -112,14 +107,19 @@
     justify-content : center; /*center div height wise */
     align-items : center; /*center div width wise */
     text-align : center; /*center text */
-    padding-left : 2%;
-    padding-right : 2%;
+    padding : 5%;
     color : #2E3858;
     background-color : #E2E5ED;    
 }
 
 
-.simulateur .simulateurbtn1 {
+#simuDesc2 {
+    color : #E2E5ED;
+    background-color : #2E3858;   
+
+}
+
+.simulateurbtn {
     background-color: #EE5E6A;
     color : #FFFFFF;
     width : 150px;
@@ -129,54 +129,75 @@
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
 }
 
-.simulateurDescription2 {
-    display : flex;
-    flex-direction : column;
-    width : 50%;
-    justify-content : center; /*center div height wise */
-    align-items : center; /*center div width wise */
-    text-align : center; /*center text */
-    padding-left : 2%;
-    padding-right : 2%;
-    color : #E2E5ED;
-    background-color : #2E3858;    
-}
-
-.simulateur .simulateurbtn2 {
+#simulateurBtn2 {
     background-color: #F4F6FA;
     color : #2E3858;
-    width : 150px;
-    height : 50px;
-    margin-top : 4%;
-    border : none;
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 0, 0.2);
 }
 
 
-/*Simulateur / icons*/
+@media screen and (max-width: 1360px) { /*for teaser blocs */
+    .Homepage .desc {
+        width : 70%;
+        margin-top : 2%;
+        margin-bottom : 2%;
+        text-align : center;
+    }
 
-.simulateurIcon {
-    width : 50%;
-    display : flex;
-    justify-content : space-around;
-    align-items : center;
-    padding-left : 2%;
-    padding-right : 2%;
 }
 
-.Homepage .contract {
-    width: 75px;
-    height: 75px;    
+@media screen and (max-width: 1050px) { /*for simulator blocs */
+    .simulateur {
+        flex-direction: column;
+        margin-bottom : 2%;
+        align-items : center;        
+    }
+
+    .simulateurDescription {
+        width : 100%;
+    }
+
 }
 
-.Homepage .money2 {
-    width: 75px;
-    height: 75px;
-}
+@media screen and (max-width: 800px) { /*Font-size behavior mainly */
 
-.Homepage .calendar {
-    width: 75px;
-    height: 75px;
+    .Homepage .desc {       
+        color : #2E3858;    
+        width : 100%;
+        font-size : 2.5vw;      
+    }
+
+    .Homepage .desc h3{       
+        font-size : 4.5vw;             
+    }
+
+    .h2Teaser {
+        font-size : 6vw;
+    }
+
+    .h2Simulateur {
+        font-size : 6vw;
+        margin-bottom : 10%; 
+    }
+
+    .simulateur h3 {
+        font-size : 4.5vw; 
+    }
+
+    .simulateur {
+        font-size: 2.5vw;
+    }
+
+    .simulateurbtn {
+        font-size : 2.5vw;
+        width : 100px;
+        height : 35px;
+        margin-top : 4%;
+        border : none;
+        box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+    }
+
+
 }
 
 
