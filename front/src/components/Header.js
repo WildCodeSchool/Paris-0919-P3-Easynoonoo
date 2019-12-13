@@ -7,7 +7,7 @@ const Header = () => {
         <div className ='headerWebsite'>
             <nav className ='navbarWebsite' >
                 <div>
-                    <p>Easynoonoo</p>
+                    <h2>Easynoonoo</h2>
                 </div>                                
                 <input type='button' value = 'Connexion'/>
             </nav>            

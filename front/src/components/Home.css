@@ -3,7 +3,6 @@
 
 }
 
-
 .Homepage .articleDescription {
     display: flex;
     margin: auto;
@@ -26,6 +25,7 @@
     width : 50%;
     padding-left : 2%;
     padding-right : 2%;
+    margin-top: 3%;
     color : black; 
      
 }
@@ -35,12 +35,17 @@
     margin : 0px;
     margin-bottom : 1%; 
     color:#2E3858; 
-    text-shadow: 2px 2px  black;  
 }
 
-.logo {
+/* placeholder pour le logo */
+
+.articleMission.logo {
     width: 35%;
 
+}
+
+.logo h2 {
+    margin: 15px;
 }
 
 .placeholderLogo {
@@ -56,37 +61,6 @@
     transform: rotate(360deg);
 
 }
-
-.logo h2 {
-    margin: 15px;
-}
-
-/* .testhover {
-    background-color: red;
-    border-radius: 45%;
-    width: 20%;
- 
-    -webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
-}
-
-.testhover:hover {
-
-    margin-left: -400px;
-    
-
-}
-
-.testhover p {
-    text-align: center;
-}
-   */
-
-/* .valeurs {
-    display: flex;
-    flex-direction: column;
-} */
-
 
 /*Teaser*/
 

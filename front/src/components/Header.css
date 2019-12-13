@@ -4,15 +4,16 @@
 
 .navbarWebsite {
     display : flex;
-    background-color : #2E3858;
+    background-color : white;
     justify-content : space-between;
     height : 100%;
-    font-size : 18px;
+    font-size : 15px;
     
 }
 
-.navbarWebsite p {
+.navbarWebsite h2 {
     color : #EE5E6A;
+    margin-left: 10%;
 }
 
 
@@ -20,7 +21,12 @@
     background-color : #EE5E6A;
     color : #F4F6FA;
     width : 10%;
-    border : #EE5E6A;    
+    border : #EE5E6A; 
+    margin-top: 0.5%;   
+}
+
+.navbarWebsite input:hover {
+    opacity: 0.7; 
 }
 
 
