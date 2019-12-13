@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react'
+
+import FamilyAgenda from './FamilyAgenda'
+
 import './FamilyForm.css'
 
 
@@ -159,7 +162,7 @@ const FamilyForm = () => {
             <p>mon enfant :
               <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
               {console.log({myChild})}
-              <input type='button'onClick={() => handleName()} value='add'/>
+              <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
               {(myChild.map(e => <div>{e}</div>))}
             </p>
           </div>
@@ -171,7 +174,7 @@ const FamilyForm = () => {
           <div className ='arrayChild'>
             <p>mes enfants :
               <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
-              <input type='button'onClick={() => handleName()} value='add'/>
+              <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
               {(myChild.map(e => <div>{e}</div>))}
             </p>
           </div>
@@ -182,24 +185,24 @@ const FamilyForm = () => {
             <div className ='arrayChild'>
               <p>mes enfants :
                 <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
-                <input type='button'onClick={() => handleName()} value='add'/>
+                <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
                 {(myChild.map(e => <div>{e}</div>))}
                 </p>
               <p>les autres enfants :
               <input type='text' value={firstnameOthers} onChange={e => setFirstnameOthers(e.target.value)}/>
-                <input type='button'onClick={() => handleNameOthers()} value='add'/>
+                <input type='button'onClick={() => handleNameOthers()} value='add' className='addButtonInputChild'/>
                 {notMyChild.map(e => <div>{e}</div>)}
               </p>
             </div>
         </div>
          : ''}
         {/* enfants multiples en garde co-famille : calendrier apparait  */}
-        {count === answers2 + 1 && count2 === answers1 - answers2 + 1 && count2 !== 1 ?
-        <p>Boum Planning</p> : ''}
+      {count === answers2 + 1 && count2 === answers1 - answers2 + 1 && count2 !== 1 ?
+        <FamilyAgenda/> : ''}
 
          {/* enfants en garde partagée : calendrier apparait  */} 
         {count === answers1 + 1 && count2 === 1 && answers3 === 'oui' ? 
-        <p>Boum Planning</p> : ''}
+        <FamilyAgenda/> : ''}
 
         <p className ='familyFormReturn'>Retour aux simulateurs</p>
       </div>

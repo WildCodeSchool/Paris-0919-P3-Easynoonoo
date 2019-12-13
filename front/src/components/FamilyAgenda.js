@@ -11,7 +11,7 @@ let startSelect
 let endSelect
 let isDragging = false;
 let element = null;
-let element2 = null
+let element2 = null;
 let helper = null;
 let hours = [];
 let mouse = {
@@ -22,7 +22,7 @@ let mouse = {
 };
 let item = []
 
-export default class Testdrag extends React.Component {
+export default class FamilyAgenda extends React.Component {
 
     state = {
 		items:[],
@@ -38,14 +38,15 @@ export default class Testdrag extends React.Component {
     /* -------- Define Mouse Position -------- */
 
 	setMousePosition = (e) => {
+        let yScroll = window.scrollY;
 		let ev = e || window.event; //Moz || IE
 		if (ev.pageX) { //Moz
 			mouse.x = ev.pageX + window.pageXOffset;
-			mouse.y = ev.pageY + window.pageYOffset;
+            mouse.y = ev.pageY + window.pageYOffset;
         } 
         else if (ev.clientX) { //IE
 			mouse.x = ev.clientX + document.body.scrollLeft;
-			mouse.y = ev.clientY + document.body.scrollTop;
+            mouse.y = ev.clientY + document.body.scrollTop;
 		}
 	};
 
@@ -90,7 +91,7 @@ export default class Testdrag extends React.Component {
 			else {
 				items.push({start : this.state.items[0], end : this.state.items[1]});
 			}
-			alert(items)
+			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items));
 			this.setState({items : []})
 		}
@@ -118,21 +119,21 @@ export default class Testdrag extends React.Component {
 	}
 
 	handleAllClickStarts = (e, n) => {
+        let yScroll = window.scrollY;
 		let isMouseDown = true;
 		this.removeSelection()
-		if (e.target.classList.contains("time") ||e.target.classList.contains("time-now")  && !isDragging) {
-			return this.handleMouseClick(e.target)
-		}
+
 		if (e.target.classList.contains("calendarCell") && !e.target.classList.contains("time") && !isDragging) {
-			startSelect = e.target.id
+            startSelect = e.target.id
 			this.handleMouseClick(e.target.id)
 			mouse.startX = mouse.x;
-			mouse.startY = mouse.y;
+            mouse.startY = mouse.y;
 			element = document.createElement('div');
-			element.className = 'helper-reactangle'
+			element.className = 'rectangle'
 			element.style.left = mouse.x + 'px';
-			element.style.top = mouse.y + 'px';
-			document.body.appendChild(element)
+            element.style.top = mouse.y + 'px';
+            document.body.appendChild(element)
+            
 		}
 	}
 
@@ -164,6 +165,7 @@ export default class Testdrag extends React.Component {
 	}
 
 	handleMouseOver = (e) => {
+        let yScroll = window.scrollY;
 		this.setMousePosition(e)
 		if (e.buttons === 0) {
 			return false;
@@ -172,35 +174,27 @@ export default class Testdrag extends React.Component {
 		this.removeSelection()
 		if (element) {
 			element.style.width = Math.abs(mouse.x - mouse.startX) + 'px';
-			element.style.height = Math.abs(mouse.y - mouse.startY) + 'px';
+            element.style.height =  Math.abs(mouse.y - mouse.startY) + 'px';
 			element.style.left = (mouse.x - mouse.startX < 0) ? mouse.x + 'px' : mouse.startX + 'px';
-			element.style.top = (mouse.y - mouse.startY < 0) ? mouse.y + 'px' : mouse.startY + 'px';
-		}
-		if (helper) {
-			helper.style.left = mouse.x - 10  + 'px';
-			helper.style.top = (mouse.y - 10 ) + 'px';
-			if (e.target.classList.contains("calendarCell") && !e.target.classList.contains("time")) {
-				let strt =  moment(startSelect)
-				let endd =   moment(e.target.id)
-				helper.innerHTML =endd.diff(strt) > 0? strt.format('LT') + ' -- ' + endd.format('LT'): endd.format('LT') + ' -- ' + strt.format('LT')
-			}
-		}
+            element.style.top = (mouse.y - mouse.startY < 0) ? Math.abs(mouse.y) - yScroll+ 'px' : mouse.startY - yScroll + 'px';
+        }
 	}
 
 		/* -------- Create a new Div from selected Cells to highlight them -------- */
 		
 	addRectangleClassName =() => {
+        let yScroll = window.scrollY;
 		let first = document.getElementById(this.state.items[0])
 		let last = document.getElementById(this.state.items[1])
 		let horiz = first.getBoundingClientRect();
-		let vert = last.getBoundingClientRect();
+        let vert = last.getBoundingClientRect();
 		element = document.createElement('div');
-		element.className = 'rectangle';
+        element.className = 'rectangle';
 		element.style.width = (horiz.right - horiz.left) - 3 + 'px';
 		element.style.height = vert.bottom - horiz.top + 'px'
 		element.style.left = horiz.left + 'px';
-		element.style.top = horiz.top + 'px';
-		document.body.appendChild(element)
+        element.style.top = horiz.top + yScroll +'px';
+        document.body.appendChild(element)
 	}
 			
 
@@ -237,21 +231,23 @@ export default class Testdrag extends React.Component {
 	/* -------- Create new Div from selection in local storage -------- */
 
 	getSelect =() => {
-		let slot = JSON.parse(localStorage.getItem('items'));
+        let yScroll = window.scrollY;
+        let slot = JSON.parse(localStorage.getItem('items'));
+        console.log(slot)
 		if (slot != null) {
 			slot.map((slot, index) => {
-				let first = document.getElementById(slot.start)
+                let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = slot.color
+				element2.style.backgroundColor = '#ccccff'
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left + index * 12 + 'px';
-				element2.style.top = horiz.top + 'px';
-				document.body.appendChild(element2)	
+				element2.style.left = horiz.left + 'px';
+				element2.style.top = horiz.top + yScroll + 'px';
+                document.body.appendChild(element2)
 			})
 		}
 		else {
@@ -296,9 +292,10 @@ export default class Testdrag extends React.Component {
 
 	prevWeek = () => {
 		this.setState({
-			weekIndex : this.state.weekIndex-1,
+            weekIndex : this.state.weekIndex-1,
 			items : []
-		});
+        });
+        console.log(this.state.weekIndex)
 		this.removeRectangle()
 	}
 
@@ -331,7 +328,8 @@ export default class Testdrag extends React.Component {
     render() {
 
 	    this.createSelectionDiv()
-		this.createValidateDiv()
+        this.createValidateDiv()
+        
 			
 		let columns= [
 			{	key: 'Monday', 
@@ -389,17 +387,18 @@ export default class Testdrag extends React.Component {
 			{id :'20', hours: '20h'},
 			{id :'21', hours: '21h'},
 			{id :'22', hours: '22h'},
-		];
+        ];
+        
 			
     return (
 			
         <div id="someTableId" className="agendaContainer">
 			<div className="selectWeek">
-				<p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p>
+				{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
 				<h1 className='currentMonth'>{this.thisWeek("Sunday").format('MMMM YYYY')}</h1>
-				<p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p>
+				{/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
 			</div>
-			<table className = "calendarTable" cellPadding='0' cellSpacing='0'>
+			<table id ='tamèreenstring' className = "calendarTable" cellPadding='0' cellSpacing='0'>
 				<thead>
 					<tr>
 						<th className='calendarCell head first'></th>
@@ -440,7 +439,7 @@ export default class Testdrag extends React.Component {
 					}
 				</tbody>
 			</table> 
-			<input type="button" value="validate selection" onClick={()=>this.validateSelect()}></input>
+			<input type="button" value="validate selection" onClick={()=>this.validateSelect()} className='validateSelectionAgenda'></input>
 		</div >
 	)
 }
