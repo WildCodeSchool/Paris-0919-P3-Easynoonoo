@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'Hansief';
+    src: local('Hansief'), url(./utils/fonts/Hansief.ttf) format('truetype');
+  }
+  
+  /* ------- input header ------*/
+
+  #someTableId {
+      position : relative;
+      display : flex;
+      
+  }
+  
+  .selectWeek{
+    width : 30%;
+    display : flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .currentMonth{
+    color : #000;
+    font-family: 'Hansief';
+    font-size : 2.5vw;
+  }
+  
+  .prevWeek {
+    color : #000;
+    font-family: 'Hansief';
+    font-size : 2vw;
+    cursor: pointer;
+  }
+  .nextWeek {
+    color : #000;
+    font-family: 'Hansief';
+    font-size : 2vw;
+    cursor: pointer;
+  }
+  
+  /* ------- Table Style ------- */
+  .agendaContainer{
+    display : flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .calendarTable{
+    border-radius :2px;
+    border-bottom: solid 2px lightgray;
+    width : 70%;
+    height : auto;
+  }
+  
+  :root {
+    --selection:#F8E5E5;
+  }
+    
+  .calendarTable > table {
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    border: none;
+    -webkit-transform: translate3d(0,0,0);
+  }
+    
+  .calendarTableBody {
+    overflow: overlay;
+    -webkit-transform: translate3d(0,0,0);
+  }
+    
+  
+  /* ------- Header Styles ------- */
+  
+    
+  .rectangle{
+    border:  solid 1px #FA255E;
+    border-radius :10px;
+    background: var(--selection);
+    position: absolute;
+    z-index: 2000;
+    user-select: none;
+    pointer-events: none;
+  }
+  
+  .slot{
+    position: absolute;
+    z-index: 2000;
+    user-select: none;
+    pointer-events: none;
+  }
+  
+  .helper-reactangle{
+    border:  solid 1px #FA255E;
+    border-radius :10px;
+    background: var(--selection);
+    position: relative;
+    z-index: 2000;
+    user-select: none;
+    pointer-events: none;
+  }
+  
+  
+  .calendarCell.head {
+    background-color: #F8E5E5;;
+    border-left: none;
+    height : 6vh;
+  }
+  .calendarCell.head.first {
+    border: none;
+    height : 6vh;
+  }
+  
+  .headColumnName {
+    color : #000;
+    font-family: 'Hansief';
+    font-size : 0.7em;
+    margin:2%;
+    padding:0;
+  }
+  
+  .headColumnDay {
+    color : #FA255E;
+    font-size : 2.5em;
+  }
+  
+  /* ------- Minute Cell Styles ------- */
+  
+  td.calendarCell {
+    background-color:#f9f9f9;
+    border-right: solid 2px lightgray;
+    text-align: center;
+    height : 1vh;
+    user-select: none;
+  }
+  
+  /* ------- Time Cell Styles ------- */
+  
+  th.calendarCell.time {
+    background-color: #F8E5E5;
+    color : #000;
+    font-family: 'Hansief';
+    font-size : 0.7em;
+    border-right: none;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.8em;
+    border-left: none !important;
+    border-top: none !important;
+    user-select: none;
+  }
+  
+  .calendarCell_selected {
+    background: var(--selection);
+  }
+
+  .validateSelectionAgenda {
+      margin-top: 3%;
+      padding : 0 1%;
+      width : 10%;
+      background-color : #E2E5ED ;
+  }
