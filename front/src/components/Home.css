@@ -8,9 +8,13 @@
 
 .Homepage .articleDescription {
     display: flex;
-    margin: 8%;
-    color : black;
-    justify-content: space-around;
+    /*margin: 8%;*/
+    background-color : #E2E5ED;
+    padding-top : 6%;
+    padding-bottom : 6%;
+    margin-top : 5%;
+    margin-bottom : 5%;
+        
 }
 
 .articleVision {
@@ -20,7 +24,9 @@
     justify-content : center;
     /*padding-left : 12%;
     padding-right : 5%;*/
-    color : #687189;   
+    color : #687189;  
+    padding-left : 8%; 
+    
 }
 
 .articleMission {
@@ -29,8 +35,10 @@
     width : 50%;
     /*padding-left : 2%;
     padding-right : 2%;*/
-    margin-top: 3%;
+    
     color : black; 
+    justify-content : flex-end;
+    text-align : center;
     
      
 }
@@ -44,8 +52,9 @@
 
 /* placeholder pour le logo */
 
-.articleMission.logo {
-    width: 35%;
+.articleMission .logo {
+    width: 100%;
+    
 
 }
 
