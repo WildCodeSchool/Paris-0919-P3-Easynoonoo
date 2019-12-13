@@ -1,19 +1,65 @@
 .Homepage {
     box-sizing: border-box;
-    background-color: #FFFFFF;
+
 }
 
-.Homepage article {
+.Homepage .articleDescription {
     display: flex;
     margin: auto;
-    background-color: #687189;
-    color : #F4F6FA;
-    border: 1px rgb(133, 129, 129);
-    border-radius: 10px;
-    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
-    flex-direction: column;
-    margin: 5%;
-    margin-bottom : 5%;
+    color : black;
+}
+
+.articleVision {
+    display : flex;
+    flex-direction : column;
+    width : 50%;
+    justify-content : center;
+    padding-left : 12%;
+    padding-right : 5%;
+    color : black;   
+}
+
+.articleMission {
+    display : flex;
+    flex-direction : row;
+    width : 50%;
+    padding-left : 2%;
+    padding-right : 2%;
+    margin-top: 3%;
+    color : black; 
+     
+}
+
+.articleDescription h2 {
+    font-size : 30px;
+    margin : 0px;
+    margin-bottom : 1%; 
+    color:#2E3858; 
+}
+
+/* placeholder pour le logo */
+
+.articleMission.logo {
+    width: 35%;
+
+}
+
+.logo h2 {
+    margin: 15px;
+}
+
+.placeholderLogo {
+    height: 25vh;
+    margin: 2%;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition:         transform .8s ease-in-out;
+
+}
+
+.placeholderLogo:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+
 }
 
 /*Teaser*/
@@ -201,5 +247,28 @@
 }
 
 
+@media screen and (max-width: 800px) and (min-width: 550px) {
+
+    .placeholderLogo {
+        height: 20vh;
+        margin: 2%;
+        -webkit-transition: -webkit-transform .8s ease-in-out;
+        transition:         transform .8s ease-in-out;
+    
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+
+    .articleMission {
+        display: none
+    
+    }
+
+    .articleVision {
+        width: 100%;
+    }
+}
 
 
