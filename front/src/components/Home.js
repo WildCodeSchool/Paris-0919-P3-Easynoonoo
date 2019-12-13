@@ -80,7 +80,7 @@ const Home = () => {
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <Link to='/simform'><input type='button' className='simulateurbtn' value='Essayer' /></Link>
+                    <Link to='/familyform'><input type='button' className='simulateurbtn' value='Essayer' /></Link>
                 </div>
                 
                 <div className='simulateurDescription' id ='simuDesc2'>
@@ -88,7 +88,7 @@ const Home = () => {
                     <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
                     </p>                
-                    <Link to='/familyform'><input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' /></Link>
+                    <Link to='/simform'><input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' /></Link>
                 </div>                        
             </div>
 
