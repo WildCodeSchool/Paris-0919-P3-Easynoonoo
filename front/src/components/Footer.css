@@ -1,0 +1,48 @@
+.footerWebsite  {
+    box-sizing: border-box;
+    background-color : #E2E5ED; 
+    display : flex;
+    flex-direction: column;
+    align-items : center; 
+    padding : 8%;
+    padding-top : 0px;  
+    padding-bottom : 4%;  
+    
+}
+
+.footerInfos {    
+    width : 100%;
+    color : #687189;
+}
+
+.footerInfos h4 {
+    color :  #2E3858;
+    font-size : 25px;
+    margin-bottom : 0px;
+}
+
+.footerLink {
+    width : 100%;
+    border-top : solid 1px;
+    font-size : 15px;
+    display : flex;
+    justify-content : space-between;
+    padding-top : 2%;
+    color : #687189; 
+    margin-top : 3%; 
+}
+
+.footerElements {
+    display : flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 800px) { /*For font size */
+    .footerWebsite p {
+        font-size : 2.5vw;
+    }
+
+    .footerWebsite h4 {
+        font-size : 4vw;
+    }
+}

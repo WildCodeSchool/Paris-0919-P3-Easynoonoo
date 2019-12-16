@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import FamilyAgenda from './FamilyAgenda'
 
@@ -204,7 +205,7 @@ const FamilyForm = () => {
         {count === answers1 + 1 && count2 === 1 && answers3 === 'oui' ? 
         <FamilyAgenda/> : ''}
 
-        <p className ='familyFormReturn'>Retour aux simulateurs</p>
+      <Link to='/'><p className="simFormReturn">Retour aux simulateurs</p></Link>
       </div>
     </div>
   )
