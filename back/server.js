@@ -1,23 +1,42 @@
-const express = require('express')
-const connection = require('./config/config')
-// const router = express.Router()
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+const port = 4000;
+const { TauxCharge } = require('./db/models')
 
 const app = express()
+app.use(cors());
+app.use(bodyParser.json());
 
-const port = 4000
+// ____________ REMOTE DB ROUTE ______________
 
-app.get('/api/user', (req, res) => {
-  // connection à la base de données, et sélection
-  connection.query('SELECT * from user', (err, results) => {
-    if (err) {
-      // Si une erreur est survenue, alors on informe l'utilisateur de l'erreur
-      res.status(500).send('Erreur lors de la récupération des films')
-    } else {
-      // Si tout s'est bien passé, on envoie le résultat de la requête SQL en tant que JSON.
-      res.json(results)
-    }
-  })
-})
+const dbRoute = "mongodb+srv://easynoonoo:easynoonoo@cluster0-mznsf.azure.mongodb.net/easynoonooDB?retryWrites=true&w=majority";
+
+// ____________ CHECK YOUR CONNECTION TO MONGO DB REMOTE ______________
+
+mongoose.connect(dbRoute, { useNewUrlParser: true })
+  .then(() => console.log("DB connected"))
+  .catch(error => console.log(error));
+
+// ____________ QUERY METHOD ______________
+
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function () {
+  mongoose.connection.db.collection("easynoonooCollection", function (err, collection) {
+
+    //function to request collection in mongo DB
+
+    collection.find({qty: 15}).toArray(function (err, data) {
+      console.log(data);
+    })
+
+    // _______ METHOD TO INSERT DATa IN MONGO DB_______
+
+    // collection.insert( { name: "card" } )
+  });
+});
 
 app.listen(port, err => {
   if (err) {
