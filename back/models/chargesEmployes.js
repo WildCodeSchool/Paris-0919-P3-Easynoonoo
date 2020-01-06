@@ -20,7 +20,7 @@ const chargesEmployes = new mongoose.Schema(
             min:1,
             max:20,
         },
-        cotisationSupplémentaireAlsaceMoselle:
+        cotisationSupplementaireAlsaceMoselle:
         {
             type: Number,
             min:1,
@@ -56,7 +56,7 @@ const chargesEmployes = new mongoose.Schema(
             min:1,
             max:20,
         },
-        assuranceChômage:
+        assuranceChomage:
         {
             type: Number,
             min:1,
@@ -86,11 +86,19 @@ const chargesEmployes = new mongoose.Schema(
             min:1,
             max:20,
         },
-        exonérationDesCotisations:
+        exonerationDesCotisations:
         {
             type: Number,
             min:1,
             max:20,
+        },
+        dateDebutAnnee:
+        {
+            type: Number,
+        },
+        dateFinAnnee:
+        {
+            type: Date,
         },
     },
 );

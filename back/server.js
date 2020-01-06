@@ -25,48 +25,29 @@ mongoose.connect(dbRoute, { useNewUrlParser: true })
 
 // ____________ QUERY METHOD ______________
 
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function () {
-  mongoose.connection.db.collection("easynoonooCollection", function (err, collection) {
+// mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+// mongoose.connection.once('open', function () {
+//   mongoose.connection.db.collection("easynoonooCollection", function (err, collection) {
 
-    //function to request collection in mongo DB
+//     //function to request collection in mongo DB
 
-    collection.find({ name: 'card' }).toArray(function (err, data) {
-      console.log(data);
-    })
+//     collection.find({ name: 'card' }).toArray(function (err, data) {
+//       console.log(data);
+//     })
+//   });
+// });
 
-    // _______ METHOD TO INSERT Data IN MONGO DB_______
+/* -------------- GET TAUX INFOS ----------------- */
 
-    // collection.insert({ })
-
+app.post('/api/taux', function (req, res) {
+  tauxChargesEmployes.find({'dateDebutAnnee' : req.body.dateDebutAnnee}, function (err, taux) {
+    console.log('req.body =>', req.body.dateDebutAnnee);
+    console.log('choucroute', taux);
+    res.status(200).send(taux)
   });
 });
 
-async function createTranche(maladieMaterniteInvaliditeDeces) {
-  return new tauxChargesEmployes({
-    maladieMaterniteInvaliditeDeces
-  }).save()
-}
-
-async function findTranche(maladieMaterniteInvaliditeDeces) {
-  return await tauxChargesEmployes.findOne({ maladieMaterniteInvaliditeDeces })
-}
-
-; (async () => {
-  const connector = mongoose.connect(dbRoute)
-  const maladieMaterniteInvaliditeDeces = process.argv[2].split('=')[1]
-
-  let user = await connector.then(async () => {
-    return findTranche(maladieMaterniteInvaliditeDeces)
-  })
-
-  if (!user) {
-    user = await createTranche(maladieMaterniteInvaliditeDeces)
-  }
-
-  console.log(user)
-  process.exit(0)
-})()
+// _______ APP LISTEN _______
 
 app.listen(port, err => {
   if (err) {
@@ -74,3 +55,33 @@ app.listen(port, err => {
   }
   console.log(`server is listening on ${port}`)
 })
+
+
+
+
+// // _____________ INSERT INTO DB _____________________
+
+// async function createTranche(maladieMaterniteInvaliditeDeces) {
+//   return new tauxChargesEmployes({
+//     maladieMaterniteInvaliditeDeces
+//   }).save()
+// }
+
+// async function findTranche(maladieMaterniteInvaliditeDeces) {
+//   return await tauxChargesEmployes.findOne({ maladieMaterniteInvaliditeDeces })
+// }
+
+// ; (async () => {
+//   const connector = mongoose.connect(dbRoute)
+//   const maladieMaterniteInvaliditeDeces = process.argv[2].split('=')[1]
+
+//   let user = await connector.then(async () => {
+//     return findTranche(maladieMaterniteInvaliditeDeces)
+//   })
+
+//   if (!user) {
+//     user = await createTranche(maladieMaterniteInvaliditeDeces)
+//   }
+
+//   console.log('COLLECTION', user)
+//   process.exit(0)})
