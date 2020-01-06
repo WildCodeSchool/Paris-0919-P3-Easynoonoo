@@ -39,11 +39,28 @@ mongoose.connect(dbRoute, { useNewUrlParser: true })
 
 /* -------------- GET TAUX INFOS ----------------- */
 
-app.post('/api/taux', function (req, res) {
-  tauxChargesEmployes.find({'dateDebutAnnee' : req.body.dateDebutAnnee}, function (err, taux) {
+/* -------------- TAUX EMPLOYES ----------------- */
+app.post('/api/taux/employes', function (req, res) {
+  tauxChargesEmployes.find({ 'dateDebutAnnee': req.body.dateDebutAnnee }, function (err, taux) {
+
     console.log('req.body =>', req.body.dateDebutAnnee);
-    console.log('choucroute', taux);
-    res.status(200).send(taux)
+
+    const arrayTr = []
+    taux.map(val => {
+      if (req.body.trancheA) {
+        console.log('ici if');
+        arrayTr.push(val.IrcemRetraiteComplementaireTrA, val.CegTrA, 0)
+      }
+      else {
+        arrayTr.push(val.IrcemRetraiteComplementaireTrB, val.CegTrB, val.CetTrB)
+      }
+      const tauxHeuresSupp = 1.25
+      const heuresMensuelles = Math.ceil( req.body.heuresHebdo * (52/12))
+      const heuresMensuellesMajorees = Math.ceil((req.body.heuresSup) * (52/12))
+      let salaireBrut = ((heuresMensuelles * req.body.tauxHoraire) + (heuresMensuellesMajorees * req.body.tauxHoraire * tauxHeuresSupp))
+      console.log('test', salaireBrut)
+      res.status(200).send({salaireBrut})
+      })
   });
 });
 
@@ -59,7 +76,7 @@ app.listen(port, err => {
 
 
 
-// // _____________ INSERT INTO DB _____________________
+// _____________ INSERT INTO DB _____________________
 
 // async function createTranche(maladieMaterniteInvaliditeDeces) {
 //   return new tauxChargesEmployes({
