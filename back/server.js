@@ -26,11 +26,7 @@ mongoose
 
 /*    TAUX EMPLOYES    */
 
-const results = []
-
 app.post('/api/taux/employes', function (req, res) {
-
-  
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
@@ -138,36 +134,52 @@ app.post('/api/taux/employes', function (req, res) {
         let netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
         let brutAnnuelTotal = salaireBrutMensuel * 12
         let netAnnuelTotal = netMensuelTotal * 12
-        
-        const result = {
-          "brutMensuelFamilleA": brutMensuelFamilleA,
-          "netMensuelFamilleA": netMensuelFamilleA,
-          "brutMensuelFamilleB": brutMensuelFamilleB,
-          "netMensuelFamilleB": netMensuelFamilleB,
-          "brutHoraireTotal": req.body.tauxHoraire,
-          "netHoraireTotal": netHoraire,
-          "netMensuelTotal": netMensuelTotal,
-          "brutMensuelTotal": salaireBrutMensuel,
-          "netAnnuelTotal": netAnnuelTotal,
-          "brutAnnuelTotal": brutAnnuelTotal
-        }
-        
-        results.push(result)
-        console.log(results)
-        
 
+        res.send({"brutMensuelFamilleA": brutMensuelFamilleA,
+        "netMensuelFamilleA": netMensuelFamilleA,
+        "brutMensuelFamilleB": brutMensuelFamilleB,
+        "netMensuelFamilleB": netMensuelFamilleB,
+        "brutHoraireTotal": req.body.tauxHoraire,
+        "netHoraireTotal": netHoraire,
+        "netMensuelTotal": netMensuelTotal,
+        "brutMensuelTotal": salaireBrutMensuel,
+        "netAnnuelTotal": netAnnuelTotal,
+        "brutAnnuelTotal": brutAnnuelTotal})
       })
-      
     },
-    
   )
+})
 
-  console.log(results)
 
+
+
+app.post('/api/taux/employeurs', function (req, res) {
 
   tauxChargesEmployeurs.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
+      console.log('ça marche')
+
+      /*--------------CALCUL SALAIRE BRUT-------------*/
+      const tauxHeuresSupp = 1.25
+      const heuresMensuelles = Math.ceil(
+        req.body.heuresHebdo * (52 / 12),
+      )
+      const heuresMensuellesMajorees = Math.ceil(
+        req.body.heuresSup * (52 / 12),
+      )
+      let salaireBrutMensuel =
+        heuresMensuelles * req.body.tauxHoraire +
+        heuresMensuellesMajorees *
+        req.body.tauxHoraire *
+        tauxHeuresSupp
+      brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
+      brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
+
+      /*--------------------------------------------------*/
+
+      /*--------------CALCUL SALAIRE NET-------------*/
+
       const arrayTr = []
       taux.map(val => {
         if (req.body.trancheA) {
@@ -175,7 +187,6 @@ app.post('/api/taux/employes', function (req, res) {
             val.IrcemRetraiteComplementaireTrA,
             val.CegTrA,
             0,
-
           )
         }
         else {
@@ -183,47 +194,35 @@ app.post('/api/taux/employes', function (req, res) {
             val.IrcemRetraiteComplementaireTrB,
             val.CegTrB,
             val.CetTrB,
-
           )
         }
-        let chargesPatronales =
-          salaireBrutMensuel * 0.01 * (
-            val.maladieMaterniteInvaliditeDeces +
-            val.assuranceVieillesseDeplafonnee +
-            val.vieillessePlafonnee +
-            val.accidentDuTravail +
-            val.allocationsFamiliales +
-            arrayTr[0] +
-            arrayTr[1] +
-            arrayTr[2] +
-            val.assuranceChomage +
-            val.IrcemPrevoyance +
-            val.contributionSolidaritéAutonomie +
-            val.formationProfessionnelle +
-            val.fondsNationalAideAuLogement +
-            val.contributionAuFinancementDesOrganisationsSyndicales
-          )
-          
-        results.push(chargesPatronales)
-         
 
+      let chargesPatronales =
+        (salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
+          val.maladieMaterniteInvaliditeDeces +
+          val.assuranceVieillesseDeplafonnee +
+          val.vieillessePlafonnee +
+          val.accidentDuTravail +
+          val.allocationsFamiliales +
+          arrayTr[0] +
+          arrayTr[1] +
+          arrayTr[2] +
+          val.assuranceChomage +
+          val.IrcemPrevoyance +
+          val.contributionSolidariteAutonomie +
+          val.formationProfessionnelle +
+          val.fondsNationalAideAuLogement +
+          val.contributionAuFinancementDesOrganisationsSyndicales
+        ))
         
-        
-
-
-      }
-
-      )
-
-
-
+          res.send({"charges patronales" : chargesPatronales})
     }
-
-  )
-  
-}
-
+    
+    )
+    
+  }
 )
+})
 
 // _______ APP LISTEN _______
 
