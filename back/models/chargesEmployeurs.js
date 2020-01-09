@@ -62,7 +62,7 @@ const chargesEmployeurs =  mongoose.Schema(
             min:1,
             max:20,
         },
-        assuranceChômage:
+        assuranceChomage:
         {
             type: Number,
             min:1,
@@ -74,7 +74,7 @@ const chargesEmployeurs =  mongoose.Schema(
             min:1,
             max:20,
         },
-        contributionSolidaritéAutonomie:
+        contributionSolidariteAutonomie:
         {
             type: Number,
             min:1,
@@ -100,11 +100,11 @@ const chargesEmployeurs =  mongoose.Schema(
         },
         dateDebutAnnee:
         {
-            type: Date,
+            type: Number,
         },
         dateFinAnnee:
         {
-            type: Date,
+            type: Number,
         },
     },
 );

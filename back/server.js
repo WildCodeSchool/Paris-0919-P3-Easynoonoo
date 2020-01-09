@@ -30,44 +30,42 @@ const results = []
 
 app.post('/api/taux/employes', function (req, res) {
 
-  
+   /*--------------CALCUL SALAIRE BRUT-------------*/
+   const tauxHeuresSupp = 1.25
+   const heuresMensuelles = Math.ceil(
+     req.body.heuresHebdo * (52 / 12),
+   )
+   const heuresMensuellesMajorees = Math.ceil(
+     req.body.heuresSup * (52 / 12),
+   )
+   let salaireBrutMensuel =
+     heuresMensuelles * req.body.tauxHoraire +
+     heuresMensuellesMajorees *
+     req.body.tauxHoraire *
+     tauxHeuresSupp
+   brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
+   brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
+
+   /*--------------------------------------------------*/
+
+
+   /*--------------CALCUL ASSIETTE CSG RDS-------------*/
+   const PMSS = 3377
+   let assietteCsgRdsMensuel =
+     98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
+     Math.max(0, salaireBrutMensuel - 4 * PMSS)
+
+   let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
+
+   /*--------------------------------------------------*/
+
+   /*--------------CALCUL SALAIRE NET-------------*/
+
+   const arrayTr = []
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
-
-      /*--------------CALCUL SALAIRE BRUT-------------*/
-      const tauxHeuresSupp = 1.25
-      const heuresMensuelles = Math.ceil(
-        req.body.heuresHebdo * (52 / 12),
-      )
-      const heuresMensuellesMajorees = Math.ceil(
-        req.body.heuresSup * (52 / 12),
-      )
-      let salaireBrutMensuel =
-        heuresMensuelles * req.body.tauxHoraire +
-        heuresMensuellesMajorees *
-        req.body.tauxHoraire *
-        tauxHeuresSupp
-      brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
-      brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
-
-      /*--------------------------------------------------*/
-
-
-      /*--------------CALCUL ASSIETTE CSG RDS-------------*/
-      const PMSS = 3377
-      let assietteCsgRdsMensuel =
-        98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
-        Math.max(0, salaireBrutMensuel - 4 * PMSS)
-
-      let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
-
-      /*--------------------------------------------------*/
-
-      /*--------------CALCUL SALAIRE NET-------------*/
-
-      const arrayTr = []
       taux.map(val => {
         if (req.body.trancheA && req.body.alsaceMoselle) {
           arrayTr.push(
@@ -138,8 +136,8 @@ app.post('/api/taux/employes', function (req, res) {
         let netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
         let brutAnnuelTotal = salaireBrutMensuel * 12
         let netAnnuelTotal = netMensuelTotal * 12
-        
-        const result = {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify({
           "brutMensuelFamilleA": brutMensuelFamilleA,
           "netMensuelFamilleA": netMensuelFamilleA,
           "brutMensuelFamilleB": brutMensuelFamilleB,
@@ -150,24 +148,15 @@ app.post('/api/taux/employes', function (req, res) {
           "brutMensuelTotal": salaireBrutMensuel,
           "netAnnuelTotal": netAnnuelTotal,
           "brutAnnuelTotal": brutAnnuelTotal
-        }
-        
-        results.push(result)
-        console.log(results)
-        
-
+        }))
       })
-      
     },
-    
   )
-
-  console.log(results)
-
 
   tauxChargesEmployeurs.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
+      console.log('test')
       const arrayTr = []
       taux.map(val => {
         if (req.body.trancheA) {
@@ -198,31 +187,16 @@ app.post('/api/taux/employes', function (req, res) {
             arrayTr[2] +
             val.assuranceChomage +
             val.IrcemPrevoyance +
-            val.contributionSolidaritéAutonomie +
+            val.contributionSolidariteAutonomie +
             val.formationProfessionnelle +
             val.fondsNationalAideAuLogement +
             val.contributionAuFinancementDesOrganisationsSyndicales
           )
-          
-        results.push(chargesPatronales)
-         
-
-        
-        
-
-
-      }
-
-      )
-
-
-
+          res.end(JSON.stringify({"chargesPatronales" : chargesPatronales}))
+        })
     }
-
   )
-  
 }
-
 )
 
 // _______ APP LISTEN _______
