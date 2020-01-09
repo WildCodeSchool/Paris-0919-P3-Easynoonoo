@@ -98,7 +98,7 @@ const chargesEmployes = new mongoose.Schema(
         },
         dateFinAnnee:
         {
-            type: Date,
+            type: Number,
         },
     },
 );

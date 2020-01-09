@@ -5,6 +5,7 @@ const cors = require('cors')
 
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
+const { cmgs } = require('./models/cmgs')
 
 const port = 4000
 
@@ -135,23 +136,22 @@ app.post('/api/taux/employes', function (req, res) {
         let brutAnnuelTotal = salaireBrutMensuel * 12
         let netAnnuelTotal = netMensuelTotal * 12
 
-        res.send({"brutMensuelFamilleA": brutMensuelFamilleA,
-        "netMensuelFamilleA": netMensuelFamilleA,
-        "brutMensuelFamilleB": brutMensuelFamilleB,
-        "netMensuelFamilleB": netMensuelFamilleB,
-        "brutHoraireTotal": req.body.tauxHoraire,
-        "netHoraireTotal": netHoraire,
-        "netMensuelTotal": netMensuelTotal,
-        "brutMensuelTotal": salaireBrutMensuel,
-        "netAnnuelTotal": netAnnuelTotal,
-        "brutAnnuelTotal": brutAnnuelTotal})
+        res.send({
+          "brutMensuelFamilleA": brutMensuelFamilleA,
+          "netMensuelFamilleA": netMensuelFamilleA,
+          "brutMensuelFamilleB": brutMensuelFamilleB,
+          "netMensuelFamilleB": netMensuelFamilleB,
+          "brutHoraireTotal": req.body.tauxHoraire,
+          "netHoraireTotal": netHoraire,
+          "netMensuelTotal": netMensuelTotal,
+          "brutMensuelTotal": salaireBrutMensuel,
+          "netAnnuelTotal": netAnnuelTotal,
+          "brutAnnuelTotal": brutAnnuelTotal
+        })
       })
     },
   )
 })
-
-
-
 
 app.post('/api/taux/employeurs', function (req, res) {
 
@@ -197,33 +197,76 @@ app.post('/api/taux/employeurs', function (req, res) {
           )
         }
 
-      let chargesPatronales =
-        (salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
-          val.maladieMaterniteInvaliditeDeces +
-          val.assuranceVieillesseDeplafonnee +
-          val.vieillessePlafonnee +
-          val.accidentDuTravail +
-          val.allocationsFamiliales +
-          arrayTr[0] +
-          arrayTr[1] +
-          arrayTr[2] +
-          val.assuranceChomage +
-          val.IrcemPrevoyance +
-          val.contributionSolidariteAutonomie +
-          val.formationProfessionnelle +
-          val.fondsNationalAideAuLogement +
-          val.contributionAuFinancementDesOrganisationsSyndicales
-        ))
-        
-          res.send({"charges patronales" : chargesPatronales})
+        let chargesPatronales =
+          (salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
+            val.maladieMaterniteInvaliditeDeces +
+            val.assuranceVieillesseDeplafonnee +
+            val.vieillessePlafonnee +
+            val.accidentDuTravail +
+            val.allocationsFamiliales +
+            arrayTr[0] +
+            arrayTr[1] +
+            arrayTr[2] +
+            val.assuranceChomage +
+            val.IrcemPrevoyance +
+            val.contributionSolidariteAutonomie +
+            val.formationProfessionnelle +
+            val.fondsNationalAideAuLogement +
+            val.contributionAuFinancementDesOrganisationsSyndicales
+          ))
+
+        res.send({ "charges patronales": chargesPatronales })
+      }
+      )
     }
-    
-    )
-    
-  }
-)
+  )
 })
 
+// _________ CALCULS DES AIDES _______
+
+app.post('/api/aides/employes', function (req, res) {
+
+  cmgs.find(
+    { dateDebutAnnee: req.body.dateDebutAnnee },
+    function (err, taux) {
+
+      /* req.body.nbEnfants
+      req.body.enfantPlusJeune
+      req.body.ressourcesAnnuelles
+      req.body.parentIsole */
+
+      const age = req.body.enfantPlusJeune
+      const nbChild = req.body.nbEnfants
+      const isIsole = req.body.parentIsole
+      const money = req.body.ressourcesAnnuelles
+      let palier = []
+
+      taux.map(val => {
+
+        // ________________ PALIER 1 ___________________
+
+        if (
+          ((nbChild === 1 ) && (3 <= age <= 6) && isIsole == false && (money > 46123)) ||
+          ((nbChild === 2 ) && (3 <= age <= 6) && isIsole == false && (money > 52670)) ||
+          ((nbChild === 3 ) && (3 <= age <= 6) && isIsole == false && (money > 59217)) ||
+          ((nbChild === 4 ) && (3 <= age <= 6) && isIsole == false && (money > 65764))
+          ) {
+          palier.push(val.palier1)
+        } else if (
+          ((nbChild === 1 ) && (3 <= age <= 6) && isIsole == false && (20755 <= money <= 46123)) 
+          ||
+          ((nbChild === 2 ) && (3 <= age <= 6) && isIsole == false && (23701 <= money <= 52670)) 
+          ||
+          ((nbChild === 3 ) && (3 <= age <= 6) && isIsole == false && (26647 <= money <= 59217)) 
+          ||
+          ((nbChild === 4 ) && (3 <= age <= 6) && isIsole == false && (29593 <= money <= 65764))
+        ){
+          palier.push(val.palier2)
+        }
+
+      })
+    })
+})
 // _______ APP LISTEN _______
 
 app.listen(port, err => {
