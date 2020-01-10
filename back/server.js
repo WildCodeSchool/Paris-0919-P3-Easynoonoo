@@ -6,6 +6,7 @@ const cors = require('cors')
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
 const { cmgs } = require('./models/cmgs')
+const { aides } = require('./models/aides')
 
 const port = 4000
 
@@ -27,40 +28,43 @@ mongoose
 
 /*    TAUX EMPLOYES    */
 
-app.post('/api/taux/employes', function (req, res) {
+app.post('/api/calculscharges', function (req, res) {
+
+  /*--------------CALCUL SALAIRE BRUT-------------*/
+  const tauxHeuresSupp = 1.25
+  const heuresMensuelles = Math.ceil(
+    req.body.heuresHebdo * (52 / 12),
+  )
+  const heuresMensuellesMajorees = Math.ceil(
+    req.body.heuresSup * (52 / 12),
+  )
+  let salaireBrutMensuel =
+    heuresMensuelles * req.body.tauxHoraire +
+    heuresMensuellesMajorees *
+    req.body.tauxHoraire *
+    tauxHeuresSupp
+  brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
+  brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
+
+  /*--------------------------------------------------*/
+
+
+  /*--------------CALCUL ASSIETTE CSG RDS-------------*/
+  const PMSS = 3377
+  let assietteCsgRdsMensuel =
+    98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
+    Math.max(0, salaireBrutMensuel - 4 * PMSS)
+
+  let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
+
+  /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
+
+    let chargesPatronales = null
+    let chargesFamilleA = null
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
-
-      /*--------------CALCUL SALAIRE BRUT-------------*/
-      const tauxHeuresSupp = 1.25
-      const heuresMensuelles = Math.ceil(
-        req.body.heuresHebdo * (52 / 12),
-      )
-      const heuresMensuellesMajorees = Math.ceil(
-        req.body.heuresSup * (52 / 12),
-      )
-      let salaireBrutMensuel =
-        heuresMensuelles * req.body.tauxHoraire +
-        heuresMensuellesMajorees *
-        req.body.tauxHoraire *
-        tauxHeuresSupp
-      brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
-      brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
-
-      /*--------------------------------------------------*/
-
-
-      /*--------------CALCUL ASSIETTE CSG RDS-------------*/
-      const PMSS = 3377
-      let assietteCsgRdsMensuel =
-        98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
-        Math.max(0, salaireBrutMensuel - 4 * PMSS)
-
-      let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
-
-      /*--------------------------------------------------*/
 
       /*--------------CALCUL SALAIRE NET-------------*/
 
@@ -113,7 +117,7 @@ app.post('/api/taux/employes', function (req, res) {
               val.CsgNonDeductible +
               val.CrdsNonDeductible)))
 
-        let chargesTotal =
+        chargesTotal =
           (salaireBrutMensuel * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
@@ -129,14 +133,16 @@ app.post('/api/taux/employes', function (req, res) {
             val.CsgNonDeductible +
             val.CrdsNonDeductible))
           + (heuresMensuellesMajorees * tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
-
+        
         let netMensuelTotal = salaireBrutMensuel - chargesTotal
         let netMensuelFamilleA = (netMensuelTotal * req.body.repartitionFamille)
         let netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
         let brutAnnuelTotal = salaireBrutMensuel * 12
         let netAnnuelTotal = netMensuelTotal * 12
+        chargesFamilleA = brutMensuelFamilleA - netMensuelFamilleA
 
-        res.send({
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify({
           "brutMensuelFamilleA": brutMensuelFamilleA,
           "netMensuelFamilleA": netMensuelFamilleA,
           "brutMensuelFamilleB": brutMensuelFamilleB,
@@ -147,38 +153,19 @@ app.post('/api/taux/employes', function (req, res) {
           "brutMensuelTotal": salaireBrutMensuel,
           "netAnnuelTotal": netAnnuelTotal,
           "brutAnnuelTotal": brutAnnuelTotal
-        })
+        }))
       })
     },
   )
-})
 
-app.post('/api/taux/employeurs', function (req, res) {
+
+  /*---------------------- ROUTE CHARGES EMPLOYEURS ----------------------------*/
 
   tauxChargesEmployeurs.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
-      console.log('ça marche')
 
-      /*--------------CALCUL SALAIRE BRUT-------------*/
-      const tauxHeuresSupp = 1.25
-      const heuresMensuelles = Math.ceil(
-        req.body.heuresHebdo * (52 / 12),
-      )
-      const heuresMensuellesMajorees = Math.ceil(
-        req.body.heuresSup * (52 / 12),
-      )
-      let salaireBrutMensuel =
-        heuresMensuelles * req.body.tauxHoraire +
-        heuresMensuellesMajorees *
-        req.body.tauxHoraire *
-        tauxHeuresSupp
-      brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
-      brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
-
-      /*--------------------------------------------------*/
-
-      /*--------------CALCUL SALAIRE NET-------------*/
+      /*--------------------------CALCUL SALAIRE NET---------------------*/
 
       const arrayTr = []
       taux.map(val => {
@@ -197,7 +184,7 @@ app.post('/api/taux/employeurs', function (req, res) {
           )
         }
 
-        let chargesPatronales =
+        chargesPatronales =
           (salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
@@ -215,25 +202,18 @@ app.post('/api/taux/employeurs', function (req, res) {
             val.contributionAuFinancementDesOrganisationsSyndicales
           ))
 
-        res.send({ "charges patronales": chargesPatronales })
+        res.write(JSON.stringify({ "charges patronales": chargesPatronales,
+      "chargesPatronalesAnnuelles" :  chargesPatronales * 12}))
       }
       )
     }
   )
-})
 
-// _________ CALCULS DES AIDES _______
-
-app.post('/api/aides/employes', function (req, res) {
+  // __________________________________________ CALCULS DES AIDES _____________________________________
 
   cmgs.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
-
-      /* req.body.nbEnfants
-      req.body.enfantPlusJeune
-      req.body.ressourcesAnnuelles
-      req.body.parentIsole */
 
       const age = req.body.enfantPlusJeune
       const nbChild = req.body.nbEnfants
@@ -243,31 +223,89 @@ app.post('/api/aides/employes', function (req, res) {
 
       taux.map(val => {
 
-        // ________________ PALIER 1 ___________________
+        // ________________________________ AIDES CMG___________________________________
 
         if (
-          ((nbChild === 1 ) && (3 <= age <= 6) && isIsole == false && (money > 46123)) ||
-          ((nbChild === 2 ) && (3 <= age <= 6) && isIsole == false && (money > 52670)) ||
-          ((nbChild === 3 ) && (3 <= age <= 6) && isIsole == false && (money > 59217)) ||
-          ((nbChild === 4 ) && (3 <= age <= 6) && isIsole == false && (money > 65764))
-          ) {
-          palier.push(val.palier1)
+          ((nbChild === 1) && (3 <= age <= 6) && (money > 46123)) ||
+          ((nbChild === 2) && (3 <= age <= 6) && (money > 52670)) ||
+          ((nbChild === 3) && (3 <= age <= 6) && (money > 59217)) ||
+          ((nbChild === 4) && (3 <= age <= 6) && (money > 65764))
+        ) {
+          palier.push(val.palier1) // 88.68
         } else if (
-          ((nbChild === 1 ) && (3 <= age <= 6) && isIsole == false && (20755 <= money <= 46123)) 
-          ||
-          ((nbChild === 2 ) && (3 <= age <= 6) && isIsole == false && (23701 <= money <= 52670)) 
-          ||
-          ((nbChild === 3 ) && (3 <= age <= 6) && isIsole == false && (26647 <= money <= 59217)) 
-          ||
-          ((nbChild === 4 ) && (3 <= age <= 6) && isIsole == false && (29593 <= money <= 65764))
-        ){
-          palier.push(val.palier2)
+          ((nbChild === 1) && (3 <= age <= 6) && (20755 <= money <= 46123)) ||
+          ((nbChild === 2) && (3 <= age <= 6) && (23701 <= money <= 52670)) ||
+          ((nbChild === 3) && (3 <= age <= 6) && (26647 <= money <= 59217)) ||
+          ((nbChild === 4) && (3 <= age <= 6) && (29593 <= money <= 65764))
+        ) {
+          palier.push(val.palier2) // 147.83
+        } else if (
+          ((nbChild === 1) && (age < 3) && (money > 46123)) ||
+          ((nbChild === 2) && (age < 3) && (money > 52670)) ||
+          ((nbChild === 3) && (age < 3) && (money > 59217)) ||
+          ((nbChild === 4) && (age < 3) && (money > 65764))
+        ) {
+          palier.push(val.palier3) // 177.35
+        } else if (
+          ((nbChild === 1) && (3 <= age <= 6) && (money <= 20755)) ||
+          ((nbChild === 2) && (3 <= age <= 6) && (money <= 23701)) ||
+          ((nbChild === 3) && (3 <= age <= 6) && (money <= 26647)) ||
+          ((nbChild === 4) && (3 <= age <= 6) && (money <= 29593))
+        ) {
+          palier.push(val.palier4) // 234.41
+        } else if (
+          ((nbChild === 1) && (age < 3) && (20755 <= money <= 46123)) ||
+          ((nbChild === 2) && (age < 3) && (23701 <= money <= 52670)) ||
+          ((nbChild === 3) && (age < 3) && (26647 <= money <= 59217)) ||
+          ((nbChild === 4) && (age < 3) && (29593 <= money <= 65764))
+        ) {
+          palier.push(val.palier5) // 295.62
+        } else if (
+          ((nbChild === 1) && (age < 3) && (money <= 20755)) ||
+          ((nbChild === 2) && (age < 3) && (money <= 23701)) ||
+          ((nbChild === 3) && (age < 3) && (money <= 26647)) ||
+          ((nbChild === 4) && (age < 3) && (money <= 29593))
+        ) {
+          palier.push(val.palier6) // 468.82
         }
+        if (isIsole == false) {
+          res.write(JSON.stringify({ palier: palier[0] }))
+        } else {
+          res.write(JSON.stringify({ palier: palier[0] + palier[0] * val.tauxParentsIsole * 0.01 }))
+        }
+      })
+
+
+      // ________________________________________ AIDES CMG___________________________________________
+
+       // ________________________________ AIDES PAJE___________________________________
+
+      aides.find(
+        { dateDebutAnnee: req.body.dateDebutAnnee },
+        function (err, taux) {
+        const enfantPlusJeune = req.body.enfantPlusJeune
+        const tauxParticipationCotisations = req.body.tauxParticipationCotisations
+        console.log(chargesFamilleA)
+        taux.map(val=> {
+
+          if (enfantPlusJeune < 3){
+            res.write(JSON.stringify({ 'aidesPaje' : Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * tauxParticipationCotisations, val.plafondParticipationCotisation03) }))
+          }
+          else 
+          {
+            res.write(JSON.stringify({ 'aidesPaje' : Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * tauxParticipationCotisations, val.plafondParticipationCotisation36) }))
+          }
+
+        })
+      
+        res.end()
+      })
+
+       // ________________________________ AIDES PAJE___________________________________
 
       })
-    })
 })
-// _______ APP LISTEN _______
+// _______________________________ APP LISTEN _______________________________________
 
 app.listen(port, err => {
   if (err) {
