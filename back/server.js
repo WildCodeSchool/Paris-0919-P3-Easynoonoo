@@ -59,9 +59,13 @@ app.post('/api/calculscharges', function (req, res) {
 
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 
-  let chargesPatronales = null
-  let chargesFamilleA = null
+  let chargesPatronalesFamilleA = null
+  let chargesSalarialesFamilleA = null
   let chargesPatronalesSS = null
+  let salaireBrutPatronaleFamilleA = null
+  let netMensuelFamilleA
+  let coutPatronalFamilleA
+  let palier
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
@@ -136,11 +140,11 @@ app.post('/api/calculscharges', function (req, res) {
           + (heuresMensuellesMajorees * tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
 
         let netMensuelTotal = salaireBrutMensuel - chargesTotal
-        let netMensuelFamilleA = (netMensuelTotal * req.body.repartitionFamille)
+        netMensuelFamilleA = (netMensuelTotal * req.body.repartitionFamille)
         let netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
         let brutAnnuelTotal = salaireBrutMensuel * 12
         let netAnnuelTotal = netMensuelTotal * 12
-        chargesFamilleA = brutMensuelFamilleA - netMensuelFamilleA
+        chargesSalarialesFamilleA = brutMensuelFamilleA - netMensuelFamilleA
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.write(JSON.stringify({
@@ -185,7 +189,7 @@ app.post('/api/calculscharges', function (req, res) {
           )
         }
 
-        chargesPatronales =
+        chargesPatronalesFamilleA =
           (salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
@@ -209,11 +213,17 @@ app.post('/api/calculscharges', function (req, res) {
           val.accidentDuTravail +
           val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01
 
-        
+        primePanierRepas = ((5 * 52 - req.body.joursCP - req.body.joursRecup) * req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille
+
+        remboursementMensuelTransport = req.body.montantAbonnementTransports * req.body.priseEnChargeAbonnement * req.body.repartitionFamille
+
+        netMensuelAvantageFamilleA = netMensuelFamilleA + primePanierRepas + remboursementMensuelTransport
+
+        coutPatronalFamilleA = chargesPatronalesFamilleA + chargesSalarialesFamilleA + netMensuelAvantageFamilleA
 
         res.write(JSON.stringify({
-          "charges patronales": chargesPatronales,
-          "chargesPatronalesAnnuelles": chargesPatronales * 12
+          "charges patronales": chargesPatronalesFamilleA,
+          "chargesPatronalesAnnuelles": chargesPatronalesFamilleA * 12
         }))
       }
       )
@@ -230,24 +240,24 @@ app.post('/api/calculscharges', function (req, res) {
       const nbChild = req.body.nbEnfants
       const isIsole = req.body.parentIsole
       const money = req.body.ressourcesAnnuelles
-      let palier = []
+      palier = []
 
       taux.map(val => {
 
         // ________________________________ AIDES CMG___________________________________
 
         if (
-          ((nbChild === 1) && (3 <= age <= 6) && (money > 46123)) ||
-          ((nbChild === 2) && (3 <= age <= 6) && (money > 52670)) ||
-          ((nbChild === 3) && (3 <= age <= 6) && (money > 59217)) ||
-          ((nbChild === 4) && (3 <= age <= 6) && (money > 65764))
+          ((nbChild === 1) && (3 <= age && age <= 6) && (money > 46123)) ||
+          ((nbChild === 2) && (3 <= age && age <= 6) && (money > 52670)) ||
+          ((nbChild === 3) && (3 <= age && age <= 6) && (money > 59217)) ||
+          ((nbChild === 4) && (3 <= age && age <= 6) && (money > 65764))
         ) {
           palier.push(val.palier1) // 88.68
         } else if (
-          ((nbChild === 1) && (3 <= age <= 6) && (20755 <= money <= 46123)) ||
-          ((nbChild === 2) && (3 <= age <= 6) && (23701 <= money <= 52670)) ||
-          ((nbChild === 3) && (3 <= age <= 6) && (26647 <= money <= 59217)) ||
-          ((nbChild === 4) && (3 <= age <= 6) && (29593 <= money <= 65764))
+          ((nbChild === 1) && (3 <= age && age <= 6) && (20755 <= money <= 46123)) ||
+          ((nbChild === 2) && (3 <= age && age <= 6) && (23701 <= money <= 52670)) ||
+          ((nbChild === 3) && (3 <= age && age <= 6) && (26647 <= money <= 59217)) ||
+          ((nbChild === 4) && (3 <= age && age <= 6) && (29593 <= money <= 65764))
         ) {
           palier.push(val.palier2) // 147.83
         } else if (
@@ -258,10 +268,10 @@ app.post('/api/calculscharges', function (req, res) {
         ) {
           palier.push(val.palier3) // 177.35
         } else if (
-          ((nbChild === 1) && (3 <= age <= 6) && (money <= 20755)) ||
-          ((nbChild === 2) && (3 <= age <= 6) && (money <= 23701)) ||
-          ((nbChild === 3) && (3 <= age <= 6) && (money <= 26647)) ||
-          ((nbChild === 4) && (3 <= age <= 6) && (money <= 29593))
+          ((nbChild === 1) && (3 <= age && age <= 6) && (money <= 20755)) ||
+          ((nbChild === 2) && (3 <= age && age <= 6) && (money <= 23701)) ||
+          ((nbChild === 3) && (3 <= age && age <= 6) && (money <= 26647)) ||
+          ((nbChild === 4) && (3 <= age && age <= 6) && (money <= 29593))
         ) {
           palier.push(val.palier4) // 234.41
         } else if (
@@ -299,16 +309,21 @@ app.post('/api/calculscharges', function (req, res) {
           taux.map(val => {
 
             if (enfantPlusJeune < 3) {
-              res.write(JSON.stringify({ 'aidesPaje': Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03) }))
+              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03)
             }
             else {
-              res.write(JSON.stringify({ 'aidesPaje': Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36) }))
+              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
             }
+            res.write(JSON.stringify({ aidesPaje: aidesPaje }))
 
-            deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille)) 
+            deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille))
+
+            montantAPayer = coutPatronalFamilleA - deductionForfaitaireChargesSociales - aidesPaje - palier[0]
+            console.log(montantAPayer);
+            console.log(palier);
 
             res.write(JSON.stringify({ deductionForfaitaireChargesSociales }))
-            
+
           })
 
           res.end()
