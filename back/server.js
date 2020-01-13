@@ -59,8 +59,9 @@ app.post('/api/calculscharges', function (req, res) {
 
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 
-    let chargesPatronales = null
-    let chargesFamilleA = null
+  let chargesPatronales = null
+  let chargesFamilleA = null
+  let chargesPatronalesSS = null
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
@@ -133,7 +134,7 @@ app.post('/api/calculscharges', function (req, res) {
             val.CsgNonDeductible +
             val.CrdsNonDeductible))
           + (heuresMensuellesMajorees * tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
-        
+
         let netMensuelTotal = salaireBrutMensuel - chargesTotal
         let netMensuelFamilleA = (netMensuelTotal * req.body.repartitionFamille)
         let netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
@@ -202,8 +203,18 @@ app.post('/api/calculscharges', function (req, res) {
             val.contributionAuFinancementDesOrganisationsSyndicales
           ))
 
-        res.write(JSON.stringify({ "charges patronales": chargesPatronales,
-      "chargesPatronalesAnnuelles" :  chargesPatronales * 12}))
+        chargesPatronalesSS = (val.maladieMaterniteInvaliditeDeces +
+          val.assuranceVieillesseDeplafonnee +
+          val.vieillessePlafonnee +
+          val.accidentDuTravail +
+          val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01
+
+        
+
+        res.write(JSON.stringify({
+          "charges patronales": chargesPatronales,
+          "chargesPatronalesAnnuelles": chargesPatronales * 12
+        }))
       }
       )
     }
@@ -278,32 +289,34 @@ app.post('/api/calculscharges', function (req, res) {
 
       // ________________________________________ AIDES CMG___________________________________________
 
-       // ________________________________ AIDES PAJE___________________________________
+      // ________________________________ AIDES PAJE___________________________________
 
       aides.find(
         { dateDebutAnnee: req.body.dateDebutAnnee },
         function (err, taux) {
-        const enfantPlusJeune = req.body.enfantPlusJeune
-        const tauxParticipationCotisations = req.body.tauxParticipationCotisations
-        console.log(chargesFamilleA)
-        taux.map(val=> {
+          const enfantPlusJeune = req.body.enfantPlusJeune
 
-          if (enfantPlusJeune < 3){
-            res.write(JSON.stringify({ 'aidesPaje' : Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * tauxParticipationCotisations, val.plafondParticipationCotisation03) }))
-          }
-          else 
-          {
-            res.write(JSON.stringify({ 'aidesPaje' : Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * tauxParticipationCotisations, val.plafondParticipationCotisation36) }))
-          }
+          taux.map(val => {
 
+            if (enfantPlusJeune < 3) {
+              res.write(JSON.stringify({ 'aidesPaje': Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03) }))
+            }
+            else {
+              res.write(JSON.stringify({ 'aidesPaje': Math.min((chargesPatronales + chargesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36) }))
+            }
+
+            deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille)) 
+
+            res.write(JSON.stringify({ deductionForfaitaireChargesSociales }))
+            
+          })
+
+          res.end()
         })
-      
-        res.end()
-      })
 
-       // ________________________________ AIDES PAJE___________________________________
+      // ________________________________ AIDES PAJE___________________________________
 
-      })
+    })
 })
 // _______________________________ APP LISTEN _______________________________________
 
