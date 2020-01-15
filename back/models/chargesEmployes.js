@@ -96,6 +96,14 @@ const chargesEmployes = new mongoose.Schema(
         {
             type: Number,
         },
+        tauxAssietteCSG_RDS:
+        {
+            type: Number,
+        },
+        PMSS:
+        {
+            type: Number,
+        },
         dateDebutAnnee:
         {
             type: Number,

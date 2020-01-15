@@ -31,7 +31,7 @@ mongoose
 app.post('/api/calculscharges', function (req, res) {
 
   /*--------------CALCUL SALAIRE BRUT-------------*/
-  const tauxHeuresSupp = 1.25 // val.tauxHeuresSupp
+
   const heuresMensuelles = Math.ceil(
     req.body.heuresHebdo * (52 / 12),
   )
@@ -39,25 +39,23 @@ app.post('/api/calculscharges', function (req, res) {
     req.body.heuresSup * (52 / 12),
   )
 
-  const salaireBrutMensuel = () => {
-    salaireBrutMensuel = heuresMensuelles * req.body.tauxHoraire + heuresMensuellesMajorees * req.body.tauxHoraire * tauxHeuresSupp
-  }
+  // const tauxHeuresSupp = 1.25 // val.tauxHeuresSupp
+  // salaireBrutMensuel = heuresMensuelles * req.body.tauxHoraire + heuresMensuellesMajorees * req.body.tauxHoraire * tauxHeuresSupp
 
-
-  brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
-  brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
+  // brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
+  // brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
 
 
   /*--------------------------------------------------*/
 
 
-  /*--------------CALCUL ASSIETTE CSG RDS-------------*/
-  const PMSS = 3377
-  let assietteCsgRdsMensuel =
-    98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
-    Math.max(0, salaireBrutMensuel - 4 * PMSS)
+  // /*--------------CALCUL ASSIETTE CSG RDS-------------*/
+  // const PMSS = 3377
+  // let assietteCsgRdsMensuel =
+  //   98.25 * 0.01 * Math.min(4 * PMSS, salaireBrutMensuel) +
+  //   Math.max(0, salaireBrutMensuel - 4 * PMSS)
 
-  let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
+  // let assietteCsgRdsHoraire = 98.25 * 0.01 * req.body.tauxHoraire
 
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 
@@ -81,6 +79,12 @@ app.post('/api/calculscharges', function (req, res) {
   let deductionForfaitaireChargesSociales
   let aidesPaje
 
+  //________________________________
+
+  let brutMensuelFamilleA
+  let brutMensuelFamilleB
+  let salaireBrutMensuel
+
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
     function (err, taux) {
@@ -89,6 +93,42 @@ app.post('/api/calculscharges', function (req, res) {
 
       const arrayTr = []
       taux.map(val => {
+
+        async function functionSalaireBrutMensuel() {
+          return salaireBrutMensuel = heuresMensuelles * req.body.tauxHoraire + heuresMensuellesMajorees * req.body.tauxHoraire * val.tauxHeuresSupp;
+        }
+        functionSalaireBrutMensuel().then(console.log)
+
+        async function funcBrutMensuelFamilleA() {
+          return salaireBrutMensuel = heuresMensuelles * req.body.tauxHoraire + heuresMensuellesMajorees * req.body.tauxHoraire * val.tauxHeuresSupp
+        }
+        funcBrutMensuelFamilleA().then(console.log)
+
+        async function funcBrutMensuelFamilleB() {
+          return brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
+        }
+        funcBrutMensuelFamilleB().then(console.log)
+
+
+        /*--------------CALCUL ASSIETTE CSG RDS-------------*/
+
+        // let assietteCsgRdsMensuel =
+        //   val.tauxAssietteCSG_RDS * 0.01 * Math.min(4 * val.PMSS, salaireBrutMensuel) +
+        //   Math.max(0, salaireBrutMensuel - 4 * val.PMSS)
+
+        async function funcAssietteCsgRdsMensuel() {
+          return assietteCsgRdsMensuel = val.tauxAssietteCSG_RDS * 0.01 * Math.min(4 * val.PMSS, salaireBrutMensuel) +
+            Math.max(0, salaireBrutMensuel - 4 * val.PMSS)
+        }
+        funcAssietteCsgRdsMensuel().then(console.log)
+
+        // let assietteCsgRdsHoraire = val.tauxAssietteCSG_RDS * 0.01 * req.body.tauxHoraire;
+
+        async function funcAssietteCsgRdsHoraire() {
+          return assietteCsgRdsHoraire = val.tauxAssietteCSG_RDS * 0.01 * req.body.tauxHoraire;
+        }
+        funcAssietteCsgRdsHoraire().then(console.log);
+
         if (req.body.trancheA && req.body.alsaceMoselle) {
           arrayTr.push(
             val.IrcemRetraiteComplementaireTrA,
@@ -120,49 +160,84 @@ app.post('/api/calculscharges', function (req, res) {
             0
           )
         }
-        netHoraire = Math.round((req.body.tauxHoraire -
-          ((req.body.tauxHoraire * 0.01 * (
-            val.maladieMaterniteInvaliditeDeces +
-            val.assuranceVieillesseDeplafonnee +
-            val.vieillessePlafonnee +
-            arrayTr[3] +
-            arrayTr[0] +
-            arrayTr[1] +
-            arrayTr[2] +
-            val.assuranceChomage +
-            val.IrcemPrevoyance))
-            + (assietteCsgRdsHoraire * 0.01 * (
+        async function funcNetHoraire() {
+          return netHoraire = Math.round((req.body.tauxHoraire -
+            ((req.body.tauxHoraire * 0.01 * (
+              val.maladieMaterniteInvaliditeDeces +
+              val.assuranceVieillesseDeplafonnee +
+              val.vieillessePlafonnee +
+              arrayTr[3] +
+              arrayTr[0] +
+              arrayTr[1] +
+              arrayTr[2] +
+              val.assuranceChomage +
+              val.IrcemPrevoyance))
+              + (assietteCsgRdsHoraire * 0.01 * (
+                val.CsgDeductible +
+                val.CsgNonDeductible +
+                val.CrdsNonDeductible)))) * 100) / 100
+        }
+        funcNetHoraire().then(console.log)
+
+        async function funcChargesTotal() {
+          return chargesTotal =
+            (salaireBrutMensuel * 0.01 * (
+              val.maladieMaterniteInvaliditeDeces +
+              val.assuranceVieillesseDeplafonnee +
+              val.vieillessePlafonnee +
+              arrayTr[3] +
+              arrayTr[0] +
+              arrayTr[1] +
+              arrayTr[2] +
+              val.assuranceChomage +
+              val.IrcemPrevoyance))
+            + (assietteCsgRdsMensuel * 0.01 * (
               val.CsgDeductible +
               val.CsgNonDeductible +
-              val.CrdsNonDeductible)))) * 100) / 100
+              val.CrdsNonDeductible))
+            + (heuresMensuellesMajorees * val.tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
+        }
+        funcChargesTotal().then(console.log)
 
-        chargesTotal =
-          (salaireBrutMensuel * 0.01 * (
-            val.maladieMaterniteInvaliditeDeces +
-            val.assuranceVieillesseDeplafonnee +
-            val.vieillessePlafonnee +
-            arrayTr[3] +
-            arrayTr[0] +
-            arrayTr[1] +
-            arrayTr[2] +
-            val.assuranceChomage +
-            val.IrcemPrevoyance))
-          + (assietteCsgRdsMensuel * 0.01 * (
-            val.CsgDeductible +
-            val.CsgNonDeductible +
-            val.CrdsNonDeductible))
-          + (heuresMensuellesMajorees * val.tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
+        async function funcNetMensuelTotal() {
+          return netMensuelTotal = Math.round((salaireBrutMensuel - chargesTotal) * 100) / 100
+        }
+        funcNetMensuelTotal().then(console.log)
 
-        netMensuelTotal = Math.round((salaireBrutMensuel - chargesTotal) * 100) / 100
-        netMensuelFamilleA = Math.round((netMensuelTotal * req.body.repartitionFamille) * 100) / 100
-        netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
-        brutAnnuelTotal = Math.round((salaireBrutMensuel * 12) * 100) / 100
-        netAnnuelTotal = Math.round((netMensuelTotal * 12) * 100) / 100
-        netAnnuelTotalFamille = netAnnuelTotal * req.body.repartitionFamille
-        chargesSalarialesFamilleA = Math.round((brutMensuelFamilleA - netMensuelFamilleA) * 100) / 100
-        brutAnnuelTotalFamille = brutAnnuelTotal * req.body.repartitionFamille
+        async function funcNetMensuelFamilleA() {
+          return netMensuelFamilleA = Math.round((netMensuelTotal * req.body.repartitionFamille) * 100) / 100
+        }
+        funcNetMensuelFamilleA().then(console.log)
 
+        async function funcNetMensuelFamilleB() {
+          return netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
+        }
+        funcNetMensuelFamilleB().then(console.log)
 
+        async function funcBrutAnnuelTotal() {
+          return brutAnnuelTotal = Math.round((salaireBrutMensuel * 12) * 100) / 100
+        }
+        funcBrutAnnuelTotal().then(console.log)
+
+        async function funcNetAnnuelTotal() {
+          return netAnnuelTotal = Math.round((netMensuelTotal * 12) * 100) / 100
+        }
+        funcNetAnnuelTotal().then(console.log)
+
+        async function funcNetAnnuelTotalFamille() {
+          return netAnnuelTotalFamille = netAnnuelTotal * req.body.repartitionFamille
+        }
+        funcNetAnnuelTotalFamille().then(console.log)
+
+        async function funcChargesSalarialesFamilleA() {
+          return chargesSalarialesFamilleA = Math.round((brutMensuelFamilleA - netMensuelFamilleA) * 100) / 100
+        }
+        funcChargesSalarialesFamilleA()
+
+        async function funcBrutAnnuelTotalFamille() {
+          return brutAnnuelTotalFamille = brutAnnuelTotal * req.body.repartitionFamille
+        }
+        funcBrutAnnuelTotalFamille().then(console.log)
       })
     },
   )
@@ -193,49 +268,58 @@ app.post('/api/calculscharges', function (req, res) {
           )
         }
 
+        async function funcChargesPatronalesFamilleA() {
+          return chargesPatronalesFamilleA =
+            Math.round(salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
+              val.maladieMaterniteInvaliditeDeces +
+              val.assuranceVieillesseDeplafonnee +
+              val.vieillessePlafonnee +
+              val.accidentDuTravail +
+              val.allocationsFamiliales +
+              arrayTr[0] +
+              arrayTr[1] +
+              arrayTr[2] +
+              val.assuranceChomage +
+              val.IrcemPrevoyance +
+              val.contributionSolidariteAutonomie +
+              val.formationProfessionnelle +
+              val.fondsNationalAideAuLogement +
+              val.contributionAuFinancementDesOrganisationsSyndicales
+            ) * 100) / 100
+        }
+        funcChargesPatronalesFamilleA().then(console.log)
 
-
-        chargesPatronalesFamilleA =
-          Math.round(salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
-            val.maladieMaterniteInvaliditeDeces +
+        async function funcChargesPatronalesSS() {
+          return chargesPatronalesSS = Math.round(((val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
             val.vieillessePlafonnee +
             val.accidentDuTravail +
-            val.allocationsFamiliales +
-            arrayTr[0] +
-            arrayTr[1] +
-            arrayTr[2] +
-            val.assuranceChomage +
-            val.IrcemPrevoyance +
-            val.contributionSolidariteAutonomie +
-            val.formationProfessionnelle +
-            val.fondsNationalAideAuLogement +
-            val.contributionAuFinancementDesOrganisationsSyndicales
-          ) * 100) / 100
+            val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01) * 100) / 100
+        }
+        funcChargesPatronalesSS().then(console.log)
 
+        async function funcPrimePanierRepas() {
+          return primePanierRepas = Math.round((val.joursOuvres
+            - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille) * 100 / 100
+        }
+        funcPrimePanierRepas().then(console.log)
 
-        chargesPatronalesSS = Math.round(((val.maladieMaterniteInvaliditeDeces +
-          val.assuranceVieillesseDeplafonnee +
-          val.vieillessePlafonnee +
-          val.accidentDuTravail +
-          val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01) * 100) / 100
+        async function funcRemboursementMensuelTransport() {
+          return remboursementMensuelTransport = req.body.montantAbonnementTransports * req.body.priseEnChargeAbonnement * req.body.repartitionFamille
+        }
+        funcRemboursementMensuelTransport().then(console.log)
 
-        primePanierRepas = Math.round((val.joursOuvres
+        async function funcNetMensuelAvantageFamilleA() {
+          return netMensuelAvantageFamilleA = Math.round((netMensuelFamilleA + primePanierRepas + remboursementMensuelTransport) * 100) / 100
+        }
+        funcNetMensuelAvantageFamilleA().then(console.log)
 
-          - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille) * 100 / 100
-
-        remboursementMensuelTransport = req.body.montantAbonnementTransports * req.body.priseEnChargeAbonnement * req.body.repartitionFamille
-
-        setInterval(() => {
-          netMensuelAvantageFamilleA = Math.round((netMensuelFamilleA + primePanierRepas + remboursementMensuelTransport) * 100) / 100
-          coutPatronalFamilleA = Math.round((chargesPatronalesFamilleA + chargesSalarialesFamilleA + netMensuelAvantageFamilleA) * 100) / 100
-        }, 10);
-
-
-      }
-      )
-    }
-  )
+        async function funcCoutPatronalFamilleA() {
+          return coutPatronalFamilleA = Math.round((chargesPatronalesFamilleA + chargesSalarialesFamilleA + netMensuelAvantageFamilleA) * 100) / 100
+        }
+        funcCoutPatronalFamilleA().then(console.log)
+      })
+    })
 
   // __________________________________________ CALCULS DES AIDES _____________________________________
 
@@ -340,7 +424,6 @@ app.post('/api/calculscharges', function (req, res) {
               }
           }
         }
-
         if (req.body.enfantPlusJeune < 3) {
           cmg = Math.min(cmgArray[0], (netMensuelFamilleA * 0.85))
 
@@ -348,8 +431,6 @@ app.post('/api/calculscharges', function (req, res) {
           cmg = Math.min(cmgArray[0] / 2, (netMensuelFamilleA * 0.85))
         }
       })
-
-
       // ________________________________________ AIDES CMG___________________________________________
 
       // ________________________________ AIDES PAJE___________________________________
@@ -370,26 +451,28 @@ app.post('/api/calculscharges', function (req, res) {
               aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
             }
 
+            async function funcDeductionForfaitaireChargesSociales() {
+              return deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille))
+            }
+            funcDeductionForfaitaireChargesSociales().then(console.log)
 
-            deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille))
-
-            montantAPayer = coutPatronalFamilleA - deductionForfaitaireChargesSociales - aidesPaje - cmg
-
-
-
+            async function funcMontantAPayer() {
+              return montantAPayer = coutPatronalFamilleA - deductionForfaitaireChargesSociales - aidesPaje - cmg
+            }
+            funcMontantAPayer().then(console.log)
 
             if (req.body.premiereAnneeEmploiDomicile) {
               if (req.body.gardeAlternee) {
-                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
-                )
+                async function funcCreditImpotAnnuelFamilleA(){
+                  return creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                )}
+                funcCreditImpotAnnuelFamilleA().then(console.log)
               } else {
-                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
-                )
-
-
+                async function funcCreditImpotAnnuelFamilleA(){
+                  return creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                )}
+                funcCreditImpotAnnuelFamilleA().then(console.log)
               }
-
-
             } else {
               if (req.body.gardeAlternee) {
                 creditImpotAnnuelFamilleA = Math.min(Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
@@ -399,14 +482,11 @@ app.post('/api/calculscharges', function (req, res) {
                 )
               }
             }
-
-
-            creditImpotMensuelFamilleA = creditImpotAnnuelFamilleA / 12
-
-
-
+            async function funcCreditImpotMensuelFamilleA(){
+              return creditImpotMensuelFamilleA = creditImpotAnnuelFamilleA / 12
+            }
+            funcCreditImpotMensuelFamilleA()
           })
-
 
           res.send({
             chargesPatronalesFamilleA,
@@ -427,15 +507,10 @@ app.post('/api/calculscharges', function (req, res) {
             montantAPayer,
             deductionForfaitaireChargesSociales,
             aidesPaje
-
-
           })
         })
-
       // ________________________________ AIDES PAJE___________________________________
-
     })
-
 })
 // _______________________________ APP LISTEN _______________________________________
 
