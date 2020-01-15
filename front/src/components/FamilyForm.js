@@ -81,6 +81,7 @@ const FamilyForm = () => {
     setCount2(1)
     setChild1([])
     window.localStorage.getItem('child1', JSON.stringify([]) )
+    console.log(child1)
 
     
 

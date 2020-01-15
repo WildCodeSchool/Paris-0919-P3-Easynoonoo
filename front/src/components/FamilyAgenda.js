@@ -34,7 +34,8 @@ export default class FamilyAgenda extends React.Component {
 		active: "",
 		width:  0,
 		height: 0,
-		showWindow : false 
+		showWindow : false,
+		allChildren : [{}] 
 	}
 
     /* -------- Define Mouse Position -------- */
@@ -105,11 +106,39 @@ export default class FamilyAgenda extends React.Component {
 	validateChild = () => {
 		
 		let items = JSON.parse(localStorage.getItem('items'));
-		let child1 = items;
-		localStorage.setItem('child1', JSON.stringify(child1));
+		//let child1 = items;
+		//localStorage.setItem('child1', JSON.stringify({...child1}));
 		localStorage.setItem('items', JSON.stringify([]));
-		console.log(child1)
-		
+		//console.log(child1)
+
+		let myChild = JSON.parse(localStorage.getItem('myChild'));
+		myChild.map(nom => {
+			
+			for (let i = 0; i < myChild.length; i++) {
+				items = [{...items, nomChild : myChild[i]}]
+				 
+				console.log(items)
+			}
+		}
+			
+		)
+
+		if (this.state.items.length > 0) {
+			let items = JSON.parse(localStorage.getItem('items'));
+			if (items === null) {
+				items = [{start : this.state.items[0], end : this.state.items[1]}]
+			}
+			else {
+				items.push({start : this.state.items[0], end : this.state.items[1]});
+			}
+			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
+			localStorage.setItem('items', JSON.stringify(items));
+			this.setState({items : []})
+		}
+		else {
+			return null
+		}
+
 
 	}
 
@@ -251,7 +280,7 @@ export default class FamilyAgenda extends React.Component {
         let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
-		let slot2 = JSON.parse(localStorage.getItem('child1'))
+		let slot2 = JSON.parse(localStorage.getItem('allChildren'))
         console.log(slot)
 		if (slot != null) {
 			slot.map((slot, index) => {
@@ -276,14 +305,15 @@ export default class FamilyAgenda extends React.Component {
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = 'black'
+				element2.style.backgroundColor = '#ccccff'
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left +  'px';
+				element2.style.left = horiz.left + 12 +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
 		} 
+		
 		else {
 			return null
 		}
@@ -357,6 +387,10 @@ export default class FamilyAgenda extends React.Component {
 		this.updateDimensions();
 		this.getSelect();
 		window.addEventListener("resize", this.updateDimensions);
+	}
+
+	componentDidUpdate = () => {
+
 	}
 
     render() {
