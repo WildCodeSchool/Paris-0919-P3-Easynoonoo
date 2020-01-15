@@ -151,7 +151,7 @@ app.post('/api/calculscharges', function (req, res) {
             val.CsgDeductible +
             val.CsgNonDeductible +
             val.CrdsNonDeductible))
-          + (heuresMensuellesMajorees * tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
+          + (heuresMensuellesMajorees * val.tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
 
         netMensuelTotal = Math.round((salaireBrutMensuel - chargesTotal) * 100) / 100
         netMensuelFamilleA = Math.round((netMensuelTotal * req.body.repartitionFamille) * 100) / 100
