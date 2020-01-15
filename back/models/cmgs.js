@@ -2,27 +2,27 @@ const mongoose = require("mongoose");
 
 const cmg = new mongoose.Schema(
   {
-    palier1:
+    cmgPalier1:
     {
       type: Number,
     },
-    palier2:
+    cmgPalier2:
     {
       type: Number,
     },
-    palier3:
+    cmgPalier3:
     {
       type: Number,
     },
-    palier4:
+    cmgPalier4:
     {
       type: Number,
     },
-    palier5:
+    cmgPalier5:
     {
       type: Number,
     },
-    palier6:
+    cmgPalier6:
     {
       type: Number,
     },
