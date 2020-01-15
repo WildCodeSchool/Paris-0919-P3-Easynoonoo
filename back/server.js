@@ -253,99 +253,99 @@ app.post('/api/calculscharges', function (req, res) {
 
         // ________________________________ AIDES CMG___________________________________
 
-        if (val.ageEnfant1 <= age && age <= val.ageEnfant2) {
+        if (isIsole) {
           switch (nbChild) {
-            case 1:  // 1 enfant entre 3 et 6 ans
-              if (money > val.revenusE) {
-                cmgArray.push(val.cmgPalier1) // 88.68
+            case 1:  // 1 enfant moins de 3 ans
+              if (money > val.parentIsoleRevenusE) {
+                cmgArray.push(val.cmgParentIsolePalier1) // 230,56
               }
-              else if (val.revenusA <= money && money <= val.revenusE) {
-                cmgArray.push(val.cmgPalier2) // 147.83
-              }
-              else {
-                cmgArray.push(val.cmgPalier4) // 234.41
-              }
-            case 2: // 2 enfant entre 3 et 6 ans
-              if (money > val.revenusF) {
-                cmgArray.push(val.cmgPalier1) // 88.68
-              }
-              else if (val.revenusB <= money && money <= val.revenusF) {
-                cmgArray.push(val.cmgPalier2) // 147.83
+              else if (val.parentIsoleRevenusA <= money && money <= val.parentIsoleRevenusE) {
+                cmgArray.push(val.cmgParentIsolePalier2) // 384,31
               }
               else {
-                cmgArray.push(val.cmgPalier4) // 234.41
+                cmgArray.push(val.cmgParentIsolePalier3) // 609,47
               }
-            case 3: // 3 enfant entre 3 et 6 ans
-              if (money > val.revenusG) {
-                cmgArray.push(val.cmgPalier1) // 88.68
+            case 2: // 2 enfants moins de 3 ans
+              if (money > val.parentIsoleRevenusF) {
+                cmgArray.push(val.cmgParentIsolePalier1) // 230,56
               }
-              else if (val.revenusC <= money && money <= val.revenusG) {
-                cmgArray.push(val.cmgPalier2) // 147.83
-              }
-              else {
-                cmgArray.push(val.cmgPalier4) // 234.41
-              }
-            case 4: // 4 enfant entre 3 et 6 ans
-              if (money > val.revenusH) {
-                cmgArray.push(val.cmgPalier1) // 88.68
-              }
-              else if (val.revenusD <= money && money <= val.revenusH) {
-                cmgArray.push(val.cmgPalier2) // 147.83
+              else if (val.parentIsoleRevenusB <= money && money <= val.parentIsoleRevenusF) {
+                cmgArray.push(val.cmgParentIsolePalier2) // 384,31
               }
               else {
-                cmgArray.push(val.cmgPalier4) // 234.41
+                cmgArray.push(val.cmgParentIsolePalier3) // 609,47
+              }
+            case 3: // 3 enfants moins de 3 ans
+              if (money > val.parentIsoleRevenusG) {
+                cmgArray.push(val.cmgParentIsolePalier1) // 230,56
+              }
+              else if (val.parentIsoleRevenusC <= money && money <= val.parentIsoleRevenusG) {
+                cmgArray.push(val.cmgParentIsolePalier2) // 384,31
+              }
+              else {
+                cmgArray.push(val.cmgParentIsolePalier3) // 609,47
+              }
+            case 4: // 4 enfants moins de 3 ans
+              if (money > val.parentIsoleRevenusH) {
+                cmgArray.push(val.cmgParentIsolePalier1) // 230,56
+              }
+              else if (val.parentIsoleRevenusD <= money && money <= val.parentIsoleRevenusH) {
+                cmgArray.push(val.cmgParentIsolePalier2) // 384,31
+              }
+              else {
+                cmgArray.push(val.cmgParentIsolePalier3) // 609,47
               }
           }
         } else {
           switch (nbChild) {
-            case 1: // 1 enfant de moins de 3 ans
-              if (money > val.revenusE) {
-                cmgArray.push(val.cmgPalier3) // 177.35
+            case 1: // 1 enfants de moins de 3 ans
+              if (money > val.coupleRevenusE) {
+                cmgArray.push(val.cmgCouplePalier1) // 177,36
               }
-              else if (val.revenusA <= money && money <= val.revenusE) {
-                cmgArray.push(val.cmgPalier5) // 295.62
-              }
-              else {
-                cmgArray.push(val.cmgPalier6) // 468.82
-              }
-            case 2: // 2 enfant de moins de 3 ans
-              if (money > val.revenusF) {
-                cmgArray.push(val.cmgPalier3) // 177.35
-              }
-              else if (val.revenusB <= money && money <= val.revenusF) {
-                cmgArray.push(val.cmgPalier5) // 295.62
+              else if (val.coupleRevenusA <= money && money <= val.coupleRevenusE) {
+                cmgArray.push(val.cmgCouplePalier2) // 295,62
               }
               else {
-                cmgArray.push(val.cmgPalier6) // 468.82
+                cmgArray.push(val.cmgCouplePalier3) // 468.82
               }
-            case 3: // 3 enfant de moins de 3 ans
-              if (money > val.revenusG) {
-                cmgArray.push(val.cmgPalier3) // 177.35
+            case 2: // 2 enfants de moins de 3 ans
+              if (money > val.coupleRevenusF) {
+                cmgArray.push(val.cmgCouplePalier1) // 177.36
               }
-              else if (val.revenusC <= money && money <= val.revenusG) {
-                cmgArray.push(val.cmgPalier5) // 295.62
-              }
-              else {
-                cmgArray.push(val.cmgPalier6) // 468.82
-              }
-            case 4: // 4 enfant de moins de 3 ans
-              if (money > val.revenusH) {
-                cmgArray.push(val.cmgPalier3) // 177.35
-              }
-              else if (val.revenusD <= money && money <= val.revenusH) {
-                cmgArray.push(val.cmgPalier5) // 295.62
+              else if (val.coupleRevenusB <= money && money <= val.coupleRevenusF) {
+                cmgArray.push(val.cmgCouplePalier2) // 295.62
               }
               else {
-                cmgArray.push(val.cmgPalier6) // 468.82
+                cmgArray.push(val.cmgCouplePalier3) // 468.82
+              }
+            case 3: // 3 enfants de moins de 3 ans
+              if (money > val.coupleRevenusG) {
+                cmgArray.push(val.cmgCouplePalier1) // 177.36
+              }
+              else if (val.coupleRevenusC <= money && money <= val.coupleRevenusG) {
+                cmgArray.push(val.cmgCouplePalier2) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgCouplePalier3) // 468.82
+              }
+            case 4: // 4 enfants de moins de 3 ans
+              if (money > val.coupleRevenusH) {
+                cmgArray.push(val.cmgCouplePalier1) // 177.36
+              }
+              else if (val.coupleRevenusD <= money && money <= val.coupleRevenusH) {
+                cmgArray.push(val.cmgCouplePalier2) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgCouplePalier3) // 468.82
               }
           }
         }
 
-        if (isIsole == false) {
-          cmg = cmgArray[0]
+        if (req.body.enfantPlusJeune < 3) {
+          cmg = Math.min(cmgArray[0] , (netMensuelFamilleA * 0.85))
 
         } else {
-          cmg = cmgArray[0] + cmgArray[0] * val.tauxParentsIsole * 0.01
+          cmg = Math.min(cmgArray[0] / 2 , (netMensuelFamilleA * 0.85)) 
         }
       })
 
@@ -362,10 +362,12 @@ app.post('/api/calculscharges', function (req, res) {
           taux.map(val => {
 
             if (enfantPlusJeune < 3) {
-              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03)
+              // aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03)
+              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation03)
             }
             else {
-              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
+              // aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
+              aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
             }
 
 

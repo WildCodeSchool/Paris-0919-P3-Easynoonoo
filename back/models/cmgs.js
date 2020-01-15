@@ -2,27 +2,27 @@ const mongoose = require("mongoose");
 
 const cmg = new mongoose.Schema(
   {
-    cmgPalier1:
+    cmgCouplePalier1:
     {
       type: Number,
     },
-    cmgPalier2:
+    cmgCouplePalier2:
     {
       type: Number,
     },
-    cmgPalier3:
+    cmgCouplePalier3:
     {
       type: Number,
     },
-    cmgPalier4:
+    cmgParentIsolePalier1:
     {
       type: Number,
     },
-    cmgPalier5:
+    cmgParentIsolePalier2:
     {
       type: Number,
     },
-    cmgPalier6:
+    cmgParentIsolePalier3:
     {
       type: Number,
     },
@@ -34,35 +34,67 @@ const cmg = new mongoose.Schema(
     {
       type: Number,
     },
-    revenusA:
+    coupleRevenusA:
     {
       type: Number,
     },
-    revenusB:
+    coupleRevenusB:
     {
       type: Number,
     },
-    revenusC:
+    coupleRevenusC:
     {
       type: Number,
     },
-    revenusD:
+    coupleRevenusD:
     {
       type: Number,
     },
-    revenusE:
+    coupleRevenusE:
     {
       type: Number,
     },
-    revenusF:
+    coupleRevenusF:
     {
       type: Number,
     },
-    revenusG:
+    coupleRevenusG:
     {
       type: Number,
     },
-    revenusH:
+    coupleRevenusH:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusA:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusB:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusC:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusD:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusE:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusF:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusG:
+    {
+      type: Number,
+    },
+    parentIsoleRevenusH:
     {
       type: Number,
     },
