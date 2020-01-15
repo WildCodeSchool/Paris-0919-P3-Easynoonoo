@@ -45,7 +45,7 @@ app.post('/api/calculscharges', function (req, res) {
     tauxHeuresSupp
   brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
   brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
-  
+
 
   /*--------------------------------------------------*/
 
@@ -60,9 +60,9 @@ app.post('/api/calculscharges', function (req, res) {
 
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 
-  let chargesPatronalesFamilleA 
-  let chargesSalarialesFamilleA 
-  let chargesPatronalesSS  
+  let chargesPatronalesFamilleA
+  let chargesSalarialesFamilleA
+  let chargesPatronalesSS
   let netMensuelFamilleA
   let coutPatronalFamilleA
   let cmg
@@ -75,8 +75,8 @@ app.post('/api/calculscharges', function (req, res) {
   let brutAnnuelTotalFamille
   let netAnnuelFamille
   let chargesTotal
-  
-  let netMensuelAvantageFamilleA  
+
+  let netMensuelAvantageFamilleA
   let montantAPayer
   let deductionForfaitaireChargesSociales
   let aidesPaje
@@ -120,7 +120,7 @@ app.post('/api/calculscharges', function (req, res) {
             0
           )
         }
-         netHoraire = Math.round((req.body.tauxHoraire -
+        netHoraire = Math.round((req.body.tauxHoraire -
           ((req.body.tauxHoraire * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
@@ -134,7 +134,7 @@ app.post('/api/calculscharges', function (req, res) {
             + (assietteCsgRdsHoraire * 0.01 * (
               val.CsgDeductible +
               val.CsgNonDeductible +
-              val.CrdsNonDeductible))))*100)/100
+              val.CrdsNonDeductible)))) * 100) / 100
 
         chargesTotal =
           (salaireBrutMensuel * 0.01 * (
@@ -153,16 +153,16 @@ app.post('/api/calculscharges', function (req, res) {
             val.CrdsNonDeductible))
           + (heuresMensuellesMajorees * tauxHeuresSupp * req.body.tauxHoraire * (0.01 * val.exonerationDesCotisations))
 
-         netMensuelTotal = Math.round((salaireBrutMensuel - chargesTotal)*100)/100
-        netMensuelFamilleA = Math.round((netMensuelTotal * req.body.repartitionFamille)*100)/100
-         netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
-         brutAnnuelTotal = Math.round((salaireBrutMensuel * 12)*100)/100
-         netAnnuelTotal = Math.round((netMensuelTotal * 12)*100)/100
-         netAnnuelTotalFamille = netAnnuelTotal* req.body.repartitionFamille
-        chargesSalarialesFamilleA = Math.round((brutMensuelFamilleA - netMensuelFamilleA)*100)/100
+        netMensuelTotal = Math.round((salaireBrutMensuel - chargesTotal) * 100) / 100
+        netMensuelFamilleA = Math.round((netMensuelTotal * req.body.repartitionFamille) * 100) / 100
+        netMensuelFamilleB = (netMensuelTotal * (1 - req.body.repartitionFamille))
+        brutAnnuelTotal = Math.round((salaireBrutMensuel * 12) * 100) / 100
+        netAnnuelTotal = Math.round((netMensuelTotal * 12) * 100) / 100
+        netAnnuelTotalFamille = netAnnuelTotal * req.body.repartitionFamille
+        chargesSalarialesFamilleA = Math.round((brutMensuelFamilleA - netMensuelFamilleA) * 100) / 100
         brutAnnuelTotalFamille = brutAnnuelTotal * req.body.repartitionFamille
 
-        
+
       })
     },
   )
@@ -193,9 +193,9 @@ app.post('/api/calculscharges', function (req, res) {
           )
         }
 
-        
 
-          chargesPatronalesFamilleA =
+
+        chargesPatronalesFamilleA =
           Math.round(salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
             val.assuranceVieillesseDeplafonnee +
@@ -211,26 +211,27 @@ app.post('/api/calculscharges', function (req, res) {
             val.formationProfessionnelle +
             val.fondsNationalAideAuLogement +
             val.contributionAuFinancementDesOrganisationsSyndicales
-          )*100)/100
-        
+          ) * 100) / 100
 
-        chargesPatronalesSS =  Math.round(((val.maladieMaterniteInvaliditeDeces +
+
+        chargesPatronalesSS = Math.round(((val.maladieMaterniteInvaliditeDeces +
           val.assuranceVieillesseDeplafonnee +
           val.vieillessePlafonnee +
           val.accidentDuTravail +
-          val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01 )* 100)/100
+          val.allocationsFamiliales) * salaireBrutMensuel * req.body.repartitionFamille * 0.01) * 100) / 100
 
         primePanierRepas = Math.round((val.joursOuvres
 
-          - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille)*100/100
+          - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille) * 100 / 100
 
         remboursementMensuelTransport = req.body.montantAbonnementTransports * req.body.priseEnChargeAbonnement * req.body.repartitionFamille
 
-        netMensuelAvantageFamilleA = Math.round((netMensuelFamilleA + primePanierRepas + remboursementMensuelTransport)*100)/100
+        setInterval(() => {
+          netMensuelAvantageFamilleA = Math.round((netMensuelFamilleA + primePanierRepas + remboursementMensuelTransport) * 100) / 100
+          coutPatronalFamilleA = Math.round((chargesPatronalesFamilleA + chargesSalarialesFamilleA + netMensuelAvantageFamilleA) * 100) / 100
+        }, 10);
 
-        coutPatronalFamilleA = Math.round((chargesPatronalesFamilleA + chargesSalarialesFamilleA + netMensuelAvantageFamilleA)*100)/100
 
-        
       }
       )
     }
@@ -252,54 +253,99 @@ app.post('/api/calculscharges', function (req, res) {
 
         // ________________________________ AIDES CMG___________________________________
 
-        if (
-          ((nbChild === 1) && (3 <= age && age <= 6) && (money > 46123)) ||
-          ((nbChild === 2) && (3 <= age && age <= 6) && (money > 52670)) ||
-          ((nbChild === 3) && (3 <= age && age <= 6) && (money > 59217)) ||
-          ((nbChild === 4) && (3 <= age && age <= 6) && (money > 65764))
-        ) {
-          cmgArray.push(val.palier1) // 88.68
-        } else if (
-          ((nbChild === 1) && (3 <= age && age <= 6) && (20755 <= money <= 46123)) ||
-          ((nbChild === 2) && (3 <= age && age <= 6) && (23701 <= money <= 52670)) ||
-          ((nbChild === 3) && (3 <= age && age <= 6) && (26647 <= money <= 59217)) ||
-          ((nbChild === 4) && (3 <= age && age <= 6) && (29593 <= money <= 65764))
-        ) {
-          cmgArray.push(val.palier2) // 147.83
-        } else if (
-          ((nbChild === 1) && (age < 3) && (money > 46123)) ||
-          ((nbChild === 2) && (age < 3) && (money > 52670)) ||
-          ((nbChild === 3) && (age < 3) && (money > 59217)) ||
-          ((nbChild === 4) && (age < 3) && (money > 65764))
-        ) {
-          cmgArray.push(val.palier3) // 177.35
-        } else if (
-          ((nbChild === 1) && (3 <= age && age <= 6) && (money <= 20755)) ||
-          ((nbChild === 2) && (3 <= age && age <= 6) && (money <= 23701)) ||
-          ((nbChild === 3) && (3 <= age && age <= 6) && (money <= 26647)) ||
-          ((nbChild === 4) && (3 <= age && age <= 6) && (money <= 29593))
-        ) {
-          cmgArray.push(val.palier4) // 234.41
-        } else if (
-          ((nbChild === 1) && (age < 3) && (20755 <= money <= 46123)) ||
-          ((nbChild === 2) && (age < 3) && (23701 <= money <= 52670)) ||
-          ((nbChild === 3) && (age < 3) && (26647 <= money <= 59217)) ||
-          ((nbChild === 4) && (age < 3) && (29593 <= money <= 65764))
-        ) {
-          cmgArray.push(val.palier5) // 295.62
-        } else if (
-          ((nbChild === 1) && (age < 3) && (money <= 20755)) ||
-          ((nbChild === 2) && (age < 3) && (money <= 23701)) ||
-          ((nbChild === 3) && (age < 3) && (money <= 26647)) ||
-          ((nbChild === 4) && (age < 3) && (money <= 29593))
-        ) {
-          cmgArray.push(val.palier6) // 468.82
+        if (val.ageEnfant1 <= age && age <= val.ageEnfant2) {
+          switch (nbChild) {
+            case 1:  // 1 enfant entre 3 et 6 ans
+              if (money > val.revenusE) {
+                cmgArray.push(val.cmgPalier1) // 88.68
+              }
+              else if (val.revenusA <= money && money <= val.revenusE) {
+                cmgArray.push(val.cmgPalier2) // 147.83
+              }
+              else {
+                cmgArray.push(val.cmgPalier4) // 234.41
+              }
+            case 2: // 2 enfant entre 3 et 6 ans
+              if (money > val.revenusF) {
+                cmgArray.push(val.cmgPalier1) // 88.68
+              }
+              else if (val.revenusB <= money && money <= val.revenusF) {
+                cmgArray.push(val.cmgPalier2) // 147.83
+              }
+              else {
+                cmgArray.push(val.cmgPalier4) // 234.41
+              }
+            case 3: // 3 enfant entre 3 et 6 ans
+              if (money > val.revenusG) {
+                cmgArray.push(val.cmgPalier1) // 88.68
+              }
+              else if (val.revenusC <= money && money <= val.revenusG) {
+                cmgArray.push(val.cmgPalier2) // 147.83
+              }
+              else {
+                cmgArray.push(val.cmgPalier4) // 234.41
+              }
+            case 4: // 4 enfant entre 3 et 6 ans
+              if (money > val.revenusH) {
+                cmgArray.push(val.cmgPalier1) // 88.68
+              }
+              else if (val.revenusD <= money && money <= val.revenusH) {
+                cmgArray.push(val.cmgPalier2) // 147.83
+              }
+              else {
+                cmgArray.push(val.cmgPalier4) // 234.41
+              }
+          }
+        } else {
+          switch (nbChild) {
+            case 1: // 1 enfant de moins de 3 ans
+              if (money > val.revenusE) {
+                cmgArray.push(val.cmgPalier3) // 177.35
+              }
+              else if (val.revenusA <= money && money <= val.revenusE) {
+                cmgArray.push(val.cmgPalier5) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgPalier6) // 468.82
+              }
+            case 2: // 2 enfant de moins de 3 ans
+              if (money > val.revenusF) {
+                cmgArray.push(val.cmgPalier3) // 177.35
+              }
+              else if (val.revenusB <= money && money <= val.revenusF) {
+                cmgArray.push(val.cmgPalier5) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgPalier6) // 468.82
+              }
+            case 3: // 3 enfant de moins de 3 ans
+              if (money > val.revenusG) {
+                cmgArray.push(val.cmgPalier3) // 177.35
+              }
+              else if (val.revenusC <= money && money <= val.revenusG) {
+                cmgArray.push(val.cmgPalier5) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgPalier6) // 468.82
+              }
+            case 4: // 4 enfant de moins de 3 ans
+              if (money > val.revenusH) {
+                cmgArray.push(val.cmgPalier3) // 177.35
+              }
+              else if (val.revenusD <= money && money <= val.revenusH) {
+                cmgArray.push(val.cmgPalier5) // 295.62
+              }
+              else {
+                cmgArray.push(val.cmgPalier6) // 468.82
+              }
+          }
         }
+
         if (isIsole == false) {
           cmg = cmgArray[0]
-          
+
         } else {
-          cmg = cmgArray[0] + cmgArray[0] * val.tauxParentsIsole * 0.01 
+          cmg = cmgArray[0] + cmgArray[0] * val.tauxParentsIsole * 0.01
         }
       })
 
@@ -321,70 +367,68 @@ app.post('/api/calculscharges', function (req, res) {
             else {
               aidesPaje = Math.min((chargesPatronalesFamilleA + chargesSalarialesFamilleA) * req.body.repartitionFamille * val.tauxDeParticipationCotisationsSociales, val.plafondParticipationCotisation36)
             }
-                        
+
 
             deductionForfaitaireChargesSociales = Math.ceil(Math.min((heuresMensuelles * 0.9 + heuresMensuellesMajorees) * val.abattementParHeure, chargesPatronalesSS * req.body.repartitionFamille))
-            
+
             montantAPayer = coutPatronalFamilleA - deductionForfaitaireChargesSociales - aidesPaje - cmg
-            
-            
-            
+
+
+
 
             if (req.body.premiereAnneeEmploiDomicile) {
               if (req.body.gardeAlternee) {
-                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer-primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
                 )
               } else {
-                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges , val.maxCreditImpot), (montantAPayer-primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
                 )
 
 
               }
-              
+
 
             } else {
               if (req.body.gardeAlternee) {
-                creditImpotAnnuelFamilleA = Math.min( Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer-primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                creditImpotAnnuelFamilleA = Math.min(Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
                 )
               } else {
-                creditImpotAnnuelFamilleA = Math.min( Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges , val.maxCreditImpot), (montantAPayer-primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
+                creditImpotAnnuelFamilleA = Math.min(Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
                 )
-            }}
+              }
+            }
 
-            
-            creditImpotMensuelFamilleA = creditImpotAnnuelFamilleA/12
-            
-            
+
+            creditImpotMensuelFamilleA = creditImpotAnnuelFamilleA / 12
+
+
 
           })
 
-          
+
           res.send({
-                chargesPatronalesFamilleA,
-                chargesSalarialesFamilleA ,
-                chargesPatronalesSS,                 
-                netMensuelFamilleA,
-                coutPatronalFamilleA,
-                cmg,
-                primePanierRepas,
-                remboursementMensuelTransport,
-                creditImpotAnnuelFamilleA,
-                creditImpotMensuelFamilleA,
-                netMensuelTotal,
-                netHoraire,
-                brutAnnuelTotalFamille,
-                netAnnuelTotalFamille,
-                netMensuelAvantageFamilleA , 
-                montantAPayer,
-                deductionForfaitaireChargesSociales,
-                aidesPaje
-      
-      
-              })
+            chargesPatronalesFamilleA,
+            chargesSalarialesFamilleA,
+            chargesPatronalesSS,
+            netMensuelFamilleA,
+            coutPatronalFamilleA,
+            cmg,
+            primePanierRepas,
+            remboursementMensuelTransport,
+            creditImpotAnnuelFamilleA,
+            creditImpotMensuelFamilleA,
+            netMensuelTotal,
+            netHoraire,
+            brutAnnuelTotalFamille,
+            netAnnuelTotalFamille,
+            netMensuelAvantageFamilleA,
+            montantAPayer,
+            deductionForfaitaireChargesSociales,
+            aidesPaje
+
+
+          })
         })
-        
-        
-        
 
       // ________________________________ AIDES PAJE___________________________________
 
