@@ -30,6 +30,9 @@ const FamilyForm = () => {
   const [count, setCount] = useState(1)
   const [count2, setCount2] = useState(1)
 
+  //state qui permet d'afficher les enfants sur le calendrier
+  const [child1, setChild1] = useState([])
+
   //store the data in local storage
   useEffect( () => {
     window.localStorage.setItem('answers1', answers1)
@@ -37,7 +40,9 @@ const FamilyForm = () => {
     window.localStorage.setItem('answers3', answers3)
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
-  }, [answers1, answers2, answers3, myChild, notMyChild]) //callback run if only the answers change
+    window.localStorage.setItem('items', JSON.stringify([]) )
+    window.localStorage.setItem('child1', JSON.stringify(child1) )
+  }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
     
   // 1. stocke la nouvelle valeur de l'input dans la state myChild
   // 2. réinitialise firstname à vide
@@ -74,6 +79,12 @@ const FamilyForm = () => {
     setAnswers2(0);
     setCount(1);
     setCount2(1)
+    setChild1([])
+    window.localStorage.getItem('child1', JSON.stringify([]) )
+
+    
+
+
    }
 
   // réinitialise les states quand on clique sur le deuxième input
@@ -82,6 +93,12 @@ const FamilyForm = () => {
     setNotMyChild([]);
     setCount(1);
     setCount2(1)
+    setChild1([])
+    window.localStorage.setItem('child1', JSON.stringify([]) )
+   }
+
+   const boumplanning = () => {
+     document.getElementsByClassName('family')
    }
 
   return (
@@ -203,9 +220,12 @@ const FamilyForm = () => {
 
          {/* enfants en garde partagée : calendrier apparait  */} 
         {count === answers1 + 1 && count2 === 1 && answers3 === 'oui' ? 
-        <FamilyAgenda/> : ''}
+        <FamilyAgenda/>  : ''}
 
       <Link to='/'><p className="simFormReturn">Retour aux simulateurs</p></Link>
+      </div>
+      <div>
+        
       </div>
     </div>
   )

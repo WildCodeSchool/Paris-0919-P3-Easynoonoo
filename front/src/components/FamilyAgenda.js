@@ -20,7 +20,9 @@ let mouse = {
 	startX: 0,
 	startY: 0
 };
-let item = []
+let item = [];
+
+
 
 export default class FamilyAgenda extends React.Component {
 
@@ -99,6 +101,21 @@ export default class FamilyAgenda extends React.Component {
 			return null
 		}
 	}
+
+	validateChild = () => {
+		
+		let items = JSON.parse(localStorage.getItem('items'));
+		let child1 = items;
+		localStorage.setItem('child1', JSON.stringify(child1));
+		localStorage.setItem('items', JSON.stringify([]));
+		console.log(child1)
+		
+
+	}
+
+
+
+
 
 	/* -------- Start Selection on click -------- */
 
@@ -232,7 +249,9 @@ export default class FamilyAgenda extends React.Component {
 
 	getSelect =() => {
         let yScroll = window.scrollY;
-        let slot = JSON.parse(localStorage.getItem('items'));
+		let slot = JSON.parse(localStorage.getItem('items'))
+		//CHAMP DE BATAILLE 
+		let slot2 = JSON.parse(localStorage.getItem('child1'))
         console.log(slot)
 		if (slot != null) {
 			slot.map((slot, index) => {
@@ -245,11 +264,26 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.backgroundColor = '#ccccff'
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left + 'px';
+				element2.style.left = horiz.left + 12 +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
-		}
+		} if (slot2 != null) {
+			slot2.map((slot, index) => {
+                let first = document.getElementById(slot.start)
+				let last = document.getElementById(slot.end)
+				let horiz = first.getBoundingClientRect();
+				let vert = last.getBoundingClientRect();
+				element2 = document.createElement('div');
+				element2.className = 'slot';
+				element2.style.backgroundColor = 'black'
+				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+				element2.style.height = vert.bottom - horiz.top + 'px'
+				element2.style.left = horiz.left +  'px';
+				element2.style.top = horiz.top + yScroll + 'px';
+                document.body.appendChild(element2)
+			})
+		} 
 		else {
 			return null
 		}
@@ -440,6 +474,7 @@ export default class FamilyAgenda extends React.Component {
 				</tbody>
 			</table> 
 			<input type="button" value="validate selection" onClick={()=>this.validateSelect()} className='validateSelectionAgenda'></input>
+			<input type="button" value="add child" onClick={()=>this.validateChild()} className='validateSelectionAgenda'></input>
 		</div >
 	)
 }
