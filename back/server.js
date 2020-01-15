@@ -31,18 +31,19 @@ mongoose
 app.post('/api/calculscharges', function (req, res) {
 
   /*--------------CALCUL SALAIRE BRUT-------------*/
-  const tauxHeuresSupp = 1.25
+  const tauxHeuresSupp = 1.25 // val.tauxHeuresSupp
   const heuresMensuelles = Math.ceil(
     req.body.heuresHebdo * (52 / 12),
   )
   const heuresMensuellesMajorees = Math.ceil(
     req.body.heuresSup * (52 / 12),
   )
-  let salaireBrutMensuel =
-    heuresMensuelles * req.body.tauxHoraire +
-    heuresMensuellesMajorees *
-    req.body.tauxHoraire *
-    tauxHeuresSupp
+
+  const salaireBrutMensuel = () => {
+    salaireBrutMensuel = heuresMensuelles * req.body.tauxHoraire + heuresMensuellesMajorees * req.body.tauxHoraire * tauxHeuresSupp
+  }
+
+
   brutMensuelFamilleA = req.body.repartitionFamille * salaireBrutMensuel
   brutMensuelFamilleB = (1 - req.body.repartitionFamille) * salaireBrutMensuel
 
@@ -75,7 +76,6 @@ app.post('/api/calculscharges', function (req, res) {
   let brutAnnuelTotalFamille
   let netAnnuelFamille
   let chargesTotal
-
   let netMensuelAvantageFamilleA
   let montantAPayer
   let deductionForfaitaireChargesSociales
@@ -342,10 +342,10 @@ app.post('/api/calculscharges', function (req, res) {
         }
 
         if (req.body.enfantPlusJeune < 3) {
-          cmg = Math.min(cmgArray[0] , (netMensuelFamilleA * 0.85))
+          cmg = Math.min(cmgArray[0], (netMensuelFamilleA * 0.85))
 
         } else {
-          cmg = Math.min(cmgArray[0] / 2 , (netMensuelFamilleA * 0.85)) 
+          cmg = Math.min(cmgArray[0] / 2, (netMensuelFamilleA * 0.85))
         }
       })
 

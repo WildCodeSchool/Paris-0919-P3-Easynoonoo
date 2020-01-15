@@ -92,6 +92,10 @@ const chargesEmployes = new mongoose.Schema(
             min:1,
             max:20,
         },
+        tauxHeuresSupp:
+        {
+            type: Number,
+        },
         dateDebutAnnee:
         {
             type: Number,
