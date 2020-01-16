@@ -37,7 +37,8 @@ export default class FamilyAgenda extends React.Component {
 		showWindow : false,
 		allChildren : [],
 		countMyChild : 0,
-		countNotMyChild : 0
+		countNotMyChild : 0,
+		arrayChildren : []
 	}
 
     /* -------- Define Mouse Position -------- */
@@ -107,38 +108,43 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
+	
+
 	addChild = () => {
 		
 		
 		let items = JSON.parse(localStorage.getItem('items'));
+		let items2 = JSON.parse(localStorage.getItem('items2'));
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let i = this.state.countMyChild;
 		let j = this.state.countNotMyChild;
 		let nameChild;
-		let arrayChildren = [];
-		let items2;
+		let arrayChildren = this.state.arrayChildren
+		
 		let items3;
-		
 
 		
-
+		
 		if(i <= myChild.length) {
 			if(items.length > 0) {
 				nameChild = myChild[i];
-				items2 = {...items};
-				items3 = items;
-				items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1};
-				console.log(items2)
-				console.log(items3)
-				console.log(items)
-				
-				arrayChildren.push(items);
-				
-				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
-				
+				//items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1};
+				console.log('before loop', items)
+				for(let k = 0; k < items.length; k++)		 {
+					arrayChildren.push(items[k])
+				}
+				for(let k = 0; k < items.length; k++)		 {
+					items2.push(items[k])
+				}							
+					
+				arrayChildren.push({name : nameChild} );		
+				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
+				localStorage.setItem('items2', JSON.stringify(items2));				
 				i ++;
 				this.setState({countMyChild : i})
+
+				
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			}
@@ -162,16 +168,6 @@ export default class FamilyAgenda extends React.Component {
 		}
 
 		
-		
-		
-
-		
-		
-		
-
-		
-
-
 	}
 
 
@@ -312,10 +308,14 @@ export default class FamilyAgenda extends React.Component {
         let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
-		let slot2 = JSON.parse(localStorage.getItem('allChildren'))
+		let slot2 = JSON.parse(localStorage.getItem('items2'))
+		console.log('ici map incoming', slot2)
+		
         
 		if (slot != null) {
 			slot.map((slot, index) => {
+				console.log('slot staruto', slot.start)
+		 		 console.log('slot endo', slot.end)
                 let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
@@ -329,22 +329,23 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
-		 } if (slot2 != null) {
-		 	slot2.map((slot, index) => {
-				 console.log('slot name', slot.name)
-                 let first = document.getElementById(slot.start)
-		 		let last = document.getElementById(slot.end)
-		 		let horiz = first.getBoundingClientRect();
-		 		let vert = last.getBoundingClientRect();
-		 		element2 = document.createElement('div');
-		 		element2.className = 'slot';
-		 		element2.style.backgroundColor = '#ccccff'
-		 		element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-		 		element2.style.height = vert.bottom - horiz.top + 'px'
-		 		element2.style.left = horiz.left + 12 +'px';
-		 		element2.style.top = horiz.top + yScroll + 'px';
-                 document.body.appendChild(element2)
-		 	})
+		} if (slot2 != null) {
+			slot2.map((slot, index) => {
+				
+				
+                let first = document.getElementById(slot.start)
+				let last = document.getElementById(slot.end)
+				let horiz = first.getBoundingClientRect();
+				let vert = last.getBoundingClientRect();
+				element2 = document.createElement('div');
+				element2.className = 'slot';
+				element2.style.backgroundColor = 'black'
+				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+				element2.style.height = vert.bottom - horiz.top + 'px'
+				element2.style.left = horiz.left + 12 +'px';
+				element2.style.top = horiz.top + yScroll + 'px';
+                document.body.appendChild(element2)
+			})
 		 
 		
 		} else {

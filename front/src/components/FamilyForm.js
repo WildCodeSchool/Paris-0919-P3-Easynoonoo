@@ -42,6 +42,7 @@ const FamilyForm = () => {
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]) )
+    window.localStorage.setItem('items2', JSON.stringify([]) )
     window.localStorage.setItem('allChildren', JSON.stringify([]) )
     window.localStorage.setItem('child1', JSON.stringify(child1) )
   }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
