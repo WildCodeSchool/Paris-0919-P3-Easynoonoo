@@ -35,7 +35,7 @@ export default class FamilyAgenda extends React.Component {
 		width:  0,
 		height: 0,
 		showWindow : false,
-		allChildren : [{}] ,
+		allChildren : [],
 		countMyChild : 0,
 		countNotMyChild : 0
 	}
@@ -92,10 +92,12 @@ export default class FamilyAgenda extends React.Component {
 			let items = JSON.parse(localStorage.getItem('items'));
 			if (items === null) {
 				items = [{start : this.state.items[0], end : this.state.items[1]}]
+				
 			}
 			else {
 				items.push({start : this.state.items[0], end : this.state.items[1]});
 			}
+			console.log('allo',items);
 			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items));
 			this.setState({items : []})
@@ -115,31 +117,55 @@ export default class FamilyAgenda extends React.Component {
 		let j = this.state.countNotMyChild;
 		let nameChild;
 		let arrayChildren = [];
-		console.log(this.state.countMyChild);
+		let items2;
+		let items3;
+		
 
 		
 
 		if(i <= myChild.length) {
 			if(items.length > 0) {
 				nameChild = myChild[i];
-				items = [{... items, name : nameChild, color : 'red', ownChild : true, id : i + 1}];
+				items2 = {...items};
+				items3 = items;
+				items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1};
+				console.log(items2)
+				console.log(items3)
+				console.log(items)
+				
 				arrayChildren.push(items);
-				console.log(arrayChildren);
-				this.setState({allChildren: arrayChildren});
-				console.log('double oui');
+				
+				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
+				
 				i ++;
+				this.setState({countMyChild : i})
 			} else {
-				console.log('joj')
+				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			}
 		} else {
-			console.log('jaj')
+			if(j <= notMyChild.length) {
+				if(items.length > 0) {
+					nameChild = notMyChild[j];
+					items = [{... items, name : nameChild, color : 'black', ownChild : false, id : i + 1}];
+					arrayChildren.push(items);
+					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
+					i ++;
+					j++
+				} else {
+					alert('Pas de plages horaires sélectionnées pour cet enfant')
+				}
+
+
+			} else {
+				alert("Il n'y a plus d'enfant à rajouter")
+			}
 		}
 
-		console.log(this.state.countMyChild)
+		
 		
 		
 
-		localStorage.setItem('allChildren', JSON.stringify(this.state.allChildren));
+		
 		
 		
 
@@ -286,7 +312,7 @@ export default class FamilyAgenda extends React.Component {
         let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
-		// let slot2 = JSON.parse(localStorage.getItem('allChildren'))
+		let slot2 = JSON.parse(localStorage.getItem('allChildren'))
         
 		if (slot != null) {
 			slot.map((slot, index) => {
@@ -303,24 +329,25 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
-		// } if (slot2 != null) {
-		// 	slot2.map((slot, index) => {
-        //         let first = document.getElementById(slot.start)
-		// 		let last = document.getElementById(slot.end)
-		// 		let horiz = first.getBoundingClientRect();
-		// 		let vert = last.getBoundingClientRect();
-		// 		element2 = document.createElement('div');
-		// 		element2.className = 'slot';
-		// 		element2.style.backgroundColor = '#ccccff'
-		// 		element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-		// 		element2.style.height = vert.bottom - horiz.top + 'px'
-		// 		element2.style.left = horiz.left + 12 +'px';
-		// 		element2.style.top = horiz.top + yScroll + 'px';
-        //         document.body.appendChild(element2)
-		// 	})
-		// } 
+		 } if (slot2 != null) {
+		 	slot2.map((slot, index) => {
+				 console.log('slot name', slot.name)
+                 let first = document.getElementById(slot.start)
+		 		let last = document.getElementById(slot.end)
+		 		let horiz = first.getBoundingClientRect();
+		 		let vert = last.getBoundingClientRect();
+		 		element2 = document.createElement('div');
+		 		element2.className = 'slot';
+		 		element2.style.backgroundColor = '#ccccff'
+		 		element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+		 		element2.style.height = vert.bottom - horiz.top + 'px'
+		 		element2.style.left = horiz.left + 12 +'px';
+		 		element2.style.top = horiz.top + yScroll + 'px';
+                 document.body.appendChild(element2)
+		 	})
+		 
 		
-		}else {
+		} else {
 			return null
 		}
 	}
@@ -365,7 +392,7 @@ export default class FamilyAgenda extends React.Component {
             weekIndex : this.state.weekIndex-1,
 			items : []
         });
-        console.log(this.state.weekIndex)
+        //console.log(this.state.weekIndex)
 		this.removeRectangle()
 	}
 

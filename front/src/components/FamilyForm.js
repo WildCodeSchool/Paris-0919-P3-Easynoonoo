@@ -12,6 +12,7 @@ const FamilyForm = () => {
   const initialAnswer1 = () => Number(window.localStorage.getItem('answers1')) || 0
   const initialAnswer2 = () => Number(window.localStorage.getItem('answers2')) || 0
   const initialAnswer3 = () => window.localStorage.getItem('answers3')
+  
 
   // state en hook pour les réponses
   const [answers1, setAnswers1] = useState(initialAnswer1)
@@ -41,6 +42,7 @@ const FamilyForm = () => {
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]) )
+    window.localStorage.setItem('allChildren', JSON.stringify([]) )
     window.localStorage.setItem('child1', JSON.stringify(child1) )
   }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
     
