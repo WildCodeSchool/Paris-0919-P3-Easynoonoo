@@ -35,7 +35,9 @@ export default class FamilyAgenda extends React.Component {
 		width:  0,
 		height: 0,
 		showWindow : false,
-		allChildren : [{}] 
+		allChildren : [{}] ,
+		countMyChild : 0,
+		countNotMyChild : 0
 	}
 
     /* -------- Define Mouse Position -------- */
@@ -103,41 +105,45 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	validateChild = () => {
+	addChild = () => {
+		
 		
 		let items = JSON.parse(localStorage.getItem('items'));
-		//let child1 = items;
-		//localStorage.setItem('child1', JSON.stringify({...child1}));
-		localStorage.setItem('items', JSON.stringify([]));
-		//console.log(child1)
-
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
-		myChild.map(nom => {
-			
-			for (let i = 0; i < myChild.length; i++) {
-				items = [{...items, nomChild : myChild[i]}]
-				 
-				console.log(items)
-			}
-		}
-			
-		)
+		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
+		let i = this.state.countMyChild;
+		let j = this.state.countNotMyChild;
+		let nameChild;
+		let arrayChildren = [];
+		console.log(this.state.countMyChild);
 
-		if (this.state.items.length > 0) {
-			let items = JSON.parse(localStorage.getItem('items'));
-			if (items === null) {
-				items = [{start : this.state.items[0], end : this.state.items[1]}]
+		
+
+		if(i <= myChild.length) {
+			if(items.length > 0) {
+				nameChild = myChild[i];
+				items = [{... items, name : nameChild, color : 'red', ownChild : true, id : i + 1}];
+				arrayChildren.push(items);
+				console.log(arrayChildren);
+				this.setState({allChildren: arrayChildren});
+				console.log('double oui');
+				i ++;
+			} else {
+				console.log('joj')
 			}
-			else {
-				items.push({start : this.state.items[0], end : this.state.items[1]});
-			}
-			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
-			localStorage.setItem('items', JSON.stringify(items));
-			this.setState({items : []})
+		} else {
+			console.log('jaj')
 		}
-		else {
-			return null
-		}
+
+		console.log(this.state.countMyChild)
+		
+		
+
+		localStorage.setItem('allChildren', JSON.stringify(this.state.allChildren));
+		
+		
+
+		
 
 
 	}
@@ -280,8 +286,8 @@ export default class FamilyAgenda extends React.Component {
         let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
-		let slot2 = JSON.parse(localStorage.getItem('allChildren'))
-        console.log(slot)
+		// let slot2 = JSON.parse(localStorage.getItem('allChildren'))
+        
 		if (slot != null) {
 			slot.map((slot, index) => {
                 let first = document.getElementById(slot.start)
@@ -297,24 +303,24 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
-		} if (slot2 != null) {
-			slot2.map((slot, index) => {
-                let first = document.getElementById(slot.start)
-				let last = document.getElementById(slot.end)
-				let horiz = first.getBoundingClientRect();
-				let vert = last.getBoundingClientRect();
-				element2 = document.createElement('div');
-				element2.className = 'slot';
-				element2.style.backgroundColor = '#ccccff'
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left + 12 +'px';
-				element2.style.top = horiz.top + yScroll + 'px';
-                document.body.appendChild(element2)
-			})
-		} 
+		// } if (slot2 != null) {
+		// 	slot2.map((slot, index) => {
+        //         let first = document.getElementById(slot.start)
+		// 		let last = document.getElementById(slot.end)
+		// 		let horiz = first.getBoundingClientRect();
+		// 		let vert = last.getBoundingClientRect();
+		// 		element2 = document.createElement('div');
+		// 		element2.className = 'slot';
+		// 		element2.style.backgroundColor = '#ccccff'
+		// 		element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+		// 		element2.style.height = vert.bottom - horiz.top + 'px'
+		// 		element2.style.left = horiz.left + 12 +'px';
+		// 		element2.style.top = horiz.top + yScroll + 'px';
+        //         document.body.appendChild(element2)
+		// 	})
+		// } 
 		
-		else {
+		}else {
 			return null
 		}
 	}
@@ -508,7 +514,7 @@ export default class FamilyAgenda extends React.Component {
 				</tbody>
 			</table> 
 			<input type="button" value="validate selection" onClick={()=>this.validateSelect()} className='validateSelectionAgenda'></input>
-			<input type="button" value="add child" onClick={()=>this.validateChild()} className='validateSelectionAgenda'></input>
+			<input type="button" value="add child" onClick={()=>this.addChild()} className='validateSelectionAgenda'></input>
 		</div >
 	)
 }
