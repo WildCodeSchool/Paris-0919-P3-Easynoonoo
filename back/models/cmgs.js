@@ -14,6 +14,18 @@ const cmg = new mongoose.Schema(
     {
       type: Number,
     },
+    cmgCouplePalier4:
+    {
+      type: Number,
+    },
+    cmgCouplePalier5:
+    {
+      type: Number,
+    },
+    cmgCouplePalier6:
+    {
+      type: Number,
+    },
     cmgParentIsolePalier1:
     {
       type: Number,
@@ -23,6 +35,18 @@ const cmg = new mongoose.Schema(
       type: Number,
     },
     cmgParentIsolePalier3:
+    {
+      type: Number,
+    },
+    cmgParentIsolePalier4:
+    {
+      type: Number,
+    },
+    cmgParentIsolePalier5:
+    {
+      type: Number,
+    },
+    cmgParentIsolePalier6:
     {
       type: Number,
     },
