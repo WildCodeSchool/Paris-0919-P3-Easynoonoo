@@ -189,8 +189,6 @@ app.post('/api/calculscharges', function (req, res) {
           )
         }
 
-
-
         chargesPatronalesFamilleA =
           Math.round(salaireBrutMensuel * req.body.repartitionFamille * 0.01 * (
             val.maladieMaterniteInvaliditeDeces +
@@ -326,11 +324,7 @@ app.post('/api/calculscharges', function (req, res) {
               } else {
                 creditImpotAnnuelFamilleA = Math.min(val.majorationPremiereAnneeEmploiADomicile + Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
                 )
-
-
               }
-
-
             } else {
               if (req.body.gardeAlternee) {
                 creditImpotAnnuelFamilleA = Math.min(Math.min(val.plafondCreditImpot + val.majorationParEnfantACharges * 0.5, val.maxCreditImpot), (montantAPayer - primePanierRepas + remboursementMensuelTransport) * 12 * val.tauxCreditImpot
@@ -340,15 +334,8 @@ app.post('/api/calculscharges', function (req, res) {
                 )
               }
             }
-
-
             creditImpotMensuelFamilleA = creditImpotAnnuelFamilleA / 12
-
-
-
           })
-
-
           res.send({
             chargesPatronalesFamilleA,
             chargesSalarialesFamilleA,
