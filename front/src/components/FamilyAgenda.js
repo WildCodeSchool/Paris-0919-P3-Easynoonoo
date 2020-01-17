@@ -38,7 +38,8 @@ export default class FamilyAgenda extends React.Component {
 		allChildren : [],
 		countMyChild : 0,
 		countNotMyChild : 0,
-		arrayChildren : []
+		arrayChildren : [],
+		arrayRandom : []
 	}
 
     /* -------- Define Mouse Position -------- */
@@ -121,26 +122,36 @@ export default class FamilyAgenda extends React.Component {
 		let j = this.state.countNotMyChild;
 		let nameChild;
 		let arrayChildren = this.state.arrayChildren
+		let arrayRandom = []
 		
 		let items3;
 
 		
 		
-		if(i <= myChild.length) {
+		if(i < myChild.length) {
 			if(items.length > 0) {
 				nameChild = myChild[i];
-				//items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1};
-				console.log('before loop', items)
-				for(let k = 0; k < items.length; k++)		 {
-					arrayChildren.push(items[k])
-				}
+				//items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1}			
+				// for(let k = 0; k < items.length; k++)		 {
+				// 	arrayRandom.push(items[k])
+				// }
+				arrayChildren.push(arrayRandom)
 				for(let k = 0; k < items.length; k++)		 {
 					items2.push(items[k])
-				}							
-					
-				arrayChildren.push({name : nameChild} );		
-				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
-				localStorage.setItem('items2', JSON.stringify(items2));				
+
+				}	
+				arrayRandom.push(items2, {name : nameChild}, {color : 'red'}, {ownChild : true}, {id : i + 1} )
+				// arrayRandom.push( {name : nameChild})
+				// arrayRandom.push( {color : 'red'})
+				// arrayRandom.push( {ownChild : true})
+				// arrayRandom.push( {id : i + 1})
+				
+
+								
+										
+				localStorage.setItem('allChildren', JSON.stringify(arrayRandom));	
+				localStorage.setItem('items2', JSON.stringify(items2));	
+				localStorage.setItem('items', JSON.stringify([]));				
 				i ++;
 				this.setState({countMyChild : i})
 
@@ -149,14 +160,35 @@ export default class FamilyAgenda extends React.Component {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			}
 		} else {
-			if(j <= notMyChild.length) {
+			if(j < notMyChild.length) {
 				if(items.length > 0) {
 					nameChild = notMyChild[j];
-					items = [{... items, name : nameChild, color : 'black', ownChild : false, id : i + 1}];
-					arrayChildren.push(items);
-					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
+
+					// for(let k = 0; k < items.length; k++)		 {
+					// 	arrayRandom.push(items[k])
+					// }
+					arrayRandom.push(items)
+					arrayRandom.push( {name : nameChild})
+					arrayRandom.push( {color : 'black'})
+					arrayRandom.push( {ownChild : false})
+					arrayRandom.push( {id : i + 1})
+					arrayChildren.push(arrayRandom)
+					for(let k = 0; k < items.length; k++)		 {
+						items2.push(items[k])
+					}							
+											
+					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
+					localStorage.setItem('items2', JSON.stringify(items2));	
+					localStorage.setItem('items', JSON.stringify([]));				
 					i ++;
-					j++
+					j ++
+					this.setState({countMyChild : i})
+					this.setState({countNotMyChild : j})
+
+
+
+
+
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
@@ -310,12 +342,13 @@ export default class FamilyAgenda extends React.Component {
 		//CHAMP DE BATAILLE 
 		let slot2 = JSON.parse(localStorage.getItem('items2'))
 		console.log('ici map incoming', slot2)
+		let allChildren =JSON.parse(localStorage.getItem('allChildren'))
+		let i = this.state.countMyChild
 		
         
 		if (slot != null) {
 			slot.map((slot, index) => {
-				console.log('slot staruto', slot.start)
-		 		 console.log('slot endo', slot.end)
+				
                 let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
@@ -329,8 +362,34 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
+
+
 		} if (slot2 != null) {
 			slot2.map((slot, index) => {
+
+				// const inventaire = [
+				// 	{nom: 'pommes', quantité: 2},
+				// 	{nom: 'bananes', quantité: 0},
+				// 	{nom: 'cerises', quantité: 5}
+				//   ];
+				  
+				function findName(e) {
+					return e.id === i;
+				}
+				  
+				  //console.log(inventaire.find(estCerises));
+				  // { nom: 'cerises', quantité: 5}
+				
+				console.log('slot start',slot)
+				console.log('index start',allChildren[index])
+				
+				//console.log('allChildren start', allChildren[0][1])
+				//console.log('allChildren start 0', allChildren[0].find(findName))
+				//console.log('allChildren color', )
+				
+				console.log('i', i)
+				//let color = allChildren[index][2].color;
+
 				
 				
                 let first = document.getElementById(slot.start)
@@ -339,7 +398,7 @@ export default class FamilyAgenda extends React.Component {
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = 'black'
+				element2.style.backgroundColor = 'black';
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 12 +'px';
