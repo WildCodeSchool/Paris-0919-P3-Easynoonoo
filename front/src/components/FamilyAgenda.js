@@ -124,7 +124,7 @@ export default class FamilyAgenda extends React.Component {
 		let arrayChildren = this.state.arrayChildren
 		let arrayRandom = []
 		
-		let items3;
+		let items3 = items
 
 		
 		
@@ -135,20 +135,18 @@ export default class FamilyAgenda extends React.Component {
 				// for(let k = 0; k < items.length; k++)		 {
 				// 	arrayRandom.push(items[k])
 				// }
+				
+				
+				arrayRandom.push(items3)
+				arrayRandom.push( {name : nameChild})
+				
+				
+				arrayRandom.push( {ownChild : true})
+				arrayRandom.push( {id : i + 1})
 				arrayChildren.push(arrayRandom)
 				for(let k = 0; k < items.length; k++)		 {
 					items2.push(items[k])
-
-				}	
-				arrayRandom.push(items2, {name : nameChild}, {color : 'red'}, {ownChild : true}, {id : i + 1} )
-				// arrayRandom.push( {name : nameChild})
-				// arrayRandom.push( {color : 'red'})
-				// arrayRandom.push( {ownChild : true})
-				// arrayRandom.push( {id : i + 1})
-				
-
-								
-										
+				}																
 				localStorage.setItem('allChildren', JSON.stringify(arrayRandom));	
 				localStorage.setItem('items2', JSON.stringify(items2));	
 				localStorage.setItem('items', JSON.stringify([]));				
@@ -341,7 +339,7 @@ export default class FamilyAgenda extends React.Component {
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
 		let slot2 = JSON.parse(localStorage.getItem('items2'))
-		console.log('ici map incoming', slot2)
+		
 		let allChildren =JSON.parse(localStorage.getItem('allChildren'))
 		let i = this.state.countMyChild
 		
@@ -366,29 +364,25 @@ export default class FamilyAgenda extends React.Component {
 
 		} if (slot2 != null) {
 			slot2.map((slot, index) => {
-
-				// const inventaire = [
-				// 	{nom: 'pommes', quantité: 2},
-				// 	{nom: 'bananes', quantité: 0},
-				// 	{nom: 'cerises', quantité: 5}
-				//   ];
 				  
 				function findName(e) {
 					return e.id === i;
 				}
-				  
-				  //console.log(inventaire.find(estCerises));
-				  // { nom: 'cerises', quantité: 5}
+				allChildren.unshift( {color : 'red'})
+				localStorage.setItem('allChildren', JSON.stringify(allChildren));
+				localStorage.getItem('allChildren', JSON.stringify(allChildren));
 				
 				console.log('slot start',slot)
-				console.log('index start',allChildren[index])
+				console.log('index ', allChildren[index][0])
+				console.log('index 2', allChildren[index][2])
 				
 				//console.log('allChildren start', allChildren[0][1])
 				//console.log('allChildren start 0', allChildren[0].find(findName))
 				//console.log('allChildren color', )
+				console.log(index)
 				
 				console.log('i', i)
-				//let color = allChildren[index][2].color;
+				
 
 				
 				
