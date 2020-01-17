@@ -36,10 +36,17 @@ export default class FamilyAgenda extends React.Component {
 		height: 0,
 		showWindow : false,
 		allChildren : [],
+		nameChild : [],
+		nameChildOthers : [],
 		countMyChild : 0,
 		countNotMyChild : 0,
-		arrayChildren : []
+		arrayChildren : [],
+		showMyChildName : [],
+		showOthersChildName:[],
+		colorState : []
+
 	}
+	
 
     /* -------- Define Mouse Position -------- */
 
@@ -108,8 +115,6 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	
-
 	addChild = () => {
 		
 		
@@ -119,44 +124,73 @@ export default class FamilyAgenda extends React.Component {
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let i = this.state.countMyChild;
 		let j = this.state.countNotMyChild;
-		let nameChild;
+		let nameChild = this.state.nameChild;
+		let nameChildOthers = this.state.nameChildOthers;
+		let childColor = Math.floor(Math.random() * 16777215).toString(16);
 		let arrayChildren = this.state.arrayChildren
-		
-		let items3;
+		let colorState = this.state.colorState
 
 		
 		
-		if(i <= myChild.length) {
+		
+		if(i < myChild.length) {
 			if(items.length > 0) {
-				nameChild = myChild[i];
-				//items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1};
-				console.log('before loop', items)
+				nameChild = [...nameChild,myChild[i]]
 				for(let k = 0; k < items.length; k++)		 {
 					arrayChildren.push(items[k])
-				}
-				for(let k = 0; k < items.length; k++)		 {
 					items2.push(items[k])
+					arrayChildren.push({color : '#' + childColor})
+					colorState.push(childColor)
+					arrayChildren.push({name : nameChild})
+					this.setState({color : childColor})
 				}							
 					
-				arrayChildren.push({name : nameChild} );		
+					
+				
+				
+				
+				
+				arrayChildren.push({ownChild : true, id : i+1});	
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
-				localStorage.setItem('items2', JSON.stringify(items2));				
+				localStorage.setItem('items2', JSON.stringify(items2));	
+				localStorage.setItem('items', JSON.stringify([]));			
 				i ++;
 				this.setState({countMyChild : i})
+				this.setState({showMyChildName :nameChild})
+				console.log(this.state.showMyChildName)
+				this.setState({nameChild :nameChild})
+				this.setState({colorState : colorState})
+				console.log('color1',colorState[colorState.length-1]);
+
+				
+				
 
 				
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			}
 		} else {
-			if(j <= notMyChild.length) {
+			if(j < notMyChild.length) {
 				if(items.length > 0) {
-					nameChild = notMyChild[j];
-					items = [{... items, name : nameChild, color : 'black', ownChild : false, id : i + 1}];
-					arrayChildren.push(items);
-					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
+					nameChildOthers = [...nameChildOthers,notMyChild[j]]
+					for(let k = 0; k < items.length; k++)		 {
+						arrayChildren.push(items[k])
+						arrayChildren.push({color : childColor});
+					}
+					for(let k = 0; k < items.length; k++)		 {
+						items2.push(items[k])
+					}							
+						
+					arrayChildren.push({name : nameChildOthers});
+					
+					arrayChildren.push({ownChild : false, id : i+1})			
+					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
+					localStorage.setItem('items2', JSON.stringify(items2));	
+					localStorage.setItem('items', JSON.stringify([]));
+					this.setState({showOthersChildName : nameChildOthers})
+					this.setState({nameChildOthers :nameChildOthers})
 					i ++;
-					j++
+					j++;
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
@@ -303,19 +337,17 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	/* -------- Create new Div from selection in local storage -------- */
-
+	
 	getSelect =() => {
         let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
 		let slot2 = JSON.parse(localStorage.getItem('items2'))
-		console.log('ici map incoming', slot2)
+		console.log(slot2)
 		
         
 		if (slot != null) {
 			slot.map((slot, index) => {
-				console.log('slot staruto', slot.start)
-		 		 console.log('slot endo', slot.end)
                 let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
@@ -330,18 +362,19 @@ export default class FamilyAgenda extends React.Component {
                 document.body.appendChild(element2)
 			})
 		} if (slot2 != null) {
-			slot2.map((slot, index) => {
-				
-				
+			
+			slot2.map((slot, index) => {				
                 let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = 'black'
+				element2.style.backgroundColor = '#' + this.state.colorState[this.state.colorState.length-1];
+				
+				// element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px'
+				element2.style.height = vert.bottom - horiz.top + 'px';
 				element2.style.left = horiz.left + 12 +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
@@ -423,8 +456,9 @@ export default class FamilyAgenda extends React.Component {
 		window.addEventListener("resize", this.updateDimensions);
 	}
 
-	componentDidUpdate = () => {
-
+	componentDidUpdate(){
+		
+		
 	}
 
     render() {
@@ -542,7 +576,9 @@ export default class FamilyAgenda extends React.Component {
 				</tbody>
 			</table> 
 			<input type="button" value="validate selection" onClick={()=>this.validateSelect()} className='validateSelectionAgenda'></input>
-			<input type="button" value="add child" onClick={()=>this.addChild()} className='validateSelectionAgenda'></input>
+			<input type="button" value="add child" onClick={()=>this.addChild()}className='validateSelectionAgenda'></input>
+			<div>"name Famille A" : {this.state.showMyChildName} color : #{this.state.colorState[this.state.colorState.length-1]} </div>
+			<div>"name Famille B" : {this.state.showOthersChildName} </div>
 		</div >
 	)
 }
