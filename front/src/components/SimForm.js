@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
 import './SimForm.css'
 
 const SimForm = () => {
@@ -69,11 +70,6 @@ const SimForm = () => {
     parentIsole,
     ressourcesAnnuelles,
   ]) //callback run only the answers change
-
-  // useEffect(() => {
-  //   handleQuestion9()
-  //   handleQuestion9True()
-  // }, [parentIsole])
 
   const handleQuestion9 = () => {
     if (
