@@ -127,6 +127,7 @@ export default class FamilyAgenda extends React.Component {
 		let nameChild = this.state.nameChild;
 		let nameChildOthers = this.state.nameChildOthers;
 		let childColor = Math.floor(Math.random() * 16777215).toString(16);
+		
 		let arrayChildren = this.state.arrayChildren
 		let colorState = this.state.colorState
 
@@ -144,12 +145,7 @@ export default class FamilyAgenda extends React.Component {
 					arrayChildren.push({name : nameChild})
 					this.setState({color : childColor})
 				}							
-					
-					
-				
-				
-				
-				
+
 				arrayChildren.push({ownChild : true, id : i+1});	
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));	
 				localStorage.setItem('items2', JSON.stringify(items2));	
@@ -188,7 +184,7 @@ export default class FamilyAgenda extends React.Component {
 					localStorage.setItem('items2', JSON.stringify(items2));	
 					localStorage.setItem('items', JSON.stringify([]));
 					this.setState({showOthersChildName : nameChildOthers})
-					this.setState({nameChildOthers :nameChildOthers})
+					this.setState({nameChildOthers :nameChildOthers})	
 					i ++;
 					j++;
 				} else {
@@ -347,6 +343,7 @@ export default class FamilyAgenda extends React.Component {
 		
         
 		if (slot != null) {
+			console.log('slot1',slot)
 			slot.map((slot, index) => {
                 let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
@@ -362,6 +359,8 @@ export default class FamilyAgenda extends React.Component {
                 document.body.appendChild(element2)
 			})
 		} if (slot2 != null) {
+			console.log('slot2',slot2);
+			
 			
 			slot2.map((slot, index) => {				
                 let first = document.getElementById(slot.start)
@@ -375,7 +374,7 @@ export default class FamilyAgenda extends React.Component {
 				// element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px';
-				element2.style.left = horiz.left + 12 +'px';
+				element2.style.left = horiz.left +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
                 document.body.appendChild(element2)
 			})
