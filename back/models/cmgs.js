@@ -126,11 +126,11 @@ const cmg = new mongoose.Schema(
     {
       type: Number,
     },
-    dateDebutAnnee:
+    dateDebutAnneeCmg:
     {
         type: Number,
     },
-    dateFinAnnee:
+    dateFinAnneeCmg:
     {
         type: Number,
     },
