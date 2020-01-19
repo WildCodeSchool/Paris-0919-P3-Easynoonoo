@@ -78,7 +78,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -99,7 +99,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -120,7 +120,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -141,7 +141,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -166,7 +166,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -187,7 +187,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -208,7 +208,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -229,7 +229,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select>
+          <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
             </option>
@@ -248,15 +248,16 @@ const SimForm = () => {
   }
 
   return (
-    <div className="simFormParent">
+    <div className="container">
       <h2>Simulation de salaire</h2>
-      <div className="simForm">
-        <div className="simFormNumberInput">
+      <div class="form-group">
+        <div>
           <label>
-            1. Quel est le temps de travail effectif hebdomadaire de
+            Quel est le temps de travail effectif hebdomadaire de
             votre garde d'enfant(s) ?
           </label>
           <input
+            class="form-control"
             type="number"
             value={heuresHebdo}
             onChange={e =>
@@ -267,11 +268,12 @@ const SimForm = () => {
           />
         </div>
 
-        <div className="simFormNumberInput">
+        <div>
           <label for="region-select">
-            2. Dans quelle région habitez-vous ?
+            Dans quelle région habitez-vous ?
           </label>
           <select
+            class="form-control"
             name="region"
             id="region-select"
             onChange={e => setalsaceMoselle(e.target.value)}
@@ -287,10 +289,11 @@ const SimForm = () => {
 
         <div className="simFormNumberInput">
           <label>
-            3. Quel est le salaire brut horaire de votre garde
+            Quel est le salaire brut horaire de votre garde
             d'enfant(s) ?
           </label>
           <input
+            class="form-control"
             type="number"
             value={tauxHoraire}
             onChange={e =>
@@ -301,48 +304,53 @@ const SimForm = () => {
           />
         </div>
 
-        <p className="question4">4. La garde est-elle partagée ?</p>
-        <div className="radio">
-          <label>
-            <input
-              type="radio"
-              className="checked"
-              value="true"
-              checked={gardeAlternee == 'true'}
-              onChange={e => setgardeAlternee(e.target.value)}
-            />
-            Oui
-          </label>
-        </div>
+        <p>La garde est-elle partagée ?</p>
+        <div className="input-group">
+          <div className="radio">
+            <label class="input-group-text">
+              <input
+                type="radio"
+                className="checked"
+                value="true"
+                checked={gardeAlternee == 'true'}
+                onChange={e => setgardeAlternee(e.target.value)}
+              />
+              Oui
+            </label>
+          </div>
 
-        <div className="radio">
-          <label>
-            <input
-              type="radio"
-              className="checked"
-              value="false"
-              checked={gardeAlternee == 'false'}
-              onChange={e => setgardeAlternee(e.target.value)}
-            />
-            Non
-          </label>
+          <div className="radio">
+            <label class="input-group-text">
+              <input
+                type="radio"
+                className="checked"
+                value="false"
+                checked={gardeAlternee == 'false'}
+                onChange={e => setgardeAlternee(e.target.value)}
+              />
+              Non
+            </label>
+          </div>
         </div>
 
         {gardeAlternee == 'true' ? (
           <div className="simFormNumberInput">
             <label>
-              5. Quelle part du coût de la garde allez-vous supporter
-              (en %) ?
+              Quelle part du coût de la garde allez-vous supporter ?
             </label>
             <input
-              type="number"
+              type="range"
+              class="custom-range"
               value={repartitionFamille}
               onChange={e =>
                 setrepartitionFamille(parseInt(e.target.value))
               }
-              min="1"
+              min="0"
               max="100"
-            />
+              step="10"
+              id="customRange3"
+            ></input>
+            {repartitionFamille} %
           </div>
         ) : (
           ''
@@ -350,9 +358,10 @@ const SimForm = () => {
 
         <div className="simFormNumberInput">
           <label for="child-number">
-            6. Combien d'enfants avez-vous à charge ?
+            Combien d'enfants avez-vous à charge ?
           </label>
           <select
+            class="form-control"
             name="childs"
             id="child-select"
             onChange={e => setnbEnfants(e.target.value)}
@@ -367,10 +376,9 @@ const SimForm = () => {
         </div>
 
         <div className="simFormNumberInput">
-          <label>
-            7. Quel est l'âge du plus jeune enfant gardé ?
-          </label>
+          <label>Quel est l'âge du plus jeune enfant gardé ?</label>
           <input
+            class="form-control"
             type="number"
             value={enfantPlusJeune}
             onChange={e =>
@@ -381,39 +389,39 @@ const SimForm = () => {
           />
         </div>
 
-        <p className="question8">
-          8. Elevez-vous seul.e votre enfant ?
-        </p>
-        <div className="radio">
-          <label>
-            <input
-              type="radio"
-              className="checked"
-              value="true"
-              checked={parentIsole == 'true'}
-              onChange={e => setparentIsole(e.target.value)}
-            />
-            Oui
-          </label>
-        </div>
+        <p className="question8">Elevez-vous seul.e votre enfant ?</p>
+        <div className="input-group">
+          <div className="radio">
+            <label class="input-group-text">
+              <input
+                type="radio"
+                className="checked"
+                value="true"
+                checked={parentIsole == 'true'}
+                onChange={e => setparentIsole(e.target.value)}
+              />
+              Oui
+            </label>
+          </div>
 
-        <div className="radio">
-          <label>
-            <input
-              type="radio"
-              className="checked"
-              value="false"
-              checked={parentIsole == 'false'}
-              onChange={e => setparentIsole(e.target.value)}
-            />
-            Non
-          </label>
+          <div className="radio">
+            <label class="input-group-text">
+              <input
+                type="radio"
+                className="checked"
+                value="false"
+                checked={parentIsole == 'false'}
+                onChange={e => setparentIsole(e.target.value)}
+              />
+              Non
+            </label>
+          </div>
         </div>
 
         {parentIsole == 'true' ? (
           <div className="simFormNumberInput">
             <label for="salarySelect">
-              9. Quels sont vos revenus nets mensuels ?
+              Quels sont vos revenus nets mensuels ?
             </label>
             <div
               onChange={e => setressourcesAnnuelles(e.target.value)}
