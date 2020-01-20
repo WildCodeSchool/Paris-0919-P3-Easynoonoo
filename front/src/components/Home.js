@@ -20,39 +20,56 @@ const Home = () => {
             <article className='articleDescription'>
                 <div className='articleVision'>
                     <h2>Introduction</h2>
-                    <p>Vous souhaitez embauche ou vous embauchez une garde à domicile? Félicitations! Vous voilà promu DRH et à vous les responsabilités associés: paie, gestion des congés, déclarations URSSAF, etc...</p>
-                    <p>Easynoonoo est votre plateforme paie et RH dédiée à la gestion de votre garde à domicile. Elle vous libère de la complexité de cette gestion tout au long de la durée de votre contrat. </p>
-                    <p>Easynoonoo est le résultat de nombreuses frustrations et incompréhensions de leurs créateurs durant leur propre expérience dans l'emploi d'une garde à domicile. Nous avons tout mis à plat pour que vous puissiez sereinement et rapidement traiter ce sujet crucial, en vous évitant de potentiels problèmes légaux et/ou financiers par manque de temps ou de connaissance</p>
+                    <div id="carouselExampleIndicators" className="carousel slide articleDescription" data-ride="carousel">
+                        <ol className="carousel-indicators homeIndicatorsCarousel">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    
+                        </ol>
+                        <div className="carousel-inner b">
+                            <div className="carousel-item active" data-interval="10000">
+                                <p>
+                                    Vous souhaitez embaucher ou vous embauchez une garde à domicile ? Félicitations! Vous voilà promu DRH et à vous les responsabilités associés : paie, gestion des congés, déclarations URSSAF, etc...
+                                </p>
+                                 <p>
+                                    Easynoonoo est votre plateforme paie et RH dédiée à la gestion de votre garde à domicile. Elle vous libère de la complexité de cette gestion tout au long de la durée de votre contrat. 
+                                </p>
+                                <p>
+                                    Easynoonoo est le résultat de nombreuses frustrations et incompréhensions de leurs créateurs durant leur propre expérience dans l'emploi d'une garde à domicile. Nous avons tout mis à plat pour que vous puissiez sereinement et rapidement traiter ce sujet crucial, en vous évitant de potentiels problèmes légaux et/ou financiers par manque de temps ou de connaissance
+                                </p>
+                        
+                            </div>
+                            <div className="carousel-item" data-interval="10000">
+                                <p>Easynoonoo propose les services suivants:</p>
+                                <ul>
+                                    <li><a href="#simulateur">Simulateurs</a></li>
+                                    <li><a href="#contract">Contrat</a></li>
+                                    <li><a href="#pajemploi">Déclaration Pajemploi et fiche de paie</a></li>
+                                    <li><a href="#fincontrat">Fin de contrat</a></li>
+                                    <li><a href="#conge">Gestion des congés et absences</a> </li>
+                                    <li>Rappels</li>
+                                </ul>
+                                <p>Easynoonoo est l'outil pour retrouver de la sérénité dans la gestion, vous éviter des tracas administratifs et soulager (un peu) votre charge mentale.</p>
+                            </div>
+    
+                        </div>
+                
+                    </div>
                 </div>
 
-                {/* <div className='testhover'><p>hello</p></div> */}
+                
 
                 <div className='articleMission'>
                     <div className='logo'>
                     <img className='placeholderLogo' src={logo} alt='placeholder for easynoonoo logo'></img>
                     </div> 
                 </div>
-
-                <div>
-                    <p>Easynoonoo propose les services suivants:</p>
-                    <ul>
-                        <li>Simulateurs</li>
-                        <li>Contrat</li>
-                        <li>Déclaration Pajemploi et fiche de paie</li>
-                        <li>Fin de contrat</li>
-                        <li>Gestion des congés et absences </li>
-                        <li>Rappels</li>
-                    </ul>
-                    <p>Easynoonoo est l'outil pour retrouver de la sérénité dans la gestion, vous éviter des tracas administratifs et soulager (un peu) votre charge mentale.</p>
-                    
-                </div>
-
-
+                
             </article>
 
             {/* SIMULATEUR */}
 
-            <h2 className ='h2Simulateur'>Simulateurs</h2>
+            <h2 id='simulateur' className ='h2Simulateur'>Simulateurs</h2>
             <p>Easynoonoo propose deux outils en accès gratuits:</p>
 
             <div className='simulateur'>   
@@ -78,7 +95,7 @@ const Home = () => {
 
             <div className='screen' id='screen2Bg'>
                 <div className='desc' id='descColor'>
-                    <h3 id='h3Color'> Contrat.</h3>
+                    <h3 id='contract'> Contrat.</h3>
                     <p>
                     Créer son contrat de garde à domicile devient très simple avec Easynoonoo. Nous vous proposons un parcours de questions pour définir un contrat clair et intelligible, fait sur mesure. Après validation de votre contrat, il est prêt à être signé par les parties et votre espace de gestion est automatiquement paramétré.
                     </p>
@@ -91,7 +108,7 @@ const Home = () => {
             </div> 
 
 
-            <div className='screen'>
+            <div id='pajemploi' className='screen'>
                 <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                 </img>
                 <div className='desc'>
@@ -112,7 +129,7 @@ const Home = () => {
 
             <div className='screen' id='screen2Bg'>
                 <div className='desc' id='descColor'>
-                    <h3 id='h3Color'> Fin de contrat.</h3>
+                    <h3 id='fincontrat'> Fin de contrat.</h3>
                     <p>
                     Un évènement de vie arrive et vous devez vous séparer de votre garde à domicile. Et là, le vertige vous atteint: Quel est la durée du préavis? Quelles sont les démarches? Comment rédiger les courriers? Comment calculer les indemnités et avec quelles données? Quels documents remettre à mon employé?
                     </p>
@@ -127,7 +144,7 @@ const Home = () => {
                 
             </div> 
 
-            <div className='screen'>
+            <div className='screen' id='conge'>
                 <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                 </img>
                 <div className='desc'>

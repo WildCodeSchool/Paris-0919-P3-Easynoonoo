@@ -17,6 +17,9 @@
         
 }
 
+.b {
+    margin-bottom : 50px;
+}
 .articleVision {
     display : flex;
     flex-direction : column;
