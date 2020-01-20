@@ -1,3 +1,21 @@
 .sansMargin {
     margin-left : 10px;
 }
+
+.familyForm {
+    flex-direction : column;
+    height : 800px;
+    background-color : 
+}
+
+.familyForm h2 {
+    font-size : 35px;
+    text-align : center;
+}
+
+.firstQuestion {
+    display : flex;
+    flex-direction : column;
+}
+
+

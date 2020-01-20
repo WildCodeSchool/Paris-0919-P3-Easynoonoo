@@ -85,15 +85,15 @@ const FamilyForm = () => {
    }
 
   return (
-    <div className='container'  >
+    <div className='container d-flex justify-content-center align-items-center   no-wrap familyForm'  >
 
     <h2>Simulation de garde partagée</h2>
 
-      <div className='familyForm'>
+      <div>
         
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
-        <div className='familyFormNumberInput'>
+        <div className='firstQuestion'>
           <label className='question1'>Au total, combien d'enfants seront gardés par la nounou ?</label>
           <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='5' onClick={() => restart1()} />      
         </div>
@@ -159,19 +159,10 @@ const FamilyForm = () => {
         {answers1 === 1 && answers3 === 'oui' ?
         <div>
           <p className='question4'>Comment s'appelle l'enfant ?</p>
-          {/* <div className ='input-group mb-3'>
-            <p>mon enfant :
-              <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
-              
-              {console.log({myChild})}
-              <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
-              {(myChild.map(e => <div>{e}</div>))}
-            </p>
-          </div> */}
           <div class="input-group mb-3">
-            <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+            <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Button</button>              
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
           {(myChild.map(e => <div>{e}</div>))}
@@ -180,14 +171,6 @@ const FamilyForm = () => {
         {answers1 === answers2 && answers3 === 'oui' ?
         <div>
           <p className='question4'>Comment s'appellent les enfants ?</p>
-          {/* <div className ='arrayChild'>
-            <p>mes enfants :
-              <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
-              <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
-              {(myChild.map(e => <div>{e}</div>))}
-            </p>
-          </div> */}
-
           <div class="input-group mb-3">
             <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
@@ -199,18 +182,6 @@ const FamilyForm = () => {
         {answers2 < answers1 && answers2 !== 0 ?
         <div>
           <p className='question4'>Comment s'appellent les enfants ?</p>
-            {/* <div className ='arrayChild'>
-              <p>mes enfants :
-                <input type='text'value={firstname} onChange={e => setFirstname(e.target.value)}/>
-                <input type='button'onClick={() => handleName()} value='add' className='addButtonInputChild'/>
-                {(myChild.map(e => <div>{e}</div>))}
-                </p>
-              <p>les autres enfants :
-              <input type='text' value={firstnameOthers} onChange={e => setFirstnameOthers(e.target.value)}/>
-                <input type='button'onClick={() => handleNameOthers()} value='add' className='addButtonInputChild'/>
-                {notMyChild.map(e => <div>{e}</div>)}
-              </p>
-            </div> */}
           <div class="input-group mb-3">
             <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
