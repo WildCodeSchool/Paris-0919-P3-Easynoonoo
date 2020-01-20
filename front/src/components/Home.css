@@ -13,8 +13,7 @@
     padding-bottom : 6%;
     margin-top : 5%;
     margin-bottom : 5%;
-    height : 800px;
-        
+    height : 800px;        
 }
 
 .b {
@@ -36,8 +35,7 @@
 
 .articleDescription h2 {
     font-size : 40px;
-    margin : 0px;
-    
+    margin : 0px;    
     color:#2E3858;
     
 }
@@ -59,62 +57,32 @@
 
 }
 
-/*Teaser*/
-
-.h2Teaser {
-    font-size : 40px;
-    color : #2E3858;
-    padding-left : 8%;
-    padding-bottom : 0px;
-
-}
+/*Contrat -> rappel*/
 
 .Homepage .screen {
-    display: flex;    
-    align-items : center;
-    justify-content: space-around;     
-    padding : 8%;
-    padding-top : 5%; 
-    flex-wrap: wrap;      
+    padding-top : 7%;
+    padding-bottom : 7%;    
 }
 
-.screen2Bg {  /*background for the second screen*/
-    background-color : #687189;  
-    flex-wrap : wrap-reverse; 
-    padding-top : 8%;
+.Homepage .screenv2 {  /*background for the second screen*/
+    background-color : #687189;       
 }
 
 .Homepage .desc {       
     color : #2E3858;    
-    width : 30%;
     font-size : 20px;      
 }
 
-#descColor { /*background for the second description */
+.Homepage .descColor { /*background for the second description */
    color : #FFFFFF;
 }
 
-.Homepage .desc h3{       
+.Homepage .desc h2{       
     color : #EE5E6A;
-    font-size : 35px;             
+    font-size : 35px; 
+    margin-bottom : 3%;
+    margin-left : 1%;           
 }
-
-#h3Color {       
-    color : #000000;                 
-}
-
-
-/*img */
-
-.screenshot1 {
-    box-shadow: 12px 12px 8px 12px rgba(93, 93, 107, 0.137);
-}
-
-.screenshot2 {
-    box-shadow: 12px 12px 8px 12px rgba(30, 30, 32, 0.137);
-}
-
-
 
 /*Partie simulateur*/
 
@@ -178,105 +146,10 @@
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 0, 0.2);
 }
 
-.HomepageIcon {
+.Homepage .HomepageIcon {
     height : 50px;
     width : 50px;
-    color : white;
-}
-
-
-@media screen and (max-width: 1360px) { /*for teaser blocs */
-    .Homepage .desc {
-        width : 70%;
-        margin-top : 2%;
-        margin-bottom : 2%;
-        text-align : center;
-    }
-
-}
-
-@media screen and (max-width: 1050px) { /*for simulator blocs */
-    .simulateur {
-        flex-direction: column;
-        margin-bottom : 2%;
-        align-items : center;        
-    }
-
-    .simulateurDescription {
-        width : 100%;
-    }
-
-}
-
-@media screen and (max-width: 800px) { /*Font-size behavior mainly */
-
-    .Homepage .desc {       
-        color : #2E3858;    
-        width : 100%;
-        font-size : 2.5vw;      
-    }
-
-    .Homepage p {
-        font-size : 2.5vw;
-    }
-
-    .Homepage .desc h3{       
-        font-size : 4.5vw;             
-    }
-
-    .Homepage h2 {
-        font-size : 6vw;
-    }
-
-    .h2Simulateur {        
-        margin-bottom : 10%; 
-    }
-
-    .simulateur h3 {
-        font-size : 4.5vw; 
-    }
-
-
-    .simulateurbtn {
-        font-size : 2.5vw;
-        width : 100px;
-        height : 35px;
-        margin-top : 4%;
-        border : none;
-        box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
-    }
-
-
-}
-
-
-@media screen and (max-width: 800px) and (min-width: 550px) {
-
-    .placeholderLogo {
-        height: 20vh;
-        margin: 2%;
-        -webkit-transition: -webkit-transform .8s ease-in-out;
-        transition:         transform .8s ease-in-out;
     
-    }
-
-    .articleMission {
-        padding : 0px;
-    
-    }
-
-}
-
-@media screen and (max-width: 550px) {
-
-    .articleMission {
-        display: none
-    
-    }
-
-    .articleVision {
-        width: 100%;
-    }
 }
 
 
