@@ -191,7 +191,7 @@ const FamilyForm = () => {
             </div>            
           </div>
             {(myChild.map(e => <div className='sansMargin'>Mon enfant : {e}</div>))}
-            {(notMyChild.map(e => <div>L'autre enfant : {e}</div>))}
+            {(notMyChild.map(e => <div> L'autre enfant : {e} </div>))}
         
 
         </div>
