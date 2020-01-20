@@ -19,6 +19,7 @@ let mouse = {
 	startY: 0
 };
 let item = [];
+let myChild = JSON.parse(localStorage.getItem('myChild'));
 
 export default class FamilyAgenda extends React.Component {
 
@@ -130,25 +131,13 @@ export default class FamilyAgenda extends React.Component {
 			let realTime = hours + ' heures et ' + min + ' min'
 			this.setState({ time: realTime, setTime: true })
 			console.log('TIME', realTime);
+
 		}
 		else {
 			return null
 		}
 	}
 
-	displayChild = () => {
-		let myChild = JSON.parse(localStorage.getItem('myChild'));
-		// let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
-		let nameChild = this.state.nameChild;
-		// let nameChildOthers = this.state.nameChildOthers;
-
-		nameChild = [...myChild]
-		this.setState({ showMyChildName: nameChild })
-		// this.setState({ nameChild: nameChild })
-		console.log('nameChild', nameChild);
-
-
-	}
 
 	addChild = () => {
 		let items = JSON.parse(localStorage.getItem('items'));
@@ -159,10 +148,7 @@ export default class FamilyAgenda extends React.Component {
 		let j = this.state.countNotMyChild;
 		let nameChild = this.state.nameChild;
 		let nameChildOthers = this.state.nameChildOthers;
-		let childColor = Math.floor(Math.random() * 16777215).toString(16);
-
 		let arrayChildren = this.state.arrayChildren
-		let colorState = this.state.colorState
 
 		if (i < myChild.length) {
 			if (items.length > 0) {
@@ -170,23 +156,17 @@ export default class FamilyAgenda extends React.Component {
 				for (let k = 0; k < items.length; k++) {
 					arrayChildren.push(items[k])
 					items2.push(items[k])
-					arrayChildren.push({ color: '#' + childColor })
-					colorState.push(childColor)
 					arrayChildren.push({ name: nameChild })
-					this.setState({ color: childColor })
 				}
 
 				arrayChildren.push({ ownChild: true, id: i + 1 });
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 				localStorage.setItem('items2', JSON.stringify(items2));
-				// localStorage.setItem('items', JSON.stringify([]));
 				i++;
 				this.setState({ countMyChild: i })
 				this.setState({ showMyChildName: nameChild })
-				console.log(this.state.showMyChildName)
 				this.setState({ nameChild: nameChild })
-				this.setState({ colorState: colorState })
-				console.log('color1', colorState[colorState.length - 1]);
+				this.resetCalendar()
 
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -197,22 +177,22 @@ export default class FamilyAgenda extends React.Component {
 					nameChildOthers = [...nameChildOthers, notMyChild[j]]
 					for (let k = 0; k < items.length; k++) {
 						arrayChildren.push(items[k])
-						arrayChildren.push({ color: childColor });
 					}
 					for (let k = 0; k < items.length; k++) {
 						items2.push(items[k])
 					}
 
 					arrayChildren.push({ name: nameChildOthers });
-
 					arrayChildren.push({ ownChild: false, id: i + 1 })
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 					localStorage.setItem('items2', JSON.stringify(items2));
 					localStorage.setItem('items', JSON.stringify([]));
 					this.setState({ showOthersChildName: nameChildOthers })
 					this.setState({ nameChildOthers: nameChildOthers })
+					console.log(nameChildOthers)
 					i++;
 					j++;
+					this.resetCalendar()
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
@@ -226,7 +206,13 @@ export default class FamilyAgenda extends React.Component {
 
 
 
+	resetCalendar = () => {
 
+		localStorage.setItem('items', JSON.stringify([]));
+		localStorage.setItem('items2', JSON.stringify([]));
+		// localStorage.setItem('myChild', JSON.stringify([]));
+		// localStorage.setItem('notMyChild', JSON.stringify([]));
+	}
 
 	/* -------- Start Selection on click -------- */
 
@@ -387,10 +373,9 @@ export default class FamilyAgenda extends React.Component {
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = '#' + this.state.colorState[this.state.colorState.length - 1];
-
-				// element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+				// element2.style.backgroundColor = '#' + this.state.colorState[this.state.colorState.length - 1];
+				element2.style.backgroundColor = '#cbf1ee'
+				element2.style.width = (horiz.right - horiz.left) + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px';
 				element2.style.left = horiz.left + 'px';
 				element2.style.top = horiz.top + yScroll + 'px';
@@ -606,11 +591,12 @@ export default class FamilyAgenda extends React.Component {
 				</table>
 				<input type="button" value="validate selection" onClick={() => this.validateSelect()} className='validateSelectionAgenda'></input>
 				<input type="button" value="add child" onClick={() => this.addChild()} className='validateSelectionAgenda'></input>
-
-				<div>"name Famille A" : {this.state.showMyChildName} color : #{this.state.colorState[this.state.colorState.length - 1]} </div>
-				<div>"name Famille B" : {this.state.showOthersChildName} </div>
+				<div>"name Famille A" : {this.state.showMyChildName.map(child => <div>{child}</div>)}</div>
 				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
+				<div>"name Famille B" : {this.state.showOthersChildName.map(childOthers => <div>{childOthers}</div>)} </div>
+				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
+				<input type="button" value="reset" onClick={() => this.resetCalendar()}className='resetCalendar'></input>
 			</div >
 		)
 	}
-}
+} 
