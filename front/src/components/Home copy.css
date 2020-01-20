@@ -7,47 +7,67 @@
 }
 
 .Homepage .articleDescription {
-    
+    display: flex;
+    /*margin: 8%;*/
     background-color : #E2E5ED;
     padding-top : 6%;
     padding-bottom : 6%;
     margin-top : 5%;
     margin-bottom : 5%;
-    height : 800px;
         
 }
 
 .b {
     margin-bottom : 50px;
 }
-
-.articleVision {  
-    color : #687189;   
+.articleVision {
+    display : flex;
+    flex-direction : column;
+    width : 50%;
+    justify-content : center;
+    /*padding-left : 12%;
+    padding-right : 5%;*/
+    color : #687189;  
+    padding-left : 8%; 
+    
 }
 
-.articleContent {
-    height : 800px;
-}
-
-.textCarousel {
-    max-width : 800px;
-    max-height : 100%;
+.articleMission {
+    display : flex;
+    flex-direction : row;
+    width : 50%;
+    /*padding-left : 2%;
+    padding-right : 2%;*/
+    
+    color : black; 
+    justify-content : flex-end;
+    text-align : center;
+    
+     
 }
 
 .articleDescription h2 {
     font-size : 40px;
     margin : 0px;
-    
-    color:#2E3858;
-    
+    margin-bottom : 1%; 
+    color:#2E3858; 
 }
 
 /* placeholder pour le logo */
 
-.placeholderLogo {
-    height: 400px;
-    width: 400px;
+.articleMission .logo {
+    width: 100%;
     
+
+}
+
+.logo h2 {
+    margin: 15px;
+}
+
+.placeholderLogo {
+    height: 25vh;
+    /*margin: 2%;*/
     -webkit-transition: -webkit-transform .8s ease-in-out;
     transition:         transform .8s ease-in-out;
 
