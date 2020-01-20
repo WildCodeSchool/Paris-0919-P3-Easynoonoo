@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Header from './Header'
-import contract from '../../src/assets/contract.png'
-import money2 from '../../src/assets/money2.png'
-import calendar from '../../src/assets/calendar.png'
-import logo from '../../src/assets/noonoo1.svg'
 import Simform from './SimForm'
 import FamilyForm from './FamilyForm'
+import logo from '../../src/assets/noonoo1.svg'
+import logoRappel from '../assets/schedule-24px.svg'
+import logoConge from '../assets/agenda.svg'
+import logoContrat from '../assets/contrat.svg'
+import logoFinContrat from '../assets/fin-contrat.svg'
 import './Home.css'
 
 
@@ -94,9 +95,10 @@ const Home = () => {
             {/* CONTRAT */}
 
 
-            <div className='screen' id='screen2Bg'>
+            <div className='container-fluid screen screen2Bg' id='contract'>
                 <div className='desc' id='descColor'>
-                    <h3 id='contract'> Contrat.</h3>
+                    
+                    <h3> Contrat.</h3>
                     <p>
                         Créer son contrat de garde à domicile devient très simple avec Easynoonoo. Nous vous proposons un parcours de questions pour définir un contrat clair et intelligible, fait sur mesure. Après validation de votre contrat, il est prêt à être signé par les parties et votre espace de gestion est automatiquement paramétré.
                     </p>
@@ -111,9 +113,7 @@ const Home = () => {
             {/* PAJEMPLOI */}
 
 
-            <div id='pajemploi' className='screen'>
-                <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
+            <div id='pajemploi' className='container-fluid screen'>
                 <div className='desc'>
                     <h3>Déclaration Pajemploi et fiche de paie.</h3>
                     <p>
@@ -131,53 +131,85 @@ const Home = () => {
 
             {/* FIN CONTRAT */}
 
-            <div className='screen' id='screen2Bg'>
+            <div className='container-fluid screen screen2Bg' id='fincontrat'>
                 <div className='desc' id='descColor'>
-                    <h3 id='fincontrat'> Fin de contrat.</h3>
-                    <p>
-                        Un évènement de vie arrive et vous devez vous séparer de votre garde à domicile. Et là, le vertige vous atteint: Quel est la durée du préavis? Quelles sont les démarches? Comment rédiger les courriers? Comment calculer les indemnités et avec quelles données? Quels documents remettre à mon employé?
-                    </p>
-                    <p>
-                        Easynoonoo est là. Comme nous vous avons accompagné, nous disposons des informations clés pour établir tout celà et vous fournir les clés pour naviguer dans ces méandres.
-                    </p>
+                    <div className='row'>
+                        <div className ='col' >
+                            <img className='HomepageIcon' src={logoFinContrat} alt='logo agenda' />
+                        </div>
+                        <div className ='col' >
+                            <h3 > Fin de contrat.</h3>
+                        </div>
+
+                    </div>
+
+                    <div className='row'>
+                        <p>
+                            Un évènement de vie arrive et vous devez vous séparer de votre garde à domicile. Et là, le vertige vous atteint: Quel est la durée du préavis? Quelles sont les démarches? Comment rédiger les courriers? Comment calculer les indemnités et avec quelles données? Quels documents remettre à mon employé?
+                        </p>
+                    </div>
+
+                    <div className='row'>
+                        <p>
+                            Easynoonoo est là. Comme nous vous avons accompagné, nous disposons des informations clés pour établir tout celà et vous fournir les clés pour naviguer dans ces méandres.
+                        </p>
+                    </div>
+                    
+                    
+                    
                 </div>
 
-                <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
+                
 
             </div>
 
             {/* CONGE */}
 
-            <div className='screen' id='conge'>
-                <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
+            <div className='container-fluid screen' id='conge'>
                 <div className='desc'>
-                    <h3>Gestion des congés et des absences.</h3>
-                    <p>
-                        On ne vous évitera pas forcément les discussions difficiles avec votre garde d'enfants, mais Easynoonoo nous vous offrons une fonctionnalité pour simplifier la prise de congés et garder à jour le compteur en prenant en compte toutes les subtilités légales, même (et surtout!) celles dont vous n'avez pas entendu parler.
-                    </p>
+                    <div className='row' >
+                        <div className ='col' >
+                        <img className='HomepageIcon' src={logoConge} alt='logo agenda' />
+                        </div>
+                        <div className ='col' >
+                            <h3>Gestion des congés et des absences.</h3>
+                        </div>                       
+                    </div>
+
+                    <div className='row'>
+                        <p>
+                            On ne vous évitera pas forcément les discussions difficiles avec votre garde d'enfants, mais Easynoonoo nous vous offrons une fonctionnalité pour simplifier la prise de congés et garder à jour le compteur en prenant en compte toutes les subtilités légales, même (et surtout!) celles dont vous n'avez pas entendu parler.
+                        </p>
+                    </div>
 
                 </div>
             </div>
 
             {/* RAPPELS */}
 
-            <div className='screen' id='screen2Bg'>
+            <div className='container-fluid screen screen2Bg' id='rappel'>
                 <div className='desc' id='descColor'>
-                    <h3 id='rappel'>Rappels.</h3>
-                    <p>
-                        En tant qu'employeur, vous êtes soumis aux mêmes obligations légales que les entreprises. Mais vous avez déjà une activité qui vous occupe la journée, vous n'avez pas le temps pour penser à ça!
-                    </p>
-                    <p>
-                        Easynoonoo est là pour vous rappeler certaines dates clés, vous informez des changements qui vous impacterez dans votre relation avec votre garde à domicile. Vous avez ainsi tous les clés en main pour éviter les écueils
-                    </p>
+                    <div className='row'>
+                        <div className ='col'>
+                            <img className='HomepageIcon' src={logoRappel} alt='logo rappel' />
+                        </div>
+                        <div className ='col'>                            
+                            <h3>Rappels.</h3>
+                        </div>
+                    </div>
+                    
+                    <div className='row'>
+                        <p>
+                            En tant qu'employeur, vous êtes soumis aux mêmes obligations légales que les entreprises. Mais vous avez déjà une activité qui vous occupe la journée, vous n'avez pas le temps pour penser à ça!
+                        </p>
+                    </div>
+
+                    <div className='row'>
+                        <p>
+                            Easynoonoo est là pour vous rappeler certaines dates clés, vous informez des changements qui vous impacterez dans votre relation avec votre garde à domicile. Vous avez ainsi tous les clés en main pour éviter les écueils
+                        </p>
+                    </div>                    
                 </div>
-
-                <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
-                </img>
-
-
             </div>
 
 

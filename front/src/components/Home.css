@@ -78,7 +78,7 @@
     flex-wrap: wrap;      
 }
 
-#screen2Bg {  /*background for the second screen*/
+.screen2Bg {  /*background for the second screen*/
     background-color : #687189;  
     flex-wrap : wrap-reverse; 
     padding-top : 8%;
@@ -176,6 +176,12 @@
     background-color: #F4F6FA;
     color : #2E3858;
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 0, 0.2);
+}
+
+.HomepageIcon {
+    height : 50px;
+    width : 50px;
+    color : white;
 }
 
 
