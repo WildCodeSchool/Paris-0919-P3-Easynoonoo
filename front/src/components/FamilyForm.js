@@ -85,7 +85,7 @@ const FamilyForm = () => {
    }
 
   return (
-    <div className='container d-flex justify-content-center align-items-center   no-wrap familyForm'  >
+    <div className='container d-flex justify-content-center align-items-center no-wrap familyForm'  >
 
     <h2>Simulation de garde partagée</h2>
 
@@ -94,20 +94,20 @@ const FamilyForm = () => {
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
         <div className='firstQuestion'>
-          <label className='question1'>Au total, combien d'enfants seront gardés par la nounou ?</label>
+          <label className='question1'>Au total, combien d'enfants sont gardés par votre nounou ?</label>
           <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='5' onClick={() => restart1()} />      
         </div>
 
         {/* si on a plus d'un enfant question 2 apparait */}
 
-        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces enfants, combien sont à vous ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={() => restart2()} /> </div> : ''}
+        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces {answers1} enfants, combien sont de votre famille ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={() => restart2()} /> </div> : ''}
 
 
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
         {answers1 === answers2 && answers1 > 1 ?
           <div>
-            <p className='question3'>La garde de vos enfants est-elle partagée avec un autre parent ?</p>
+            <p className='question3'>La garde de vos enfants est-elle partagée avec l'autre parent des enfants dont vous seriez séparé(e) ?</p>
             <div className="radio">
               <label>
                 <input type="radio" className='checked' value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
@@ -130,7 +130,7 @@ const FamilyForm = () => {
 
         {answers1 === 1 ?
           <div>
-            <p className='question3'>La garde de votre enfant est-elle partagée avec un autre parent ?</p>
+            <p className='question3'>La garde de votre enfant est-elle partagée avec l'autre parent de l'enfant dont vous seriez séparé(e) ?</p>
             <div className="radio">
               <label>
                 <input type="radio" value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
@@ -165,7 +165,8 @@ const FamilyForm = () => {
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-          {(myChild.map(e => <div>{e}</div>))}
+          {(myChild.map(e => <div>Mon enfant : {e}</div>))}
+          
         </div>: ''}
 
         {answers1 === answers2 && answers3 === 'oui' ?
@@ -177,7 +178,8 @@ const FamilyForm = () => {
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-            {(myChild.map(e => <div className='sansMargin'>{e}</div>))}
+            {(myChild.map(e => <div className='sansMargin'> Mon enfant : {e}</div>))}
+            {(notMyChild.map(e => <div>L'autre enfant : {e}</div>))}
         </div>: ''}
         {answers2 < answers1 && answers2 !== 0 ?
         <div>
@@ -188,7 +190,8 @@ const FamilyForm = () => {
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-            {(myChild.map(e => <div className='sansMargin'>{e}</div>))}
+            {(myChild.map(e => <div className='sansMargin'>Mon enfant : {e}</div>))}
+            {(notMyChild.map(e => <div>L'autre enfant : {e}</div>))}
         
 
         </div>
