@@ -73,23 +73,26 @@ const Home = () => {
             {/* SIMULATEUR */}
 
             <h2 id='simulateur' className='h2Simulateur'>Simulateurs</h2>
-            <p>Easynoonoo propose deux outils en accès gratuits:</p>
 
-            <div className='simulateur'>
+            <div className=' container-fluid simulateur'>
+                <div className='row d-flex justify-content-center'>
+                    <div className='col-5 d-flex flex-column justify-content-between align-items-center simulateurDescription'>
+                        <h3>Calculer mon taux de répartition</h3>
+                        <p> Un calculateur pour définir la répartition du coût de la garde. Nous l'avons vécu, le taux de répartition ne se limite pas forcément à 50% : enfants scolarisés, vacances ou mercredi chez les grands-parents, gardes alternées beaucoup d'élèments vont influencer les heures de garde de chaque enfants, de chaque familles. Définir un taux équitable pour les deux familles permet de d'établir une relation saine entre les familles. Nous vous offrons un outil pour simuler vos besoins et calculer ce taux. </p>
 
-                <div className='simulateurDescription'>
-                    <h3>Calculer mon taux de répartition</h3>
-                    <p> Un calculateur pour définir la répartition du coût de la garde. Nous l'avons vécu, le taux de répartition ne se limite pas forcément à 50% : enfants scolarisés, vacances ou mercredi chez les grands-parents, gardes alternées beaucoup d'élèments vont influencer les heures de garde de chaque enfants, de chaque familles. Définir un taux équitable pour les deux familles permet de d'établir une relation saine entre les familles. Nous vous offrons un outil pour simuler vos besoins et calculer ce taux. </p>
+                        <Link to='/familyform'><input type='button' className='simulateurbtn' value='Essayer' /></Link>
+                    </div>
+                    <div className='col-5 d-flex flex-column justify-content-between align-items-center simulateurDescription' id='simuDesc2'>
+                        <h3>Calculer les coûts de ma nounou</h3>
+                        <p> Un simulateur du coût de la garde qui clarifie le salaire reçu par votre garde à domicile, vos coûts, les aides et crédits d'impôt auxquels vous avez droit en fonction de vos besoin. Plus de confusion entre salaire brut, net, montants à charge pour l'employeur, heures supplémentaires et les aides! </p>
 
-                    <Link to='/familyform'><input type='button' className='simulateurbtn' value='Essayer' /></Link>
+                        <Link to='/simform'><input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' /></Link>
+                    </div>
                 </div>
 
-                <div className='simulateurDescription' id='simuDesc2'>
-                    <h3>Calculer les coûts de ma nounou</h3>
-                    <p> Un simulateur du coût de la garde qui clarifie le salaire reçu par votre garde à domicile, vos coûts, les aides et crédits d'impôt auxquels vous avez droit en fonction de vos besoin. Plus de confusion entre salaire brut, net, montants à charge pour l'employeur, heures supplémentaires et les aides! </p>
+                
 
-                    <Link to='/simform'><input type='button' id='simulateurBtn2' className='simulateurbtn' value='Essayer' /></Link>
-                </div>
+                
             </div>
 
 
