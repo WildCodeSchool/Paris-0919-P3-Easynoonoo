@@ -95,11 +95,16 @@ const Home = () => {
                 <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
                 </img>
                 <div className='desc'>
-                    <h3>Gestion des congés et des absences</h3>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
+                    <h3>Déclaration Pajemploi et fiche de paie.</h3>
+                    <p>
+                        Chaque fin de mois, c'est le moment de la déclaration et de la fiche de paie. Pajemploi vous demande un salaire net horaire, le salaire net mensuel, des heures, mais êtes-vous certains de ce que vous remplissez ?
                     </p>
                     <p>
-                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant"
+                        Easynoonoo vous calcule automatiquement ces montants en fonction de la situation du mois écoulé et de votre contrat. Nous vous aidons également à remplir votre déclaration.
+
+                    </p>
+                    <p>
+                        Légalement, l'employeur doit fournir une fiche de paie à son employé. Vous vous dites que Pajemploi le fait et que tout est bon... Erreur, Pajemploi ne calcule pas l'exonération sur les heures supplémentaires, si vous versez une prime de panier repas, impossible de l'ajouter. Enfin, le suivi des congés doit y être annoté à la main et signé par les parties! Détendez-vous! Nous faisons tout celà pour vous et nous mettons la fiche de paie à disposition de votre nounou.
                     </p>
                 </div>
             </div>
@@ -107,12 +112,41 @@ const Home = () => {
 
             <div className='screen' id='screen2Bg'>
                 <div className='desc' id='descColor'>
-                    <h3 id='h3Color'> Rappels</h3>
+                    <h3 id='h3Color'> Fin de contrat.</h3>
                     <p>
-                        En tant qu'employeur, vous êtes soumis aux mêmes obligations légales que les entreprises. Mais vous avez déjà une activité qui vous occupe la journée, vous n'avez pas le temps pour penser à ça ! 
+                    Un évènement de vie arrive et vous devez vous séparer de votre garde à domicile. Et là, le vertige vous atteint: Quel est la durée du préavis? Quelles sont les démarches? Comment rédiger les courriers? Comment calculer les indemnités et avec quelles données? Quels documents remettre à mon employé?
                     </p>
                     <p>
-                    Easynoonoo est là pour vous rappeler certaines dates clés, vous informez des changements qui vous impacterez dans votre relation avec votre garde à domicile. Vous avez ainsi tous les clés en main pour éviter les écueils.
+                    Easynoonoo est là. Comme nous vous avons accompagné, nous disposons des informations clés pour établir tout celà et vous fournir les clés pour naviguer dans ces méandres.
+                    </p>
+                </div>
+                
+                <img className='screenshot2' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
+                    </img>                    
+                
+                
+            </div> 
+
+            <div className='screen'>
+                <img className='screenshot1' src='https://via.placeholder.com/800x500/000000/FFFFFF/?text=easynoonoo.com ' alt='screenshot for the easynoonoo website'>
+                </img>
+                <div className='desc'>
+                    <h3>Gestion des congés et des absences.</h3>
+                    <p>
+                        On ne vous évitera pas forcément les discussions difficiles avec votre garde d'enfants, mais Easynoonoo nous vous offrons une fonctionnalité pour simplifier la prise de congés et garder à jour le compteur en prenant en compte toutes les subtilités légales, même (et surtout!) celles dont vous n'avez pas entendu parler.
+                    </p>
+                    
+                </div>
+            </div>
+
+            <div className='screen' id='screen2Bg'>
+                <div className='desc' id='descColor'>
+                    <h3 id='h3Color'>Rappels.</h3>
+                    <p>
+                    En tant qu'employeur, vous êtes soumis aux mêmes obligations légales que les entreprises. Mais vous avez déjà une activité qui vous occupe la journée, vous n'avez pas le temps pour penser à ça! 
+                    </p>
+                    <p>
+                    Easynoonoo est là pour vous rappeler certaines dates clés, vous informez des changements qui vous impacterez dans votre relation avec votre garde à domicile. Vous avez ainsi tous les clés en main pour éviter les écueils
                     </p>
                 </div>
                 
