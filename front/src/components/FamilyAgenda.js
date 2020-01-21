@@ -289,9 +289,9 @@ export default class FamilyAgenda extends React.Component {
 
 		let realEnd = moment(end).add(15, 'minutes').format('YYYY-MM-DD hh:mm')		
 		
-		let arr = endd.diff(strt) > 0 ? [start, realEnd] : [realEnd, start];
+		let arr = endd.diff(strt) > 0 ? [start, end] : [realEnd, end];
 
-		this.handleRangeSelection(arr, realEnd);
+		this.handleRangeSelection(arr, end);
 	}
 	// <<_________________ CLEMENT MODIFIED THIS _________________
 
