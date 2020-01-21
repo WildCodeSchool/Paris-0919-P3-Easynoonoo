@@ -110,7 +110,7 @@ export default class FamilyAgenda extends React.Component {
         })
       }
       localStorage.setItem('items', JSON.stringify(items))
-/* 
+      /* 
       // alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
       localStorage.setItem('items', JSON.stringify(items))
       // this.setState({ items: [] })
@@ -164,10 +164,8 @@ export default class FamilyAgenda extends React.Component {
     let j = this.state.countNotMyChild
     let nameChild = this.state.nameChild
     let nameChildOthers = this.state.nameChildOthers
-    let childColor = Math.floor(Math.random() * 16777215).toString(16)
 
     let arrayChildren = this.state.arrayChildren
-    let colorState = this.state.colorState
 
     if (i < myChild.length) {
       if (items.length > 0) {
@@ -175,10 +173,8 @@ export default class FamilyAgenda extends React.Component {
         for (let k = 0; k < items.length; k++) {
           arrayChildren.push(items[k])
           items2.push(items[k])
-          arrayChildren.push({ color: '#' + childColor })
-          colorState.push(childColor)
+
           arrayChildren.push({ name: nameChild })
-          this.setState({ color: childColor })
         }
 
         arrayChildren.push({ ownChild: true, id: i + 1 })
@@ -187,14 +183,14 @@ export default class FamilyAgenda extends React.Component {
           JSON.stringify(arrayChildren),
         )
         localStorage.setItem('items2', JSON.stringify(items2))
-        // localStorage.setItem('items', JSON.stringify([]));
+
         i++
         this.setState({ countMyChild: i })
         this.setState({ showMyChildName: nameChild })
-        console.log(this.state.showMyChildName)
+
         this.setState({ nameChild: nameChild })
-        this.setState({ colorState: colorState })
-        console.log('color1', colorState[colorState.length - 1])
+
+        this.resetCalendar()
       } else {
         alert('Pas de plages horaires sélectionnées pour cet enfant')
       }
@@ -204,7 +200,6 @@ export default class FamilyAgenda extends React.Component {
           nameChildOthers = [...nameChildOthers, notMyChild[j]]
           for (let k = 0; k < items.length; k++) {
             arrayChildren.push(items[k])
-            arrayChildren.push({ color: childColor })
           }
           for (let k = 0; k < items.length; k++) {
             items2.push(items[k])
@@ -223,6 +218,9 @@ export default class FamilyAgenda extends React.Component {
           this.setState({ nameChildOthers: nameChildOthers })
           i++
           j++
+          this.setState({ countMyChild: i })
+          this.setState({ countNotMyChild: j })
+          this.resetCalendar()
         } else {
           alert(
             'Pas de plages horaires sélectionnées pour cet enfant',
@@ -232,6 +230,14 @@ export default class FamilyAgenda extends React.Component {
         alert("Il n'y a plus d'enfant à rajouter")
       }
     }
+  }
+
+  /* -------- reset-------- */
+
+  resetCalendar = () => {
+    localStorage.setItem('items', JSON.stringify([]))
+    localStorage.setItem('items2', JSON.stringify([]))
+    this.setState({ items: [] })
   }
 
   /* -------- Start Selection on click -------- */
@@ -380,7 +386,7 @@ export default class FamilyAgenda extends React.Component {
   getSelect = () => {
     let yScroll = window.scrollY
     let slot = JSON.parse(localStorage.getItem('items'))
-    //CHAMP DE BATAILLE
+
     let slot2 = JSON.parse(localStorage.getItem('items2'))
 
     if (slot != null) {
@@ -408,9 +414,6 @@ export default class FamilyAgenda extends React.Component {
         let vert = last.getBoundingClientRect()
         element2 = document.createElement('div')
         element2.className = 'slot'
-        element2.style.backgroundColor =
-          '#' +
-          this.state.colorState[this.state.colorState.length - 1]
 
         // element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         element2.style.width =
@@ -660,18 +663,23 @@ export default class FamilyAgenda extends React.Component {
         ></input>
 
         <div>
-          "name Famille A" : {this.state.showMyChildName} color : #
-          {this.state.colorState[this.state.colorState.length - 1]}{' '}
+          "name Famille A" :
+          {this.state.showMyChildName.map(child => (
+            <div>{child}</div>
+          ))}
         </div>
         <div>
-          "name Famille B" : {this.state.showOthersChildName}{' '}
+          "name Famille B" :{' '}
+          {this.state.showOthersChildName.map(child => (
+            <div>{child}</div>
+          ))}
         </div>
-        <div>
-          Vous avez sélectionné{' '}
+        {/* <div>
+          Vous avez sélectionné
           {this.state.time
             ? this.state.time
             : `Vous n'avez pas sélectionné de créneau`}
-        </div>
+        </div> */}
       </div>
     )
   }
