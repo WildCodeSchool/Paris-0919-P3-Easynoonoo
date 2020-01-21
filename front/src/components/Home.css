@@ -3,58 +3,49 @@
 }
 
 .Homepage p {
-    font-size : 20px;
+    font-size : 1rem;
 }
 
-.Homepage .articleDescription {
-    
+.Homepage h2 {
+    font-size : 2rem;
+}
+
+.Homepage a {
+    text-decoration: none;
+}
+
+.Homepage .articleDescription {  
+    margin-top : 5%;  
     background-color : #E2E5ED;
-    padding-top : 6%;
-    padding-bottom : 6%;
-    margin-top : 5%;
-    margin-bottom : 5%;
-    height : 800px;        
-}
-
-.b {
-    margin-bottom : 50px;
+    padding-top : 5%;
+    padding-bottom : 5%;            
 }
 
 .articleVision {  
-    color : #687189;   
+    color : #687189;      
 }
 
-.articleContent {
-    height : 800px;
-}
-
-.textCarousel {
-    max-width : 800px;
-    max-height : 100%;
+.Homepage .articleVision h2 {  
+    margin-bottom : 1%;
 }
 
 .articleDescription h2 {
-    font-size : 40px;
     margin : 0px;    
-    color:#2E3858;
-    
+    color:#2E3858;    
 }
 
 /* placeholder pour le logo */
 
 .placeholderLogo {
     height: 400px;
-    width: 400px;
-    
+    width: 400px;    
     -webkit-transition: -webkit-transform .8s ease-in-out;
     transition:         transform .8s ease-in-out;
-
 }
 
 .placeholderLogo:hover {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
-
 }
 
 /*Contrat -> rappel*/
@@ -78,11 +69,15 @@
 }
 
 .Homepage .desc h2{       
-    color : #EE5E6A;
-    font-size : 35px; 
+    color : #EE5E6A; 
     margin-bottom : 3%;
     margin-left : 1%;           
 }
+
+#rappel {
+    margin-bottom : 10%;
+}
+
 
 /*Partie simulateur*/
 
@@ -141,5 +136,16 @@
     width : 50px;
     
 }
+
+@media screen and (max-width: 1187px) { /*break point for the banner */
+    .articleMission .logo {
+        display:none;
+    }
+
+    .Homepage ol {
+        bottom : -20px;
+    }
+}
+
 
 
