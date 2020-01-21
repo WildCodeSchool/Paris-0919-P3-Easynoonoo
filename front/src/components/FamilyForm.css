@@ -2,10 +2,10 @@
     margin-left : 10px;
 }
 
-.familyForm {
-    flex-direction : column;
-    height : 800px;
-    background-color : 
+.familyFormComponent {
+    margin-top : 5%;
+    margin-bottom : 5%;
+    
 }
 
 .familyForm h2 {

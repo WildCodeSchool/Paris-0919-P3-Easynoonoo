@@ -30,9 +30,10 @@ const FamilyForm = () => {
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
 
-  // state count
-  const [i, setI] = useState(0)
-  const [j, setJ] = useState(0)
+  
+
+
+
 
   //store the data in local storage
   useEffect( () => {
@@ -64,32 +65,6 @@ const FamilyForm = () => {
      }
    }
 
-
-
-  // const handleName =  () => {
-  // if (count <= answers2) {
-  //  setmyChild([...myChild, firstname]);
-  //  setFirstname('');
-  //  setCount(count+1)
-  // } if (count === 1 && answers2 === 0) {
-  //   setmyChild([...myChild, firstname]);
-  //   setFirstname('');
-  //   setCount(count+1)
-  // } if (count > answers2) {
-  //  setFirstname('')}
-  // }
-
-  // même chose que handlename pour les enfants de l'autre famille
-  const handleNameOthers = () => {
-    if (count2 <= answers1 - answers2) {
-      setNotMyChild([...notMyChild, firstnameOthers]);
-      setFirstnameOthers('');
-      setCount2(count2+1)
-     } if (count2 > answers1 - answers2) {
-      setFirstnameOthers('')
-      }
-   }
-
   // réinitialise les states quand on clique sur le premier input
    const restart1 = () => {
     setmyChild([]);
@@ -107,14 +82,17 @@ const FamilyForm = () => {
     setCount2(0);
    }
 
+  
+
   return (
-    <div className='container d-flex justify-content-center align-items-center no-wrap familyForm'  >
+  <div className='familyForm'>
 
     <h2>Simulation de garde partagée</h2>
 
-    
 
-      <div>
+    {count === answers2 && count2 === answers1 - answers2  && count2 !== 0 || count === answers1 && count2 === 0 && answers3 === 'oui' ? '': //if calendar appears, questions disappears
+
+      <div className='container-fluid d-flex flex-column justify-content-center no-wrap '>
         
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
@@ -221,15 +199,21 @@ const FamilyForm = () => {
 
         </div>
          : ''}
-        {/* enfants multiples en garde co-famille : calendrier apparait  */}
-      {count === answers2 && count2 === answers1 - answers2  && count2 !== 0 ?
-        <FamilyAgenda/> : ''}
-
-         {/* enfants en garde partagée : calendrier apparait  */} 
-        {count === answers1 && count2 === 0 && answers3 === 'oui' ? 
-        <FamilyAgenda/> : ''}
+        
 
       <Link to='/'><p className="simFormReturn">Retour aux simulateurs</p></Link>
+      </div>
+
+    }
+
+      <div className ='container-fluid d-flex flex-column justify-content-center familyFormComponent'>
+        {/* enfants multiples en garde co-famille : calendrier apparait  */}
+          {count === answers2 && count2 === answers1 - answers2  && count2 !== 0 ?
+          <FamilyAgenda/> : ''}
+
+         {/* enfants en garde partagée : calendrier apparait  */} 
+          {count === answers1 && count2 === 0 && answers3 === 'oui' ? 
+          <FamilyAgenda/> : ''}
       </div>
     </div>
   )
