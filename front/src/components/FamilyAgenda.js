@@ -42,7 +42,8 @@ export default class FamilyAgenda extends React.Component {
 		colorState: [],
 		minutes: [],
 		time: '',
-		setTime: false
+		setTime: false,
+		slotHours: []
 	}
 
 
@@ -108,7 +109,7 @@ export default class FamilyAgenda extends React.Component {
 			// this.setState({ items: [] })
 
 			// __________________ CALCULS DES DATES ________________
-			
+
 			let date1 = moment(this.state.items[0]);
 			let minutes = this.state.minutes
 			let date2 = moment(this.state.items[1]);
@@ -117,9 +118,7 @@ export default class FamilyAgenda extends React.Component {
 
 			this.setState({ minutes: difference })
 			this.setState({ minutes: minutes })
-			console.log('caca',date1, date2);
-			
-			
+			console.log('caca', date1, date2);
 
 			let total = minutes.reduce((a, b) => a + b, 0)
 
@@ -148,8 +147,6 @@ export default class FamilyAgenda extends React.Component {
 		this.setState({ showMyChildName: nameChild })
 		// this.setState({ nameChild: nameChild })
 		console.log('nameChild', nameChild);
-
-
 	}
 
 	addChild = () => {
@@ -280,19 +277,33 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	// _________________ CLEMENT MODIFIED THIS _________________>>
+	// _________________ CLEMENT PART _________________>>
 
 	getSelection = (start, end) => {
-		
+
 		let strt = moment(start)
 		let endd = moment(end)
 
-		let realEnd = moment(end).add(15, 'minutes').format('YYYY-MM-DD hh:mm')		
-		
-		let arr = endd.diff(strt) > 0 ? [start, end] : [realEnd, end];
+		// let realEnd = moment(end).add(15, 'minutes').format('YYYY-MM-DD hh:mm')
+		let realEnd = moment(end).add(15, 'minutes').format('HH:mm')
+		let realStart = moment(start).format('HH:mm')
+
+		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
 
 		this.handleRangeSelection(arr, end);
+
+		this.state.slotHours.push(realStart, realEnd)
+		console.log('slotHours / getSelection function', this.state.slotHours);
 	}
+
+	displayHours = () => {
+		return (
+			<div>
+				{this.state.slotHours[0]} - {this.state.slotHours[1]}
+			</div>
+		)
+	}
+
 	// <<_________________ CLEMENT MODIFIED THIS _________________
 
 	handleMouseOver = (e) => {
@@ -309,6 +320,8 @@ export default class FamilyAgenda extends React.Component {
 			element.style.left = (mouse.x - mouse.startX < 0) ? mouse.x + 'px' : mouse.startX + 'px';
 			element.style.top = (mouse.y - mouse.startY < 0) ? Math.abs(mouse.y) - yScroll + 'px' : mouse.startY - yScroll + 'px';
 		}
+		this.setState({ slotHours: [] })
+		console.log('slotHours / handleMouseOver function', this.state.slotHours);
 	}
 
 	/* -------- Create a new Div from selected Cells to highlight them -------- */
@@ -326,6 +339,10 @@ export default class FamilyAgenda extends React.Component {
 		element.style.left = horiz.left + 'px';
 		element.style.top = horiz.top + yScroll + 'px';
 		document.body.appendChild(element)
+
+		element.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
+		element.style.fontSize = '12px';
+		element.style.textAlign = 'center';
 	}
 
 
@@ -400,8 +417,6 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.top = horiz.top + yScroll + 'px';
 				document.body.appendChild(element2)
 			})
-
-
 		} else {
 			return null
 		}
@@ -579,10 +594,15 @@ export default class FamilyAgenda extends React.Component {
 							}
 						</tr>
 					</thead>
-					<tbody id="calendarBodyId" className="calendarTableBody" onMouseDown={this.handleAllClickStarts} onMouseUp={this.handleAllClickEnds} onMouseOver={this.handleMouseOver}>
+					<tbody id="calendarBodyId"
+						className="calendarTableBody"
+						onMouseDown={this.handleAllClickStarts}
+						onMouseUp={this.handleAllClickEnds}
+						onMouseOver={this.handleMouseOver}>
+
 						{rows.map((row, i) => {
 							this.createTable(row.id)
-							if (i % 2 === 0){
+							if (i % 2 === 0) {
 								return (
 									<>
 										<tr>
@@ -635,6 +655,9 @@ export default class FamilyAgenda extends React.Component {
 				<div>"name Famille A" : {this.state.showMyChildName} color : #{this.state.colorState[this.state.colorState.length - 1]} </div>
 				<div>"name Famille B" : {this.state.showOthersChildName} </div>
 				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
+				<div>
+					{this.state.slotHours[0]} - {this.state.slotHours[1]}
+				</div>
 			</div >
 		)
 	}
