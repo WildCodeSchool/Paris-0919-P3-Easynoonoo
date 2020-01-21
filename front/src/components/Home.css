@@ -73,9 +73,6 @@
     margin-bottom : 10%;
 }
 
-.homepageTitle {
-    margin-bottom : 5%;
-}
 
 
 /*Partie simulateur*/
@@ -144,6 +141,10 @@
 
     .Homepage ol {
         bottom : -20px;
+    }
+
+    .homepageTitle {
+        margin-bottom : 5%;
     }
 }
 
