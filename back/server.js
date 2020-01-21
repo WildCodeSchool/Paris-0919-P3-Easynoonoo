@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const moment = require('moment');
 
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
@@ -1251,6 +1252,134 @@ app.post('/api/calculscharges', function (req, res) {
 },
 )
 // ________________________________ AIDES PAJE___________________________________
+
+// ________________________________ TAUX REPARTITION ___________________________________
+
+
+app.get('/api/calculsRepartition', function (req, res) {
+  calculRepartition = () => {
+
+    let enfants = [
+      {
+        start :"2019-12-11 10:30",
+        end :"2019-12-11 13:45",
+        famille : 'A',
+        enfant : 1,
+        jour : 1
+      },
+      {
+        start :"2019-12-11 16:30",
+        end :"2019-12-11 18:45",
+        famille : 'A',
+        enfant : 1,
+        jour : 1
+      },
+      {
+        start :"2019-12-11 07:30",
+        end :"2019-12-11 13:00",
+        famille : 'A',
+        enfant : 2,
+        jour : 1
+      },
+      {
+        start :"2019-12-11 17:00",
+        end :"2019-12-11 18:45",
+        famille : 'A',
+        enfant : 2
+      },
+      {
+        start :"2019-12-11 10:00",
+        end :"2019-12-11 12:00",
+        famille : 'B',
+        enfant : 1,
+        jour : 1
+      },
+      {
+        start :"2019-12-11 15:00",
+        end :"2019-12-11 16:45",
+        famille : 'B',
+        enfant : 1,
+        jour : 1
+      },
+      {
+        start :"2019-12-11 08:00",
+        end :"2019-12-11 16:45",
+        famille : 'B',
+        enfant : 2,
+        jour : 1
+      },
+    ]
+    let jour1
+    let hour
+    let end
+    let enfant
+    let jour
+
+/*     if (moment(enfants[1].start).isBetween(enfants[0].start, enfants[0].end)) {
+      hour1 = 'ok'
+    }
+    else {
+      hour1 = 'none'
+    } */
+
+    /* resolve (
+      hour = moment().diff(hours.start, "hours")
+    ) */
+
+    const calculFirstHour = () => {
+      new Promise (resolve => {
+        for(let i=0; i<enfants.length; i++){
+          switch (enfants[i].jour) {
+            case 1 : {
+              if (moment(hour).diff(enfants[i].start, 'hours') > 0) {
+                hour = enfants[i].start
+                end = enfants[i].end
+                famille = enfants[i].famille
+                enfant = enfants[i].enfant
+                jour = enfants[i].jour
+              }
+            }
+          }
+          console.log(hour)
+        }
+        enfants.map(hours => {
+          if (moment(hours.start).isBetween(hour, end)) {
+            console.log('ok')
+          }
+        })
+      })
+    }
+    
+    calculFirstHour()
+    res.send({hour})
+
+    
+
+/*     let date1 = moment(this.state.items[0]);
+
+			let minutes = this.state.minutes
+			let date2 = moment(this.state.items[1]);
+			let difference = date2.diff(date1, 'minutes');
+			minutes.push(difference)
+			
+			this.setState({ minutes: difference })
+			this.setState({ minutes: minutes })
+
+			let total = minutes.reduce((a, b) => a + b, 0)
+
+			// _____ CALCULS MINUTES EN HEURES
+			
+			let time = total / 60
+			let min = (time % 1) * 60
+			let hours = Math.trunc(total / 60)
+
+			let realTime = hours + ' heures et ' + min + ' min'
+			this.setState({ time: realTime, setTime: true })
+			console.log('TIME', realTime); */
+  }
+
+  calculRepartition()
+})
 
 // _______________________________ APP LISTEN _______________________________________
 
