@@ -189,9 +189,10 @@ export default class FamilyAgenda extends React.Component {
 					localStorage.setItem('items', JSON.stringify([]));
 					this.setState({ showOthersChildName: nameChildOthers })
 					this.setState({ nameChildOthers: nameChildOthers })
-					console.log(nameChildOthers)
 					i++;
 					j++;
+					this.setState({ countNotMyChild: j })
+					this.setState({ countMyChild: i })
 					this.resetCalendar()
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -358,7 +359,7 @@ export default class FamilyAgenda extends React.Component {
 				element2 = document.createElement('div');
 				element2.className = 'slot';
 				element2.style.backgroundColor = '#ccccff'
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+				element2.style.width = (horiz.right - horiz.left)/2 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 12 + 'px';
 				element2.style.top = horiz.top + yScroll + 'px';
@@ -591,9 +592,9 @@ export default class FamilyAgenda extends React.Component {
 				</table>
 				<input type="button" value="validate selection" onClick={() => this.validateSelect()} className='validateSelectionAgenda'></input>
 				<input type="button" value="add child" onClick={() => this.addChild()} className='validateSelectionAgenda'></input>
-				<div>"name Famille A" : {this.state.showMyChildName.map(child => <div>{child}</div>)}</div>
+				<div>"Famille A" : {this.state.showMyChildName.map(child => <div>{child}</div>)}</div>
 				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
-				<div>"name Famille B" : {this.state.showOthersChildName.map(childOthers => <div>{childOthers}</div>)} </div>
+				<div>"Famille B" : {this.state.showOthersChildName.map(childOthers => <div>{childOthers}</div>)} </div>
 				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
 				<input type="button" value="reset" onClick={() => this.resetCalendar()}className='resetCalendar'></input>
 			</div >
