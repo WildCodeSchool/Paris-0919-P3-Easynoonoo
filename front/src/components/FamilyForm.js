@@ -22,18 +22,12 @@ const FamilyForm = () => {
   const [myChild, setmyChild] = useState([])
   const [notMyChild, setNotMyChild] = useState([])
 
-  // state intermédiaire qui contient la valeur des inputs
+  // state intermédiaire qui contient la valeur du prénom dans l'input
   const [firstname, setFirstname] = useState('')
-  const [firstnameOthers, setFirstnameOthers] = useState('')
 
   // state qui permet de bloquer l'ajout d'enfant
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
-
-  
-
-
-
 
   //store the data in local storage
   useEffect( () => {
@@ -44,7 +38,7 @@ const FamilyForm = () => {
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
   }, [answers1, answers2, answers3, myChild, notMyChild]) //callback run if only the answers change
     
-  // 1. stocke la nouvelle valeur de l'input dans la state myChild
+  // 1. stocke la nouvelle valeur de l'input dans la state myChild/notMyChild
   // 2. réinitialise firstname à vide
   // 3. écoute la valeur de l'input avec Count
   // 4. + cas pour l'enfant unique
@@ -89,28 +83,27 @@ const FamilyForm = () => {
 
     <h2>Simulation de garde partagée</h2>
 
-
     {count === answers2 && count2 === answers1 - answers2  && count2 !== 0 || count === answers1 && count2 === 0 && answers3 === 'oui' ? '': //if calendar appears, questions disappears
 
       <div className='container-fluid d-flex flex-column justify-content-center no-wrap '>
         
         {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
 
-        <div className='firstQuestion'>
-          <label className='question1'>Au total, combien d'enfants sont gardés par votre nounou ?</label>
+        <div className='row firstQuestion'>
+          <label className='col question1'><p>Au total, combien d'enfants sont gardés par votre nounou ?</p></label>
           <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='5' onClick={() => restart1()} />      
         </div>
 
         {/* si on a plus d'un enfant question 2 apparait */}
 
-        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces {answers1} enfants, combien sont de votre famille ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={() => restart2()} /> </div> : ''}
+        {answers1 > 1 ? <div className ='row familyFormNumberInput'><label className='question2'>Parmi ces {answers1} enfants, combien sont de votre famille ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={() => restart2()} /> </div> : ''}
 
 
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
         {answers1 === answers2 && answers1 > 1 ?
-          <div>
-            <p className='question3'>La garde de vos enfants est-elle partagée avec l'autre parent des enfants dont vous seriez séparé(e) ?</p>
+          <div className='row question3'>
+            <p >La garde de vos enfants est-elle partagée avec l'autre parent des enfants dont vous seriez séparé(e) ?</p>
             <div className="radio">
               <label>
                 <input type="radio" className='checked' value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
@@ -132,8 +125,8 @@ const FamilyForm = () => {
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si un enfant */}
 
         {answers1 === 1 ?
-          <div>
-            <p className='question3'>La garde de votre enfant est-elle partagée avec l'autre parent de l'enfant dont vous seriez séparé(e) ?</p>
+          <div className='question3'>
+            <p>La garde de votre enfant est-elle partagée avec l'autre parent de l'enfant dont vous seriez séparé(e) ?</p>
             <div className="radio">
               <label>
                 <input type="radio" value="oui" checked={answers3 === 'oui'} onChange={e => setAnswers3(e.target.value)} />
@@ -160,8 +153,8 @@ const FamilyForm = () => {
         {/* si on est en co-partage : la question des prénoms apparaît */}
 
         {answers1 === 1 && answers3 === 'oui' ?
-        <div>
-          <p className='question4'>Comment s'appelle l'enfant ?</p>
+        <div className='row question4'>
+          <p>Comment s'appelle l'enfant ?</p>
           <div class="input-group mb-3">
             <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
@@ -173,30 +166,28 @@ const FamilyForm = () => {
         </div>: ''}
 
         {answers1 === answers2 && answers3 === 'oui' ?
-        <div>
-          <p className='question4'>Comment s'appellent les enfants ?</p>
+        <div className='row question4'>
+          <p>Comment s'appellent les enfants ?</p>
           <div class="input-group mb-3">
             <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-            {(myChild.map(e => <div className='sansMargin'> Mon enfant : {e}</div>))}
-            {(notMyChild.map(e => <div>L'autre enfant : {e}</div>))}
+            {(myChild.map(e => <div>Mon enfant : {e} </div>))}
+            {(notMyChild.map(e => <div>L'enfant de la co-famille : {e} </div>))}
         </div>: ''}
         {answers2 < answers1 && answers2 !== 0 ?
-        <div>
-          <p className='question4'>Comment s'appellent les enfants ?</p>
+        <div className='row question4'>
+          <p>Comment s'appellent les enfants ?</p>
           <div class="input-group mb-3">
             <input type="text" value={firstname} onChange={e => setFirstname(e.target.value)} class="form-control" placeholder="Prénom" aria-label="Prénom" aria-describedby="button-addon2"/>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-            {(myChild.map(e => <div className='sansMargin'>Mon enfant : {e} </div>))}
+            {(myChild.map(e => <div>Mon enfant : {e} </div>))}
             {(notMyChild.map(e => <div>L'enfant de la co-famille : {e} </div>))}
-        
-
         </div>
          : ''}
         
