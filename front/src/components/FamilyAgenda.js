@@ -109,7 +109,8 @@ export default class FamilyAgenda extends React.Component {
           end: this.state.items[1],
         })
       }
-
+      localStorage.setItem('items', JSON.stringify(items))
+/* 
       // alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
       localStorage.setItem('items', JSON.stringify(items))
       // this.setState({ items: [] })
@@ -136,7 +137,7 @@ export default class FamilyAgenda extends React.Component {
 
       let realTime = hours + ' heures et ' + min + ' min'
       this.setState({ time: realTime, setTime: true })
-      console.log('TIME', realTime)
+      console.log('TIME', realTime) */
     } else {
       return null
     }
@@ -282,7 +283,6 @@ export default class FamilyAgenda extends React.Component {
   }
 
   handleAllClickEnds = (e, n) => {
-    this.validateSelect()
     endSelect = e.target.id
     this.removeRectangle()
     if (startSelect && endSelect) {
@@ -356,7 +356,8 @@ export default class FamilyAgenda extends React.Component {
             old[i].remove()
           }
         }
-        this.addRectangleClassName()
+        this.validateSelect()
+        this.createValidateDiv()
       } else {
         return null
       }
@@ -497,6 +498,7 @@ export default class FamilyAgenda extends React.Component {
   componentDidUpdate() {}
 
   render() {
+    this.getSelect()
     this.createSelectionDiv()
     this.createValidateDiv()
 
