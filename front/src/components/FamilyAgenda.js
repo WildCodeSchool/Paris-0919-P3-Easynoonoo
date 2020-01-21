@@ -30,7 +30,7 @@ export default class FamilyAgenda extends React.Component {
 		items:[],
 		selected:[],
 		weekIndex : moment().isoWeek(),
-  	    year : moment().year(),
+  	year : moment().year(),
 		active: "",
 		width:  0,
 		height: 0,
@@ -87,19 +87,27 @@ export default class FamilyAgenda extends React.Component {
 
 	handleCellSelection = (item) => {
 		this.setState({selected:[item]})
-	}
+  }
+  
+  findWeekDay = (date) => {
+    let convertDate = new Date(date);
+    let getDay = convertDate.getDay();
+    let weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    let findTheDay = weekday[getDay];
+    return findTheDay
+  }
+
 
 	validateSelect = () => {
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'));
 			if (items === null) {
-				items = [{start : this.state.items[0], end : this.state.items[1]}]
+				items = [{day : this.findWeekDay(this.state.items[0]), start : this.state.items[0], end : this.state.items[1]}]
 				
 			}
 			else {
-				items.push({start : this.state.items[0], end : this.state.items[1]});
+				items.push({day : this.findWeekDay(this.state.items[0]), start : this.state.items[0], end : this.state.items[1]});
 			}
-			console.log('allo',items);
 			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items));
 			this.setState({items : []})
@@ -107,13 +115,28 @@ export default class FamilyAgenda extends React.Component {
 		else {
 			return null
 		}
-	}
+  }
+  
+  // getSelection = (start , end) => {
+	// 	let strt =  moment(start)
+	// 	let endd =   moment(end)
+  //   let arr = endd.diff(strt) >0?[start,end]:[end,start];
+  //   let dateStrt = new Date(strt._i)
+  //   let getDay = dateStrt.getDay();
+  //   let weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  //   let findTheDay = weekday[getDay];
+  //   console.log('moment here',strt)
+  //   console.log('ici getSelection strt date', Date(strt._i))
+  //   console.log('ici getSelection strt getdate', getDay)
+  //   console.log('ici getSelection strt findDay', findTheDay)    
+	// 	this.handleRangeSelection(arr, end);
+	// }
 
+
+  
 	
 
-	addChild = () => {
-		
-		
+	addChild = () => {			
 		let items = JSON.parse(localStorage.getItem('items'));
 		let items2 = JSON.parse(localStorage.getItem('items2'));
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
@@ -122,25 +145,30 @@ export default class FamilyAgenda extends React.Component {
 		let j = this.state.countNotMyChild;
 		let nameChild;
 		let arrayChildren = this.state.arrayChildren
-		let arrayRandom = []
+    let arrayRandom = []
+    		
 		
-		let items3 = items
-
-		
-		
+				
 		if(i < myChild.length) {
 			if(items.length > 0) {
 				nameChild = myChild[i];
 				//items = {items, name : nameChild, color : 'red', ownChild : true, id : i + 1}			
 				// for(let k = 0; k < items.length; k++)		 {
 				// 	arrayRandom.push(items[k])
-				// }
-				
-				
-				arrayRandom.push(items3)
-				arrayRandom.push( {name : nameChild})
-				
-				
+        // }
+        
+        //Champs de bataille
+
+        let arrayTr = [];
+
+        items.map( e => {
+          arrayTr.push(this.findWeekDay(e.start))          
+        })
+        console.log('ici arrayTr', arrayTr)
+
+        arrayRandom.push(items)
+        arrayRandom.push(arrayTr)
+				arrayRandom.push( {name : nameChild})								
 				arrayRandom.push( {ownChild : true})
 				arrayRandom.push( {id : i + 1})
 				arrayChildren.push(arrayRandom)
@@ -151,9 +179,7 @@ export default class FamilyAgenda extends React.Component {
 				localStorage.setItem('items2', JSON.stringify(items2));	
 				localStorage.setItem('items', JSON.stringify([]));				
 				i ++;
-				this.setState({countMyChild : i})
-
-				
+				this.setState({countMyChild : i})				
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			}
@@ -161,13 +187,19 @@ export default class FamilyAgenda extends React.Component {
 			if(j < notMyChild.length) {
 				if(items.length > 0) {
 					nameChild = notMyChild[j];
-
 					// for(let k = 0; k < items.length; k++)		 {
 					// 	arrayRandom.push(items[k])
-					// }
-					arrayRandom.push(items)
+          // }
+          
+          let arrayTr = [];
+
+          items.map( e => {
+          arrayTr.push(this.findWeekDay(e.start))          
+          })
+          
+          arrayRandom.push(items)
+          arrayRandom.push(arrayTr)
 					arrayRandom.push( {name : nameChild})
-					arrayRandom.push( {color : 'black'})
 					arrayRandom.push( {ownChild : false})
 					arrayRandom.push( {id : i + 1})
 					arrayChildren.push(arrayRandom)
@@ -182,15 +214,9 @@ export default class FamilyAgenda extends React.Component {
 					j ++
 					this.setState({countMyChild : i})
 					this.setState({countNotMyChild : j})
-
-
-
-
-
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
-
 
 			} else {
 				alert("Il n'y a plus d'enfant à rajouter")
@@ -199,10 +225,6 @@ export default class FamilyAgenda extends React.Component {
 
 		
 	}
-
-
-
-
 
 	/* -------- Start Selection on click -------- */
 
@@ -264,7 +286,16 @@ export default class FamilyAgenda extends React.Component {
 	getSelection = (start , end) => {
 		let strt =  moment(start)
 		let endd =   moment(end)
-		let arr = endd.diff(strt) >0?[start,end]:[end,start];
+    let arr = endd.diff(strt) >0?[start,end]:[end,start];
+    let dateStrt = new Date(strt._i)
+    let getDay = dateStrt.getDay();
+    let weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    let findTheDay = weekday[getDay];
+    console.log('moment here',strt)
+    console.log('ici getSelection strt date', Date(strt._i))
+    console.log('ici getSelection strt getdate', getDay)
+    console.log('ici getSelection strt findDay', findTheDay)
+    
 		this.handleRangeSelection(arr, end);
 	}
 
@@ -287,18 +318,18 @@ export default class FamilyAgenda extends React.Component {
 		/* -------- Create a new Div from selected Cells to highlight them -------- */
 		
 	addRectangleClassName =() => {
-        let yScroll = window.scrollY;
+    let yScroll = window.scrollY;
 		let first = document.getElementById(this.state.items[0])
 		let last = document.getElementById(this.state.items[1])
 		let horiz = first.getBoundingClientRect();
-        let vert = last.getBoundingClientRect();
+    let vert = last.getBoundingClientRect();
 		element = document.createElement('div');
-        element.className = 'rectangle';
+    element.className = 'rectangle';
 		element.style.width = (horiz.right - horiz.left) - 3 + 'px';
 		element.style.height = vert.bottom - horiz.top + 'px'
 		element.style.left = horiz.left + 'px';
-        element.style.top = horiz.top + yScroll +'px';
-        document.body.appendChild(element)
+    element.style.top = horiz.top + yScroll +'px';
+    document.body.appendChild(element)
 	}
 			
 
@@ -335,19 +366,18 @@ export default class FamilyAgenda extends React.Component {
 	/* -------- Create new Div from selection in local storage -------- */
 
 	getSelect =() => {
-        let yScroll = window.scrollY;
+    let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
 		//CHAMP DE BATAILLE 
 		let slot2 = JSON.parse(localStorage.getItem('items2'))
-		
-		let allChildren =JSON.parse(localStorage.getItem('allChildren'))
-		let i = this.state.countMyChild
+		let week = this.state.weekIndex
 		
         
 		if (slot != null) {
 			slot.map((slot, index) => {
+        console.log('ici weekindex slot1',week)
 				
-                let first = document.getElementById(slot.start)
+        let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
 				let vert = last.getBoundingClientRect();
@@ -358,35 +388,15 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 12 +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
-                document.body.appendChild(element2)
+        document.body.appendChild(element2)
 			})
 
 
 		} if (slot2 != null) {
 			slot2.map((slot, index) => {
-				  
-				function findName(e) {
-					return e.id === i;
-				}
-				allChildren.unshift( {color : 'red'})
-				localStorage.setItem('allChildren', JSON.stringify(allChildren));
-				localStorage.getItem('allChildren', JSON.stringify(allChildren));
-				
-				console.log('slot start',slot)
-				console.log('index ', allChildren[index][0])
-				console.log('index 2', allChildren[index][2])
-				
-				//console.log('allChildren start', allChildren[0][1])
-				//console.log('allChildren start 0', allChildren[0].find(findName))
-				//console.log('allChildren color', )
-				console.log(index)
-				
-				console.log('i', i)
-				
-
-				
-				
-                let first = document.getElementById(slot.start)
+        console.log('ici weekindex slot2',week)
+        
+        let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
 				let vert = last.getBoundingClientRect();
@@ -397,7 +407,7 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 12 +'px';
 				element2.style.top = horiz.top + yScroll + 'px';
-                document.body.appendChild(element2)
+        document.body.appendChild(element2)
 			})
 		 
 		
