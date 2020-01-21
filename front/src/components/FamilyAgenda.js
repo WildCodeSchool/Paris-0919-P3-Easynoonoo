@@ -40,7 +40,7 @@ export default class FamilyAgenda extends React.Component {
 		showMyChildName: [],
 		showOthersChildName: [],
 		colorState: [],
-		minutes : [],
+		minutes: [],
 		time: '',
 		setTime: false
 	}
@@ -108,21 +108,23 @@ export default class FamilyAgenda extends React.Component {
 			// this.setState({ items: [] })
 
 			// __________________ CALCULS DES DATES ________________
-
+			
 			let date1 = moment(this.state.items[0]);
-
 			let minutes = this.state.minutes
 			let date2 = moment(this.state.items[1]);
 			let difference = date2.diff(date1, 'minutes');
 			minutes.push(difference)
-			
+
 			this.setState({ minutes: difference })
 			this.setState({ minutes: minutes })
+			console.log('caca',date1, date2);
+			
+			
 
 			let total = minutes.reduce((a, b) => a + b, 0)
 
 			// _____ CALCULS MINUTES EN HEURES
-			
+
 			let time = total / 60
 			let min = (time % 1) * 60
 			let hours = Math.trunc(total / 60)
@@ -220,13 +222,7 @@ export default class FamilyAgenda extends React.Component {
 				alert("Il n'y a plus d'enfant à rajouter")
 			}
 		}
-
-
 	}
-
-
-
-
 
 	/* -------- Start Selection on click -------- */
 
@@ -284,12 +280,20 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
+	// _________________ CLEMENT MODIFIED THIS _________________>>
+
 	getSelection = (start, end) => {
+		
 		let strt = moment(start)
 		let endd = moment(end)
-		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
-		this.handleRangeSelection(arr, end);
+
+		let realEnd = moment(end).add(15, 'minutes').format('YYYY-MM-DD hh:mm')		
+		
+		let arr = endd.diff(strt) > 0 ? [start, realEnd] : [realEnd, start];
+
+		this.handleRangeSelection(arr, realEnd);
 	}
+	// <<_________________ CLEMENT MODIFIED THIS _________________
 
 	handleMouseOver = (e) => {
 		let yScroll = window.scrollY;
@@ -474,8 +478,6 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	componentDidUpdate() {
-
-
 	}
 
 	render() {
@@ -578,28 +580,51 @@ export default class FamilyAgenda extends React.Component {
 						</tr>
 					</thead>
 					<tbody id="calendarBodyId" className="calendarTableBody" onMouseDown={this.handleAllClickStarts} onMouseUp={this.handleAllClickEnds} onMouseOver={this.handleMouseOver}>
-						{rows.map(row => {
+						{rows.map((row, i) => {
 							this.createTable(row.id)
-							return (
-								<>
-									<tr>
-										<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
-									</tr>
-									{hours.map((hour) => {
-										return (
-											<tr className="agenda__row   hour-start" draggable='false'>
-												{columns.map(column => {
-													return (
-														<td id={column.date + hour} className='calendarCell'></td>
-													)
-												})
-												}
-											</tr>
-										)
-									})
-									}
-								</>
-							)
+							if (i % 2 === 0){
+								return (
+									<>
+										<tr>
+											<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+										</tr>
+										{hours.map((hour) => {
+											return (
+												<tr className="agenda__row_hour-start" draggable='false'>
+													{columns.map(column => {
+														return (
+															<td id={column.date + hour} className='calendarCell'></td>
+														)
+													})
+													}
+												</tr>
+											)
+										})
+										}
+									</>
+								)
+							} else {
+								return (
+									<>
+										<tr>
+											<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+										</tr>
+										{hours.map((hour) => {
+											return (
+												<tr className="agenda__row_hour-startBis" draggable='false'>
+													{columns.map(column => {
+														return (
+															<td id={column.date + hour} className='calendarCell'></td>
+														)
+													})
+													}
+												</tr>
+											)
+										})
+										}
+									</>
+								)
+							}
 						})
 						}
 					</tbody>

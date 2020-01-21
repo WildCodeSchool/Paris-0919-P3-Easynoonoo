@@ -127,11 +127,11 @@
   /* ------- Minute Cell Styles ------- */
   
   td.calendarCell {
-    background-color:#f9f9f9;
     border-right: solid 2px lightgray;
     text-align: center;
     height : 1vh;
     user-select: none;
+    border: 0.1px solid rgb(223, 223, 223);
   }
   
   /* ------- Time Cell Styles ------- */
@@ -160,4 +160,13 @@
       padding : 0 1%;
       width : 10%;
       background-color : #E2E5ED ;
+  }
+
+  /* MODIF CLEMENT */
+  .agenda__row_hour-start {
+    background: rgb(180, 180, 180)
+  }
+
+  .agenda__row_hour-startBis {
+    background: rgb(110, 110, 110)
   }
