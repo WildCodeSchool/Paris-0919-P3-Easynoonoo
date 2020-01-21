@@ -1,25 +1,19 @@
 .headerLogo {
-    width : 200px;
-    
+    width : 200px;    
 }
 
 .headerWebsite {
     box-sizing: border-box;
 }
 
+
 .navbarWebsite {
-    display : flex;
+    
     background-color : white;
-    justify-content : space-between;
     height : 100%;
     font-size : 15px;
     margin-top : 15px;
     
-}
-
-.navbarWebsite h2 {
-    color : #EE5E6A;
-    margin-left: 10%;
 }
 
 
@@ -35,39 +29,13 @@
     opacity: 0.7; 
 }
 
-@media screen and (max-width: 800px) and (min-width: 500px) {
 
-    .navbarWebsite h2 {
-        color : #EE5E6A;
-        margin-left: 10%;
-        margin-top: 2%;
-        font-size:18px
-    }
 
-    .navbarWebsite input {
-        width: 15%;
-        margin-right: 1%;
-        margin-top: 0.5%;
-        margin-bottom: 1%;
-        
+@media screen and (max-width: 768px) {
+    .headerLogo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
+    
 }
-
-@media screen and (max-width: 550px) {
-
-    .navbarWebsite h2 {
-        color : #EE5E6A;
-        margin-left: 10%;
-        margin-top: 2%;
-        font-size:18px
-    }
-
-    .navbarWebsite input {
-        width: 25%;
-        margin-right: 3%;
-        margin-top: 0.5%;
-        margin-bottom: 1%;
-        
-    }
-}
-
