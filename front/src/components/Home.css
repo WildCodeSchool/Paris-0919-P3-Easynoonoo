@@ -3,132 +3,74 @@
 }
 
 .Homepage p {
-    font-size : 20px;
+    font-size : 1rem;
 }
 
-.Homepage .articleDescription {
-    display: flex;
-    /*margin: 8%;*/
+.Homepage h2 {
+    font-size : 2rem;
+    margin-bottom : 0px;
+}
+
+.Homepage a {
+    text-decoration: none;
+}
+
+.Homepage .articleDescription {  
+    margin-top : 5%;  
     background-color : #E2E5ED;
-    padding-top : 6%;
-    padding-bottom : 6%;
-    margin-top : 5%;
-    margin-bottom : 5%;
-        
+    padding-top : 5%;
+    padding-bottom : 5%;            
 }
 
-.articleVision {
-    display : flex;
-    flex-direction : column;
-    width : 50%;
-    justify-content : center;
-    /*padding-left : 12%;
-    padding-right : 5%;*/
-    color : #687189;  
-    padding-left : 8%; 
-    
+.articleVision {  
+    color : #687189;      
 }
 
-.articleMission {
-    display : flex;
-    flex-direction : row;
-    width : 50%;
-    /*padding-left : 2%;
-    padding-right : 2%;*/
-    
-    color : black; 
-    justify-content : flex-end;
-    text-align : center;
-    
-     
-}
-
-.articleDescription h2 {
-    font-size : 40px;
-    margin : 0px;
-    margin-bottom : 1%; 
-    color:#2E3858; 
+.articleDescription h2 {  
+    color:#2E3858;    
 }
 
 /* placeholder pour le logo */
 
-.articleMission .logo {
-    width: 100%;
-    
-
-}
-
-.logo h2 {
-    margin: 15px;
-}
-
 .placeholderLogo {
-    height: 25vh;
-    /*margin: 2%;*/
+    height: 400px;
+    width: 400px;    
     -webkit-transition: -webkit-transform .8s ease-in-out;
     transition:         transform .8s ease-in-out;
-
 }
 
 .placeholderLogo:hover {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
-
 }
 
-/*Teaser*/
-
-.h2Teaser {
-    font-size : 40px;
-    color : #2E3858;
-    padding-left : 8%;
-    padding-bottom : 0px;
-
-}
+/*Contrat -> rappel*/
 
 .Homepage .screen {
-    display: flex;    
-    align-items : center;
-    justify-content: space-around;     
-    padding : 8%;
-    padding-top : 5%; 
-    flex-wrap: wrap;      
+    padding-top : 10%;
+    padding-bottom : 10%;    
 }
 
-#screen2Bg {  /*background for the second screen*/
-    background-color : #687189;  
-    flex-wrap : wrap-reverse; 
-    padding-top : 8%;
+.Homepage .screenv2 {  /*background for the second screen*/
+    background-color : #687189;       
 }
 
 .Homepage .desc {       
     color : #2E3858;    
-    width : 30%;
     font-size : 20px;      
 }
 
-#descColor { /*background for the second description */
+.Homepage .descColor { /*background for the second description */
    color : #FFFFFF;
 }
 
-.Homepage .desc h3{       
-    color : #EE5E6A;
-    font-size : 35px;             
+.Homepage .desc h2{       
+    color : #EE5E6A; 
+    margin-left : 1%;           
 }
 
-#h3Color {       
-    color : #000000;                 
-}
-
-
-/*img */
-
-.screenshot1 {
-    box-shadow: 12px 12px 8px 12px rgba(93, 93, 107, 0.137);
-}
-
-.screenshot2 {
-    box-shadow: 12px 12px 8px 12px rgba(30, 30, 32, 0.137);
+#rappel {
+    margin-bottom : 10%;
 }
 
 
@@ -141,18 +83,15 @@
     font-size : 40px;
     color : #2E3858;
     margin-top : 8%;
-    
+    margin-bottom : 3%;    
 }
 
 .Homepage .simulateur {        
-    display : flex;
-    margin : 8%;
-    margin-top : 6%;
+    margin-bottom : 10%;
+    margin-top : 9%;
 }
 
-
 /*Simulateur / Txt + btn*/
-
 
 .simulateur h3 {
     font-size : 20px;
@@ -160,23 +99,17 @@
     margin-bottom : 2%;
 }
 
-.simulateurDescription {
-    display : flex;
-    flex-direction : column;
-    width : 50%;
-    justify-content : center; /*center div height wise */
-    align-items : center; /*center div width wise */
-    text-align : center; /*center text */
-    padding : 5%;
+.simulateurDescription {    
     color : #2E3858;
-    background-color : #E2E5ED;    
+    background-color : #E2E5ED;
+    padding : 5%;
+    text-align : center;   
 }
 
 
 #simuDesc2 {
     color : #E2E5ED;
     background-color : #2E3858;   
-
 }
 
 .simulateurbtn {
@@ -195,99 +128,25 @@
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 0, 0.2);
 }
 
-
-@media screen and (max-width: 1360px) { /*for teaser blocs */
-    .Homepage .desc {
-        width : 70%;
-        margin-top : 2%;
-        margin-bottom : 2%;
-        text-align : center;
-    }
-
-}
-
-@media screen and (max-width: 1050px) { /*for simulator blocs */
-    .simulateur {
-        flex-direction: column;
-        margin-bottom : 2%;
-        align-items : center;        
-    }
-
-    .simulateurDescription {
-        width : 100%;
-    }
-
-}
-
-@media screen and (max-width: 800px) { /*Font-size behavior mainly */
-
-    .Homepage .desc {       
-        color : #2E3858;    
-        width : 100%;
-        font-size : 2.5vw;      
-    }
-
-    .Homepage p {
-        font-size : 2.5vw;
-    }
-
-    .Homepage .desc h3{       
-        font-size : 4.5vw;             
-    }
-
-    .Homepage h2 {
-        font-size : 6vw;
-    }
-
-    .h2Simulateur {        
-        margin-bottom : 10%; 
-    }
-
-    .simulateur h3 {
-        font-size : 4.5vw; 
-    }
-
-
-    .simulateurbtn {
-        font-size : 2.5vw;
-        width : 100px;
-        height : 35px;
-        margin-top : 4%;
-        border : none;
-        box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
-    }
-
-
-}
-
-
-@media screen and (max-width: 800px) and (min-width: 550px) {
-
-    .placeholderLogo {
-        height: 20vh;
-        margin: 2%;
-        -webkit-transition: -webkit-transform .8s ease-in-out;
-        transition:         transform .8s ease-in-out;
+.Homepage .HomepageIcon {
+    height : 50px;
+    width : 50px;
     
-    }
-
-    .articleMission {
-        padding : 0px;
-    
-    }
-
 }
 
-@media screen and (max-width: 550px) {
-
-    .articleMission {
-        display: none
-    
+@media screen and (max-width: 1187px) { /*break point for the banner */
+    .articleMission .logo {
+        display:none;
     }
 
-    .articleVision {
-        width: 100%;
+    .Homepage ol {
+        bottom : -20px;
+    }
+
+    .homepageTitle {
+        margin-bottom : 5%;
     }
 }
+
 
 
