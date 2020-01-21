@@ -27,8 +27,12 @@ const FamilyForm = () => {
   const [firstnameOthers, setFirstnameOthers] = useState('')
 
   // state qui permet de bloquer l'ajout d'enfant
-  const [count, setCount] = useState(1)
-  const [count2, setCount2] = useState(1)
+  const [count, setCount] = useState(0)
+  const [count2, setCount2] = useState(0)
+
+  // state count
+  const [i, setI] = useState(0)
+  const [j, setJ] = useState(0)
 
   //store the data in local storage
   useEffect( () => {
@@ -43,18 +47,37 @@ const FamilyForm = () => {
   // 2. réinitialise firstname à vide
   // 3. écoute la valeur de l'input avec Count
   // 4. + cas pour l'enfant unique
-  const handleName =  () => {
-  if (count <= answers2) {
-   setmyChild([...myChild, firstname]);
-   setFirstname('');
-   setCount(count+1)
-  } if (count === 1 && answers2 === 0) {
-    setmyChild([...myChild, firstname]);
-    setFirstname('');
-    setCount(count+1)
-  } if (count > answers2) {
-   setFirstname('')}
-  }
+
+   const handleName = () => {
+     if (count < answers1 && answers2 == 0 || count < answers2  && answers2 != 0   ) {
+      setmyChild([...myChild, firstname]);
+      setFirstname('');
+      setCount(count + 1)
+     } else {
+       if (count2 < answers1 - answers2) {
+        setNotMyChild([...notMyChild, firstname]);
+        setFirstname('');
+        setCount2(count2+1)       
+       } else {
+         return alert("Can't add more children")
+       }
+     }
+   }
+
+
+
+  // const handleName =  () => {
+  // if (count <= answers2) {
+  //  setmyChild([...myChild, firstname]);
+  //  setFirstname('');
+  //  setCount(count+1)
+  // } if (count === 1 && answers2 === 0) {
+  //   setmyChild([...myChild, firstname]);
+  //   setFirstname('');
+  //   setCount(count+1)
+  // } if (count > answers2) {
+  //  setFirstname('')}
+  // }
 
   // même chose que handlename pour les enfants de l'autre famille
   const handleNameOthers = () => {
@@ -72,22 +95,24 @@ const FamilyForm = () => {
     setmyChild([]);
     setNotMyChild([]);
     setAnswers2(0);
-    setCount(1);
-    setCount2(1)
+    setCount(0);
+    setCount2(0);
    }
 
   // réinitialise les states quand on clique sur le deuxième input
    const restart2 = () => {
     setmyChild([]);
     setNotMyChild([]);
-    setCount(1);
-    setCount2(1)
+    setCount(0);
+    setCount2(0);
    }
 
   return (
     <div className='container d-flex justify-content-center align-items-center no-wrap familyForm'  >
 
     <h2>Simulation de garde partagée</h2>
+
+    
 
       <div>
         
@@ -190,18 +215,18 @@ const FamilyForm = () => {
               <button class="btn btn-outline-secondary" type="button" id="button-addon2" onClick={() => handleName()}>Ajouter</button>              
             </div>            
           </div>
-            {(myChild.map(e => <div className='sansMargin'>Mon enfant : {e}</div>))}
-            {(notMyChild.map(e => <div> L'autre enfant : {e} </div>))}
+            {(myChild.map(e => <div className='sansMargin'>Mon enfant : {e} </div>))}
+            {(notMyChild.map(e => <div>L'enfant de la co-famille : {e} </div>))}
         
 
         </div>
          : ''}
         {/* enfants multiples en garde co-famille : calendrier apparait  */}
-      {count === answers2 + 1 && count2 === answers1 - answers2 + 1 && count2 !== 1 ?
+      {count === answers2 && count2 === answers1 - answers2  && count2 !== 0 ?
         <FamilyAgenda/> : ''}
 
          {/* enfants en garde partagée : calendrier apparait  */} 
-        {count === answers1 + 1 && count2 === 1 && answers3 === 'oui' ? 
+        {count === answers1 && count2 === 0 && answers3 === 'oui' ? 
         <FamilyAgenda/> : ''}
 
       <Link to='/'><p className="simFormReturn">Retour aux simulateurs</p></Link>
