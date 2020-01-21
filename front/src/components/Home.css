@@ -8,6 +8,7 @@
 
 .Homepage h2 {
     font-size : 2rem;
+    margin-bottom : 0px;
 }
 
 .Homepage a {
@@ -25,12 +26,7 @@
     color : #687189;      
 }
 
-.Homepage .articleVision h2 {  
-    margin-bottom : 1%;
-}
-
-.articleDescription h2 {
-    margin : 0px;    
+.articleDescription h2 {  
     color:#2E3858;    
 }
 
@@ -70,12 +66,15 @@
 
 .Homepage .desc h2{       
     color : #EE5E6A; 
-    margin-bottom : 3%;
     margin-left : 1%;           
 }
 
 #rappel {
     margin-bottom : 10%;
+}
+
+.homepageTitle {
+    margin-bottom : 5%;
 }
 
 
@@ -92,6 +91,7 @@
 
 .Homepage .simulateur {        
     margin-bottom : 10%;
+    margin-top : 9%;
 }
 
 /*Simulateur / Txt + btn*/
@@ -106,7 +106,7 @@
     color : #2E3858;
     background-color : #E2E5ED;
     padding : 5%;
-    text-align : center;    
+    text-align : center;   
 }
 
 
