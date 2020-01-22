@@ -243,6 +243,11 @@ export default class FamilyAgenda extends React.Component {
     console.log('joue')
   }
 
+  resetCalendarPage = () => {
+    localStorage.setItem('items', JSON.stringify([]))
+    localStorage.setItem('items2', JSON.stringify([]))
+    this.setState({ items: [] })
+  }
   /* -------- Start Selection on click -------- */
 
   handleMouseClick = (cell, bypass) => {
@@ -643,6 +648,12 @@ export default class FamilyAgenda extends React.Component {
           type="button"
           value="add child"
           onClick={() => this.addChild()}
+          className="validateSelectionAgenda"
+        ></input>
+        <input
+          type="button"
+          value="effacer les éléments de cette page"
+          onClick={() => this.resetCalendarPage()}
           className="validateSelectionAgenda"
         ></input>
 
