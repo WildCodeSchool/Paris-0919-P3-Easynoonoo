@@ -43,7 +43,8 @@ export default class FamilyAgenda extends React.Component {
 		minutes: [],
 		time: '',
 		setTime: false,
-		slotHours: []
+		slotHours: [],
+		slotFixedHours: []
 	}
 
 
@@ -118,7 +119,6 @@ export default class FamilyAgenda extends React.Component {
 
 			this.setState({ minutes: difference })
 			this.setState({ minutes: minutes })
-			console.log('caca', date1, date2);
 
 			let total = minutes.reduce((a, b) => a + b, 0)
 
@@ -130,7 +130,20 @@ export default class FamilyAgenda extends React.Component {
 
 			let realTime = hours + ' heures et ' + min + ' min'
 			this.setState({ time: realTime, setTime: true })
-			console.log('TIME', realTime);
+
+			// _______ HORAIRE A AFFICHER SUR LE SLOT
+
+			console.log('validateSelect',this.state.slotHours);
+
+			// Tâche: extraire les 2 derniers index du tableau slotHours
+			// trouver un index pour chaque creation de slot
+
+			let a = this.state.slotHours[this.state.slotHours.length - 2];
+			let b = this.state.slotHours[this.state.slotHours.length - 1];
+			item.push({a, b})
+			console.log('item',item[0].a, item[0].b);
+			
+			
 		}
 		else {
 			return null
@@ -277,7 +290,7 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	// _________________ CLEMENT PART _________________>>
+	// _________________ CLEMENT PART _________________>> 
 
 	getSelection = (start, end) => {
 
@@ -293,15 +306,7 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		console.log('slotHours / getSelection function', this.state.slotHours);
-	}
-
-	displayHours = () => {
-		return (
-			<div>
-				{this.state.slotHours[0]} - {this.state.slotHours[1]}
-			</div>
-		)
+		console.log(this.state.slotHours);
 	}
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
@@ -320,8 +325,6 @@ export default class FamilyAgenda extends React.Component {
 			element.style.left = (mouse.x - mouse.startX < 0) ? mouse.x + 'px' : mouse.startX + 'px';
 			element.style.top = (mouse.y - mouse.startY < 0) ? Math.abs(mouse.y) - yScroll + 'px' : mouse.startY - yScroll + 'px';
 		}
-		this.setState({ slotHours: [] })
-		console.log('slotHours / handleMouseOver function', this.state.slotHours);
 	}
 
 	/* -------- Create a new Div from selected Cells to highlight them -------- */
@@ -335,15 +338,20 @@ export default class FamilyAgenda extends React.Component {
 		element = document.createElement('div');
 		element.className = 'rectangle';
 		element.style.width = (horiz.right - horiz.left) - 3 + 'px';
-		element.style.height = vert.bottom - horiz.top + 'px'
+		element.style.height = vert.bottom - horiz.top + 'px';
 		element.style.left = horiz.left + 'px';
 		element.style.top = horiz.top + yScroll + 'px';
 		document.body.appendChild(element)
 
-		element.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
+		// _______________________________ ADD BY CLEMENT ___________________________
+
+		element.innerText = this.state.slotHours[this.state.slotHours.length - 2] + '\n' + this.state.slotHours[this.state.slotHours.length - 1];
+
 		element.style.fontSize = '12px';
 		element.style.textAlign = 'center';
 	}
+
+	// _______________________________ ADD BY CLEMENT ___________________________
 
 
 	createSelectionDiv = () => {
@@ -392,12 +400,21 @@ export default class FamilyAgenda extends React.Component {
 				let vert = last.getBoundingClientRect();
 				element2 = document.createElement('div');
 				element2.className = 'slot';
-				element2.style.backgroundColor = '#ccccff'
+				element2.style.backgroundColor = '#ccccff';
 				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px'
+				element2.style.height = vert.bottom - horiz.top + 'px';
 				element2.style.left = horiz.left + 12 + 'px';
 				element2.style.top = horiz.top + yScroll + 'px';
-				document.body.appendChild(element2)
+				document.body.appendChild(element2);
+
+				// ___________ ADDED BY CLEMENT / SLOT 1 - BEFORE VALIDATION >>>>>>>>>>>>>>>
+
+				// element2.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
+				// element2.style.fontSize = '12px';
+				// element2.style.textAlign = 'center';
+
+				// <<<<<<<<<<<< ADDED BY CLEMENT _____________
+
 			})
 		} if (slot2 != null) {
 
@@ -410,8 +427,19 @@ export default class FamilyAgenda extends React.Component {
 				element2.className = 'slot';
 				element2.style.backgroundColor = '#' + this.state.colorState[this.state.colorState.length - 1];
 
+				// ___________ ADDED BY CLEMENT _____________>>	
+
+				// element2.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
+				
+				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
+
+				element2.style.fontSize = '12px';
+				element2.style.textAlign = 'center';
+
+				// <<___________ ADDED BY CLEMENT _____________
+
 				// element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
+				element2.style.width = /* (horiz.right - horiz.left)/2 -  */ 12 + 'px';
 				element2.style.height = vert.bottom - horiz.top + 'px';
 				element2.style.left = horiz.left + 'px';
 				element2.style.top = horiz.top + yScroll + 'px';
@@ -432,7 +460,7 @@ export default class FamilyAgenda extends React.Component {
 						old2[i].remove();
 					}
 				}
-				this.getSelect()
+				this.getSelect()				
 			}
 			else {
 				this.getSelect()
@@ -571,13 +599,13 @@ export default class FamilyAgenda extends React.Component {
 			{ id: '22', hours: '22h' },
 		];
 
-
 		return (
 
 			<div id="someTableId" className="agendaContainer">
 				<div className="selectWeek">
 					{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
-					<h1 className='currentMonth'>{this.thisWeek("Sunday").format('MMMM YYYY')}</h1>
+					{/* <h1 className='currentMonth'>{this.thisWeek("Sunday").format('MMMM YYYY')}</h1> */}
+
 					{/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
 				</div>
 				<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
@@ -586,8 +614,9 @@ export default class FamilyAgenda extends React.Component {
 							<th className='calendarCell head first'></th>
 							{columns.map(column => {
 								return (
-									<th id={this.thisWeek(column.key).format('YYYY-MM-DD ')} className='calendarCell head'>
-										<p className='headColumnName'>{column.name} <span className='headColumnDay'>{column.day}</span></p>
+									<th className='calendarCell head'>
+										{/* <p className='headColumnName'>{column.name} <span className='headColumnDay'>{column.day}</span></p> */}
+										<p className='headColumnName'>{column.name}</p>
 									</th>
 								)
 							})
@@ -655,9 +684,6 @@ export default class FamilyAgenda extends React.Component {
 				<div>"name Famille A" : {this.state.showMyChildName} color : #{this.state.colorState[this.state.colorState.length - 1]} </div>
 				<div>"name Famille B" : {this.state.showOthersChildName} </div>
 				<div>Vous avez sélectionné {this.state.time ? this.state.time : `Vous n'avez pas sélectionné de créneau`}</div>
-				<div>
-					{this.state.slotHours[0]} - {this.state.slotHours[1]}
-				</div>
 			</div >
 		)
 	}
