@@ -565,125 +565,134 @@ export default class FamilyAgenda extends React.Component {
     ]
 
     return (
-      <div id="someTableId" className="agendaContainer">
-        <div className="selectWeek">
-          {/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
-          <h1 className="currentMonth">
-            {this.thisWeek('Sunday').format('MMMM YYYY')}
-          </h1>
-          {/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
-        </div>
-        <table
-          id="tamèreenstring"
-          className="calendarTable"
-          cellPadding="0"
-          cellSpacing="0"
-        >
-          <thead>
-            <tr>
-              <th className="calendarCell head first"></th>
-              {columns.map(column => {
+      <>
+        <div id="someTableId" className="agendaContainer">
+          <div className="selectWeek">
+            {/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
+            <h1 className="currentMonth">
+              {this.thisWeek('Sunday').format('MMMM YYYY')}
+            </h1>
+            {/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
+          </div>
+          <table
+            id="tamèreenstring"
+            className="calendarTable"
+            cellPadding="0"
+            cellSpacing="0"
+          >
+            <thead>
+              <tr>
+                <th className="calendarCell head first"></th>
+                {columns.map(column => {
+                  return (
+                    <th
+                      id={this.thisWeek(column.key).format(
+                        'YYYY-MM-DD ',
+                      )}
+                      className="calendarCell head"
+                    >
+                      <p className="headColumnName">
+                        {column.name}{' '}
+                        <span className="headColumnDay">
+                          {column.day}
+                        </span>
+                      </p>
+                    </th>
+                  )
+                })}
+              </tr>
+            </thead>
+            <tbody
+              id="calendarBodyId"
+              className="calendarTableBody"
+              onMouseDown={this.handleAllClickStarts}
+              onMouseUp={this.handleAllClickEnds}
+              onMouseOver={this.handleMouseOver}
+            >
+              {rows.map(row => {
+                this.createTable(row.id)
                 return (
-                  <th
-                    id={this.thisWeek(column.key).format(
-                      'YYYY-MM-DD ',
-                    )}
-                    className="calendarCell head"
-                  >
-                    <p className="headColumnName">
-                      {column.name}{' '}
-                      <span className="headColumnDay">
-                        {column.day}
-                      </span>
-                    </p>
-                  </th>
+                  <>
+                    <tr>
+                      <th
+                        className="calendarCell time"
+                        draggable="false"
+                        rowSpan="5"
+                      >
+                        {row.hours}
+                      </th>
+                    </tr>
+                    {hours.map(hour => {
+                      return (
+                        <tr
+                          className="agenda__row   hour-start"
+                          draggable="false"
+                        >
+                          {columns.map(column => {
+                            return (
+                              <td
+                                id={column.date + hour}
+                                className="calendarCell"
+                              ></td>
+                            )
+                          })}
+                        </tr>
+                      )
+                    })}
+                  </>
                 )
               })}
-            </tr>
-          </thead>
-          <tbody
-            id="calendarBodyId"
-            className="calendarTableBody"
-            onMouseDown={this.handleAllClickStarts}
-            onMouseUp={this.handleAllClickEnds}
-            onMouseOver={this.handleMouseOver}
-          >
-            {rows.map(row => {
-              this.createTable(row.id)
-              return (
-                <>
-                  <tr>
-                    <th
-                      className="calendarCell time"
-                      draggable="false"
-                      rowSpan="5"
-                    >
-                      {row.hours}
-                    </th>
-                  </tr>
-                  {hours.map(hour => {
-                    return (
-                      <tr
-                        className="agenda__row   hour-start"
-                        draggable="false"
-                      >
-                        {columns.map(column => {
-                          return (
-                            <td
-                              id={column.date + hour}
-                              className="calendarCell"
-                            ></td>
-                          )
-                        })}
-                      </tr>
-                    )
-                  })}
-                </>
-              )
-            })}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
 
-        <input
-          type="button"
-          value="add child"
-          onClick={() => this.addChild()}
-          className="validateSelectionAgenda"
-        ></input>
-        <input
-          type="button"
-          value="effacer les éléments de cette page"
-          onClick={() => this.resetCalendarPage()}
-          className="validateSelectionAgenda"
-        ></input>
-
-        <div>
-          "name Famille A" :
-          {this.state.showMyChildName.map(child => (
-            <div>{child}</div>
-          ))}
-        </div>
-        <div>
-          "name Famille B" :{' '}
-          {this.state.showOthersChildName.map(child => (
-            <div>{child}</div>
-          ))}
-        </div>
-        {/* <div>
+          <div>
+            "name Famille A" :
+            {this.state.showMyChildName.map(child => (
+              <div>{child}</div>
+            ))}
+          </div>
+          <div>
+            "name Famille B" :{' '}
+            {this.state.showOthersChildName.map(child => (
+              <div>{child}</div>
+            ))}
+          </div>
+          {/* <div>
           Vous avez sélectionné
           {this.state.time
             ? this.state.time
             : `Vous n'avez pas sélectionné de créneau`}
 		</div> */}
-        <Link to="/">
-          <p
-            className="simFormReturn"
-            onMouseDown={() => this.resetCalendar()}
-          >
-            Retour aux simulateurs
-          </p>
-        </Link>
-      </div>
+        </div>
+        <div class="container">
+          <div class="row justify-content-around">
+            <button
+              class="btn btn-primary col-6"
+              type="button"
+              value="add child"
+              onClick={() => this.addChild()}
+            >
+              Valider le planning de l'enfant
+            </button>
+            <button
+              class="btn btn-warning btn-sm col-2 "
+              type="button"
+              value="effacer"
+              onClick={() => this.resetCalendarPage()}
+            >
+              Effacer ce planning
+            </button>
+          </div>
+          <Link to="/">
+            <p
+              class="btn btn-link"
+              onMouseDown={() => this.resetCalendar()}
+            >
+              Retour aux simulateurs
+            </p>
+          </Link>
+        </div>
+      </>
     )
   }
 }
