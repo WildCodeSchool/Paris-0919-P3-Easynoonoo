@@ -4,6 +4,7 @@ import moment from 'moment'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
+import Axios from 'axios'
 
 
 
@@ -459,6 +460,42 @@ export default class FamilyAgenda extends React.Component {
 
 	}
 
+	//ICI CHAMPS DE BATAILLE axios 
+
+
+		// onSubmit(e) {
+		// 	e.preventDefault()
+	
+		// 	const userObject = {
+		// 		name: this.state.name,
+		// 		email: this.state.email
+		// 	};
+	
+		// 	axios.post('http://localhost:4000/users/create', userObject)
+		// 		.then((res) => {
+		// 			console.log(res.data)
+		// 		}).catch((error) => {
+		// 			console.log(error)
+		// 		});
+	
+		// 	this.setState({ name: '', email: '' })
+		// }
+
+		
+
+		sendData = () => {
+			let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
+
+			Axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject)
+				.then((res) => {
+					console.log(res.data)
+				}).catch((err) => {
+					console.log(err)
+				} )
+		};
+
+
+
 	render() {
 
 		this.createSelectionDiv()
@@ -535,6 +572,9 @@ export default class FamilyAgenda extends React.Component {
 			{ id: '22', hours: '22h' },
 		];
 
+		
+
+		
 
 		return (
 
@@ -587,6 +627,8 @@ export default class FamilyAgenda extends React.Component {
 				</table>
 	
 				<input type="button" value="add child" onClick={() => this.addChild()} className='validateSelectionAgenda'></input>
+
+				<input type="button" value="Calculer mon taux de répartition" onClick={() => this.sendData()}></input>
 			</div >
 		)
 	}
