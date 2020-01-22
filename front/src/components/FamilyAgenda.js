@@ -91,7 +91,7 @@ export default class FamilyAgenda extends React.Component {
 	findWeekDay = (date) => { /*To convert moment date -> day, array can be customized */
 		let convertDate = new Date(date);
 		let getDay = convertDate.getDay();
-		let weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+		let weekday = [7, 1, 2, 3, 4, 5, 6] //["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 		let findTheDay = weekday[getDay];
 		return findTheDay
 	}
@@ -205,7 +205,7 @@ export default class FamilyAgenda extends React.Component {
 						arrayTr.push(findEnd(items[k])) // end timeslot
 						arrayTr.push('B') // family B (the other family)
 						arrayTr.push(findDay(items[k]))  // day of the timeslot
-						arrayTr.push(i) // idChild   => ask if 1-4 for family or 1-8 for the two family ?
+						arrayTr.push(i + 1) // idChild   => ask if 1-4 for family or 1-8 for the two family ?
 						arrayTr.push(countId + 1) // id of the future object
 						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
 						arrayObject.push(objChild) // array with all object-timeslot

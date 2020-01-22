@@ -41,8 +41,8 @@ const FamilyForm = () => {
     window.localStorage.setItem('answers3', answers3)
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
-    window.localStorage.setItem('items', JSON.stringify([]) )
-    window.localStorage.setItem('items2', JSON.stringify([]) )
+    window.localStorage.setItem('items', JSON.stringify([]))
+    window.localStorage.setItem('items2', JSON.stringify([]))
     window.localStorage.setItem('allChildren', JSON.stringify([]) )
     window.localStorage.setItem('child1', JSON.stringify(child1) )
   }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
@@ -86,9 +86,6 @@ const FamilyForm = () => {
     window.localStorage.getItem('child1', JSON.stringify([]) )
     console.log(child1)
 
-    
-
-
    }
 
   // réinitialise les states quand on clique sur le deuxième input
@@ -116,12 +113,12 @@ const FamilyForm = () => {
 
         <div className='familyFormNumberInput'>
           <label className='question1'>Au total, combien d'enfants seront gardés par la nounou ?</label>
-          <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='5' onClick={() => restart1()} />      
+          <input className = 'familyFNumber' type='number' classname='answers1' value={answers1} onChange={e => setAnswers1(parseInt(e.target.value, 10))} min='1' max='8' onClick={() => restart1()} />      
         </div>
 
         {/* si on a plus d'un enfant question 2 apparait */}
 
-        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces enfants, combien sont à vous ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max={answers1} onClick={() => restart2()} /> </div> : ''}
+        {answers1 > 1 ? <div className ='familyFormNumberInput'><label className='question2'>Parmi ces enfants, combien sont à vous ?</label> <input type='number' classname='answers2' value={answers2} onChange={e => setAnswers2(parseInt(e.target.value, 10))} min="1" max='4' onClick={() => restart2()} /> </div> : ''}
 
 
         {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
