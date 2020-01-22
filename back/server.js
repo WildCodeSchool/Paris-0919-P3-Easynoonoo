@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const axios = require('axios')
+
 
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
@@ -27,6 +29,13 @@ mongoose
   .catch(error => console.log(error))
 
 /*    TAUX EMPLOYES    */
+
+//route to test if local storage is sent to back
+
+ app.post("/api/calculRepartition", function(req, res) {
+   console.log(req.body)
+ });
+
 
 app.post('/api/calculscharges', function (req, res) {
 
@@ -79,6 +88,9 @@ app.post('/api/calculscharges', function (req, res) {
   let montantAPayer
   let deductionForfaitaireChargesSociales
   let aidesPaje
+
+
+  app.
 
   tauxChargesEmployes.find(
     { dateDebutAnnee: req.body.dateDebutAnnee },
