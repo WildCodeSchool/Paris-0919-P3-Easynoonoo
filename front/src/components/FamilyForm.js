@@ -31,9 +31,6 @@ const FamilyForm = () => {
   const [count, setCount] = useState(1)
   const [count2, setCount2] = useState(1)
 
-  //state qui permet d'afficher les enfants sur le calendrier
-  const [child1, setChild1] = useState([])
-
   //store the data in local storage
   useEffect( () => {
     window.localStorage.setItem('answers1', answers1)
@@ -42,10 +39,8 @@ const FamilyForm = () => {
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]))
-    window.localStorage.setItem('items2', JSON.stringify([]))
     window.localStorage.setItem('allChildren', JSON.stringify([]) )
-    window.localStorage.setItem('child1', JSON.stringify(child1) )
-  }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
+  }, [answers1, answers2, answers3, myChild, notMyChild]) //callback run if only the answers change
     
   // 1. stocke la nouvelle valeur de l'input dans la state myChild
   // 2. réinitialise firstname à vide
@@ -82,10 +77,6 @@ const FamilyForm = () => {
     setAnswers2(0);
     setCount(1);
     setCount2(1)
-    setChild1([])
-    window.localStorage.getItem('child1', JSON.stringify([]) )
-    console.log(child1)
-
    }
 
   // réinitialise les states quand on clique sur le deuxième input
@@ -94,8 +85,6 @@ const FamilyForm = () => {
     setNotMyChild([]);
     setCount(1);
     setCount2(1)
-    setChild1([])
-    window.localStorage.setItem('child1', JSON.stringify([]) )
    }
 
    const boumplanning = () => {

@@ -97,7 +97,7 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 
-	validateSelect = () => {
+	validateSelect = () => { //VU 
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'));
 			if (items === null) {
@@ -107,7 +107,7 @@ export default class FamilyAgenda extends React.Component {
 			else {
 				items.push({ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] });
 			}
-			alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
+			//alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items));
 			this.setState({ items: [] })
 		}
@@ -118,7 +118,6 @@ export default class FamilyAgenda extends React.Component {
 
 	addChild = () => {
 		let items = JSON.parse(localStorage.getItem('items'));
-		let items2 = JSON.parse(localStorage.getItem('items2'));
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let arrayChildren = JSON.parse(localStorage.getItem('allChildren'));
@@ -163,12 +162,6 @@ export default class FamilyAgenda extends React.Component {
 					countId++ // à ressortir				 
 				};
 				arrayChildren.push(...arrayObject)
-				/*Not used for arrayChildren but for slot1 et slot2 */
-				for (let k = 0; k < items.length; k++) {
-					items2.push(items[k])
-				}
-				localStorage.setItem('items2', JSON.stringify(items2));
-				/* */
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));				
 				localStorage.setItem('items', JSON.stringify([]));
 				i++;
@@ -212,12 +205,6 @@ export default class FamilyAgenda extends React.Component {
 						countId++ // à ressortir				 
 					};
 					arrayChildren.push(...arrayObject)
-					/*Not used for arrayChildren but for slot1 et slot2 */
-					for (let k = 0; k < items.length; k++) {
-						items2.push(items[k])
-					}
-					localStorage.setItem('items2', JSON.stringify(items2));
-					/* */
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));				
 					localStorage.setItem('items', JSON.stringify([]));
 					i++;
@@ -345,6 +332,7 @@ export default class FamilyAgenda extends React.Component {
 					}
 				}
 				this.addRectangleClassName()
+				
 			}
 			else {
 				return null
@@ -377,8 +365,6 @@ export default class FamilyAgenda extends React.Component {
 
 		if (slot != null) {
 			slot.map((slot, index) => {
-
-
 				let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect();
@@ -393,32 +379,12 @@ export default class FamilyAgenda extends React.Component {
 				document.body.appendChild(element2)
 			})
 
-
-		} if (slot2 != null) {
-			slot2.map((slot, index) => {
-
-
-				let first = document.getElementById(slot.start)
-				let last = document.getElementById(slot.end)
-				let horiz = first.getBoundingClientRect();
-				let vert = last.getBoundingClientRect();
-				element2 = document.createElement('div');
-				element2.className = 'slot';
-				element2.style.backgroundColor = 'black';
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left + 12 + 'px';
-				element2.style.top = horiz.top + yScroll + 'px';
-				document.body.appendChild(element2)
-			})
-
-
 		} else {
 			return null
 		}
 	}
 
-	createValidateDiv = () => {
+	createValidateDiv = () => { //DONT TOUCHER
 		let slot = JSON.parse(localStorage.getItem('items'));
 		if (slot != null && document.getElementById('calendarBodyId')) {
 			if (document.getElementsByClassName('slot')) {
@@ -428,6 +394,7 @@ export default class FamilyAgenda extends React.Component {
 						old2[i].remove();
 					}
 				}
+				this.validateSelect()
 				this.getSelect()
 			}
 			else {
@@ -618,7 +585,7 @@ export default class FamilyAgenda extends React.Component {
 						}
 					</tbody>
 				</table>
-				<input type="button" value="validate selection" onClick={() => this.validateSelect()} className='validateSelectionAgenda'></input>
+	
 				<input type="button" value="add child" onClick={() => this.addChild()} className='validateSelectionAgenda'></input>
 			</div >
 		)
