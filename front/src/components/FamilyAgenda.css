@@ -72,7 +72,7 @@
 /* ------- Header Styles ------- */
 
 .rectangle {
-  border: solid 1px #000000;
+  border: solid 1px #ffffff;
   border-radius: 10px;
   background: var(--selection);
   position: absolute;
@@ -83,16 +83,15 @@
 
 .slot {
   position: absolute;
-  border: solid 1px #000000;
-  border-radius: 10px;
+  border-radius: 5px;
   z-index: 2000;
   user-select: none;
   pointer-events: none;
 }
 
 .helper-reactangle {
-  border: solid 1px #fa255e;
-  border-radius: 10px;
+  border: solid 1px #ffffff;
+  border-radius: 5px;
   background: var(--selection);
   position: relative;
   z-index: 2000;
@@ -127,8 +126,8 @@
 
 td.calendarCell {
   background-color: #f9f9f9;
-  border-right: solid 2px black;
-  text-align: center;
+ border: solid 5px #f9f9f9;
+  text-align: left; 
   height: 1vh;
   user-select: none;
 }
