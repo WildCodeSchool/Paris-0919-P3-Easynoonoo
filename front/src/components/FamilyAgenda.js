@@ -145,18 +145,6 @@ export default class FamilyAgenda extends React.Component {
     }
   }
 
-  displayChild = () => {
-    let myChild = JSON.parse(localStorage.getItem('myChild'))
-    // let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
-    let nameChild = this.state.nameChild
-    // let nameChildOthers = this.state.nameChildOthers;
-
-    nameChild = [...myChild]
-    this.setState({ showMyChildName: nameChild })
-    // this.setState({ nameChild: nameChild })
-    console.log('nameChild', nameChild)
-  }
-
   addChild = () => {
     let items = JSON.parse(localStorage.getItem('items'))
     let items2 = JSON.parse(localStorage.getItem('items2'))
@@ -169,13 +157,13 @@ export default class FamilyAgenda extends React.Component {
 
     let arrayChildren = this.state.arrayChildren
 
+    alert("voulez-vous garder ce planning pour l'enfant suivant ?")
     if (i < myChild.length) {
       if (items.length > 0) {
         nameChild = [...nameChild, myChild[i]]
         for (let k = 0; k < items.length; k++) {
           arrayChildren.push(items[k])
           items2.push(items[k])
-
           arrayChildren.push({ name: nameChild })
         }
 
@@ -238,9 +226,20 @@ export default class FamilyAgenda extends React.Component {
 
   resetCalendar = () => {
     localStorage.setItem('items', JSON.stringify([]))
-    localStorage.setItem('items2', JSON.stringify([]))
     this.setState({ items: [] })
-    console.log('joue')
+  }
+
+  wipeLastSelect = () => {
+    let itemState = this.state.items
+    let items = JSON.parse(localStorage.getItem('items'))
+    items.pop()
+    itemState.pop()
+
+    localStorage.setItem('items', JSON.stringify(items))
+    this.setState({ itemState: itemState })
+
+    // localStorage.setItem('items', JSON.stringify([]))
+    // this.setState({ items: [] })
   }
 
   resetCalendarPage = () => {
@@ -681,6 +680,14 @@ export default class FamilyAgenda extends React.Component {
               onClick={() => this.resetCalendarPage()}
             >
               Effacer ce planning
+            </button>
+            <button
+              class="btn btn-warning btn-sm col-2 "
+              type="button"
+              value="effacer dernier"
+              onClick={() => this.wipeLastSelect()}
+            >
+              Effacer dernière selection
             </button>
           </div>
           <Link to="/">

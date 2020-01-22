@@ -126,8 +126,8 @@
 
 td.calendarCell {
   background-color: #f9f9f9;
-  border-right: solid 2px black;
-  text-align: center;
+ border: solid 5px #f9f9f9;
+  text-align: left; 
   height: 1vh;
   user-select: none;
 }
