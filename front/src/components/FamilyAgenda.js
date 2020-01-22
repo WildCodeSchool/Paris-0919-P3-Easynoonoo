@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
-import Axios from 'axios'
+import axios from 'axios'
 
 
 
@@ -39,7 +39,7 @@ export default class FamilyAgenda extends React.Component {
 		countMyChild: 0,
 		countNotMyChild: 0,
 		countTimeSlot: 0,
-		arrayChildren: [],		
+		arrayChildren: [],
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -98,7 +98,7 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 
-	validateSelect = () => { //VU 
+	validateSelect = () => { //VU
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'));
 			if (items === null) {
@@ -156,14 +156,14 @@ export default class FamilyAgenda extends React.Component {
 					arrayTr.push(findEnd(items[k])) // end timeslot
 					arrayTr.push('A') // family A (my family)
 					arrayTr.push(findDay(items[k]))  // day of the timeslot
-					arrayTr.push(i + 1) // idChild   => ask if name is relevant, if yes => use nameChild 
+					arrayTr.push(i + 1) // idChild   => ask if name is relevant, if yes => use nameChild
 					arrayTr.push(countId + 1) // id of the future object
 					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
 					arrayObject.push(objChild) // array with all object-timeslot
-					countId++ // à ressortir				 
+					countId++ // à ressortir
 				};
 				arrayChildren.push(...arrayObject)
-				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));				
+				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 				localStorage.setItem('items', JSON.stringify([]));
 				i++;
 				this.setState({ countMyChild: i })
@@ -203,10 +203,10 @@ export default class FamilyAgenda extends React.Component {
 						arrayTr.push(countId + 1) // id of the future object
 						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
 						arrayObject.push(objChild) // array with all object-timeslot
-						countId++ // à ressortir				 
+						countId++ // à ressortir
 					};
 					arrayChildren.push(...arrayObject)
-					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));				
+					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 					localStorage.setItem('items', JSON.stringify([]));
 					i++;
 					j++;
@@ -333,7 +333,7 @@ export default class FamilyAgenda extends React.Component {
 					}
 				}
 				this.addRectangleClassName()
-				
+
 			}
 			else {
 				return null
@@ -359,7 +359,7 @@ export default class FamilyAgenda extends React.Component {
 	getSelect = () => {
 		let yScroll = window.scrollY;
 		let slot = JSON.parse(localStorage.getItem('items'))
-		//CHAMP DE BATAILLE 
+		//CHAMP DE BATAILLE
 		let slot2 = JSON.parse(localStorage.getItem('items2'))
 		let week = this.state.weekIndex
 
@@ -460,41 +460,16 @@ export default class FamilyAgenda extends React.Component {
 
 	}
 
-	//ICI CHAMPS DE BATAILLE axios 
+	sendData = () => {
+		let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
 
-
-		// onSubmit(e) {
-		// 	e.preventDefault()
-	
-		// 	const userObject = {
-		// 		name: this.state.name,
-		// 		email: this.state.email
-		// 	};
-	
-		// 	axios.post('http://localhost:4000/users/create', userObject)
-		// 		.then((res) => {
-		// 			console.log(res.data)
-		// 		}).catch((error) => {
-		// 			console.log(error)
-		// 		});
-	
-		// 	this.setState({ name: '', email: '' })
-		// }
-
-		
-
-		sendData = () => {
-			let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
-
-			Axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject)
-				.then((res) => {
-					console.log(res.data)
-				}).catch((err) => {
-					console.log(err)
-				} )
-		};
-
-
+		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
+			.then((res) => {
+				console.log(res.data)
+			}).catch((error) => {
+				console.log(error)
+			})
+	};
 
 	render() {
 
@@ -572,9 +547,9 @@ export default class FamilyAgenda extends React.Component {
 			{ id: '22', hours: '22h' },
 		];
 
-		
 
-		
+
+
 
 		return (
 
@@ -625,7 +600,7 @@ export default class FamilyAgenda extends React.Component {
 						}
 					</tbody>
 				</table>
-	
+
 				<input type="button" value="add child" onClick={() => this.addChild()} className='validateSelectionAgenda'></input>
 
 				<input type="button" value="Calculer mon taux de répartition" onClick={() => this.sendData()}></input>
