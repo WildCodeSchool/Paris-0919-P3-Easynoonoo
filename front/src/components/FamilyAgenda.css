@@ -83,6 +83,8 @@
 
 .slot {
   position: absolute;
+  border: solid 1px #000000;
+  border-radius: 10px;
   z-index: 2000;
   user-select: none;
   pointer-events: none;

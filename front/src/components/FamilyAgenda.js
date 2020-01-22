@@ -1,6 +1,7 @@
 import React from 'react'
 
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
@@ -104,41 +105,41 @@ export default class FamilyAgenda extends React.Component {
           { start: this.state.items[0], end: this.state.items[1] },
         ]
       } else {
+		  if(this.state.items[0] != this.state.items[1]) {
         items.push({
           start: this.state.items[0],
           end: this.state.items[1],
-        })
+        })}
       }
+
+     // alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
       localStorage.setItem('items', JSON.stringify(items))
-      /* 
-      // alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
-      localStorage.setItem('items', JSON.stringify(items))
-      // this.setState({ items: [] })
+      this.setState({ items: [] })
 
       // __________________ CALCULS DES DATES ________________
 
-      let date1 = moment(this.state.items[0])
+    //   let date1 = moment(this.state.items[0])
 
-      let minutes = this.state.minutes
-      let date2 = moment(this.state.items[1])
-      let difference = date2.diff(date1, 'minutes')
-      minutes.push(difference)
+    //   let minutes = this.state.minutes
+    //   let date2 = moment(this.state.items[1])
+    //   let difference = date2.diff(date1, 'minutes')
+    //   minutes.push(difference)
 
-      this.setState({ minutes: difference })
-      this.setState({ minutes: minutes })
+    //   this.setState({ minutes: difference })
+    //   this.setState({ minutes: minutes })
 
-      let total = minutes.reduce((a, b) => a + b, 0)
+    //   let total = minutes.reduce((a, b) => a + b, 0)
 
-      // _____ CALCULS MINUTES EN HEURES
+    //   // _____ CALCULS MINUTES EN HEURES
 
-      let time = total / 60
-      let min = (time % 1) * 60
-      let hours = Math.trunc(total / 60)
+    //   let time = total / 60
+    //   let min = (time % 1) * 60
+    //   let hours = Math.trunc(total / 60)
 
-      let realTime = hours + ' heures et ' + min + ' min'
-      this.setState({ time: realTime, setTime: true })
-      console.log('TIME', realTime) */
-    } else {
+    //   let realTime = hours + ' heures et ' + min + ' min'
+    //   this.setState({ time: realTime, setTime: true })
+    //   console.log('TIME', realTime) */
+    // } else {
       return null
     }
   }
@@ -237,7 +238,8 @@ export default class FamilyAgenda extends React.Component {
   resetCalendar = () => {
     localStorage.setItem('items', JSON.stringify([]))
     localStorage.setItem('items2', JSON.stringify([]))
-    this.setState({ items: [] })
+	this.setState({ items: [] })
+	console.log('joue')
   }
 
   /* -------- Start Selection on click -------- */
@@ -277,7 +279,7 @@ export default class FamilyAgenda extends React.Component {
       !isDragging
     ) {
       startSelect = e.target.id
-      this.handleMouseClick(e.target.id)
+    //   this.handleMouseClick(e.target.id)
       mouse.startX = mouse.x
       mouse.startY = mouse.y
       element = document.createElement('div')
@@ -289,6 +291,7 @@ export default class FamilyAgenda extends React.Component {
   }
 
   handleAllClickEnds = (e, n) => {
+	this.handleMouseClick(e.target.id)
     endSelect = e.target.id
     this.removeRectangle()
     if (startSelect && endSelect) {
@@ -346,7 +349,7 @@ export default class FamilyAgenda extends React.Component {
     let vert = last.getBoundingClientRect()
     element = document.createElement('div')
     element.className = 'rectangle'
-    element.style.width = horiz.right - horiz.left - 3 + 'px'
+    element.style.width = horiz.right - horiz.left - 5 + 'px'
     element.style.height = vert.bottom - horiz.top + 'px'
     element.style.left = horiz.left + 'px'
     element.style.top = horiz.top + yScroll + 'px'
@@ -355,15 +358,13 @@ export default class FamilyAgenda extends React.Component {
 
   createSelectionDiv = () => {
     if (this.state.items.length > 0) {
-      if (document.getElementsByClassName('slot')) {
-        let old = document.getElementsByClassName('slot')
+      if (document.getElementsByClassName('rectangle')) {
+        let old = document.getElementsByClassName('rectangle')
         for (let i = old.length - 1; i >= 0; --i) {
           if (old[i]) {
             old[i].remove()
           }
         }
-        this.validateSelect()
-        this.createValidateDiv()
       } else {
         return null
       }
@@ -398,32 +399,15 @@ export default class FamilyAgenda extends React.Component {
         element2 = document.createElement('div')
         element2.className = 'slot'
         element2.style.backgroundColor = '#ccccff'
-        element2.style.width =
-          /* (horiz.right - horiz.left)/2 -  */ 12 + 'px'
-        element2.style.height = vert.bottom - horiz.top + 'px'
-        element2.style.left = horiz.left + 12 + 'px'
-        element2.style.top = horiz.top + yScroll + 'px'
-        document.body.appendChild(element2)
-      })
-    }
-    if (slot2 != null) {
-      slot2.map((slot, index) => {
-        let first = document.getElementById(slot.start)
-        let last = document.getElementById(slot.end)
-        let horiz = first.getBoundingClientRect()
-        let vert = last.getBoundingClientRect()
-        element2 = document.createElement('div')
-        element2.className = 'slot'
-
-        // element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        element2.style.width =
-          /* (horiz.right - horiz.left)/2 -  */ 12 + 'px'
+        element2.style.width = horiz.right - horiz.left - 5 + 'px'
         element2.style.height = vert.bottom - horiz.top + 'px'
         element2.style.left = horiz.left + 'px'
         element2.style.top = horiz.top + yScroll + 'px'
         document.body.appendChild(element2)
       })
-    } else {
+    }
+   
+    else {
       return null
     }
   }
@@ -435,9 +419,10 @@ export default class FamilyAgenda extends React.Component {
         let old2 = document.getElementsByClassName('slot')
         for (let i = old2.length - 1; i >= 0; --i) {
           if (old2[i]) {
-            old2[i].remove()
+			old2[i].remove()
           }
-        }
+		}
+		this.validateSelect()
         this.getSelect()
       } else {
         this.getSelect()
@@ -494,7 +479,7 @@ export default class FamilyAgenda extends React.Component {
   componentDidMount = () => {
     this.removeRectangle()
     this.updateDimensions()
-    this.getSelect()
+    // this.getSelect()
     window.addEventListener('resize', this.updateDimensions)
   }
 
@@ -679,8 +664,15 @@ export default class FamilyAgenda extends React.Component {
           {this.state.time
             ? this.state.time
             : `Vous n'avez pas sélectionné de créneau`}
-        </div> */}
+		</div> */}
+		<Link to="/">
+          <p className="simFormReturn" onMouseDown={() => this.resetCalendar()}>Retour aux simulateurs
+         </p> 
+		</Link>
+		
+	
       </div>
+	 
     )
   }
 }

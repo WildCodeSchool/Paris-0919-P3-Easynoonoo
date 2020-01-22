@@ -89,6 +89,11 @@ const FamilyForm = () => {
     setCount2(0)
   }
 
+  const restartCalendar = () => {
+    window.localStorage.setItem('items', JSON.stringify([]))
+    window.localStorage.getItem('items', JSON.stringify([]))
+  }
+
   return (
     <div className="familyForm">
       <h2>Simulation de garde partagée</h2>
@@ -343,6 +348,10 @@ const FamilyForm = () => {
           ) : (
             ''
           )}
+           <Link to="/">
+          <p className="simFormReturn" onClick={() => restartCalendar()}>Retour aux simulateurs
+         </p> 
+        </Link>
         </div>
       )}
 
@@ -362,9 +371,6 @@ const FamilyForm = () => {
         ) : (
           ''
         )}
-        <Link to="/">
-          <p className="simFormReturn">Retour aux simulateurs</p>
-        </Link>
       </div>
       <div></div>
     </div>
