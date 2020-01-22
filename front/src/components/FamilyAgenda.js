@@ -147,7 +147,7 @@ export default class FamilyAgenda extends React.Component {
 
   addChild = () => {
     let items = JSON.parse(localStorage.getItem('items'))
-    let items2 = JSON.parse(localStorage.getItem('items2'))
+
     let myChild = JSON.parse(localStorage.getItem('myChild'))
     let notMyChild = JSON.parse(localStorage.getItem('notMyChild'))
     let i = this.state.countMyChild
@@ -157,13 +157,12 @@ export default class FamilyAgenda extends React.Component {
 
     let arrayChildren = this.state.arrayChildren
 
-    alert("voulez-vous garder ce planning pour l'enfant suivant ?")
     if (i < myChild.length) {
       if (items.length > 0) {
         nameChild = [...nameChild, myChild[i]]
         for (let k = 0; k < items.length; k++) {
           arrayChildren.push(items[k])
-          items2.push(items[k])
+
           arrayChildren.push({ name: nameChild })
         }
 
@@ -172,15 +171,12 @@ export default class FamilyAgenda extends React.Component {
           'allChildren',
           JSON.stringify(arrayChildren),
         )
-        localStorage.setItem('items2', JSON.stringify(items2))
 
         i++
         this.setState({ countMyChild: i })
         this.setState({ showMyChildName: nameChild })
 
         this.setState({ nameChild: nameChild })
-
-        this.resetCalendar()
       } else {
         alert('Pas de plages horaires sélectionnées pour cet enfant')
       }
@@ -191,9 +187,7 @@ export default class FamilyAgenda extends React.Component {
           for (let k = 0; k < items.length; k++) {
             arrayChildren.push(items[k])
           }
-          for (let k = 0; k < items.length; k++) {
-            items2.push(items[k])
-          }
+          for (let k = 0; k < items.length; k++) {}
 
           arrayChildren.push({ name: nameChildOthers })
 
@@ -202,7 +196,7 @@ export default class FamilyAgenda extends React.Component {
             'allChildren',
             JSON.stringify(arrayChildren),
           )
-          localStorage.setItem('items2', JSON.stringify(items2))
+
           localStorage.setItem('items', JSON.stringify([]))
           this.setState({ showOthersChildName: nameChildOthers })
           this.setState({ nameChildOthers: nameChildOthers })
@@ -242,9 +236,14 @@ export default class FamilyAgenda extends React.Component {
     // this.setState({ items: [] })
   }
 
+  addChildReset = () => {
+    this.addChild()
+    this.resetCalendar()
+  }
+
   resetCalendarPage = () => {
     localStorage.setItem('items', JSON.stringify([]))
-    localStorage.setItem('items2', JSON.stringify([]))
+
     this.setState({ items: [] })
   }
   /* -------- Start Selection on click -------- */
@@ -392,8 +391,6 @@ export default class FamilyAgenda extends React.Component {
   getSelect = () => {
     let yScroll = window.scrollY
     let slot = JSON.parse(localStorage.getItem('items'))
-
-    let slot2 = JSON.parse(localStorage.getItem('items2'))
 
     if (slot != null) {
       slot.map((slot, index) => {
@@ -665,14 +662,90 @@ export default class FamilyAgenda extends React.Component {
         </div>
         <div class="container">
           <div class="row justify-content-around">
-            <button
+            {/* <button
               class="btn btn-primary col-6"
               type="button"
               value="add child"
-              onClick={() => this.addChild()}
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
             >
               Valider le planning de l'enfant
             </button>
+
+            <div
+              class="modal fade"
+              id="exampleModalCenter"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalCenterTitle"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-dialog-centered"
+                role="document"
+              >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5
+                      class="modal-title"
+                      id="exampleModalLongTitle"
+                    >
+                      Copier / Coller
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Voulez vous copier le planning de cet enfant pour
+                    le suivant ?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                      onClick={() => this.addChildReset()}
+                    >
+                      Non
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onClick={() => this.addChild()}
+                    >
+                      Oui, Copier / Coller
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+
+            <div class="input-group">
+              <select class="custom-select" id="inputGroupSelect04">
+                <option selected>
+                  Copier ce planning pour l'enfant suivant
+                </option>
+                <option value="1">
+                  Non, je veux partir d'un planning vide
+                </option>
+              </select>
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={() => this.addChild()}
+                >
+                  Passer à l'enfant suivant
+                </button>
+              </div>
+            </div>
+
             <button
               class="btn btn-warning btn-sm col-2 "
               type="button"
