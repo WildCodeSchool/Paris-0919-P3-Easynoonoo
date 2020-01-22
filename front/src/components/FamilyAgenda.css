@@ -83,6 +83,8 @@
 
 .slot {
   position: absolute;
+  border: solid 1px #000000;
+  border-radius: 10px;
   z-index: 2000;
   user-select: none;
   pointer-events: none;
@@ -125,7 +127,7 @@
 
 td.calendarCell {
   background-color: #f9f9f9;
-  border-right: solid 2px lightgray;
+  border-right: solid 2px black;
   text-align: center;
   height: 1vh;
   user-select: none;
