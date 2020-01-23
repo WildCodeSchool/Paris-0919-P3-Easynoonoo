@@ -165,14 +165,16 @@ export default class FamilyAgenda extends React.Component {
 		let i = this.state.countMyChild;
 		let j = this.state.countNotMyChild;
 		let countId = this.state.countTimeSlot;
+		let nameChild = this.state.nameChild;
+		let nameChildOthers = this.state.nameChildOthers;
 		let arrayObject = [];
-		let nameChild;
+		
 		//let arrayChildren = this.state.arrayChildren
 
 		if (i < myChild.length) { //look at the size of my Children array
 
 			if (items.length > 0) { // if the user selected some timeslot
-				nameChild = myChild[i];
+				nameChild = [...nameChild, myChild[i]]
 
 				for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 					let arrayTr = []
@@ -211,6 +213,7 @@ export default class FamilyAgenda extends React.Component {
 				i++;
 				this.setState({ countMyChild: i })
 				this.setState({ countTimeSlot: countId })
+				this.setState({showMyChildName : nameChild})
 				this.resetCalendar()
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -220,6 +223,7 @@ export default class FamilyAgenda extends React.Component {
 			if (j < notMyChild.length) { // I look at the other children
 				if (items.length > 0) {
 					nameChild = notMyChild[j];
+					nameChildOthers = [...nameChildOthers, notMyChild[j]]
 					for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 						let arrayTr = []
 						let objChild = {}
@@ -257,6 +261,7 @@ export default class FamilyAgenda extends React.Component {
 					this.setState({ countMyChild: i })
 					this.setState({ countNotMyChild: j })
 					this.setState({ countTimeSlot: countId })
+					this.setState({showOthersChildName : nameChildOthers})
 					this.resetCalendar()
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -750,6 +755,18 @@ export default class FamilyAgenda extends React.Component {
 				>
 				  Effacer dernière selection
 				</button>
+				
+			  </div>
+			  <div className ='row'>
+			  <button
+				  class="btn btn-warning btn-sm col-2 "
+				  type="button"
+				  value="envoi data"
+				  onClick={() => this.sendData()}
+				>
+				  Calculer mon taux
+				</button>
+				  
 			  </div>
 			  <Link to="/">
 				<p
