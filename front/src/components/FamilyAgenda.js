@@ -43,6 +43,7 @@ export default class FamilyAgenda extends React.Component {
     minutes: [],
     time: '',
     setTime: false,
+    valueOnClick: [1, 2],
   }
 
   /* -------- Define Mouse Position -------- */
@@ -560,6 +561,12 @@ export default class FamilyAgenda extends React.Component {
       { id: '22', hours: '22h' },
     ]
 
+    const test = e => {
+      // var x = document.getElementById('inputGroupSelect04').value
+      // console.log(x)
+      this.setState({ valueOnClick: e.target.value })
+    }
+
     return (
       <>
         <div id="someTableId" className="agendaContainer">
@@ -728,10 +735,17 @@ export default class FamilyAgenda extends React.Component {
 
             <div class="input-group">
               <select class="custom-select" id="inputGroupSelect04">
-                <option selected>
+                <option
+                  selected
+                  value="1"
+                  /* onChange={e =>
+                    this.setState({ valueOnClick: e.target.value })
+                  } */
+                  onChange={() => this.test()}
+                >
                   Copier ce planning pour l'enfant suivant
                 </option>
-                <option value="1">
+                <option value="2" onChange={() => this.test()}>
                   Non, je veux partir d'un planning vide
                 </option>
               </select>
@@ -739,7 +753,11 @@ export default class FamilyAgenda extends React.Component {
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onClick={() => this.addChild()}
+                  onClick={() =>
+                    this.state.valueOnClick === 1
+                      ? this.addChild
+                      : this.addChildReset
+                  }
                 >
                   Passer à l'enfant suivant
                 </button>
