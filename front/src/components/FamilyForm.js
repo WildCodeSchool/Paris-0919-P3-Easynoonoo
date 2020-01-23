@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import FamilyAgenda from './FamilyAgenda'
 
@@ -29,26 +30,18 @@ const FamilyForm = () => {
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
 
-  //state qui permet d'afficher les enfants sur le calendrier
-  const [child1, setChild1] = useState([])
-
   //store the data in local storage
   useEffect(() => {
     window.localStorage.setItem('answers1', answers1)
     window.localStorage.setItem('answers2', answers2)
     window.localStorage.setItem('answers3', answers3)
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
-    window.localStorage.setItem(
-      'notMyChild',
-      JSON.stringify(notMyChild),
-    )
+    window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]))
-    window.localStorage.setItem('items2', JSON.stringify([]))
-    window.localStorage.setItem('allChildren', JSON.stringify([]))
-    window.localStorage.setItem('child1', JSON.stringify(child1))
-  }, [answers1, answers2, answers3, myChild, notMyChild, child1]) //callback run if only the answers change
-
-  // 1. stocke la nouvelle valeur de l'input dans la state myChild/notMyChild
+    window.localStorage.setItem('allChildren', JSON.stringify([]) )
+  }, [answers1, answers2, answers3, myChild, notMyChild]) //callback run if only the answers change
+    
+  // 1. stocke la nouvelle valeur de l'input dans la state myChild
   // 2. réinitialise firstname à vide
   // 3. écoute la valeur de l'input avec Count
   // 4. + cas pour l'enfant unique
