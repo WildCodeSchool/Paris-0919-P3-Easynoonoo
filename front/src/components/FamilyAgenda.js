@@ -43,7 +43,7 @@ export default class FamilyAgenda extends React.Component {
     minutes: [],
     time: '',
     setTime: false,
-    valueOnClick: [1, 2],
+    valueOnClick: '',
   }
 
   /* -------- Define Mouse Position -------- */
@@ -432,7 +432,12 @@ export default class FamilyAgenda extends React.Component {
       return null
     }
   }
+  test = (e) => {
+	this.setState({ valueOnClick: e.target.value })
+	console.log(typeof this.state.valueOnClick)
+  }
 
+ 
   /* -------- Define and change Current Week -------- */
 
   thisWeek = day => {
@@ -561,11 +566,7 @@ export default class FamilyAgenda extends React.Component {
       { id: '22', hours: '22h' },
     ]
 
-    const test = e => {
-      // var x = document.getElementById('inputGroupSelect04').value
-      // console.log(x)
-      this.setState({ valueOnClick: e.target.value })
-    }
+    
 
     return (
       <>
@@ -734,18 +735,20 @@ export default class FamilyAgenda extends React.Component {
             </div> */}
 
             <div class="input-group">
-              <select class="custom-select" id="inputGroupSelect04">
-                <option
+              <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.test}>
+			  <option
                   selected
-                  value="1"
-                  /* onChange={e =>
-                    this.setState({ valueOnClick: e.target.value })
-                  } */
-                  onChange={() => this.test()}
+                  value="null"
+                >
+                  Voulez-vous copier ce planning pour l'enfant suivant ?
+                </option>
+				<option
+                  selected
+                  value="oui"
                 >
                   Copier ce planning pour l'enfant suivant
                 </option>
-                <option value="2" onChange={() => this.test()}>
+                <option value="non">
                   Non, je veux partir d'un planning vide
                 </option>
               </select>
@@ -754,9 +757,9 @@ export default class FamilyAgenda extends React.Component {
                   type="button"
                   class="btn btn-primary"
                   onClick={() =>
-                    this.state.valueOnClick === 1
-                      ? this.addChild
-                      : this.addChildReset
+                    this.state.valueOnClick == 'oui'
+                      ? this.addChild()
+                      : this.addChildReset()
                   }
                 >
                   Passer à l'enfant suivant
