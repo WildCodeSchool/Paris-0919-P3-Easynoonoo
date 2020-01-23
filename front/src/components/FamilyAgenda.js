@@ -179,7 +179,7 @@ export default class FamilyAgenda extends React.Component {
 
 			if (items.length > 0) { // if the user selected some timeslot
 				nameChild = [...nameChild, myChild[i]]
-				childCalendar = myChild[i+1]
+				
 				
 				for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 					let arrayTr = []
@@ -217,6 +217,7 @@ export default class FamilyAgenda extends React.Component {
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 				localStorage.setItem('items', JSON.stringify([]));
 				i++;
+				childCalendar = myChild[i]
 				this.setState({ countMyChild: i })
 				this.setState({ countTimeSlot: countId })
 				this.setState({showMyChildName : nameChild})
@@ -229,7 +230,6 @@ export default class FamilyAgenda extends React.Component {
 		} else {
 			if (j < notMyChild.length) { // I look at the other children
 				if (items.length > 0) {
-					childCalendar =  notMyChild[i]
 					nameChildOthers = [...nameChildOthers, notMyChild[j]]
 					childCalendar = notMyChild[j+1]
 					for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
@@ -266,6 +266,7 @@ export default class FamilyAgenda extends React.Component {
 					localStorage.setItem('items', JSON.stringify([]));
 					i++;
 					j++;
+					childCalendar =  notMyChild[j]
 					this.setState({ countMyChild: i })
 					this.setState({ countNotMyChild: j })
 					this.setState({ countTimeSlot: countId })
@@ -544,17 +545,22 @@ export default class FamilyAgenda extends React.Component {
 	/* this       */
 	updateChildName = () => {
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
+		
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
+		console.log('notmychild dans updateChildName', notMyChild)
+		console.log('calendar dans updateChildName', this.state.calendarChild)
 		let countMyChild = this.state.countMyChild
 		let countNotMyChild = this.state.countNotMyChild
 		let firstChild;
 		if (this.state.calendarChild == '' ) {
 			firstChild = myChild[0]
 			this.setState({calendarChild: firstChild})
-		} if (this.state.calendarChild == undefined && countMyChild - countNotMyChild == countMyChild) {
+		} if (this.state.calendarChild == undefined  && countMyChild == myChild.length ) { // && countMyChild - countNotMyChild == countMyChild
+			
 			firstChild = notMyChild[0]
+			this.setState({countMyChild : 100}) //here to prevent the function to replay the function
 			this.setState({calendarChild: firstChild})
-		}
+		} 
 	}
 
 	componentDidMount = () => {
@@ -563,9 +569,13 @@ export default class FamilyAgenda extends React.Component {
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
 		
+		
 	}
 
-	componentDidUpdate() { }
+	componentDidUpdate() {
+		this.updateChildName()
+		
+	 }
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
@@ -581,10 +591,10 @@ export default class FamilyAgenda extends React.Component {
 	};
 
 	render() {
-		this.updateChildName()
 		this.getSelect()
 		this.createSelectionDiv()
 		this.createValidateDiv()
+		
 	
 		let columns = [
 		  {
@@ -655,10 +665,6 @@ export default class FamilyAgenda extends React.Component {
 		  { id: '21', hours: '21h' },
 		  { id: '22', hours: '22h' },
 		]
-
-		
-		console.log(this.state.calendarChild)
-
 		
 	
 		return (
