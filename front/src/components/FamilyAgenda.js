@@ -155,6 +155,7 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 
+	/* -------- Add children informations to localstorage -------- */
 
 	addChild = () => {
 		let items = JSON.parse(localStorage.getItem('items'));
@@ -176,7 +177,9 @@ export default class FamilyAgenda extends React.Component {
 				for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 					let arrayTr = []
 					let objChild = {}
-					//functions to find specific key in the items object
+
+					// here to find relative infos in items
+
 					let findStart = (entry) => {
 						if (entry.start != null) {
 							return entry.start
@@ -192,15 +195,15 @@ export default class FamilyAgenda extends React.Component {
 							return entry.day
 						}
 					};
-					arrayTr.push(findStart(items[k])) // start timeslot
-					arrayTr.push(findEnd(items[k])) // end timeslot
-					arrayTr.push('A') // family A (my family)
-					arrayTr.push(findDay(items[k]))  // day of the timeslot
-					arrayTr.push(i + 1) // idChild   => ask if name is relevant, if yes => use nameChild
-					arrayTr.push(countId + 1) // id of the future object
+					arrayTr.push(findStart(items[k]))  
+					arrayTr.push(findEnd(items[k])) 
+					arrayTr.push('A') 
+					arrayTr.push(findDay(items[k]))  
+					arrayTr.push(i + 1) 
+					arrayTr.push(countId + 1) 
 					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
-					arrayObject.push(objChild) // array with all object-timeslot
-					countId++ // à ressortir
+					arrayObject.push(objChild) 
+					countId++ 
 				};
 				arrayChildren.push(...arrayObject)
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
@@ -220,7 +223,7 @@ export default class FamilyAgenda extends React.Component {
 					for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 						let arrayTr = []
 						let objChild = {}
-						//functions to find specific key in the items object
+						
 						let findStart = (entry) => {
 							if (entry.start != null) {
 								return entry.start
@@ -236,15 +239,15 @@ export default class FamilyAgenda extends React.Component {
 								return entry.day
 							}
 						};
-						arrayTr.push(findStart(items[k])) // start timeslot
-						arrayTr.push(findEnd(items[k])) // end timeslot
-						arrayTr.push('B') // family B (the other family)
-						arrayTr.push(findDay(items[k]))  // day of the timeslot
-						arrayTr.push(i + 1) // idChild   => ask if 1-4 for family or 1-8 for the two family ?
-						arrayTr.push(countId + 1) // id of the future object
+						arrayTr.push(findStart(items[k])) 
+						arrayTr.push(findEnd(items[k])) 
+						arrayTr.push('B') 
+						arrayTr.push(findDay(items[k]))  
+						arrayTr.push(i + 1)  
+						arrayTr.push(countId + 1) 
 						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
-						arrayObject.push(objChild) // array with all object-timeslot
-						countId++ // à ressortir
+						arrayObject.push(objChild) 
+						countId++ 
 					};
 					arrayChildren.push(...arrayObject)
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
@@ -532,7 +535,8 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	componentDidUpdate() { }
-	/* -------- Start Selection on click -------- */
+
+	/* -------- Sending the data (allChild) to the back -------- */
 
 	sendData = () => {
 		let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
