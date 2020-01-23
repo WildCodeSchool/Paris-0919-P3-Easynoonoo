@@ -138,12 +138,10 @@ export default class FamilyAgenda extends React.Component {
 			// Tâche: extraire les 2 derniers index du tableau slotHours
 			// trouver un index pour chaque creation de slot
 
-			let a = this.state.slotHours[this.state.slotHours.length - 2];
-			let b = this.state.slotHours[this.state.slotHours.length - 1];
-			item.push({a, b})
-			console.log('item',item[0].a, item[0].b);
-			
-			
+		// 	let a = this.state.slotHours[this.state.slotHours.length - 2];
+		// 	let b = this.state.slotHours[this.state.slotHours.length - 1];
+		// 	item.push({a, b})
+		// 	console.log('item',item[0].a, item[0].b);
 		}
 		else {
 			return null
@@ -306,7 +304,7 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		console.log(this.state.slotHours);
+		console.log('getSelection', this.state.slotHours);
 	}
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
@@ -431,7 +429,8 @@ export default class FamilyAgenda extends React.Component {
 
 				// element2.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
 				
-				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
+				let realEnd = moment(slot.end).add(15, 'minutes').format('HH:mm')
+				element2.innerText = slot.start.split(' ')[1] + '\n' + realEnd;
 
 				element2.style.fontSize = '12px';
 				element2.style.textAlign = 'center';
