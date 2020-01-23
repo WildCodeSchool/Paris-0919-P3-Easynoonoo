@@ -2,13 +2,12 @@
     font-family: 'Hansief';
     src: local('Hansief'), url(./utils/fonts/Hansief.ttf) format('truetype');
   }
-  
+
   /* ------- input header ------*/
 
   #someTableId {
       position : relative;
       display : flex;
-      
   }
   
   .selectWeek{
@@ -47,7 +46,7 @@
   
   .calendarTable{
     border-radius :2px;
-    border-bottom: solid 2px lightgray;
+    /* border-bottom: solid 2px lightgray; */
     width : 70%;
     height : auto;
   }
@@ -60,7 +59,7 @@
     border-spacing: 0;
     width: 100%;
     table-layout: fixed;
-    border: none;
+    /* border: none; */
     -webkit-transform: translate3d(0,0,0);
   }
     
@@ -100,14 +99,13 @@
     pointer-events: none;
   }
   
-  
   .calendarCell.head {
-    background-color: #F8E5E5;;
-    border-left: none;
+    background-color: #F8E5E5;
+    /* border-left: none; */
     height : 6vh;
   }
   .calendarCell.head.first {
-    border: none;
+    /* border: none; */
     height : 6vh;
   }
   
@@ -125,13 +123,24 @@
   }
   
   /* ------- Minute Cell Styles ------- */
-  
-  td.calendarCell {
-    border-right: solid 2px lightgray;
+
+   /* MODIF CLEMENT */
+   .agenda__row_hour-start {
+    background-color: rgb(219, 219, 219);
+    opacity: 0.4;
+  }
+      
+  .agenda__row_hour-startBis {
+    background-color: rgb(170, 170, 170);
+    opacity: 0.4;
+  }
+
+  .calendarCell {
+    /* border-right: solid 2px white; */
     text-align: center;
     height : 1vh;
     user-select: none;
-    border: 0.1px solid rgb(223, 223, 223);
+    border: 0.2px solid rgb(185, 184, 184);
   }
   
   /* ------- Time Cell Styles ------- */
@@ -141,13 +150,13 @@
     color : #000;
     font-family: 'Hansief';
     font-size : 0.7em;
-    border-right: none;
+    /* border-right: none; */
     padding: 0;
     vertical-align: middle;
     text-align: center;
     font-size: 0.8em;
-    border-left: none !important;
-    border-top: none !important;
+    /* border-left: none !important;
+    border-top: none !important; */
     user-select: none;
   }
   
@@ -159,14 +168,5 @@
       margin-top: 3%;
       padding : 0 1%;
       width : 10%;
-      background-color : #E2E5ED ;
-  }
-
-  /* MODIF CLEMENT */
-  .agenda__row_hour-start {
-    background: rgb(180, 180, 180)
-  }
-
-  .agenda__row_hour-startBis {
-    background: rgb(110, 110, 110)
+      background-color : #E2E5ED;
   }
