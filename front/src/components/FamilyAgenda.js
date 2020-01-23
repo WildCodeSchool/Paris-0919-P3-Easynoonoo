@@ -23,6 +23,7 @@ let mouse = {
 let item = []
 
 export default class FamilyAgenda extends React.Component {
+
 	state = {
 		items: [],
 		selected: [],
@@ -781,3 +782,4 @@ export default class FamilyAgenda extends React.Component {
 		)
 	  }
 	}
+
