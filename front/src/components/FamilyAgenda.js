@@ -42,12 +42,13 @@ export default class FamilyAgenda extends React.Component {
 		arrayChildren: [],
 		showMyChildName: [],
 		showOthersChildName: [],
+		calendarChild: '',
 		colorState: [],
 		minutes: [],
 		time: '',
 		setTime: false,
 		slotHours: [],
-		slotFixedHours: []
+		slotFixedHours: [],
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -79,22 +80,22 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	removeRectangle = () => {
-		let oldRect = document.getElementsByClassName('rectangle')
-		let oldHelper = document.getElementsByClassName(
-			'helper-reactangle',
-		)
-		for (let i = oldRect.length - 1; i >= 0; --i) {
-			if (oldRect[i]) {
-				oldRect[i].remove()
-			}
-		}
-		for (let i = oldHelper.length - 1; i >= 0; --i) {
-			if (oldHelper[i]) {
-				oldHelper[i].remove()
-			}
-		}
-	}
+	// removeRectangle = () => {
+	// 	let oldRect = document.getElementsByClassName('rectangle')
+	// 	let oldHelper = document.getElementsByClassName(
+	// 		'helper-reactangle',
+	// 	)
+	// 	for (let i = oldRect.length - 1; i >= 0; --i) {
+	// 		if (oldRect[i]) {
+	// 			oldRect[i].remove()
+	// 		}
+	// 	}
+	// 	for (let i = oldHelper.length - 1; i >= 0; --i) {
+	// 		if (oldHelper[i]) {
+	// 			oldHelper[i].remove()
+	// 		}
+	// 	}
+	// }
 
 	/* -------- Push first and last selected cells to the state when selection is over -------- */
 
@@ -113,13 +114,16 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	validateSelect = () => {
+		console.log('______VALIDATE SELECT')
+
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
 			if (items === null) {
 				items = [
 					{ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] }
 				]
-			} else {
+			}
+			else {
 				if (this.state.items[0] != this.state.items[1]) {
 					items.push({ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] })
 				}
@@ -131,14 +135,6 @@ export default class FamilyAgenda extends React.Component {
 
 			// __________________ CALCULS DES DATES ________________
 
-			// let date1 = moment(this.state.items[0]);
-			// let minutes = this.state.minutes
-			// let date2 = moment(this.state.items[1]);
-			// let difference = date2.diff(date1, 'minutes');
-			// minutes.push(difference)
-
-			// this.setState({ minutes: difference })
-			// this.setState({ minutes: minutes })
 			//   let date1 = moment(this.state.items[0])
 
 			//   let minutes = this.state.minutes
@@ -149,28 +145,6 @@ export default class FamilyAgenda extends React.Component {
 			//   this.setState({ minutes: difference })
 			//   this.setState({ minutes: minutes })
 
-			// _____ CALCULS MINUTES EN HEURES
-
-			// let time = total / 60
-			// let min = (time % 1) * 60
-			// let hours = Math.trunc(total / 60)
-
-			// let realTime = hours + ' heures et ' + min + ' min'
-			// this.setState({ time: realTime, setTime: true })
-
-			// _______ HORAIRE A AFFICHER SUR LE SLOT
-
-			console.log('validateSelect', this.state.slotHours);
-
-			// Tâche: extraire les 2 derniers index du tableau slotHours
-			// trouver un index pour chaque creation de slot
-
-			// 	let a = this.state.slotHours[this.state.slotHours.length - 2];
-			// 	let b = this.state.slotHours[this.state.slotHours.length - 1];
-			// 	item.push({a, b})
-			// 	console.log('item',item[0].a, item[0].b);
-		}
-		else {
 			//   let total = minutes.reduce((a, b) => a + b, 0)
 
 			//   // _____ CALCULS MINUTES EN HEURES
@@ -183,9 +157,17 @@ export default class FamilyAgenda extends React.Component {
 			//   this.setState({ time: realTime, setTime: true })
 			//   console.log('TIME', realTime) */
 			// } else {
-			return null
+
+			// return null
+
+			// let a = this.state.slotHours[this.state.slotHours.length - 2];
+			// let b = this.state.slotHours[this.state.slotHours.length - 1];
+			// item.push({a, b})
+			// console.log('item',item[0].a, item[0].b);
 		}
 	}
+
+
 	/* -------- Add children informations to localstorage -------- */
 
 	addChild = () => {
@@ -199,6 +181,7 @@ export default class FamilyAgenda extends React.Component {
 		let nameChild = this.state.nameChild;
 		let nameChildOthers = this.state.nameChildOthers;
 		let arrayObject = [];
+		let childCalendar;
 
 		//let arrayChildren = this.state.arrayChildren
 
@@ -206,6 +189,7 @@ export default class FamilyAgenda extends React.Component {
 
 			if (items.length > 0) { // if the user selected some timeslot
 				nameChild = [...nameChild, myChild[i]]
+
 
 				for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 					let arrayTr = []
@@ -238,13 +222,16 @@ export default class FamilyAgenda extends React.Component {
 					arrayObject.push(objChild)
 					countId++
 				};
+				// console.log("HEY", childCalendar)
 				arrayChildren.push(...arrayObject)
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 				localStorage.setItem('items', JSON.stringify([]));
 				i++;
+				childCalendar = myChild[i]
 				this.setState({ countMyChild: i })
 				this.setState({ countTimeSlot: countId })
 				this.setState({ showMyChildName: nameChild })
+				this.setState({ calendarChild: childCalendar })
 				this.resetCalendar()
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -253,8 +240,8 @@ export default class FamilyAgenda extends React.Component {
 		} else {
 			if (j < notMyChild.length) { // I look at the other children
 				if (items.length > 0) {
-					nameChild = notMyChild[j];
 					nameChildOthers = [...nameChildOthers, notMyChild[j]]
+					childCalendar = notMyChild[j + 1]
 					for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 						let arrayTr = []
 						let objChild = {}
@@ -289,10 +276,12 @@ export default class FamilyAgenda extends React.Component {
 					localStorage.setItem('items', JSON.stringify([]));
 					i++;
 					j++;
+					childCalendar = notMyChild[j]
 					this.setState({ countMyChild: i })
 					this.setState({ countNotMyChild: j })
 					this.setState({ countTimeSlot: countId })
 					this.setState({ showOthersChildName: nameChildOthers })
+					this.setState({ calendarChild: childCalendar })
 					this.resetCalendar()
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -302,6 +291,8 @@ export default class FamilyAgenda extends React.Component {
 				alert("Il n'y a plus d'enfant à rajouter")
 			}
 		}
+
+
 	}
 
 	/* -------- reset-------- */
@@ -366,7 +357,7 @@ export default class FamilyAgenda extends React.Component {
 			!isDragging
 		) {
 			startSelect = e.target.id
-			//   this.handleMouseClick(e.target.id)
+			this.handleMouseClick(e.target.id)
 			mouse.startX = mouse.x
 			mouse.startY = mouse.y
 			element = document.createElement('div')
@@ -380,7 +371,7 @@ export default class FamilyAgenda extends React.Component {
 	handleAllClickEnds = (e, n) => {
 		this.handleMouseClick(e.target.id)
 		endSelect = e.target.id
-		this.removeRectangle()
+		// this.removeRectangle()
 		if (startSelect && endSelect) {
 			return this.getSelection(startSelect, endSelect)
 		}
@@ -397,28 +388,23 @@ export default class FamilyAgenda extends React.Component {
 		}
 	}
 
-	// _________________ CLEMENT PART _________________>> 
-
 	getSelection = (start, end) => {
-
 		let strt = moment(start)
 		let endd = moment(end)
 
-		// let realEnd = moment(end).add(15, 'minutes').format('HH:mm')
-		// let realStart = moment(start).format('HH:mm')
+		let realEnd = moment(end).add(15, 'minutes').format('HH:mm')
+		let realStart = moment(start).format('HH:mm')
 
 		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
 
 		this.handleRangeSelection(arr, end);
 
-		// this.state.slotHours.push(realStart, realEnd)
-		// console.log('getSelection', this.state.slotHours);
+		this.state.slotHours.push(realStart, realEnd)
+		// console.log('slot hours', this.state.slotHours);
 	}
 
-	// <<_________________ CLEMENT MODIFIED THIS _________________
-
-	handleMouseOver = (e) => {
-		let yScroll = window.scrollY;
+	handleMouseOver = e => {
+		let yScroll = window.scrollY
 		this.setMousePosition(e)
 		if (e.buttons === 0) {
 			return false
@@ -454,22 +440,14 @@ export default class FamilyAgenda extends React.Component {
 		element.style.left = horiz.left + 'px'
 		element.style.top = horiz.top + yScroll + 'px'
 		document.body.appendChild(element)
-
-		// _______________________________ ADD BY CLEMENT ___________________________
-
-		element.innerText = this.state.slotHours[this.state.slotHours.length - 2] + '\n' + this.state.slotHours[this.state.slotHours.length - 1];
-
 		element.style.fontSize = '12px';
 		element.style.textAlign = 'center';
 	}
 
-	// _______________________________ ADD BY CLEMENT ___________________________
-
-
 	createSelectionDiv = () => {
 		if (this.state.items.length > 0) {
-			if (document.getElementsByClassName('rectangle')) {
-				let old = document.getElementsByClassName('rectangle')
+			if (document.getElementsByClassName('slot')) {
+				let old = document.getElementsByClassName('slot')
 				for (let i = old.length - 1; i >= 0; --i) {
 					if (old[i]) {
 						old[i].remove()
@@ -496,72 +474,42 @@ export default class FamilyAgenda extends React.Component {
 
 	getSelect = () => {
 		let yScroll = window.scrollY
-		
 		let slot = JSON.parse(localStorage.getItem('items'))
-
-		let slot2 = JSON.parse(localStorage.getItem('items2'))
 
 		if (slot != null) {
 			slot.map((slot, index) => {
 				let first = document.getElementById(slot.start)
 				let last = document.getElementById(slot.end)
-				let horiz = first.getBoundingClientRect();
-				let vert = last.getBoundingClientRect();
-				element2 = document.createElement('div');
-				element2.className = 'slot';
-				element2.style.backgroundColor = '#ccccff';
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px';
-				element2.style.left = horiz.left + 12 + 'px';
-				element2.style.top = horiz.top + yScroll + 'px';
-				document.body.appendChild(element2);
+				let horiz = first.getBoundingClientRect()
+				let vert = last.getBoundingClientRect()
+				element = document.createElement('div')
+				element.className = 'rectangle'
+				element.style.backgroundColor = '#ccccff'
+				element.style.width = horiz.right - horiz.left - 5 + 'px'
+				element.style.height = vert.bottom - horiz.top + 'px'
+				element.style.left = horiz.left + 'px'
+				element.style.top = horiz.top + yScroll + 'px'
+				document.body.appendChild(element)
 
-				// ___________ ADDED BY CLEMENT / SLOT 1 - BEFORE VALIDATION >>>>>>>>>>>>>>>
+				// element.innerText = this.state.slotHours[this.state.slotHours.length - 2] + '\n' + this.state.slotHours[this.state.slotHours.length - 1];
+				element.innerText = 'CHOUCROUTE'
+				console.log('________getSelect', this.state.slotHours);
 
-				// element2.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
-				// element2.style.fontSize = '12px';
-				// element2.style.textAlign = 'center';
-
-				// <<<<<<<<<<<< ADDED BY CLEMENT _____________
-
+				// let a = this.state.slotHours[this.state.slotHours.length - 2];
+				// let b = this.state.slotHours[this.state.slotHours.length - 1];
+				// item.push({ a, b })
+				// console.log('item', item);
+				// console.log('________getSelect');
 			})
-		} 
-		if (slot2 != null) {
-
-			slot2.map((slot, index) => {
-				let first = document.getElementById(slot.start)
-				let last = document.getElementById(slot.end)
-				let horiz = first.getBoundingClientRect();
-				let vert = last.getBoundingClientRect();
-				element2 = document.createElement('div');
-				element2.className = 'slot';
-				element2.style.backgroundColor = '#' + this.state.colorState[this.state.colorState.length - 1];
-
-				// ___________ ADDED BY CLEMENT _____________>>	
-
-				// element2.innerText = this.state.slotHours[0] + '\n' + this.state.slotHours[1];
-
-				let realEnd = moment(slot.end).add(15, 'minutes').format('HH:mm')
-				element2.innerText = slot.start.split(' ')[1] + '\n' + realEnd;
-
-				element2.style.fontSize = '12px';
-				element2.style.textAlign = 'center';
-
-				// <<___________ ADDED BY CLEMENT _____________
-
-				// element2.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-				element2.style.width = /* (horiz.right - horiz.left)/2 -  */ 12 + 'px';
-				element2.style.height = vert.bottom - horiz.top + 'px';
-				element2.style.left = horiz.left + 'px';
-				element2.style.top = horiz.top + yScroll + 'px';
-				document.body.appendChild(element2)
-			})
-		} else {
-			return null
 		}
+		// else {
+		// 	return null
+		// }
 	}
 
 	createValidateDiv = () => {
+		console.log('_________createValidateDiv');
+
 		let slot = JSON.parse(localStorage.getItem('items'))
 		if (slot != null && document.getElementById('calendarBodyId')) {
 			if (document.getElementsByClassName('slot')) {
@@ -574,11 +522,13 @@ export default class FamilyAgenda extends React.Component {
 				this.validateSelect()
 				this.getSelect()
 			} else {
+				this.validateSelect()
 				this.getSelect()
 			}
-		} else {
-			return null
 		}
+		// else {
+		// 	return null
+		// }
 	}
 
 	/* -------- Define and change Current Week -------- */
@@ -602,7 +552,6 @@ export default class FamilyAgenda extends React.Component {
 			weekIndex: this.state.weekIndex - 1,
 			items: [],
 		})
-		//console.log(this.state.weekIndex)
 		this.removeRectangle()
 	}
 
@@ -625,11 +574,34 @@ export default class FamilyAgenda extends React.Component {
 		})
 	}
 
-	componentDidMount = () => {
-		this.removeRectangle()
-		this.updateDimensions()
-		// this.getSelect()
-		window.addEventListener('resize', this.updateDimensions)
+	/* this       */
+	updateChildName = () => {
+		let myChild = JSON.parse(localStorage.getItem('myChild'));
+
+		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
+		let countMyChild = this.state.countMyChild
+		let countNotMyChild = this.state.countNotMyChild
+		let firstChild;
+		if (this.state.calendarChild == '') {
+			firstChild = myChild[0]
+			// this.setState({calendarChild: firstChild})
+		} if (this.state.calendarChild == undefined && countMyChild == myChild.length) { // && countMyChild - countNotMyChild == countMyChild
+
+			firstChild = notMyChild[0]
+			this.setState({ countMyChild: 100 }) //here to prevent the function to replay the function
+			this.setState({ calendarChild: firstChild })
+		}
+	}
+
+	// componentDidMount = () => {
+	// 	this.removeRectangle()
+	// 	this.updateDimensions()
+	// 	// this.getSelect()
+	// 	window.addEventListener('resize', this.updateDimensions)
+	// }
+
+	componentDidUpdate() {
+
 	}
 
 	/* -------- Sending the data (allChild) to the back -------- */
@@ -639,17 +611,16 @@ export default class FamilyAgenda extends React.Component {
 
 		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
 			.then((res) => {
-				console.log(res.data)
+				// console.log(res.data)
 			}).catch((error) => {
-				console.log(error)
+				// console.log(error)
 			})
 	};
 
 	render() {
-
-		this.getSelect()
 		this.createSelectionDiv()
 		this.createValidateDiv()
+		this.updateChildName()
 
 		let columns = [
 			{
@@ -700,7 +671,7 @@ export default class FamilyAgenda extends React.Component {
 				day: `${this.thisWeek('Sunday').format('DD')}`,
 				date: `${this.thisWeek('Sunday').format('YYYY-MM-DD ')}`,
 			},
-		];
+		]
 
 		let rows = [
 			{ id: '07', hours: '7h' },
@@ -719,7 +690,8 @@ export default class FamilyAgenda extends React.Component {
 			{ id: '20', hours: '20h' },
 			{ id: '21', hours: '21h' },
 			{ id: '22', hours: '22h' },
-		];
+		]
+
 
 		return (
 			<>
@@ -727,10 +699,7 @@ export default class FamilyAgenda extends React.Component {
 				<div id="someTableId" className="agendaContainer">
 
 					<div className="selectWeek">
-						{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
-						{/* <h1 className='currentMonth'>{this.thisWeek("Sunday").format('MMMM YYYY')}</h1> */}
 
-						{/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
 					</div>
 
 					<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>

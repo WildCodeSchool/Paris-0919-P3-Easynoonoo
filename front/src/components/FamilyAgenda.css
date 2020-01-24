@@ -124,12 +124,12 @@
 
 /* ------- Minute Cell Styles ------- */
 
-td.calendarCell {
-  background-color: #f9f9f9;
- border: solid 5px #f9f9f9;
-  text-align: left; 
-  height: 1vh;
+.calendarCell {
+  /* border-right: solid 2px white; */
+  text-align: center;
+  height : 1vh;
   user-select: none;
+  border: 0.2px solid rgb(185, 184, 184);
 }
 
 /* ------- Time Cell Styles ------- */
@@ -158,4 +158,16 @@ th.calendarCell.time {
   padding: 0 1%;
   width: 10%;
   background-color: #e2e5ed;
+}
+
+/* Grid area colors */
+
+.agenda__row_hour-start {
+  background-color: rgb(219, 219, 219);
+  opacity: 0.4;
+}
+    
+.agenda__row_hour-startBis {
+  background-color: rgb(170, 170, 170);
+  opacity: 0.4;
 }
