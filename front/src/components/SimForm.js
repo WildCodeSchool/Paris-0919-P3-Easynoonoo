@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 import './SimForm.css'
+import ResultCharges from './ResultCharges'
 
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo')) || 0
+    Number(window.localStorage.getItem('heuresHebdo')) || window.localStorage.getItem
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('alsaceMoselle')) || 0
   const initialAnswer3 = () =>
@@ -42,8 +43,42 @@ const SimForm = () => {
     initialAnswer9,
   )
 
+  const [requestCalcul, setRequestCalcul] = useState([])
+  const [showResults, setShowResults] = useState(true)
+
+  //   function getData() {
+  //     setRequestCalcul({
+  //       "dateDebutAnnee" : aujd.getFullYear(),
+  //       "enfantPlusJeune" : enfantPlusJeune,
+  //       "nbEnfants" : nbEnfants, // planning answers2
+  //       "parentIsolé" : parentIsolé, // 
+  //       "ressourcesAnnuelles" : ressourcesAnnuelles ,
+  //       "heuresSup" : , //deux inputs ou heuresHebdo - 40 ?
+  //       "heuresHebdo": heuresHebdo, // rempli ou récup du du planning
+  //       "tauxHoraire" : tauxHoraire, 
+  //       "repartitionFamille" : , //familyForm ou récup
+  //       "alsaceMoselle" : alsaceMoselle,
+  //       "trancheA" : ,  /newC
+  //       "tauxParticipationCotisations" : , /newC
+  //       "montantRepas" : , /newC
+  //       "joursTravaillesSemaines" : , /newC
+  //       "joursCP" : , /newC
+  //       "joursRecup" : , /newC
+  //       "priseEnChargeAbonnement" : , /newC
+  //       "montantAbonnementTransports" : , /newC
+  //       "premiereAnneeEmploiDomicile" : , /newC
+  //       "gardeAlternee" : /newC ou familyForm // planning answers 3
+
+  //       })  
+  //  }
+
+  /*Variables*/
+  let aujd = new Date()
+
   //store the data in local storage
   useEffect(() => {
+    console.log('ajd', aujd.getFullYear())
+    console.log('hello, useEffect here',heuresHebdo ) // à chaque chgt
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -353,8 +388,8 @@ const SimForm = () => {
             {repartitionFamille} %
           </div>
         ) : (
-          ''
-        )}
+            ''
+          )}
 
         <div className="simFormNumberInput">
           <label for="child-number">
@@ -430,17 +465,24 @@ const SimForm = () => {
             </div>
           </div>
         ) : (
-          <div className="simFormNumberInput">
-            <label for="salarySelect">
-              9. Quels sont les revenus nets annuels du foyer ?
+            <div className="simFormNumberInput">
+              <label for="salarySelect">
+                9. Quels sont les revenus nets annuels du foyer ?
             </label>
-            <div
-              onChange={e => setressourcesAnnuelles(e.target.value)}
-            >
-              {handleQuestion9()}
+              <div
+                onChange={e => setressourcesAnnuelles(e.target.value)}
+              >
+                {handleQuestion9()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+        <button class="btn btn-primary" type="submit">Calculer</button>
+
+        {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
+        
+        {showResults == true ? <ResultCharges/> : ''} 
+
 
         <Link to="/">
           <p className="simFormReturn">Retour aux simulateurs</p>
