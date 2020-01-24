@@ -117,11 +117,11 @@ export default class FamilyAgenda extends React.Component {
 			let items = JSON.parse(localStorage.getItem('items'))
 			if (items === null) {
 				items = [
-					{ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] }
+					{ start: this.state.items[0], end: this.state.items[1] }
 				]
 			} else {
 				if (this.state.items[0] != this.state.items[1]) {
-					items.push({ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] })
+					items.push({ start: this.state.items[0], end: this.state.items[1] })
 				}
 			}
 
@@ -209,8 +209,7 @@ export default class FamilyAgenda extends React.Component {
 					arrayTr.push('A') 
 					arrayTr.push(findDay(items[k]))  
 					arrayTr.push(i + 1) 
-					arrayTr.push(countId + 1) 
-					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
+					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
 					arrayObject.push(objChild) 
 					countId++ 
 				};
@@ -258,9 +257,8 @@ export default class FamilyAgenda extends React.Component {
 						arrayTr.push(findEnd(items[k])) 
 						arrayTr.push('B') 
 						arrayTr.push(findDay(items[k]))  
-						arrayTr.push(i + 1)  
-						arrayTr.push(countId + 1) 
-						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
+						arrayTr.push(j + 1)  
+						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
 						arrayObject.push(objChild) 
 						countId++ 
 					};
