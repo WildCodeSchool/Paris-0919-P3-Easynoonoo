@@ -155,7 +155,7 @@ export default class FamilyAgenda extends React.Component {
     let j = this.state.countNotMyChild
     let nameChild = this.state.nameChild
 	let nameChildOthers = this.state.nameChildOthers
-	let childColor = Math.floor(Math.random() * 16777215).toString(16);
+  let childColor = Math.floor(Math.random() * 16777215).toString(16);
 	let colorState = this.state.colorState
 
     let arrayChildren = this.state.arrayChildren
@@ -171,19 +171,15 @@ export default class FamilyAgenda extends React.Component {
 		 
 		 
 		}
-		
-		
         arrayChildren.push({ ownChild: true, id: i + 1 })
         localStorage.setItem(
           'allChildren',
           JSON.stringify(arrayChildren),
         )
-		console.log('childcolor', childColor);
         i++
-        this.setState({ countMyChild: i })
+    this.setState({ countMyChild: i })
 		this.setState({ showMyChildName: nameChild })
 		this.setState({ colorState: childColor })
-		console.log('color1', this.state.colorState);
 		this.setState({ nameChild: nameChild })
       } else {
         alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -204,14 +200,13 @@ export default class FamilyAgenda extends React.Component {
             'allChildren',
             JSON.stringify(arrayChildren),
           )
-
-          localStorage.setItem('items', JSON.stringify([]))
-          this.setState({ showOthersChildName: nameChildOthers })
-		  this.setState({ nameChildOthers: nameChildOthers })
-		  this.setState({ colorState: childColor })
+          // localStorage.setItem('items', JSON.stringify([]))
           i++
           j++
+          this.setState({ nameChildOthers: nameChildOthers })
+          this.setState({ showOthersChildName: nameChildOthers })
           this.setState({ countMyChild: i })
+          this.setState({ colorState: childColor })
           this.setState({ countNotMyChild: j })
 
         } else {
