@@ -12,10 +12,9 @@
 }
 
 .h1Name {
-margin: 0px;
-padding: 0px;
-font-size:50px;
-color: red
+margin-top : 3%;
+margin-bottom : 3%;
+text-align : center
 }
 
 .selectWeek {
@@ -122,6 +121,7 @@ color: red
   font-size: 0.7em;
   margin: 2%;
   padding: 0;
+  text-align : center;
 }
 
 .headColumnDay {
