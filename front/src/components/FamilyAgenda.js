@@ -48,7 +48,6 @@ export default class FamilyAgenda extends React.Component {
 		time: '',
     setTime: false,
     valueOnClick: '',	
-    test: 0
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -503,7 +502,7 @@ export default class FamilyAgenda extends React.Component {
 		}
   }
   
-  test = (e) => {
+  handleResetPlanning = (e) => {
     this.setState({ valueOnClick: e.target.value })
     }
 
@@ -573,8 +572,7 @@ export default class FamilyAgenda extends React.Component {
   
   updateColor = () => {
     let color
-    let i = this.state.test
-	  if (this.state.colorState == '' && i == 0) {
+	  if (this.state.colorState == '') {
 		  color = Math.floor(Math.random() * 16777215).toString(16)
       this.setState({colorState : color})
       console.log("don't enter here")
@@ -792,7 +790,7 @@ export default class FamilyAgenda extends React.Component {
 			</div>
       <h1 className='h1Name'>{this.state.calendarChild}</h1>
       <div class="input-group">
-              <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.test}>
+              <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
 			  <option
                   selected
                   value="null"
@@ -819,7 +817,7 @@ export default class FamilyAgenda extends React.Component {
                       : this.addChildReset()
                   }
                 >
-                  Passer à l'enfant suivant
+                  Valider le planning de l'enfant
                 </button>
               </div>
             </div>
