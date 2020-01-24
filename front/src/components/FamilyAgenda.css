@@ -11,6 +11,13 @@
   display: flex;
 }
 
+.h1Name {
+margin: 0px;
+padding: 0px;
+font-size:50px;
+color: red
+}
+
 .selectWeek {
   width: 30%;
   display: flex;
