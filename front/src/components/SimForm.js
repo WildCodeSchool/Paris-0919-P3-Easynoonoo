@@ -7,17 +7,17 @@ import ResultCharges from './ResultCharges'
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo'))  
+    Number(window.localStorage.getItem('heuresHebdo'))
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('alsaceMoselle')) || 0
   const initialAnswer3 = () =>
     window.localStorage.getItem('tauxHoraire') || 0
   const initialAnswer4 = () =>
-    window.localStorage.getItem('gardeAlternee') || 0
+    window.localStorage.getItem('answers3') || false
   const initialAnswer5 = () =>
     window.localStorage.getItem('repartitionFamille') || 100
   const initialAnswer6 = () =>
-    window.localStorage.getItem('nbEnfants') || 0
+    window.localStorage.getItem('answers2')
   const initialAnswer7 = () =>
     window.localStorage.getItem('enfantPlusJeune') || 0
   const initialAnswer8 = () =>
@@ -43,7 +43,10 @@ const SimForm = () => {
     initialAnswer9,
   )
 
-  // hooks pour hypothèses de calculs
+  // hooks + variables pour hypothèses de calculs
+
+  /*Variables*/
+  let aujd = new Date()
   const initialAnswerPanierRepas = () =>
     Number(window.localStorage.getItem('panierRepas')) || 5
   const initialAnswersJoursTravaillesHebdo = () =>
@@ -51,50 +54,51 @@ const SimForm = () => {
   const initialAnswersAbonnementTransport = () =>
     Number(window.localStorage.getItem('montantAbonnementTransports')) || 75.20
   const initialAnswersPriseEnChargeAbonnement = () =>
-    Number(window.localStorage.getItem('montantAbonnementTransports')) || 50
-  const initialAnswersPartGarde = () => 
+    Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
+  const initialAnswersPartGarde = () =>
     Number(window.localStorage.getItem('tauxRepartition')) || 50
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
     Number(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
-  const initialAnswersGardeAlternee = () =>
-    Number(window.localStorage.getItem('answers3')) || false
+  const initialAnswersTranche = () =>
+    Number(window.localStorage.getItem('trancheA')) || true
 
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(true)
 
-  //   function getData() {
-  //     setRequestCalcul({
-  //       "dateDebutAnnee" : aujd.getFullYear(),
-  //       "enfantPlusJeune" : enfantPlusJeune,
-  //       "nbEnfants" : nbEnfants, // planning answers2
-  //       "parentIsolé" : parentIsolé, // 
-  //       "ressourcesAnnuelles" : ressourcesAnnuelles ,
-  //       "heuresSup" : , //deux inputs ou heuresHebdo - 40 ?
-  //       "heuresHebdo": heuresHebdo, // rempli ou récup du du planning
-  //       "tauxHoraire" : tauxHoraire, 
-  //       "repartitionFamille" : , //familyForm ou récup
-  //       "alsaceMoselle" : alsaceMoselle,
-  //       "trancheA" : ,  /newC
-  //       "tauxParticipationCotisations" : , /newC
-  //       "montantRepas" : , /newC
-  //       "joursTravaillesSemaines" : , /newC
-  //       "joursCP" : , /newC
-  //       "joursRecup" : , /newC
-  //       "priseEnChargeAbonnement" : , /newC
-  //       "montantAbonnementTransports" : , /newC
-  //       "premiereAnneeEmploiDomicile" : , /newC
-  //       "gardeAlternee" :  /newC ou familyForm // planning answers 3
+  const getData = () =>{
+    setRequestCalcul({
+      "dateDebutAnnee": aujd.getFullYear(),
+      "enfantPlusJeune": enfantPlusJeune,
+      "nbEnfants": nbEnfants,
+      "parentIsolé": parentIsole,
+      "ressourcesAnnuelles": ressourcesAnnuelles,
+      //       "heuresSup" : , //deux inputs ou heuresHebdo - 40 ? //finction sur heuresHebdo
+      "heuresHebdo": heuresHebdo, // pour l'instant rempli
+      "tauxHoraire": tauxHoraire,
+      "repartitionFamille": initialAnswersPartGarde,
+      "alsaceMoselle": alsaceMoselle,
+      "montantRepas": initialAnswerPanierRepas,
+      "priseEnChargeAbonnement": initialAnswersPriseEnChargeAbonnement,
+      "montantAbonnementTransports": initialAnswersAbonnementTransport,
+      "premiereAnneeEmploiDomicile": initialAnswerspremiereAnneeEmploiDomicile,
+      "trancheA": initialAnswersTranche,
+      "gardeAlternee": gardeAlternee,
+      //       "joursTravaillesSemaines" : , ?
+      //       "joursCP" : , ?
+      //       "joursRecup" : , ?  
+      //       "tauxParticipationCotisations" :  , ?
 
-  //       })  
-  //  }
 
-  /*Variables*/
-  let aujd = new Date()
+    })
+    setShowResults(false)
+  }
+
+  
 
   //store the data in local storage
   useEffect(() => {
     console.log('ajd', aujd.getFullYear())
-    console.log('hello, useEffect here',heuresHebdo ) // à chaque chgt
+    console.log('hello, useEffect here', heuresHebdo) // à chaque chgt
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -315,7 +319,7 @@ const SimForm = () => {
               setheuresHebdo(parseInt(e.target.value, 10))
             }
             min="1"
-            max="100"
+            max="48"
           />
         </div>
 
@@ -493,11 +497,11 @@ const SimForm = () => {
             </div>
           )}
 
-        <button class="btn btn-primary" type="submit">Calculer</button>
+        <button class="btn btn-primary" type="submit" onClick={() =>getData()}>Calculer</button>
 
         {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
-        
-        {showResults == true ? <ResultCharges/> : ''} 
+
+        {showResults == true ? <ResultCharges /> : ''}
 
 
         <Link to="/">
