@@ -7,7 +7,7 @@ import ResultCharges from './ResultCharges'
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo')) || window.localStorage.getItem
+    Number(window.localStorage.getItem('heuresHebdo'))  
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('alsaceMoselle')) || 0
   const initialAnswer3 = () =>
@@ -43,6 +43,22 @@ const SimForm = () => {
     initialAnswer9,
   )
 
+  // hooks pour hypothèses de calculs
+  const initialAnswerPanierRepas = () =>
+    Number(window.localStorage.getItem('panierRepas')) || 5
+  const initialAnswersJoursTravaillesHebdo = () =>
+    Number(window.localStorage.getItem('joursTravaillesSemaines')) || 5
+  const initialAnswersAbonnementTransport = () =>
+    Number(window.localStorage.getItem('montantAbonnementTransports')) || 75.20
+  const initialAnswersPriseEnChargeAbonnement = () =>
+    Number(window.localStorage.getItem('montantAbonnementTransports')) || 50
+  const initialAnswersPartGarde = () => 
+    Number(window.localStorage.getItem('tauxRepartition')) || 50
+  const initialAnswerspremiereAnneeEmploiDomicile = () =>
+    Number(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
+  const initialAnswersGardeAlternee = () =>
+    Number(window.localStorage.getItem('answers3')) || false
+
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(true)
 
@@ -67,7 +83,7 @@ const SimForm = () => {
   //       "priseEnChargeAbonnement" : , /newC
   //       "montantAbonnementTransports" : , /newC
   //       "premiereAnneeEmploiDomicile" : , /newC
-  //       "gardeAlternee" : /newC ou familyForm // planning answers 3
+  //       "gardeAlternee" :  /newC ou familyForm // planning answers 3
 
   //       })  
   //  }

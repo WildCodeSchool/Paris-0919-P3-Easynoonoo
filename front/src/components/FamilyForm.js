@@ -158,8 +158,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     className="checked"
-                    value="oui"
-                    checked={answers3 === 'oui'}
+                    value={true}
+                    checked={answers3 == true}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Oui
@@ -171,8 +171,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     className="checked"
-                    value="non"
-                    checked={answers3 === 'non'}
+                    value={false}
+                    checked={answers3 == false}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Non
@@ -196,8 +196,8 @@ const FamilyForm = () => {
                 <label>
                   <input
                     type="radio"
-                    value="oui"
-                    checked={answers3 === 'oui'}
+                    value={true}
+                    checked={answers3 === true}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Oui
@@ -208,8 +208,8 @@ const FamilyForm = () => {
                 <label>
                   <input
                     type="radio"
-                    value="non"
-                    checked={answers3 === 'non'}
+                    value={false}
+                    checked={answers3 === false}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Non

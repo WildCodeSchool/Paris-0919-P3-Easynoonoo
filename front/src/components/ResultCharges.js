@@ -148,15 +148,15 @@ const ResultCharges = () => {
                 <tbody>
                     <tr>
                         <th scope="row">Panier repas</th>
-                        <td></td>                       
+                        <input type='number'></input>                       
                     </tr>
                     <tr>
                         <th scope="row">Nb jours travaillés par semaine</th>
-                        <td></td>                       
+                        <input type='number'></input>                     
                     </tr>
                     <tr>
                         <th scope="row">Abonnement transports publics</th>
-                        <td></td>                       
+                        <input type='number'></input>                       
                     </tr> 
                     <tr>
                         <th scope="row"></th>
@@ -164,18 +164,25 @@ const ResultCharges = () => {
                     </tr>
                     <tr>
                         <th scope="row">Part garde</th>
-                        <td></td>                       
+                        <input type='number'></input>                       
                     </tr>
                     <tr>
                         <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
-                        <td></td>                       
+                        <select class="form-control form-control-lg">
+                            <option value={true}>oui</option>
+                            <option value={false}>non</option>
+                        </select>                       
                     </tr> 
-                    <tr>
+                    <tr className ='align-items-center'>
                         <th scope="row">Garde alternée</th>
-                        <td></td>                       
+                        <select class="form-control form-control-lg">
+                            <option value={true}>oui</option>
+                            <option value={false}>non</option>
+                        </select>                      
                     </tr>                   
                 </tbody>
             </table>
+            
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
