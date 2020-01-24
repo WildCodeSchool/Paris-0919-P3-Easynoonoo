@@ -114,7 +114,6 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	validateSelect = () => {
-		console.log('______VALIDATE SELECT')
 
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
@@ -132,6 +131,7 @@ export default class FamilyAgenda extends React.Component {
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
+			// console.log('______VALIDATE SELECT')
 
 			// __________________ CALCULS DES DATES ________________
 
@@ -291,8 +291,6 @@ export default class FamilyAgenda extends React.Component {
 				alert("Il n'y a plus d'enfant à rajouter")
 			}
 		}
-
-
 	}
 
 	/* -------- reset-------- */
@@ -441,7 +439,7 @@ export default class FamilyAgenda extends React.Component {
 		element.style.top = horiz.top + yScroll + 'px'
 		document.body.appendChild(element)
 		element.style.fontSize = '12px';
-		element.style.textAlign = 'center';
+		element.style.textAlign = 'center';	
 	}
 
 	createSelectionDiv = () => {
@@ -492,14 +490,12 @@ export default class FamilyAgenda extends React.Component {
 				document.body.appendChild(element)
 
 				// element.innerText = this.state.slotHours[this.state.slotHours.length - 2] + '\n' + this.state.slotHours[this.state.slotHours.length - 1];
-				element.innerText = 'CHOUCROUTE'
 				console.log('________getSelect', this.state.slotHours);
 
-				// let a = this.state.slotHours[this.state.slotHours.length - 2];
-				// let b = this.state.slotHours[this.state.slotHours.length - 1];
-				// item.push({ a, b })
-				// console.log('item', item);
-				// console.log('________getSelect');
+				element.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
+
+				element.style.fontSize = '12px';
+				element.style.textAlign = 'center';
 			})
 		}
 		// else {
