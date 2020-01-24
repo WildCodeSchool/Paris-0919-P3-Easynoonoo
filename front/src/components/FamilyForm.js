@@ -353,7 +353,7 @@ const FamilyForm = () => {
         {count === answers2 &&
         count2 === answers1 - answers2 &&
         count2 !== 0 ? (
-          <FamilyAgenda />
+          <FamilyAgenda/>
         ) : (
           ''
         )}
