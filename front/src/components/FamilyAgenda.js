@@ -691,6 +691,7 @@ export default class FamilyAgenda extends React.Component {
 			<div id="someTableId" className="agendaContainer">
 			 
 			  <div className="selectWeek">
+			   <h1>Planning</h1>
          
 				{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
 				{/* <h1 className="currentMonth">
@@ -788,7 +789,9 @@ export default class FamilyAgenda extends React.Component {
 				: `Vous n'avez pas sélectionné de créneau`}
 			</div> */}
 			</div>
-      <h1 className='h1Name'>{this.state.calendarChild}</h1>
+	
+			<h1 className='h1Name'>{this.state.calendarChild}</h1>
+		    
       <div class="input-group">
               <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
 			  <option
