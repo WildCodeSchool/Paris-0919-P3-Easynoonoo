@@ -183,7 +183,7 @@ const ResultCharges = () => {
                 </tbody>
             </table>
             
-            <table class="table">
+            {/* <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"></th>
@@ -209,7 +209,7 @@ const ResultCharges = () => {
                         <td></td>                       
                     </tr>                     
                 </tbody>
-            </table>
+            </table> */}
 
 
 
