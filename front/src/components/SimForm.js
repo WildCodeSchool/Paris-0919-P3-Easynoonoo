@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 import './SimForm.css'
+import ResultCharges from './ResultCharges'
+import { relativeTimeRounding } from 'moment'
 
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo')) || 0
+    Number(window.localStorage.getItem('heuresHebdo')) || 40
   const initialAnswer2 = () =>
-    Number(window.localStorage.getItem('alsaceMoselle')) || 0
+    window.localStorage.getItem('alsaceMoselle') || false
   const initialAnswer3 = () =>
-    window.localStorage.getItem('tauxHoraire') || 0
+    Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
-    window.localStorage.getItem('gardeAlternee') || 0
+    window.localStorage.getItem('gardeAlternee') || false
   const initialAnswer5 = () =>
-    window.localStorage.getItem('repartitionFamille') || 100
+    Number(window.localStorage.getItem('repartitionFamille')) || 100
   const initialAnswer6 = () =>
-    window.localStorage.getItem('nbEnfants') || 0
+    Number(window.localStorage.getItem('nbEnfants')) || 0
   const initialAnswer7 = () =>
-    window.localStorage.getItem('enfantPlusJeune') || 0
+    Number(window.localStorage.getItem('enfantPlusJeune')) || 0
   const initialAnswer8 = () =>
-    window.localStorage.getItem('parentIsole') || 0
+    Boolean(window.localStorage.getItem('parentIsole')) || false
   const initialAnswer9 = () =>
-    window.localStorage.getItem('ressourcesAnnuelles') || 0
+    Number(window.localStorage.getItem('ressourcesAnnuelles')) || 0
 
   // state en hook pour les réponses
 
@@ -42,23 +45,129 @@ const SimForm = () => {
     initialAnswer9,
   )
 
+
+  // function to find heureSup 
+  let heuresSeparees = (heureHebdo) => {
+    let heureSup
+    if (heureHebdo > 40) {
+      heureSup = heureHebdo - 40
+      return heureSup
+    } else {
+      heureSup = 0
+      return heureSup
+    }
+  }
+
+  // hooks + variables pour hypothèses de calculs
+  
+  let aujd = new Date()
+  const initialAnswerPanierRepas = () =>
+    Number(window.localStorage.getItem('panierRepas')) || 5
+  const initialAnswersJoursTravaillesHebdo = () =>
+    Number(window.localStorage.getItem('joursTravaillesSemaines')) || 5
+  const initialAnswersAbonnementTransport = () =>
+    Number(window.localStorage.getItem('montantAbonnementTransports')) || 75.20
+  const initialAnswersPriseEnChargeAbonnement = () =>
+    Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
+  const initialAnswerspremiereAnneeEmploiDomicile = () =>
+    Boolean(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
+  const initialAnswersTranche = () =>
+    Boolean(window.localStorage.getItem('trancheA')) || false
+
+  const [requestCalcul, setRequestCalcul] = useState([])
+  const [showResults, setShowResults] = useState(false)
+  const [anneeEmploi, setAnneeEmploi] = useState(initialAnswerspremiereAnneeEmploiDomicile)
+  const [montantTransport, setMontantTransport] = useState(initialAnswersAbonnementTransport)
+  const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
+  const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
+
+  const plzReturnABoolean = (e) => {
+    if (e == "true") {
+      return true
+    } else {
+      return false
+    }
+  }
+  
+  let escroquerie = []
+  const getData = () =>{
+    console.log('dans le getData avant setRequest 1', requestCalcul)
+    new Promise(resolve => {
+      resolve(
+         setRequestCalcul({
+           "dateDebutAnnee": aujd.getFullYear(),
+           "enfantPlusJeune": enfantPlusJeune,
+           "nbEnfants": nbEnfants,
+           "parentsIsole": plzReturnABoolean(parentIsole),
+           "ressourcesAnnuelles": ressourcesAnnuelles, 
+           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
+           "heuresSup" : heuresSeparees(heuresHebdo),
+           "tauxHoraire": tauxHoraire,
+           "repartitionFamille": repartitionFamille / 100, 
+           "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
+           "montantRepas": panierRepas,
+           "priseEnChargeAbonnement": partPriseCharge / 100, 
+           "montantAbonnementTransports": montantTransport, 
+           "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
+           "gardeAlternee": plzReturnABoolean(gardeAlternee),
+         })   
+          
+          
+      )
+      console.log('ds le getData apres le setRequest', requestCalcul)
+      
+    })  
+  }
+
+  
+
+  const sendData = () => {
+    axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
+    .then((res) => {
+      console.log(res.json)
+    }).catch((error) => {
+      console.log(error)
+    
+  }) 
+  console.log('dans send data 2', requestCalcul)
+
+}
+
+  
+  async function showData() {
+    //if(requestCalcul.length >= 1) {
+      await getData();
+      sendData();
+      console.log('ds le show datz 3', requestCalcul)
+    //}else {
+    //  alert('dis is not working becoz der is nothing')
+    //}
+    
+    //setShowResults(true)
+  }
+
+  const counter = useRef(0);
+  
+
   //store the data in local storage
-  useEffect(() => {
+  useEffect(() => {  
+    console.log('request dans le useEffect', requestCalcul)
+    console.log(counter.current = counter.current + 1);
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
     window.localStorage.setItem('gardeAlternee', gardeAlternee)
     window.localStorage.setItem(
       'repartitionFamille',
-      repartitionFamille / 100,
+      repartitionFamille ,
     )
     window.localStorage.setItem('nbEnfants', nbEnfants)
     window.localStorage.setItem('enfantPlusJeune', enfantPlusJeune)
     window.localStorage.setItem('parentIsole', parentIsole)
     window.localStorage.setItem(
-      'ressourcesAnnuelles',
-      ressourcesAnnuelles,
+      'ressourcesAnnuelles', ressourcesAnnuelles,
     )
+    window.localStorage.setItem('nbEnfants', nbEnfants)
   }, [
     heuresHebdo,
     alsaceMoselle,
@@ -69,6 +178,7 @@ const SimForm = () => {
     enfantPlusJeune,
     parentIsole,
     ressourcesAnnuelles,
+    requestCalcul
   ]) //callback run only the answers change
 
   const handleQuestion9 = () => {
@@ -264,7 +374,7 @@ const SimForm = () => {
               setheuresHebdo(parseInt(e.target.value, 10))
             }
             min="1"
-            max="100"
+            max="48"
           />
         </div>
 
@@ -277,13 +387,13 @@ const SimForm = () => {
             name="region"
             id="region-select"
             onChange={e => setalsaceMoselle(e.target.value)}
-            value={alsaceMoselle}
+            //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
-            <option value="false">
+            <option value={false}>
               France Métropolitaine ou DOM
             </option>
-            <option value="true">Alsace-Moselle</option>
+            <option value={true}>Alsace-Moselle</option>
           </select>
         </div>
 
@@ -312,7 +422,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="true"
-                checked={gardeAlternee == 'true'}
+                checked={gardeAlternee == "true"}
                 onChange={e => setgardeAlternee(e.target.value)}
               />
               Oui
@@ -325,7 +435,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={gardeAlternee == 'false'}
+                checked={gardeAlternee == "false"}
                 onChange={e => setgardeAlternee(e.target.value)}
               />
               Non
@@ -333,7 +443,7 @@ const SimForm = () => {
           </div>
         </div>
 
-        {gardeAlternee == 'true' ? (
+        {gardeAlternee == "true" ? (
           <div className="simFormNumberInput">
             <label>
               Quelle part du coût de la garde allez-vous supporter ?
@@ -343,7 +453,7 @@ const SimForm = () => {
               class="custom-range"
               value={repartitionFamille}
               onChange={e =>
-                setrepartitionFamille(parseInt(e.target.value))
+                setrepartitionFamille(parseInt((e.target.value)))
               }
               min="0"
               max="100"
@@ -353,8 +463,8 @@ const SimForm = () => {
             {repartitionFamille} %
           </div>
         ) : (
-          ''
-        )}
+            ''
+          )}
 
         <div className="simFormNumberInput">
           <label for="child-number">
@@ -364,15 +474,16 @@ const SimForm = () => {
             class="form-control"
             name="childs"
             id="child-select"
-            onChange={e => setnbEnfants(e.target.value)}
+            onChange={e => setnbEnfants(parseInt(e.target.value))}
             value={nbEnfants}
           >
-            <option value="">--Merci de choisir une option--</option>
+            <option value="">--Merci de choisir une option--</option> 
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
+          
         </div>
 
         <div className="simFormNumberInput">
@@ -397,7 +508,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="true"
-                checked={parentIsole == 'true'}
+                checked={parentIsole == "true"}
                 onChange={e => setparentIsole(e.target.value)}
               />
               Oui
@@ -410,7 +521,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={parentIsole == 'false'}
+                checked={parentIsole == "false" }
                 onChange={e => setparentIsole(e.target.value)}
               />
               Non
@@ -418,29 +529,40 @@ const SimForm = () => {
           </div>
         </div>
 
-        {parentIsole == 'true' ? (
+        {parentIsole == "true" ? (
           <div className="simFormNumberInput">
             <label for="salarySelect">
               Quels sont vos revenus nets mensuels ?
             </label>
             <div
-              onChange={e => setressourcesAnnuelles(e.target.value)}
+              onChange={e => setressourcesAnnuelles(parseInt(e.target.value))}
             >
               {handleQuestion9True()}
             </div>
           </div>
         ) : (
-          <div className="simFormNumberInput">
-            <label for="salarySelect">
-              9. Quels sont les revenus nets annuels du foyer ?
+            <div className="simFormNumberInput">
+              <label for="salarySelect">
+                9. Quels sont les revenus nets annuels du foyer ?
             </label>
-            <div
-              onChange={e => setressourcesAnnuelles(e.target.value)}
-            >
-              {handleQuestion9()}
+              <div
+                onChange={e => setressourcesAnnuelles(parseInt(e.target.value))}
+              >
+                {handleQuestion9()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          <button className=" col-3 btn btn-primary" type="submit" onClick={() =>showData()}>Calculer</button>
+
+        
+
+        {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
+
+        {showResults == true ? <ResultCharges /> : ''}
+
+        
+
 
         <Link to="/">
           <p className="simFormReturn">Retour aux simulateurs</p>
