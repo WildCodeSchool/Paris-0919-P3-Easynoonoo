@@ -12,12 +12,13 @@ const FamilyForm = () => {
     Number(window.localStorage.getItem('answers1')) || 0
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('answers2')) || 0
-  const initialAnswer3 = () => window.localStorage.getItem('answers3')
+  const initialAnswer3 = () =>
+    Boolean(window.localStorage.getItem('answers3'))
 
   // state en hook pour les réponses
-  const [answers1, setAnswers1] = useState(initialAnswer1)
-  const [answers2, setAnswers2] = useState(initialAnswer2)
-  const [answers3, setAnswers3] = useState(initialAnswer3)
+  const [answers1, setAnswers1] = useState(initialAnswer1) //nbr d'enfants total
+  const [answers2, setAnswers2] = useState(initialAnswer2) // propres enfants
+  const [answers3, setAnswers3] = useState(initialAnswer3) // parent isolé
 
   // state qui contient les prénoms des enfants
   const [myChild, setmyChild] = useState([])
@@ -158,8 +159,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     className="checked"
-                    value={true}
-                    checked={answers3 == true}
+                    value="true"
+                    checked={answers3 == "true"}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Oui
@@ -171,8 +172,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     className="checked"
-                    value={false}
-                    checked={answers3 == false}
+                    value="false"
+                    checked={answers3 == "false"}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Non
@@ -196,8 +197,8 @@ const FamilyForm = () => {
                 <label>
                   <input
                     type="radio"
-                    value={true}
-                    checked={answers3 === true}
+                    value="true"
+                    checked={answers3 === "true"}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Oui
@@ -208,8 +209,8 @@ const FamilyForm = () => {
                 <label>
                   <input
                     type="radio"
-                    value={false}
-                    checked={answers3 === false}
+                    value="false"
+                    checked={answers3 === "false"}
                     onChange={e => setAnswers3(e.target.value)}
                   />
                   Non
@@ -221,7 +222,7 @@ const FamilyForm = () => {
           )}
 
           {/* Message erreur si pas garde partagée  */}
-          {answers1 === 1 && answers3 === 'non' ? (
+          {answers1 === 1 && answers3 === "false" ? (
             <p className="error1">
               La garde de l'enfant n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
@@ -230,7 +231,7 @@ const FamilyForm = () => {
             ''
           )}
 
-          {answers1 === answers2 && answers3 === 'non' ? (
+          {answers1 === answers2 && answers3 === "false" ? (
             <p className="error1">
               La garde des enfants n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
@@ -241,7 +242,7 @@ const FamilyForm = () => {
 
           {/* si on est en co-partage : la question des prénoms apparaît */}
 
-          {answers1 === 1 && answers3 === 'oui' ? (
+          {answers1 === 1 && answers3 === "true" ? (
             <div className="row question4">
               <p>Comment s'appelle l'enfant ?</p>
               <div class="input-group mb-3">
@@ -273,7 +274,7 @@ const FamilyForm = () => {
             ''
           )}
 
-          {answers1 === answers2 && answers3 === 'oui' ? (
+          {answers1 === answers2 && answers3 === "true" ? (
             <div className="row question4">
               <p>Comment s'appellent les enfants ?</p>
               <div class="input-group mb-3">
@@ -359,7 +360,7 @@ const FamilyForm = () => {
         )}
 
         {/* enfants en garde partagée : calendrier apparait  */}
-        {count === answers1 && count2 === 0 && answers3 === 'oui' ? (
+        {count === answers1 && count2 === 0 && answers3 === "true" ? (
           <FamilyAgenda />
         ) : (
           ''
