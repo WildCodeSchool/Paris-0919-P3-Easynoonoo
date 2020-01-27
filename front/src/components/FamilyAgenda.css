@@ -166,3 +166,11 @@ th.calendarCell.time {
   width: 10%;
   background-color: #e2e5ed;
 }
+
+.agenda__row_hour-start {
+  background-color: rgb(219, 219, 219);
+  opacity: 0.4;
+}.agenda__row_hour-startBis {
+  background-color: rgb(170, 170, 170);
+  opacity: 0.4;
+}
