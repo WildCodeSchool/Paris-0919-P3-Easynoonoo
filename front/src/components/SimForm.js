@@ -142,17 +142,12 @@ const SimForm = () => {
       
   }
 
-
-
   async function showData() {
     await getData();
     sendData();
     setShowResults(true)
 
   }
-
-  
-
 
   //store the data in local storage
   useEffect(() => {
@@ -582,7 +577,7 @@ const SimForm = () => {
                     <tr>
                         <th scope="row">Ce que gagne la nounou</th>
                         <td>{requestCalcul.netMensuelFamilleA}</td>
-                        <td>{requestCalcul.netMensuelFamilleA + requestCalcul.netMensuelFamilleB }</td>
+                        <td>{requestCalcul.netMensuelTotal }</td>
                     </tr>
                     <tr>
                         <th scope="row">Ce que la garde me coûte (avec les aides)</th>
