@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 import './SimForm.css'
 import ResultCharges from './ResultCharges'
+import { relativeTimeRounding } from 'moment'
 
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
@@ -76,7 +77,6 @@ const SimForm = () => {
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(false)
   const [anneeEmploi, setAnneeEmploi] = useState(initialAnswerspremiereAnneeEmploiDomicile)
-  const [tranche, setTranche] = useState(initialAnswersTranche)
   const [montantTransport, setMontantTransport] = useState(initialAnswersAbonnementTransport)
   const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
@@ -89,48 +89,70 @@ const SimForm = () => {
     }
   }
   
-
+  let escroquerie = []
   const getData = () =>{
-    setRequestCalcul({
-      "dateDebutAnnee": aujd.getFullYear(),
-      "enfantPlusJeune": enfantPlusJeune,
-      "nbEnfants": nbEnfants,
-      "parentsIsole": plzReturnABoolean(parentIsole),
-      "ressourcesAnnuelles": ressourcesAnnuelles, 
-      "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
-      "heuresSup" : heuresSeparees(heuresHebdo),
-      "tauxHoraire": tauxHoraire,
-      "repartitionFamille": repartitionFamille / 100, 
-      "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
-      "montantRepas": panierRepas,
-      "priseEnChargeAbonnement": partPriseCharge / 100, 
-      "montantAbonnementTransports": montantTransport, 
-      "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
-      "gardeAlternee": plzReturnABoolean(gardeAlternee),
-      //       "joursTravaillesSemaines" : , ?
-      //       "joursCP" : , ?
-      //       "joursRecup" : , ?  
-      //       "tauxParticipationCotisations" :  , ?
-
-
-    })  
+    console.log('dans le getData avant setRequest 1', requestCalcul)
+    new Promise(resolve => {
+      resolve(
+         setRequestCalcul({
+           "dateDebutAnnee": aujd.getFullYear(),
+           "enfantPlusJeune": enfantPlusJeune,
+           "nbEnfants": nbEnfants,
+           "parentsIsole": plzReturnABoolean(parentIsole),
+           "ressourcesAnnuelles": ressourcesAnnuelles, 
+           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
+           "heuresSup" : heuresSeparees(heuresHebdo),
+           "tauxHoraire": tauxHoraire,
+           "repartitionFamille": repartitionFamille / 100, 
+           "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
+           "montantRepas": panierRepas,
+           "priseEnChargeAbonnement": partPriseCharge / 100, 
+           "montantAbonnementTransports": montantTransport, 
+           "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
+           "gardeAlternee": plzReturnABoolean(gardeAlternee),
+         })   
+          
+          
+      )
+      console.log('ds le getData apres le setRequest', requestCalcul)
       
-    setShowResults(true)
+    })  
   }
 
   
 
   const sendData = () => {
-    await getData(),
-    await 
-    setShowResults(true)
+    axios.post('http://localhost:4000/api/calculRepartition', escroquerie) //POST - POST => envoyer infos
+    .then((res) => {
+      console.log(res.json)
+    }).catch((error) => {
+      console.log(error)
+    
+  }) 
+  console.log('dans send data 2', requestCalcul)
+
+}
+
+  
+  async function showData() {
+    //if(requestCalcul.length >= 1) {
+      await getData();
+      sendData();
+      console.log('ds le show datz 3', requestCalcul)
+    //}else {
+    //  alert('dis is not working becoz der is nothing')
+    //}
+    
+    //setShowResults(true)
   }
 
+  const counter = useRef(0);
+  
+
   //store the data in local storage
-  useEffect(() => {
-    console.log('ajd', aujd.getFullYear())
-    console.log('hello, c les heures sup here', heuresSeparees(heuresHebdo))
-    console.log('alsacemoselle', alsaceMoselle) // à chaque chgt
+  useEffect(() => {  
+    console.log('request dans le useEffect', requestCalcul)
+    console.log(counter.current = counter.current + 1);
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -155,7 +177,8 @@ const SimForm = () => {
     nbEnfants,
     enfantPlusJeune,
     parentIsole,
-    ressourcesAnnuelles
+    ressourcesAnnuelles,
+    requestCalcul
   ]) //callback run only the answers change
 
   const handleQuestion9 = () => {
@@ -530,7 +553,7 @@ const SimForm = () => {
             </div>
           )}
 
-          <button className=" col-3 btn btn-primary" type="submit" onClick={() =>getData()}>Calculer</button>
+          <button className=" col-3 btn btn-primary" type="submit" onClick={() =>showData()}>Calculer</button>
 
         
 
