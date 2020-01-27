@@ -2,101 +2,119 @@ const mongoose = require("mongoose");
 
 const chargesEmployes = new mongoose.Schema(
     {
-        maladieMaterniteInvaliditeDeces: 
+        maladieMaterniteInvaliditeDecesEmployes: 
         {
             type: Number,
             min:1,
             max:20,
         },
-        assuranceVieillesseDeplafonnee:
+        assuranceVieillesseDeplafonneeEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        vieillessePlafonnee:
+        vieillessePlafonneeEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        cotisationSupplementaireAlsaceMoselle:
+        cotisationSupplementaireAlsaceMoselleEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        IrcemRetraiteComplementaireTrA:
+        IrcemRetraiteComplementaireTrAEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        IrcemRetraiteComplementaireTrB:
+        IrcemRetraiteComplementaireTrBEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CegTrA:
+        CegTrAEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CegTrB:
+        CegTrBEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CetTrB:
+        CetTrBEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        assuranceChomage:
+        assuranceChomageEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        IrcemPrevoyance:
+        IrcemPrevoyanceEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CsgDeductible:
+        CsgDeductibleEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CsgNonDeductible:
+        CsgNonDeductibleEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        CrdsNonDeductible:
+        CrdsNonDeductibleEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        exonerationDesCotisations:
+        exonerationDesCotisationsEmployes:
         {
             type: Number,
             min:1,
             max:20,
         },
-        dateDebutAnnee:
+        tauxHeuresSuppEmployes : 
+        {
+            type: Number,
+            min:1,
+            max:20,
+        },
+        tauxAssietteCSG_RDSEmployes : 
+        {
+            type: Number,
+            min:1,
+            max:20,
+        },
+        PMSS : 
+        {
+            type: Number,
+            min:1,
+            max:20,
+        },
+        dateDebutAnneeEmployes:
         {
             type: Number,
         },
-        dateFinAnnee:
+        dateFinAnneeEmployes:
         {
             type: Number,
         },

@@ -350,7 +350,7 @@ export default class FamilyAgenda extends React.Component {
 			!isDragging
 		) {
 			startSelect = e.target.id
-			//   this.handleMouseClick(e.target.id)
+			this.handleMouseClick(e.target.id)
 			mouse.startX = mouse.x
 			mouse.startY = mouse.y
 			element = document.createElement('div')
@@ -568,6 +568,8 @@ export default class FamilyAgenda extends React.Component {
 		} 
   }
   
+
+
   updateColor = () => {
     let color
 	  if (this.state.colorState == '') {
@@ -685,88 +687,68 @@ export default class FamilyAgenda extends React.Component {
 		
 	
 		return (
-		  <>
-			<div id="someTableId" className="agendaContainer">
-			 
-			  <div className="selectWeek">
-			   <h1>Planning</h1>
-         
-				{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
-				{/* <h1 className="currentMonth">
-				  {this.thisWeek('Sunday').format('MMMM YYYY')}
-				</h1> */}
-				{/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
-			  </div>
-			  <table
-				id="tamèreenstring"
-				className="calendarTable"
-				cellPadding="0"
-				cellSpacing="0"
-			  >
-				<thead>
-				  <tr>
-					<th className="calendarCell head first"></th>
-					{columns.map(column => {
-					  return (
-						<th
-						  id={this.thisWeek(column.key).format(
-							'YYYY-MM-DD ',
-						  )}
-						  className="calendarCell head"
-						>
-						  <p className="headColumnName">
-							{column.name}{' '}
-							<span className="headColumnDay">
-							  {column.day}
-							</span>
-						  </p>
-						</th>
-					  )
-					})}
-				  </tr>
-				</thead>
-				<tbody
-				  id="calendarBodyId"
-				  className="calendarTableBody"
-				  onMouseDown={this.handleAllClickStarts}
-				  onMouseUp={this.handleAllClickEnds}
-				  onMouseOver={this.handleMouseOver}
-				>
-				  {rows.map(row => {
-					this.createTable(row.id)
-					return (
-					  <>
-						<tr>
-						  <th
-							className="calendarCell time"
-							draggable="false"
-							rowSpan="5"
-						  >
-							{row.hours}
-						  </th>
-						</tr>
-						{hours.map(hour => {
-						  return (
-							<tr
-							  className="agenda__row   hour-start"
-							  draggable="false"
-							>
-							  {columns.map(column => {
-								return (
-								  <td
-									id={column.date + hour}
-									className="calendarCell"
-								  ></td>
-								)
-							  })}
-							</tr>
-						  )
-						})}
-					  </>
-					)
-				  })}
-				</tbody>
-			  </table>
+			<>				<div id="someTableId" className="agendaContainer">					<div className="selectWeek">					</div>					<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>						<thead>							<tr>
+								<th className='calendarCell head first'></th>
+								{columns.map(column => {
+									return (
+										<th className='calendarCell head'>
+											<p className='headColumnName'>{column.name}</p>
+										</th>
+									)
+								})
+								}
+							</tr>						</thead>						<tbody id="calendarBodyId"
+							className="calendarTableBody"
+							onMouseDown={this.handleAllClickStarts}
+							onMouseUp={this.handleAllClickEnds}
+							onMouseOver={this.handleMouseOver}>							{rows.map((row, i) => {
+								this.createTable(row.id)
+								if (i % 2 === 0) {
+									return (
+										<>
+											<tr>
+												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+											</tr>
+											{hours.map((hour) => {
+												return (
+													<tr className="agenda__row_hour-start" draggable='false'>
+														{columns.map(column => {
+															return (
+																<td id={column.date + hour} className='calendarCell'></td>
+															)
+														})
+														}
+													</tr>
+												)
+											})
+											}
+										</>
+									)
+								} else {
+									return (
+										<>
+											<tr>
+												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+											</tr>
+											{hours.map((hour) => {
+												return (
+													<tr className="agenda__row_hour-startBis" draggable='false'>
+														{columns.map(column => {
+															return (
+																<td id={column.date + hour} className='calendarCell'></td>
+															)
+														})
+														}
+													</tr>
+												)
+											})
+											}
+										</>
+									)
+								}
+							})
+							}
+						</tbody>					</table>
 	
 			  {/* <div>
 				"name Famille A" :
