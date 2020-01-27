@@ -86,6 +86,7 @@ const SimForm = () => {
   const [joursCP, setJoursCP] = useState(initialJoursCp)
   const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
   const [joursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
+  
 
   const returnBoolean = (e) => {
     if (e == "true") {
