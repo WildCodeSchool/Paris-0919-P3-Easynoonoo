@@ -15,7 +15,7 @@ const SimForm = () => {
   const initialAnswer3 = () =>
     Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
-    window.localStorage.getItem('gardeAlternee') || false
+    false //parentIsole
   const initialAnswer5 = () =>
     Number(window.localStorage.getItem('repartitionFamille')) || 100
   const initialAnswer6 = () =>
@@ -32,7 +32,7 @@ const SimForm = () => {
   const [heuresHebdo, setheuresHebdo] = useState(initialAnswer1)
   const [alsaceMoselle, setalsaceMoselle] = useState(initialAnswer2)
   const [tauxHoraire, settauxHoraire] = useState(initialAnswer3)
-  const [gardeAlternee, setgardeAlternee] = useState(initialAnswer4)
+  const [gardePartagee, setGardePartagee] = useState(initialAnswer4)
   const [repartitionFamille, setrepartitionFamille] = useState(
     initialAnswer5,
   )
@@ -75,6 +75,8 @@ const SimForm = () => {
     Number(window.localStorage.getItem('joursCP')) || 25
   const initialJoursRecup = () =>
     Number(window.localStorage.getItem('joursRecup')) || 0
+  const initialAnswersGardeAlternee = () => 
+    window.localStorage.getItem('gardeAlternee') || false
 
 
   const [requestCalcul, setRequestCalcul] = useState([])
@@ -86,6 +88,7 @@ const SimForm = () => {
   const [joursCP, setJoursCP] = useState(initialJoursCp)
   const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
   const [joursTravaillesSemaines, setJoursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
+  const [gardeAlternee, setGardeAlternee] = useState(initialAnswersGardeAlternee)
 
 
   const returnBoolean = (e) => {
@@ -189,7 +192,8 @@ const SimForm = () => {
     joursTravaillesSemaines,
     montantTransport,
     partPriseCharge,
-    anneeEmploi
+    anneeEmploi,
+    gardePartagee
   ]) //callback run only the answers change
 
   const handleQuestion9 = () => {
@@ -435,8 +439,8 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="true"
-                checked={gardeAlternee == "true"}
-                onChange={e => setgardeAlternee(e.target.value)}
+                checked={gardePartagee == "true"}
+                onChange={e => setGardePartagee(e.target.value)}
               />
               Oui
             </label>
@@ -448,15 +452,15 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={gardeAlternee == "false"}
-                onChange={e => setgardeAlternee(e.target.value)}
+                checked={gardePartagee == "false"}
+                onChange={e => setGardePartagee(e.target.value)}
               />
               Non
             </label>
           </div>
         </div>
 
-        {gardeAlternee == "true" ? (
+        {gardePartagee == "true" ? (
           <div className="simFormNumberInput">
             <label>
               Quelle part du coût de la garde allez-vous supporter ?
@@ -635,7 +639,7 @@ const SimForm = () => {
             </tr>
             <tr className='align-items-center'>
               <th scope="row">Garde alternée</th>
-              <select class="form-control form-control-lg" onChange={(e) => setgardeAlternee(e.target.value)}>
+              <select class="form-control form-control-lg" value={gardeAlternee} onChange={(e) => setGardeAlternee(e.target.value)}>
                 <option value={true}>oui</option>
                 <option value={false}>non</option>
               </select>
