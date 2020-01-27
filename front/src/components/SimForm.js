@@ -59,7 +59,7 @@ const SimForm = () => {
   }
 
   // hooks + variables pour hypothèses de calculs
-  
+
   let aujd = new Date()
   const initialAnswerPanierRepas = () =>
     Number(window.localStorage.getItem('panierRepas')) || 5
@@ -71,11 +71,11 @@ const SimForm = () => {
     Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
     Boolean(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
-  const initialJoursCp = () => 
+  const initialJoursCp = () =>
     Number(window.localStorage.getItem('joursCP')) || 25
-  const initialJoursRecup = () => 
+  const initialJoursRecup = () =>
     Number(window.localStorage.getItem('joursRecup')) || 0
-    
+
 
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(false)
@@ -86,7 +86,7 @@ const SimForm = () => {
   const [joursCP, setJoursCP] = useState(initialJoursCp)
   const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
   const [joursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
-  
+
 
   const returnBoolean = (e) => {
     if (e == "true") {
@@ -95,33 +95,33 @@ const SimForm = () => {
       return false
     }
   }
-  
+
   let dataObject = []
-    
+
   const getData = () => {
     return (
       new Promise(resolve => {
         resolve(
           dataObject = {
-           "dateDebutAnnee": aujd.getFullYear(),
-           "enfantPlusJeune": enfantPlusJeune,
-           "nbEnfants": nbEnfants,
-           "parentsIsole": returnBoolean(parentIsole),
-           "ressourcesAnnuelles": ressourcesAnnuelles, 
-           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo), 
-           "heuresSup" : heuresSeparees(heuresHebdo),
-           "heureHebdoTotal" : heuresHebdo,
-           "tauxHoraire": tauxHoraire,
-           "repartitionFamille": repartitionFamille / 100, 
-           "alsaceMoselle": alsaceMoselle,
-           "montantRepas": panierRepas,
-           "joursTravaillesSemaines": joursTravaillesSemaines,
-           "joursCP" : joursCP,
-           "joursRecup" : joursRecup,
-           "priseEnChargeAbonnement": partPriseCharge / 100, 
-           "montantAbonnementTransports": montantTransport, 
-           "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi), 
-           "gardeAlternee": returnBoolean(gardeAlternee)
+            "dateDebutAnnee": aujd.getFullYear(),
+            "enfantPlusJeune": enfantPlusJeune,
+            "nbEnfants": nbEnfants,
+            "parentsIsole": returnBoolean(parentIsole),
+            "ressourcesAnnuelles": ressourcesAnnuelles,
+            "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo),
+            "heuresSup": heuresSeparees(heuresHebdo),
+            "heuresHebdoTotales": heuresHebdo,
+            "tauxHoraire": tauxHoraire,
+            "repartitionFamille": repartitionFamille / 100,
+            "alsaceMoselle": alsaceMoselle,
+            "montantRepas": panierRepas,
+            "joursTravaillesSemaines": joursTravaillesSemaines,
+            "joursCP": joursCP,
+            "joursRecup": joursRecup,
+            "priseEnChargeAbonnement": partPriseCharge / 100,
+            "montantAbonnementTransports": montantTransport,
+            "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi),
+            "gardeAlternee": returnBoolean(gardeAlternee)
 
           }
 
@@ -131,27 +131,35 @@ const SimForm = () => {
   }
 
   const sendData = () => {
-    axios.post('http://localhost:4000/api/calculRepartition', dataObject) //POST - POST => envoyer infos
-    .then((res) => {
-      console.log(res.json)
-    }).catch((error) => {
-      console.log(error)
-    
-  })}
+    axios.post('http://localhost:4000/api/calculscharges', dataObject) //POST - POST => envoyer infos
+      .then((res) => {
+        console.log(res.data) //ici affiche la réponse du back (calculs)
+        setRequestCalcul(res.data) // je mets les calculs dans la state
+      }).catch((error) => {
+        console.log(error)
+
+      })
+      
+  }
 
 
-  
+
   async function showData() {
-      await getData();
-      sendData();
-      setShowResults(true)
+    await getData();
+    sendData();
+    setShowResults(true)
 
   }
 
   
+
+
   //store the data in local storage
-  useEffect(() => {  
-    
+  useEffect(() => {
+
+    console.log('ici requestCalcul',requestCalcul)
+
+
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -275,6 +283,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
+          
           <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
@@ -359,6 +368,7 @@ const SimForm = () => {
   return (
     <div className="container">
       <h2>Simulation de salaire</h2>
+      <p>{requestCalcul.brutMensuelFamilleA}</p>
       <div class="form-group">
         <div>
           <label>
@@ -386,7 +396,7 @@ const SimForm = () => {
             name="region"
             id="region-select"
             onChange={e => setalsaceMoselle(parseInt(e.target.value))}
-            //value={alsaceMoselle}
+          //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
             <option value="0">
@@ -476,13 +486,13 @@ const SimForm = () => {
             onChange={e => setnbEnfants(parseInt(e.target.value))}
             value={nbEnfants}
           >
-            <option value="">--Merci de choisir une option--</option> 
+            <option value="">--Merci de choisir une option--</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
-          
+
         </div>
 
         <div className="simFormNumberInput">
@@ -520,7 +530,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={parentIsole == "false" }
+                checked={parentIsole == "false"}
                 onChange={e => setparentIsole(e.target.value)}
               />
               Non
@@ -552,15 +562,34 @@ const SimForm = () => {
             </div>
           )}
 
-          <button className=" col-3 btn btn-primary" type="submit" onClick={() =>showData()}>Calculer</button>
+        <button className=" col-3 btn btn-primary" type="submit" onClick={() => showData()}>Calculer</button>
 
-        
+
 
         {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
 
-        {showResults == true ? <ResultCharges /> : ''}
+        {/* {showResults == true ? <ResultCharges /> : ''} */}
 
-        
+        <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Ma part</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Ce que gagne la nounou</th>
+                        <td>{requestCalcul.netMensuelFamilleA}</td>
+                        <td>{requestCalcul.netMensuelFamilleA + requestCalcul.netMensuelFamilleB }</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ce que la garde me coûte (avec les aides)</th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
 
 
         <Link to="/">
