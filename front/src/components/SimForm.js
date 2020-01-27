@@ -81,7 +81,7 @@ const SimForm = () => {
   const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
 
-  const plzReturnABoolean = (e) => {
+  const returnBoolean = (e) => {
     if (e == "true") {
       return true
     } else {
@@ -89,70 +89,59 @@ const SimForm = () => {
     }
   }
   
-  let escroquerie = []
-  const getData = () =>{
-    console.log('dans le getData avant setRequest 1', requestCalcul)
-    new Promise(resolve => {
-      resolve(
-         setRequestCalcul({
+  let dataObject = []
+    
+  const getData = () => {
+    return (
+      new Promise(resolve => {
+        resolve(
+          dataObject = {
            "dateDebutAnnee": aujd.getFullYear(),
            "enfantPlusJeune": enfantPlusJeune,
            "nbEnfants": nbEnfants,
-           "parentsIsole": plzReturnABoolean(parentIsole),
+           "parentsIsole": returnBoolean(parentIsole),
            "ressourcesAnnuelles": ressourcesAnnuelles, 
-           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
+           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo), 
            "heuresSup" : heuresSeparees(heuresHebdo),
+           "heureHebdoTotal" : heuresHebdo,
            "tauxHoraire": tauxHoraire,
            "repartitionFamille": repartitionFamille / 100, 
-           "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
+           "alsaceMoselle": returnBoolean(alsaceMoselle),
            "montantRepas": panierRepas,
            "priseEnChargeAbonnement": partPriseCharge / 100, 
            "montantAbonnementTransports": montantTransport, 
-           "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
-           "gardeAlternee": plzReturnABoolean(gardeAlternee),
-         })   
-          
-          
-      )
-      console.log('ds le getData apres le setRequest', requestCalcul)
-      
-    })  
+           "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi), 
+           "gardeAlternee": returnBoolean(gardeAlternee)
+
+          }
+
+        )
+      })
+    )
   }
 
-  
-
   const sendData = () => {
-    axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
+    axios.post('http://localhost:4000/api/calculRepartition', dataObject) //POST - POST => envoyer infos
     .then((res) => {
       console.log(res.json)
     }).catch((error) => {
       console.log(error)
     
-  }) 
-  console.log('dans send data 2', requestCalcul)
+  })}
 
-}
 
   
   async function showData() {
-    //if(requestCalcul.length >= 1) {
       await getData();
       sendData();
-      console.log('ds le show datz 3', requestCalcul)
-    //}else {
-    //  alert('dis is not working becoz der is nothing')
-    //}
-    
-    //setShowResults(true)
+      setShowResults(true)
+
   }
 
-  const counter = useRef(0);
   
-
   //store the data in local storage
   useEffect(() => {  
-    console.log('request dans le useEffect', requestCalcul)
-    console.log(counter.current = counter.current + 1);
+    
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
