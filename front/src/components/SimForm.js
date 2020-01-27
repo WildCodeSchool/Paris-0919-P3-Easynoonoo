@@ -372,7 +372,6 @@ const SimForm = () => {
   return (
     <div className="container">
       <h2>Simulation de salaire</h2>
-      <p>{requestCalcul.brutMensuelFamilleA}</p>
       <div class="form-group">
         <div>
           <label>
@@ -387,7 +386,7 @@ const SimForm = () => {
               setheuresHebdo(parseInt(e.target.value, 10))
             }
             min="1"
-            max="48"
+            max="50"
           />
         </div>
 
@@ -424,6 +423,7 @@ const SimForm = () => {
             }
             min="10"
             max="100"
+            step="0.1"
           />
         </div>
 
@@ -608,23 +608,23 @@ const SimForm = () => {
           <tbody >
             <tr>
               <th scope="row">Panier repas (en euros)</th>
-              <input type='number' value={panierRepas} onChange={(e) => setPanierRepas(e.target.value)}></input>
+              <input type='number' value={panierRepas} onChange={(e) => setPanierRepas(parseInt(e.target.value))}></input>
             </tr>
             <tr>
               <th scope="row">Nombre jours travaillés par semaine</th>
-              <input type='number' value={joursTravaillesSemaines} onChange={(e) => setJoursTravaillesSemaines(e.target.value)}></input>
+              <input type='number' value={joursTravaillesSemaines} onChange={(e) => setJoursTravaillesSemaines(parseInt(e.target.value))}></input>
             </tr>
             <tr>
               <th scope="row">Abonnement transports publics (en euros)</th>
-              <input type='number' value={montantTransport} onChange={(e) => setMontantTransport(e.target.value)}></input>
+              <input type='number' value={montantTransport} onChange={(e) => setMontantTransport(parseInt(e.target.value))}></input>
             </tr>
             <tr>
               <th scope="row">Prise en charge de l'abonnement (%)</th>
-              <input type='number'  value={partPriseCharge} onChange={(e) => setPartPriseCharge(e.target.value)}></input>
+              <input type='number'  value={partPriseCharge} onChange={(e) => setPartPriseCharge(parseInt(e.target.value))}></input>
             </tr>
             <tr>
               <th scope="row">Part garde (%)</th>
-              <input type='number'  value={repartitionFamille} onChange={(e) => setrepartitionFamille(e.target.value)}></input>
+              <input type='number'  value={repartitionFamille} onChange={(e) => setrepartitionFamille(parseInt(e.target.value))}></input>
             </tr>
             <tr>
               <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
