@@ -48,14 +48,8 @@ export default class FamilyAgenda extends React.Component {
 		time: '',
 		setTime: false,
 		slotHours: [],
-<<<<<<< HEAD
-		slotFixedHours: [],
-		setTime: false,
-		valueOnClick: '',
-=======
     slotFixedHours: [],
     valueOnClick: '',	
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -164,24 +158,10 @@ export default class FamilyAgenda extends React.Component {
 			//   this.setState({ time: realTime, setTime: true })
 			//   console.log('TIME', realTime) */
 			// } else {
-<<<<<<< HEAD
 			return null
 		}
 	}
 
-=======
-
-			// return null
-
-			// let a = this.state.slotHours[this.state.slotHours.length - 2];
-			// let b = this.state.slotHours[this.state.slotHours.length - 1];
-			// item.push({a, b})
-			// console.log('item',item[0].a, item[0].b);
-		}
-	}
-
-
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 	/* -------- Add children informations to localstorage -------- */
 
 	addChild = () => {
@@ -372,11 +352,7 @@ export default class FamilyAgenda extends React.Component {
 			!isDragging
 		) {
 			startSelect = e.target.id
-<<<<<<< HEAD
-			  this.handleMouseClick(e.target.id)
-=======
 			this.handleMouseClick(e.target.id)
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 			mouse.startX = mouse.x
 			mouse.startY = mouse.y
 			element = document.createElement('div')
@@ -419,7 +395,6 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-<<<<<<< HEAD
 		console.log('getSelection', this.state.slotHours);
 	}
 
@@ -430,10 +405,6 @@ export default class FamilyAgenda extends React.Component {
 	// 	let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
 	// 	this.handleRangeSelection(arr, end)
 	// }
-=======
-		// console.log('slot hours', this.state.slotHours);
-	}
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 
 	handleMouseOver = e => {
 		let yScroll = window.scrollY
@@ -528,11 +499,6 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.fontSize = '12px';
 				element2.style.textAlign = 'center';
 			})
-<<<<<<< HEAD
-		} else {
-			return null
-=======
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 		}
 		// else {
 		// 	return null
@@ -554,10 +520,6 @@ export default class FamilyAgenda extends React.Component {
 				this.validateSelect()
 				this.getSelect()
 			} else {
-<<<<<<< HEAD
-=======
-				this.validateSelect()
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 				this.getSelect()
 			}
 		}
@@ -613,10 +575,6 @@ export default class FamilyAgenda extends React.Component {
 	/* this       */
 	updateChildName = () => {
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
-<<<<<<< HEAD
-
-=======
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let countMyChild = this.state.countMyChild
 		let countNotMyChild = this.state.countNotMyChild
@@ -628,24 +586,6 @@ export default class FamilyAgenda extends React.Component {
 		if (this.state.calendarChild == undefined && countMyChild == myChild.length) { // && countMyChild - countNotMyChild == countMyChild
 
 			firstChild = notMyChild[0]
-<<<<<<< HEAD
-			this.setState({ countMyChild: 100 }) //here to prevent the function to replay the function
-			this.setState({ calendarChild: firstChild })
-
-			console.log('calendarChild', this.state.calendarChild);
-			
-		}
-	}
-
-	updateColor = () => {
-		let color
-		if (this.state.colorState == '') {
-			color = Math.floor(Math.random() * 16777215).toString(16)
-			this.setState({ colorState: color })
-			console.log("don't enter here")
-		}
-	}
-=======
 			this.setState({countMyChild : 100}) //here to prevent the function to replay the function
 			this.setState({calendarChild: firstChild})
 		} 
@@ -661,7 +601,6 @@ export default class FamilyAgenda extends React.Component {
       console.log("don't enter here")
 	  }
   }
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 
 	componentDidMount = () => {
 		// this.removeRectangle()
@@ -669,15 +608,8 @@ export default class FamilyAgenda extends React.Component {
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
 
-<<<<<<< HEAD
 
 	}
-=======
-	componentDidUpdate() {
-
-		
-	 }
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
@@ -851,41 +783,8 @@ export default class FamilyAgenda extends React.Component {
 								}
 							})
 							}
-<<<<<<< HEAD
-						</tbody>
-					</table>
-				</div>
-				<h1 className='h1Name'>{this.state.calendarChild}</h1>
-
-				<div class="input-group">
-					<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
-						<option
-							selected
-							value="null"
-						>
-							Voulez-vous copier ce planning pour l'enfant suivant ?
-=======
 						</tbody>					
             </table>
-	
-			  {/* <div>
-				"name Famille A" :
-				{this.state.showMyChildName.map(child => (
-				  <div>{child}</div>
-				))}
-			  </div>
-			  <div>
-				"name Famille B" :{' '}
-				{this.state.showOthersChildName.map(child => (
-				  <div>{child}</div>
-				))}
-			  </div> */}
-			  {/* <div>
-			  Vous avez sélectionné
-			  {this.state.time
-				? this.state.time
-				: `Vous n'avez pas sélectionné de créneau`}
-			</div> */}
 			</div>
 	
 			<h1 className='h1Name'>{this.state.calendarChild}</h1>
@@ -897,7 +796,6 @@ export default class FamilyAgenda extends React.Component {
                   value="null"
                 >
                   Voulez-vous copier ce planning pour l'enfant suivant ?
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
                 </option>
 						<option
 							selected
@@ -929,40 +827,6 @@ export default class FamilyAgenda extends React.Component {
 					value="effacer"
 					onClick={() => this.resetCalendarPage()}
 				>
-<<<<<<< HEAD
-					Effacer ce planning
-        </button>
-				<button
-					class="btn btn-warning btn-sm col-2 "
-					type="button"
-					value="effacer dernier"
-					onClick={() => this.wipeLastSelect()}
-				>
-					Effacer dernière selection
-        </button>
-
-				{/* </div> */}
-				<div className='row'>
-					<button
-						class="btn btn-warning btn-sm col-2 "
-						type="button"
-						value="envoi data"
-						onClick={() => this.sendData()}
-					>
-						Calculer mon taux
-        </button>
-
-				</div>
-				<Link to="/">
-					<p
-						class="btn btn-link"
-						onMouseDown={() => this.resetCalendar()}
-					>
-						Retour aux simulateurs
-        </p>
-				</Link>
-			</>
-=======
 				  Effacer ce planning
 				</button>
 						<button
@@ -996,7 +860,6 @@ export default class FamilyAgenda extends React.Component {
 			  </Link>
 			
 		  </>
->>>>>>> 79fe20bf2e2ad1fc03af3356b5570ae2958911e1
 		)
 	}
 }
