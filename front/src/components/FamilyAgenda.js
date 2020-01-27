@@ -568,6 +568,8 @@ export default class FamilyAgenda extends React.Component {
 		} 
   }
   
+
+  
   updateColor = () => {
     let color
 	  if (this.state.colorState == '') {
