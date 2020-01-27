@@ -13,7 +13,7 @@ const FamilyForm = () => {
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('nbEnfants')) || 0
   const initialAnswer3 = () =>
-    Boolean(window.localStorage.getItem('parentIsole'))
+    Boolean(window.localStorage.getItem('parentIsole')) || Boolean(false)
 
   // state en hook pour les réponses
   const [totalEnfants, setTotalEnfants] = useState(initialAnswer1) //nbr d'enfants total

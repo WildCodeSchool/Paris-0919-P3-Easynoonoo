@@ -8,17 +8,17 @@ import ResultCharges from './ResultCharges'
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo'))
+    Number(window.localStorage.getItem('heuresHebdo')) || 40
   const initialAnswer2 = () =>
-    Boolean(window.localStorage.getItem('alsaceMoselle')) || false
+    window.localStorage.getItem('alsaceMoselle') || false
   const initialAnswer3 = () =>
-    Number(window.localStorage.getItem('tauxHoraire')) || 0
+    Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
-    Boolean(window.localStorage.getItem('gardeAlternee')) || false
+    window.localStorage.getItem('gardeAlternee') || false
   const initialAnswer5 = () =>
     Number(window.localStorage.getItem('repartitionFamille')) || 100
   const initialAnswer6 = () =>
-    Number(window.localStorage.getItem('answers2')) || 0
+    Number(window.localStorage.getItem('nbEnfants')) || 0
   const initialAnswer7 = () =>
     Number(window.localStorage.getItem('enfantPlusJeune')) || 0
   const initialAnswer8 = () =>
@@ -81,23 +81,31 @@ const SimForm = () => {
   const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
 
+  const plzReturnABoolean = (e) => {
+    if (e == "true") {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const getData = () =>{
     setRequestCalcul({
       "dateDebutAnnee": aujd.getFullYear(),
       "enfantPlusJeune": enfantPlusJeune,
       "nbEnfants": nbEnfants,
-      "parentsIsole": parentIsole,
-      "ressourcesAnnuelles": ressourcesAnnuelles, //string ?
+      "parentsIsole": plzReturnABoolean(parentIsole),
+      "ressourcesAnnuelles": ressourcesAnnuelles, 
       "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
       "heuresSup" : heuresSeparees(heuresHebdo),
       "tauxHoraire": tauxHoraire,
-      "repartitionFamille": repartitionFamille / 100, // OK
-      "alsaceMoselle": alsaceMoselle,
+      "repartitionFamille": repartitionFamille / 100, 
+      "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
       "montantRepas": panierRepas,
-      "priseEnChargeAbonnement": partPriseCharge,  //
+      "priseEnChargeAbonnement": partPriseCharge / 100, 
       "montantAbonnementTransports": montantTransport, 
-      "premiereAnneeEmploiDomicile": anneeEmploi, 
-      "gardeAlternee": gardeAlternee,
+      "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
+      "gardeAlternee": plzReturnABoolean(gardeAlternee),
       //       "joursTravaillesSemaines" : , ?
       //       "joursCP" : , ?
       //       "joursRecup" : , ?  
@@ -105,15 +113,6 @@ const SimForm = () => {
 
 
     })
-
-    //A FAIRE
-    //taux de répartition => réinitialisé à 0 quand garde partagée = 0
-    // bloquer la question des enfants
-    //régler les questions de formats pour gardeAlternée + parentIsolé + alsace moselle
-    //passer les infos en props pour ResultCharges
-    // régler l'envoi des infos
-    
-
 
     axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
 			.then((res) => {
@@ -365,7 +364,7 @@ const SimForm = () => {
             name="region"
             id="region-select"
             onChange={e => setalsaceMoselle(e.target.value)}
-            value={alsaceMoselle}
+            //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
             <option value={false}>
