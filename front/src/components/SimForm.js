@@ -88,6 +88,7 @@ const SimForm = () => {
       return false
     }
   }
+  
 
   const getData = () =>{
     setRequestCalcul({
@@ -112,19 +113,18 @@ const SimForm = () => {
       //       "tauxParticipationCotisations" :  , ?
 
 
-    })
-
-    axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
-			.then((res) => {
-				console.log(res.json)
-			}).catch((error) => {
-				console.log(error)
-      })
+    })  
       
     setShowResults(true)
   }
 
   
+
+  const sendData = () => {
+    await getData(),
+    await 
+    setShowResults(true)
+  }
 
   //store the data in local storage
   useEffect(() => {
