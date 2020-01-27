@@ -122,7 +122,7 @@ const SimForm = () => {
   
 
   const sendData = () => {
-    axios.post('http://localhost:4000/api/calculRepartition', escroquerie) //POST - POST => envoyer infos
+    axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
     .then((res) => {
       console.log(res.json)
     }).catch((error) => {

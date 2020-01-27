@@ -42,11 +42,13 @@ export default class FamilyAgenda extends React.Component {
 		arrayChildren: [],
 		showMyChildName: [],
 		showOthersChildName: [],
-		calendarChild : '',
+		calendarChild: '',
 		colorState: [],
 		minutes: [],
 		time: '',
-    setTime: false,
+		setTime: false,
+		slotHours: [],
+    slotFixedHours: [],
     valueOnClick: '',	
 	}
 
@@ -113,21 +115,24 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	validateSelect = () => {
+
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
 			if (items === null) {
 				items = [
-					{ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] }
+					{ start: this.state.items[0], end: this.state.items[1] }
 				]
-			} else {
+			}
+			else {
 				if (this.state.items[0] != this.state.items[1]) {
-					items.push({ day: this.findWeekDay(this.state.items[0]), start: this.state.items[0], end: this.state.items[1] })
+					items.push({ start: this.state.items[0], end: this.state.items[1] })
 				}
 			}
 
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
+			// console.log('______VALIDATE SELECT')
 
 			// __________________ CALCULS DES DATES ________________
 
@@ -153,7 +158,13 @@ export default class FamilyAgenda extends React.Component {
 			//   this.setState({ time: realTime, setTime: true })
 			//   console.log('TIME', realTime) */
 			// } else {
-			return null
+
+			// return null
+
+			// let a = this.state.slotHours[this.state.slotHours.length - 2];
+			// let b = this.state.slotHours[this.state.slotHours.length - 1];
+			// item.push({a, b})
+			// console.log('item',item[0].a, item[0].b);
 		}
 	}
 
@@ -181,8 +192,8 @@ export default class FamilyAgenda extends React.Component {
 
 			if (items.length > 0) { // if the user selected some timeslot
 				nameChild = [...nameChild, myChild[i]]
-				
-				
+
+
 				for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 					let arrayTr = []
 					let objChild = {}
@@ -209,8 +220,7 @@ export default class FamilyAgenda extends React.Component {
 					arrayTr.push('A') 
 					arrayTr.push(findDay(items[k]))  
 					arrayTr.push(i + 1) 
-					arrayTr.push(countId + 1) 
-					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
+					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
 					arrayObject.push(objChild) 
 					countId++ 
 				};
@@ -238,7 +248,7 @@ export default class FamilyAgenda extends React.Component {
 					for (let k = 0; k < items.length; k++) { // loop to generate one info object per time slot per child
 						let arrayTr = []
 						let objChild = {}
-						
+
 						let findStart = (entry) => {
 							if (entry.start != null) {
 								return entry.start
@@ -258,9 +268,8 @@ export default class FamilyAgenda extends React.Component {
 						arrayTr.push(findEnd(items[k])) 
 						arrayTr.push('B') 
 						arrayTr.push(findDay(items[k]))  
-						arrayTr.push(i + 1)  
-						arrayTr.push(countId + 1) 
-						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4], id: arrayTr[5] }
+						arrayTr.push(j + 1)  
+						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
 						arrayObject.push(objChild) 
 						countId++ 
 					};
@@ -285,8 +294,6 @@ export default class FamilyAgenda extends React.Component {
 				alert("Il n'y a plus d'enfant à rajouter")
 			}
 		}
-
-
 	}
 
 	/* -------- reset-------- */
@@ -352,7 +359,7 @@ export default class FamilyAgenda extends React.Component {
 			!isDragging
 		) {
 			startSelect = e.target.id
-			//   this.handleMouseClick(e.target.id)
+			this.handleMouseClick(e.target.id)
 			mouse.startX = mouse.x
 			mouse.startY = mouse.y
 			element = document.createElement('div')
@@ -386,8 +393,16 @@ export default class FamilyAgenda extends React.Component {
 	getSelection = (start, end) => {
 		let strt = moment(start)
 		let endd = moment(end)
-		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
-		this.handleRangeSelection(arr, end)
+
+		let realEnd = moment(end).add(15, 'minutes').format('HH:mm')
+		let realStart = moment(start).format('HH:mm')
+
+		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
+
+		this.handleRangeSelection(arr, end);
+
+		this.state.slotHours.push(realStart, realEnd)
+		// console.log('slot hours', this.state.slotHours);
 	}
 
 	handleMouseOver = e => {
@@ -427,12 +442,14 @@ export default class FamilyAgenda extends React.Component {
 		element.style.left = horiz.left + 'px'
 		element.style.top = horiz.top + yScroll + 'px'
 		document.body.appendChild(element)
+		element.style.fontSize = '12px';
+		element.style.textAlign = 'center';	
 	}
 
 	createSelectionDiv = () => {
 		if (this.state.items.length > 0) {
-			if (document.getElementsByClassName('rectangle')) {
-				let old = document.getElementsByClassName('rectangle')
+			if (document.getElementsByClassName('slot')) {
+				let old = document.getElementsByClassName('slot')
 				for (let i = old.length - 1; i >= 0; --i) {
 					if (old[i]) {
 						old[i].remove()
@@ -475,14 +492,21 @@ export default class FamilyAgenda extends React.Component {
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 'px'
 				element2.style.top = horiz.top + yScroll + 'px'
-				document.body.appendChild(element2)
+        document.body.appendChild(element2)
+				console.log('________getSelect', this.state.slotHours);
+				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
+				element2.style.fontSize = '12px';
+				element2.style.textAlign = 'center';
 			})
-		} else {
-			return null
 		}
+		// else {
+		// 	return null
+		// }
 	}
 
 	createValidateDiv = () => {
+		console.log('_________createValidateDiv');
+
 		let slot = JSON.parse(localStorage.getItem('items'))
 		if (slot != null && document.getElementById('calendarBodyId')) {
 			if (document.getElementsByClassName('slot')) {
@@ -495,10 +519,9 @@ export default class FamilyAgenda extends React.Component {
 				this.validateSelect()
 				this.getSelect()
 			} else {
+				this.validateSelect()
 				this.getSelect()
 			}
-		} else {
-			return null
 		}
   }
   
@@ -519,7 +542,7 @@ export default class FamilyAgenda extends React.Component {
 			weekIndex: this.state.weekIndex + 1,
 			items: [],
 		})
-		this.removeRectangle()
+		// this.removeRectangle()
 	}
 
 	prevWeek = () => {
@@ -527,8 +550,7 @@ export default class FamilyAgenda extends React.Component {
 			weekIndex: this.state.weekIndex - 1,
 			items: [],
 		})
-		//console.log(this.state.weekIndex)
-		this.removeRectangle()
+		// this.removeRectangle()
 	}
 
 	/* -------- Define and change each hours of the table (15 minutes by cells) -------- */
@@ -553,7 +575,6 @@ export default class FamilyAgenda extends React.Component {
 	/* this       */
 	updateChildName = () => {
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
-		
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let countMyChild = this.state.countMyChild
 		let countNotMyChild = this.state.countNotMyChild
@@ -570,6 +591,8 @@ export default class FamilyAgenda extends React.Component {
 		} 
   }
   
+
+
   updateColor = () => {
     let color
 	  if (this.state.colorState == '') {
@@ -580,7 +603,7 @@ export default class FamilyAgenda extends React.Component {
   }
 
 	componentDidMount = () => {
-		this.removeRectangle()
+		// this.removeRectangle()
 		this.updateDimensions()
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
@@ -600,14 +623,13 @@ export default class FamilyAgenda extends React.Component {
 
 		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
 			.then((res) => {
-				console.log(res.data)
+				// console.log(res.data)
 			}).catch((error) => {
-				console.log(error)
+				// console.log(error)
 			})
 	};
 
 	render() {
-		this.getSelect()
 		this.createSelectionDiv()
     this.createValidateDiv()
     this.updateChildName()
@@ -616,159 +638,158 @@ export default class FamilyAgenda extends React.Component {
 		
 	
 		let columns = [
-		  {
-			key: 'Monday',
-			name: `Lun.`,
-			day: `${this.thisWeek('Monday').format('DD')}`,
-			date: `${this.thisWeek('Monday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Tuesday',
-			name: `Mar.`,
-			day: `${this.thisWeek('Tuesday').format('DD')}`,
-			date: `${this.thisWeek('Tuesday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Wednesday',
-			name: `Mer.`,
-			day: `${this.thisWeek('Wednesday').format('DD')}`,
-			date: `${this.thisWeek('Wednesday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Thursday',
-			name: `Jeu.`,
-			day: `${this.thisWeek('Thursday').format('DD')}`,
-			date: `${this.thisWeek('Thursday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Friday',
-			name: `Ven.`,
-			day: `${this.thisWeek('Friday').format('DD')}`,
-			date: `${this.thisWeek('Friday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Saturday',
-			name: `Sam.`,
-			day: `${this.thisWeek('Saturday').format('DD')}`,
-			date: `${this.thisWeek('Saturday').format('YYYY-MM-DD ')}`,
-		  },
-	
-		  {
-			key: 'Sunday',
-			name: `Dim.`,
-			day: `${this.thisWeek('Sunday').format('DD')}`,
-			date: `${this.thisWeek('Sunday').format('YYYY-MM-DD ')}`,
-		  },
+			{
+				key: 'Monday',
+				name: `Lun.`,
+				day: `${this.thisWeek('Monday').format('DD')}`,
+				date: `${this.thisWeek('Monday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Tuesday',
+				name: `Mar.`,
+				day: `${this.thisWeek('Tuesday').format('DD')}`,
+				date: `${this.thisWeek('Tuesday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Wednesday',
+				name: `Mer.`,
+				day: `${this.thisWeek('Wednesday').format('DD')}`,
+				date: `${this.thisWeek('Wednesday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Thursday',
+				name: `Jeu.`,
+				day: `${this.thisWeek('Thursday').format('DD')}`,
+				date: `${this.thisWeek('Thursday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Friday',
+				name: `Ven.`,
+				day: `${this.thisWeek('Friday').format('DD')}`,
+				date: `${this.thisWeek('Friday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Saturday',
+				name: `Sam.`,
+				day: `${this.thisWeek('Saturday').format('DD')}`,
+				date: `${this.thisWeek('Saturday').format('YYYY-MM-DD ')}`,
+			},
+
+			{
+				key: 'Sunday',
+				name: `Dim.`,
+				day: `${this.thisWeek('Sunday').format('DD')}`,
+				date: `${this.thisWeek('Sunday').format('YYYY-MM-DD ')}`,
+			},
 		]
-	
+
 		let rows = [
-		  { id: '07', hours: '7h' },
-		  { id: '08', hours: '8h' },
-		  { id: '09', hours: '9h' },
-		  { id: '10', hours: '10h' },
-		  { id: '11', hours: '11h' },
-		  { id: '12', hours: '12h' },
-		  { id: '13', hours: '13h' },
-		  { id: '14', hours: '14h' },
-		  { id: '15', hours: '15h' },
-		  { id: '16', hours: '16h' },
-		  { id: '17', hours: '17h' },
-		  { id: '18', hours: '18h' },
-		  { id: '19', hours: '19h' },
-		  { id: '20', hours: '20h' },
-		  { id: '21', hours: '21h' },
-		  { id: '22', hours: '22h' },
+			{ id: '07', hours: '7h' },
+			{ id: '08', hours: '8h' },
+			{ id: '09', hours: '9h' },
+			{ id: '10', hours: '10h' },
+			{ id: '11', hours: '11h' },
+			{ id: '12', hours: '12h' },
+			{ id: '13', hours: '13h' },
+			{ id: '14', hours: '14h' },
+			{ id: '15', hours: '15h' },
+			{ id: '16', hours: '16h' },
+			{ id: '17', hours: '17h' },
+			{ id: '18', hours: '18h' },
+			{ id: '19', hours: '19h' },
+			{ id: '20', hours: '20h' },
+			{ id: '21', hours: '21h' },
+			{ id: '22', hours: '22h' },
 		]
-		
-	
+
+
 		return (
-		  <>
-			<div id="someTableId" className="agendaContainer">
-			 
-			  <div className="selectWeek">
-			   <h1>Planning</h1>
-         
-				{/* <p onClick={()=>this.prevWeek()} className='prevWeek'> &#60; </p> */}
-				{/* <h1 className="currentMonth">
-				  {this.thisWeek('Sunday').format('MMMM YYYY')}
-				</h1> */}
-				{/* <p onClick={()=>this.nextWeek()} className='nextWeek'> &#62; </p> */}
-			  </div>
-			  <table
-				id="tamèreenstring"
-				className="calendarTable"
-				cellPadding="0"
-				cellSpacing="0"
-			  >
-				<thead>
-				  <tr>
-					<th className="calendarCell head first"></th>
-					{columns.map(column => {
-					  return (
-						<th
-						  id={this.thisWeek(column.key).format(
-							'YYYY-MM-DD ',
-						  )}
-						  className="calendarCell head"
-						>
-						  <p className="headColumnName">
-							{column.name}{' '}
-							<span className="headColumnDay">
-							  {column.day}
-							</span>
-						  </p>
-						</th>
-					  )
-					})}
-				  </tr>
-				</thead>
-				<tbody
-				  id="calendarBodyId"
-				  className="calendarTableBody"
-				  onMouseDown={this.handleAllClickStarts}
-				  onMouseUp={this.handleAllClickEnds}
-				  onMouseOver={this.handleMouseOver}
-				>
-				  {rows.map(row => {
-					this.createTable(row.id)
-					return (
-					  <>
-						<tr>
-						  <th
-							className="calendarCell time"
-							draggable="false"
-							rowSpan="5"
-						  >
-							{row.hours}
-						  </th>
-						</tr>
-						{hours.map(hour => {
-						  return (
-							<tr
-							  className="agenda__row   hour-start"
-							  draggable="false"
-							>
-							  {columns.map(column => {
-								return (
-								  <td
-									id={column.date + hour}
-									className="calendarCell"
-								  ></td>
-								)
-							  })}
+			<>
+
+				<div id="someTableId" className="agendaContainer">
+
+					<div className="selectWeek">
+
+					</div>
+
+					<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
+
+						<thead>
+
+							<tr>
+								<th className='calendarCell head first'></th>
+								{columns.map(column => {
+									return (
+										<th className='calendarCell head'>
+											<p className='headColumnName'>{column.name}</p>
+										</th>
+									)
+								})
+								}
 							</tr>
-						  )
-						})}
-					  </>
-					)
-				  })}
-				</tbody>
-			  </table>
+
+						</thead>
+
+						<tbody id="calendarBodyId"
+							className="calendarTableBody"
+							onMouseDown={this.handleAllClickStarts}
+							onMouseUp={this.handleAllClickEnds}
+							onMouseOver={this.handleMouseOver}>
+
+							{rows.map((row, i) => {
+								this.createTable(row.id)
+								if (i % 2 === 0) {
+									return (
+										<>
+											<tr>
+												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+											</tr>
+											{hours.map((hour) => {
+												return (
+													<tr className="agenda__row_hour-start" draggable='false'>
+														{columns.map(column => {
+															return (
+																<td id={column.date + hour} className='calendarCell'></td>
+															)
+														})
+														}
+													</tr>
+												)
+											})
+											}
+										</>
+									)
+								} else {
+									return (
+										<>
+											<tr>
+												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+											</tr>
+											{hours.map((hour) => {
+												return (
+													<tr className="agenda__row_hour-startBis" draggable='false'>
+														{columns.map(column => {
+															return (
+																<td id={column.date + hour} className='calendarCell'></td>
+															)
+														})
+														}
+													</tr>
+												)
+											})
+											}
+										</>
+									)
+								}
+							})
+							}
+						</tbody>					
+            </table>
 	
 			  {/* <div>
 				"name Famille A" :
@@ -833,16 +854,15 @@ export default class FamilyAgenda extends React.Component {
 				>
 				  Effacer ce planning
 				</button>
-				<button
-				  class="btn btn-warning btn-sm col-2 "
-				  type="button"
-				  value="effacer dernier"
-				  onClick={() => this.wipeLastSelect()}
-				>
-				  Effacer dernière selection
+						<button
+							class="btn btn-warning btn-sm col-2 "
+							type="button"
+							value="effacer dernier"
+							onClick={() => this.wipeLastSelect()}
+						>
+							Effacer dernière selection
 				</button>
 				
-			  {/* </div> */}
 			  <div className ='row'>
 			  <button
 				  class="btn btn-warning btn-sm col-2 "
@@ -852,18 +872,19 @@ export default class FamilyAgenda extends React.Component {
 				>
 				  Calculer mon taux
 				</button>
-				  
-			  </div>
-			  <Link to="/">
-				<p
-				  class="btn btn-link"
-				  onMouseDown={() => this.resetCalendar()}
-				>
-				  Retour aux simulateurs
+
+					</div>
+
+					<Link to="/">
+						<p
+							class="btn btn-link"
+							onMouseDown={() => this.resetCalendar()}
+						>
+							Retour aux simulateurs
 				</p>
 			  </Link>
-			{/* </div> */}
+			
 		  </>
 		)
-	  }
 	}
+}
