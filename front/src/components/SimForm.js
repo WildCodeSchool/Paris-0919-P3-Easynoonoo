@@ -11,7 +11,7 @@ const SimForm = () => {
   const initialAnswer1 = () =>
     Number(window.localStorage.getItem('heuresHebdo')) || 40
   const initialAnswer2 = () =>
-    window.localStorage.getItem('alsaceMoselle') || false
+    Number(window.localStorage.getItem('alsaceMoselle')) || 0
   const initialAnswer3 = () =>
     Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
@@ -71,8 +71,11 @@ const SimForm = () => {
     Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
     Boolean(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
-  const initialAnswersTranche = () =>
-    Boolean(window.localStorage.getItem('trancheA')) || false
+  const initialJoursCp = () => 
+    Number(window.localStorage.getItem('joursCP')) || 25
+  const initialJoursRecup = () => 
+    Number(window.localStorage.getItem('joursRecup')) || 0
+    
 
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(false)
@@ -80,6 +83,9 @@ const SimForm = () => {
   const [montantTransport, setMontantTransport] = useState(initialAnswersAbonnementTransport)
   const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
+  const [joursCP, setJoursCP] = useState(initialJoursCp)
+  const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
+  const [joursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
 
   const returnBoolean = (e) => {
     if (e == "true") {
@@ -106,8 +112,11 @@ const SimForm = () => {
            "heureHebdoTotal" : heuresHebdo,
            "tauxHoraire": tauxHoraire,
            "repartitionFamille": repartitionFamille / 100, 
-           "alsaceMoselle": returnBoolean(alsaceMoselle),
+           "alsaceMoselle": alsaceMoselle,
            "montantRepas": panierRepas,
+           "joursTravaillesSemaines": joursTravaillesSemaines,
+           "joursCP" : joursCP,
+           "joursRecup" : joursRecup,
            "priseEnChargeAbonnement": partPriseCharge / 100, 
            "montantAbonnementTransports": montantTransport, 
            "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi), 
@@ -375,14 +384,14 @@ const SimForm = () => {
             class="form-control"
             name="region"
             id="region-select"
-            onChange={e => setalsaceMoselle(e.target.value)}
+            onChange={e => setalsaceMoselle(parseInt(e.target.value))}
             //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
-            <option value={false}>
+            <option value="0">
               France Métropolitaine ou DOM
             </option>
-            <option value={true}>Alsace-Moselle</option>
+            <option value="1">Alsace-Moselle</option>
           </select>
         </div>
 
