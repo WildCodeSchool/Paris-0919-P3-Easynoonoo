@@ -1257,127 +1257,173 @@ app.post('/api/calculscharges', function (req, res) {
 
 
 app.get('/api/calculsRepartition', function (req, res) {
-  calculRepartition = () => {
 
-    let enfants = [
-      {
-        start :"2019-12-11 10:30",
-        end :"2019-12-11 13:45",
-        famille : 'A',
-        enfant : 1,
-        jour : 1
-      },
-      {
-        start :"2019-12-11 16:30",
-        end :"2019-12-11 18:45",
-        famille : 'A',
-        enfant : 1,
-        jour : 1
-      },
-      {
-        start :"2019-12-11 07:30",
-        end :"2019-12-11 13:00",
-        famille : 'A',
-        enfant : 2,
-        jour : 1
-      },
-      {
-        start :"2019-12-11 17:00",
-        end :"2019-12-11 18:45",
-        famille : 'A',
-        enfant : 2
-      },
-      {
-        start :"2019-12-11 10:00",
-        end :"2019-12-11 12:00",
-        famille : 'B',
-        enfant : 1,
-        jour : 1
-      },
-      {
-        start :"2019-12-11 15:00",
-        end :"2019-12-11 16:45",
-        famille : 'B',
-        enfant : 1,
-        jour : 1
-      },
-      {
-        start :"2019-12-11 08:00",
-        end :"2019-12-11 16:45",
-        famille : 'B',
-        enfant : 2,
-        jour : 1
-      },
-    ]
-    let jour1
-    let hour
-    let end
-    let enfant
-    let jour
+    let enfants = req.body.items
 
-/*     if (moment(enfants[1].start).isBetween(enfants[0].start, enfants[0].end)) {
-      hour1 = 'ok'
-    }
-    else {
-      hour1 = 'none'
-    } */
+    let hoursStart = '07:00'
+    let hoursA =[]
+    let hoursB =[]
+    let hoursTot = []
+    let MinutesTot = 0
+    let commonMinutes = 0
+    let heuresExcluA
+    let heuresExcluB
+    let commonArrayB
+    let ponderateA = 0
+    let ponderateB = 0
+    let hourSupp25Commune
+    let hourSupp25A
+    let hourSupp25B
+    let hourSupp50Commune
+    let hourSupp50A
+    let hourSupp50B
+    let heuresExcluANormale
+    let heuresExcluBNormale
+    let heuresCommuneNormales
 
-    /* resolve (
-      hour = moment().diff(hours.start, "hours")
-    ) */
 
-    const calculFirstHour = () => {
-      new Promise (resolve => {
-        for(let i=0; i<enfants.length; i++){
-          switch (enfants[i].jour) {
-            case 1 : {
-              if (moment(hour).diff(enfants[i].start, 'hours') > 0) {
-                hour = enfants[i].start
-                end = enfants[i].end
-                famille = enfants[i].famille
-                enfant = enfants[i].enfant
-                jour = enfants[i].jour
+    const calculCommonMinutes = () => {
+      return (
+        new Promise (resolve => {
+            enfants.map(hour => {
+                switch (hour.famille) {
+                  case 'A' : {
+                    let testStart = hour.start.substr(0,hour.start.indexOf(' '))
+                    let incrementTime = `${testStart} ${hoursStart}`
+                    for (let i=0; i < 60; i++) {
+                      incrementTime = moment(incrementTime, 'YYYY-MM-DD HH:mm').add(15, 'minutes').format('YYYY-MM-DD HH:mm')
+                      if (((moment(incrementTime).isBetween(hour.start, hour.end)) || incrementTime === hour.start) && (hour.famille === 'A')) {
+                        hoursA.push(hour.start)
+                        hoursA.push(incrementTime)
+                        hoursA.sort()
+                      }
+                    }
+                  }
+                  case 'B' : {
+                    let testStart = hour.start.substr(0,hour.start.indexOf(' '))
+                    let incrementTime = `${testStart} ${hoursStart}`
+                    for (let i=0; i < 60; i++) {
+                      incrementTime = moment(incrementTime, 'YYYY-MM-DD HH:mm').add(15, 'minutes').format('YYYY-MM-DD HH:mm')
+                      if (((moment(incrementTime).isBetween(hour.start, hour.end)) || incrementTime === hour.start) && (hour.famille === 'B')) {
+                        hoursB.push(hour.start)
+                        hoursB.push(incrementTime)
+                        hoursB.sort()
+                      }
+                    }
+                  }
+                }
+            })
+          enfants.map(hour => {
+            let testStart = hour.start.substr(0,hour.start.indexOf(' '))
+            let incrementTime = `${testStart} ${hoursStart}`
+            for (let i=0; i < 60; i++) {
+              incrementTime = moment(incrementTime, 'YYYY-MM-DD HH:mm').add(15, 'minutes').format('YYYY-MM-DD HH:mm')
+              if ((moment(incrementTime).isBetween(hour.start, hour.end)) || incrementTime === hour.start) {
+                hoursTot.push(hour.start)
+                hoursTot.push(incrementTime)
+                hoursTot.sort()
               }
             }
-          }
-          console.log(hour)
-        }
-        enfants.map(hours => {
-          if (moment(hours.start).isBetween(hour, end)) {
-            console.log('ok')
+          })
+          commonA = new Set(hoursA.filter(x => hoursB.includes(x)))
+          commonArrayA = [...commonA]
+          commonB = new Set(hoursB.filter(x => commonArrayA.includes(x)))
+          commonArrayB = [...commonB]
+          resolve(
+            commonMinutes = commonMinutes + ((commonArrayB.length * 15)),
+            MinutesTot = [...new Set(hoursTot)].length * 15
+          )
+        })
+      )
+    }
+
+    const calculPonderationCommunes = () => {
+      return (
+        new Promise (resolve => {
+          commonArrayB.map(val => {
+            let nbEnfantA = 0 
+            let nbEnfantB = 0
+            enfants.map(hour => {
+              if((moment(val).isBetween(hour.start, hour.end)) || val === hour.start || val === hour.end ){
+                if(hour.famille === 'A'){
+                  nbEnfantA = nbEnfantA + 1
+                }
+                else {
+                  nbEnfantB = nbEnfantB + 1
+                }
+              }
+            })
+            resolve(
+              ponderateA = ponderateA + ((nbEnfantA / (nbEnfantA + nbEnfantB)) * 15),
+              ponderateB = ponderateB + ((nbEnfantB / (nbEnfantA + nbEnfantB)) * 15)
+            )
+          })
+        })
+      )
+    }
+
+    const calculHeuresExclusives = () => {
+      return (
+        new Promise (resolve => {
+          resolve (
+            heuresExcluA = [...new Set(hoursA)].length * 15 - commonMinutes,
+            heuresExcluB = [...new Set(hoursB)].length * 15 - commonMinutes,
+          )
+        })
+      )
+    }
+
+   /*  const calculRepartitionExclu = () => {
+      return (
+        new Promise (resolve => {
+          heuresCommuneNormales = Math.min(ponderateA + ponderateB, 40*60)
+          hourSupp25Commune = Math.max(Math.min(8 * 60 , ponderateA + ponderateB - 40*60), 0)
+          hourSupp50Commune = Math.max(Math.min(2 * 60 , ponderateA + ponderateB - 48*60), 0)
+          if (heuresExcluA <= heuresExcluB){
+              heuresExcluANormale = Math.min(((40 * 60) - heuresCommuneNormales)/2, heuresExcluA)
+              hourSupp25A = Math.min(heuresExcluA - heuresExcluANormale, (8*60 - hourSupp25Commune)/2)
+              hourSupp50A = Math.min(heuresExcluA - heuresExcluANormale - hourSupp25A, (2*60 - hourSupp50Commune)/2)
+              if((heuresExcluA > (((40 * 60) - heuresCommuneNormales)/2)) && (heuresExcluB > ((40*60) - heuresCommuneNormales - heuresExcluANormale))){
+                heuresExcluBNormale = ((40*60) - heuresCommuneNormales - heuresExcluANormale)
+              }
+              else if(heuresExcluA > (((40 * 60) - heuresCommuneNormales)/2)) {
+                heuresExcluBNormale = ((40 * 60) - heuresCommuneNormales)/2 
+              }
+              else {
+                heuresExcluBNormale = heuresExcluB
+              }
           }
         })
-      })
+      )
+    } */
+
+    const calculRepartitionExclu = () => {
+      return (
+        new Promise (resolve => {
+        })
+      )
     }
-    
-    calculFirstHour()
-    res.send({hour})
 
-    
+    const sendResults = () => {
+      return (
+        new Promise(resolve => {
+          resolve(
+            res.send({heuresExcluA, heuresExcluB, commonMinutes, MinutesTot, ponderateA, ponderateB})
+          )
+        })
+      )
+    }
 
-/*     let date1 = moment(this.state.items[0]);
-
-			let minutes = this.state.minutes
-			let date2 = moment(this.state.items[1]);
-			let difference = date2.diff(date1, 'minutes');
-			minutes.push(difference)
-			
-			this.setState({ minutes: difference })
-			this.setState({ minutes: minutes })
-
-			let total = minutes.reduce((a, b) => a + b, 0)
-
-			// _____ CALCULS MINUTES EN HEURES
-			
-			let time = total / 60
-			let min = (time % 1) * 60
-			let hours = Math.trunc(total / 60)
-
-			let realTime = hours + ' heures et ' + min + ' min'
-			this.setState({ time: realTime, setTime: true })
-			console.log('TIME', realTime); */
+  async function calculRepartition() {
+    const result4 = [
+      await calculCommonMinutes(),
+      await calculPonderationCommunes(),
+      await calculHeuresExclusives(),
+      await  calculRepartitionExclu(),
+      await sendResults()
+    ]
+    return result4
   }
-
   calculRepartition()
 })
 
