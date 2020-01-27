@@ -86,7 +86,7 @@ const SimForm = () => {
       "dateDebutAnnee": aujd.getFullYear(),
       "enfantPlusJeune": enfantPlusJeune,
       "nbEnfants": nbEnfants,
-      "parentsIsolé": parentIsole, // strubg ??
+      "parentsIsole": parentIsole,
       "ressourcesAnnuelles": ressourcesAnnuelles, //string ?
       "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
       "heuresSup" : heuresSeparees(heuresHebdo),
@@ -97,7 +97,6 @@ const SimForm = () => {
       "priseEnChargeAbonnement": partPriseCharge,  //
       "montantAbonnementTransports": montantTransport, 
       "premiereAnneeEmploiDomicile": anneeEmploi, 
-      "trancheA": tranche, // à déterminer condition
       "gardeAlternee": gardeAlternee,
       //       "joursTravaillesSemaines" : , ?
       //       "joursCP" : , ?
@@ -157,7 +156,7 @@ const SimForm = () => {
     nbEnfants,
     enfantPlusJeune,
     parentIsole,
-    ressourcesAnnuelles,
+    ressourcesAnnuelles
   ]) //callback run only the answers change
 
   const handleQuestion9 = () => {
