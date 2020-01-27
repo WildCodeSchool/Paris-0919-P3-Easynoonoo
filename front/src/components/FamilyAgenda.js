@@ -350,7 +350,7 @@ export default class FamilyAgenda extends React.Component {
 			!isDragging
 		) {
 			startSelect = e.target.id
-			//   this.handleMouseClick(e.target.id)
+			this.handleMouseClick(e.target.id)
 			mouse.startX = mouse.x
 			mouse.startY = mouse.y
 			element = document.createElement('div')
