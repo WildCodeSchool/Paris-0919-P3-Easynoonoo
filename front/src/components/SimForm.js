@@ -11,7 +11,7 @@ const SimForm = () => {
   const initialAnswer1 = () =>
     Number(window.localStorage.getItem('heuresHebdo')) || 40
   const initialAnswer2 = () =>
-    window.localStorage.getItem('alsaceMoselle') || false
+    Number(window.localStorage.getItem('alsaceMoselle')) || 0
   const initialAnswer3 = () =>
     Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
@@ -71,8 +71,11 @@ const SimForm = () => {
     Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
     Boolean(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
-  const initialAnswersTranche = () =>
-    Boolean(window.localStorage.getItem('trancheA')) || false
+  const initialJoursCp = () => 
+    Number(window.localStorage.getItem('joursCP')) || 25
+  const initialJoursRecup = () => 
+    Number(window.localStorage.getItem('joursRecup')) || 0
+    
 
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(false)
@@ -80,8 +83,12 @@ const SimForm = () => {
   const [montantTransport, setMontantTransport] = useState(initialAnswersAbonnementTransport)
   const [partPriseCharge, setPartPriseCharge] = useState(initialAnswersPriseEnChargeAbonnement)
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
+  const [joursCP, setJoursCP] = useState(initialJoursCp)
+  const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
+  const [joursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
+  
 
-  const plzReturnABoolean = (e) => {
+  const returnBoolean = (e) => {
     if (e == "true") {
       return true
     } else {
@@ -89,70 +96,62 @@ const SimForm = () => {
     }
   }
   
-  let escroquerie = []
-  const getData = () =>{
-    console.log('dans le getData avant setRequest 1', requestCalcul)
-    new Promise(resolve => {
-      resolve(
-         setRequestCalcul({
+  let dataObject = []
+    
+  const getData = () => {
+    return (
+      new Promise(resolve => {
+        resolve(
+          dataObject = {
            "dateDebutAnnee": aujd.getFullYear(),
            "enfantPlusJeune": enfantPlusJeune,
            "nbEnfants": nbEnfants,
-           "parentsIsole": plzReturnABoolean(parentIsole),
+           "parentsIsole": returnBoolean(parentIsole),
            "ressourcesAnnuelles": ressourcesAnnuelles, 
-           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo) , 
+           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo), 
            "heuresSup" : heuresSeparees(heuresHebdo),
+           "heureHebdoTotal" : heuresHebdo,
            "tauxHoraire": tauxHoraire,
            "repartitionFamille": repartitionFamille / 100, 
-           "alsaceMoselle": plzReturnABoolean(alsaceMoselle),
+           "alsaceMoselle": alsaceMoselle,
            "montantRepas": panierRepas,
+           "joursTravaillesSemaines": joursTravaillesSemaines,
+           "joursCP" : joursCP,
+           "joursRecup" : joursRecup,
            "priseEnChargeAbonnement": partPriseCharge / 100, 
            "montantAbonnementTransports": montantTransport, 
-           "premiereAnneeEmploiDomicile": plzReturnABoolean(anneeEmploi), 
-           "gardeAlternee": plzReturnABoolean(gardeAlternee),
-         })   
-          
-          
-      )
-      console.log('ds le getData apres le setRequest', requestCalcul)
-      
-    })  
+           "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi), 
+           "gardeAlternee": returnBoolean(gardeAlternee)
+
+          }
+
+        )
+      })
+    )
   }
 
-  
-
   const sendData = () => {
-    axios.post('http://localhost:4000/api/calculRepartition', requestCalcul) //POST - POST => envoyer infos
+    axios.post('http://localhost:4000/api/calculRepartition', dataObject) //POST - POST => envoyer infos
     .then((res) => {
       console.log(res.json)
     }).catch((error) => {
       console.log(error)
     
-  }) 
-  console.log('dans send data 2', requestCalcul)
+  })}
 
-}
 
   
   async function showData() {
-    //if(requestCalcul.length >= 1) {
       await getData();
       sendData();
-      console.log('ds le show datz 3', requestCalcul)
-    //}else {
-    //  alert('dis is not working becoz der is nothing')
-    //}
-    
-    //setShowResults(true)
+      setShowResults(true)
+
   }
 
-  const counter = useRef(0);
   
-
   //store the data in local storage
   useEffect(() => {  
-    console.log('request dans le useEffect', requestCalcul)
-    console.log(counter.current = counter.current + 1);
+    
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -386,14 +385,14 @@ const SimForm = () => {
             class="form-control"
             name="region"
             id="region-select"
-            onChange={e => setalsaceMoselle(e.target.value)}
+            onChange={e => setalsaceMoselle(parseInt(e.target.value))}
             //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
-            <option value={false}>
+            <option value="0">
               France Métropolitaine ou DOM
             </option>
-            <option value={true}>Alsace-Moselle</option>
+            <option value="1">Alsace-Moselle</option>
           </select>
         </div>
 
