@@ -1,0 +1,205 @@
+@font-face {
+  font-family: 'Hansief';
+  src: local('Hansief'),
+    url(./utils/fonts/Hansief.ttf) format('truetype');
+}
+
+/* ------- input header ------*/
+
+#someTableId {
+  position: relative;
+  display: flex;
+}
+
+.h1Name {
+margin-top : 3%;
+margin-bottom : 3%;
+font-size : 2rem;
+margin-left : 35%;
+/* text-align : center */
+}
+
+.selectWeek {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.currentMonth {
+  color: #000;
+  font-family: 'Hansief';
+  font-size: 2.5vw;
+}
+
+.prevWeek {
+  color: #000;
+  font-family: 'Hansief';
+  font-size: 2vw;
+  cursor: pointer;
+}
+.nextWeek {
+  color: #000;
+  font-family: 'Hansief';
+  font-size: 2vw;
+  cursor: pointer;
+}
+
+/* ------- Table Style ------- */
+/* .agendaContainer {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+} */
+
+.calendarTable {
+  border-radius: 2px;
+  border-bottom: solid 2px lightgray;
+  width: 100%;
+  height: auto;
+}
+
+:root {
+  --selection: #f8e5e5;
+}
+
+.calendarTable > table {
+  border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+  border: none;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.calendarTableBody {
+  overflow: overlay;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* ------- Header Styles ------- */
+
+.rectangle {
+  border: solid 1px #ffffff;
+  border-radius: 10px;
+  background: var(--selection);
+  position: absolute;
+  z-index: 2000;
+  user-select: none;
+  pointer-events: none;
+}
+
+.slot {
+  position: absolute;
+  border-radius: 5px;
+  z-index: 2000;
+  user-select: none;
+  pointer-events: none;
+}
+
+.helper-reactangle {
+  border: solid 1px #ffffff;
+  border-radius: 5px;
+  background: var(--selection);
+  position: relative;
+  z-index: 2000;
+  user-select: none;
+  pointer-events: none;
+}
+
+.calendarCell.head {
+  background-color: #f8e5e5;
+  border-left: none;
+  height: 6vh;
+}
+.calendarCell.head.first {
+  border: none;
+  height: 6vh;
+}
+
+.headColumnName {
+  color: #000;
+  font-family: 'Hansief';
+  font-size: 0.7em;
+  margin: 2%;
+  padding: 0;
+  text-align : center;
+}
+
+.headColumnDay {
+  color: #fa255e;
+  font-size: 2.5em;
+}
+
+/* ------- Minute Cell Styles ------- */
+
+.calendarCell {
+  /* border-right: solid 2px white; */
+  text-align: center;
+  height : 1vh;
+  user-select: none;
+  border: 0.2px solid rgb(185, 184, 184);
+}
+
+/* ------- Time Cell Styles ------- */
+
+th.calendarCell.time {
+  background-color: #f8e5e5;
+  color: #000;
+  font-family: 'Hansief';
+  font-size: 0.7em;
+  border-right: none;
+  padding: 0;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.8em;
+  border-left: none !important;
+  border-top: none !important;
+  user-select: none;
+}
+
+.calendarCell_selected {
+  background: var(--selection);
+}
+
+.validateSelectionAgenda {
+  margin-top: 3%;
+  padding: 0 1%;
+  width: 10%;
+  background-color: #e2e5ed;
+}
+
+/* Grid area colors */
+
+.agenda__row_hour-start {
+  background-color: rgb(219, 219, 219);
+  opacity: 0.4;
+}
+    
+.agenda__row_hour-startBis {
+  background-color: rgb(170, 170, 170);
+  opacity: 0.4;
+}
+
+/* buttons */
+
+.calendar_simulateurbtn {
+  background-color: #2E3858;
+  color : #FFFFFF;
+  width : 150px;
+  height : 40px;
+  margin-top : 1%;
+  border : none;
+  box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+}
+
+.calendar_simulateurbtn_calcul {
+background-color: #2E3858;
+  color : #FFFFFF;
+  width : 150px;
+  height : 40px;
+  margin-top : 1%;
+  margin-left : 2.5%;
+  border : none;
+  box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+}

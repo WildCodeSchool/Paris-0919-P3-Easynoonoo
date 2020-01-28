@@ -1,0 +1,20 @@
+.error1 {
+  color: #ee5e6a;
+  font-style: italic;
+}
+
+.simFormHypothesis {
+  font-size : 0.8rem;
+}
+
+.simForm-Button {
+  margin-top : 3%;
+  background-color : #EE5E6A;
+  border : none;
+}
+
+.simForm-parent h2 {
+  text-align : center;
+  margin-top : 5%;
+  margin-bottom : 5%;
+}

@@ -1,0 +1,41 @@
+.headerLogo {
+    width : 200px;    
+}
+
+.headerWebsite {
+    box-sizing: border-box;
+}
+
+
+.navbarWebsite {
+    
+    background-color : white;
+    height : 100%;
+    font-size : 15px;
+    margin-top : 15px;
+    
+}
+
+
+.navbarWebsite input {
+    background-color : #EE5E6A;
+    color : #F4F6FA;
+    width : 10%;
+    border : #EE5E6A; 
+    margin-top: 0.5%;   
+}
+
+.navbarWebsite input:hover {
+    opacity: 0.7; 
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .headerLogo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+}

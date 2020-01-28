@@ -1,0 +1,31 @@
+.familyForm p {
+    font-size : 1rem;
+    margin-bottom : 0px;
+}
+
+.familyForm h2 {
+    font-size : 2rem;
+    text-align : center;
+    margin-bottom : 5%;
+    margin-top : 5%;
+}
+
+.familyForm input {
+    margin-top : 0px;
+    margin-bottom : 10px;
+}
+
+.sansMargin {
+    margin-left : 15px;
+}
+
+.familyFormComponent {
+    margin-top : 5%;
+    margin-bottom : 5%;    
+}
+
+
+
+
+
+
