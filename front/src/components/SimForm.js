@@ -75,7 +75,7 @@ const SimForm = () => {
     Number(window.localStorage.getItem('joursCP')) || 25
   const initialJoursRecup = () =>
     Number(window.localStorage.getItem('joursRecup')) || 0
-  const initialAnswersGardeAlternee = () => 
+  const initialAnswersGardeAlternee = () =>
     window.localStorage.getItem('gardeAlternee') || false
 
 
@@ -574,78 +574,70 @@ const SimForm = () => {
 
 
 
-        {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
+        {showResults == true ?
 
-        {/* {showResults == true ? <ResultCharges /> : ''} */}
+          <div className="container-fluid">
+            <ResultCharges results={requestCalcul} />
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Hypothèses modifiables</th>
+                  <th scope="col"></th>
 
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Ma part</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Ce que gagne la nounou</th>
-              <td>{requestCalcul.netMensuelFamilleA}</td>
-              <td>{requestCalcul.netMensuelTotal}</td>
-            </tr>
-            <tr>
-              <th scope="row">Ce que la garde me coûte (avec les aides)</th>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+                </tr>
+              </thead>
+
+              <tbody >
+                <tr>
+                  <th scope="row">Panier repas (en euros)</th>
+                  <input type='number' value={panierRepas} onChange={(e) => setPanierRepas(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Nombre jours travaillés par semaine</th>
+                  <input type='number' value={joursTravaillesSemaines} onChange={(e) => setJoursTravaillesSemaines(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Abonnement transports publics (en euros)</th>
+                  <input type='number' value={montantTransport} onChange={(e) => setMontantTransport(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Prise en charge de l'abonnement (%)</th>
+                  <input type='number' value={partPriseCharge} onChange={(e) => setPartPriseCharge(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Part garde (%)</th>
+                  <input type='number' value={repartitionFamille} onChange={(e) => setrepartitionFamille(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
+                  <select class="form-control form-control-lg" value={anneeEmploi} onChange={(e) => setAnneeEmploi(e.target.value)}>
+                    <option value={true}>oui</option>
+                    <option value={false}>non</option>
+                  </select>
+                </tr>
+                <tr className='align-items-center'>
+                  <th scope="row">Garde alternée</th>
+                  <select class="form-control form-control-lg" value={gardeAlternee} onChange={(e) => setGardeAlternee(e.target.value)}>
+                    <option value={true}>oui</option>
+                    <option value={false}>non</option>
+                  </select>
+                </tr>
+              </tbody>
+            </table>
 
 
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Hypothèses modifiables</th>
-              <th scope="col"></th>
 
-            </tr>
-          </thead>
+          </div>
 
-          <tbody >
-            <tr>
-              <th scope="row">Panier repas (en euros)</th>
-              <input type='number' value={panierRepas} onChange={(e) => setPanierRepas(parseInt(e.target.value))}></input>
-            </tr>
-            <tr>
-              <th scope="row">Nombre jours travaillés par semaine</th>
-              <input type='number' value={joursTravaillesSemaines} onChange={(e) => setJoursTravaillesSemaines(parseInt(e.target.value))}></input>
-            </tr>
-            <tr>
-              <th scope="row">Abonnement transports publics (en euros)</th>
-              <input type='number' value={montantTransport} onChange={(e) => setMontantTransport(parseInt(e.target.value))}></input>
-            </tr>
-            <tr>
-              <th scope="row">Prise en charge de l'abonnement (%)</th>
-              <input type='number'  value={partPriseCharge} onChange={(e) => setPartPriseCharge(parseInt(e.target.value))}></input>
-            </tr>
-            <tr>
-              <th scope="row">Part garde (%)</th>
-              <input type='number'  value={repartitionFamille} onChange={(e) => setrepartitionFamille(parseInt(e.target.value))}></input>
-            </tr>
-            <tr>
-              <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
-              <select class="form-control form-control-lg" value={anneeEmploi}onChange={(e) => setAnneeEmploi(e.target.value)}>
-                <option value={true}>oui</option>
-                <option value={false}>non</option>
-              </select>
-            </tr>
-            <tr className='align-items-center'>
-              <th scope="row">Garde alternée</th>
-              <select class="form-control form-control-lg" value={gardeAlternee} onChange={(e) => setGardeAlternee(e.target.value)}>
-                <option value={true}>oui</option>
-                <option value={false}>non</option>
-              </select>
-            </tr>
-          </tbody>
-        </table>
+
+          : ''}
+
+
+
+
+
+
+
 
 
         <Link to="/">

@@ -4,64 +4,10 @@ import axios from 'axios'
 import SimpleReactValidator from 'simple-react-validator'
 import './ResultCharges.css'
 
-//function endPoint
-
-
-
-
-const ResultCharges = () => {
-   
-
-    
-
-    // const getBack = () => {
-    //     axios.get('http://localhost:4000/api/calculscharges')
-    //         .then(response => response.data)
-    //         .then(data => {
-    //             setConteneur(data)
-    //             console.log('data here',data)
-
-    //         })
-    //         .catch(error => {
-    //             console.log('Error fetching and parsing data', error);
-    //         })
-    // }
-    // let results
-    // const handleClick = async (conteneur) => {
-    //     const results = await axios.post("http://localhost:4000/api/calculscharges", {
-    //         nameGift: conteneur,
-        
-    //     })
-    //     console.log(results.data) 
-    // }
-    const [requestCalcul,setRequestCalcul] = useState([])
-    let dataObject = []
-
-    const sendData = () => {
-        axios.post('http://localhost:4000/api/calculscharges',dataObject) //POST - POST => envoyer infos
-          .then((res) => {
-            console.log(res.data)
-            setRequestCalcul(res.data)
-          }).catch((error) => {
-            console.log(error)
-    
-          })
-          
-      }
-      useEffect(() => {
-
-
-      }, [
-        requestCalcul
-      ]) //callback run only the answers change
-
-    
-
+const ResultCharges = ({ results }) => {
     return (
         <div className='container-fluid'>
-            <p>MAQUETTE</p>
-            <p>ici charges patronale</p>
-            {'chargesPatronalesFamilleA',requestCalcul.chargesPatronalesFamilleA}
+            
             <input type='button' value='hey' ></input>
             <div>
                 
@@ -77,12 +23,12 @@ const ResultCharges = () => {
                 <tbody>
                     <tr>
                         <th scope="row">Salaire perçu par la nounou</th>
-                        <td></td>
-                        <td></td>
+                        <td>{Math.round(results.netMensuelFamilleA)}</td>
+                        <td>{Math.round(results.netMensuelTotal)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Mon coût mensuel</th>
-                        <td></td>
+                        <td>{Math.round(results.coutPatronalFamilleA)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -91,7 +37,7 @@ const ResultCharges = () => {
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Heure</th>
+                        
                         <th scope="col">Mois</th>
                         <th scope="col">Année</th>
                     </tr>
@@ -99,15 +45,15 @@ const ResultCharges = () => {
                 <tbody>
                     <tr>
                         <th scope="row">Salaire brut</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{Math.round(results.brutMensuelFamilleA)}</td>
+                        <td>{results.brutAnnuelFamilleA}</td>
                     </tr>
                     <tr>
                         <th scope="row">Salaire net</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{Math.round(results.netMensuelFamilleA)}</td>
+                        <td>{results.netAnnuelFamilleA}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -135,21 +81,21 @@ const ResultCharges = () => {
                     </tr>
                     <tr>
                         <th scope="row">Repas</th>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{Math.round(results.primePanierRepasFamilleA)}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <th scope="row">Transports</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.remboursementMensuelTransportFamilleA}</td>
+                        <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Charges patronales</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.chargesPatronalesFamilleA}</td>
+                        <td>{results.chargesPatronalesFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -159,44 +105,44 @@ const ResultCharges = () => {
                     </tr>
                     <tr>
                         <th scope="row">Crédits</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.creditImpotMensuelFamilleA}</td>
+                        <td>{results.creditImpotAnnuelFamilleA}</td>
                     </tr>
                     <tr>
                         <th scope="row">Déduction forfaitaire des charges</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
+                        <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aide Paje pour les charges</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.aidesPajeFamilleA}</td>
+                        <td>{results.aidesPajeFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">CMG</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.cmgFamilleA}</td>
+                        <td>{results.cmgFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aides additionnelles</th>
-                        <td></td>
+                        
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <th scope="row">Crédit d'impôts</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{results.creditImpotMensuelFamilleA}</td>
+                        <td>{results.creditImpotAnnuelFamilleA}</td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="table">
+            {/* <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Hypothèses modifiables</th>
@@ -240,7 +186,7 @@ const ResultCharges = () => {
                         </select>
                     </tr>
                 </tbody>
-            </table>
+            </table> */}
 
             {/* <table class="table">
                 <thead class="thead-dark">

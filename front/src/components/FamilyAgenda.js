@@ -158,16 +158,9 @@ export default class FamilyAgenda extends React.Component {
 			//   this.setState({ time: realTime, setTime: true })
 			//   console.log('TIME', realTime) */
 			// } else {
-
-			// return null
-
-			// let a = this.state.slotHours[this.state.slotHours.length - 2];
-			// let b = this.state.slotHours[this.state.slotHours.length - 1];
-			// item.push({a, b})
-			// console.log('item',item[0].a, item[0].b);
+			return null
 		}
 	}
-
 
 	/* -------- Add children informations to localstorage -------- */
 
@@ -182,10 +175,10 @@ export default class FamilyAgenda extends React.Component {
 		let nameChild = this.state.nameChild;
 		let nameChildOthers = this.state.nameChildOthers;
 		let arrayObject = [];
-    let childCalendar;
-    let childColor = Math.floor(Math.random() * 16777215).toString(16);
-	  let colorState = this.state.colorState
-		
+		let childCalendar;
+		let childColor = Math.floor(Math.random() * 16777215).toString(16);
+		let colorState = this.state.colorState
+
 		//let arrayChildren = this.state.arrayChildren
 
 		if (i < myChild.length) { //look at the size of my Children array
@@ -215,16 +208,16 @@ export default class FamilyAgenda extends React.Component {
 							return entry.day
 						}
 					};
-					arrayTr.push(findStart(items[k]))  
-					arrayTr.push(findEnd(items[k])) 
-					arrayTr.push('A') 
-					arrayTr.push(findDay(items[k]))  
-					arrayTr.push(i + 1) 
-					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
-					arrayObject.push(objChild) 
-					countId++ 
+					arrayTr.push(findStart(items[k]))
+					arrayTr.push(findEnd(items[k]))
+					arrayTr.push('A')
+					arrayTr.push(findDay(items[k]))
+					arrayTr.push(i + 1)
+					objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4] }
+					arrayObject.push(objChild)
+					countId++
 				};
-			
+
 				arrayChildren.push(...arrayObject)
 				localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 				// localStorage.setItem('items', JSON.stringify([]));
@@ -232,10 +225,10 @@ export default class FamilyAgenda extends React.Component {
 				childCalendar = myChild[i]
 				this.setState({ countMyChild: i })
 				this.setState({ countTimeSlot: countId })
-				this.setState({showMyChildName : nameChild})
-        this.setState({calendarChild: childCalendar})
-        this.setState({ colorState: childColor })
-        console.log("color dans i", colorState)
+				this.setState({ showMyChildName: nameChild })
+				this.setState({ calendarChild: childCalendar })
+				this.setState({ colorState: childColor })
+				console.log("color dans i", colorState)
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			};
@@ -264,28 +257,28 @@ export default class FamilyAgenda extends React.Component {
 								return entry.day
 							}
 						};
-						arrayTr.push(findStart(items[k])) 
-						arrayTr.push(findEnd(items[k])) 
-						arrayTr.push('B') 
-						arrayTr.push(findDay(items[k]))  
-						arrayTr.push(j + 1)  
-						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4]}
-						arrayObject.push(objChild) 
-						countId++ 
+						arrayTr.push(findStart(items[k]))
+						arrayTr.push(findEnd(items[k]))
+						arrayTr.push('B')
+						arrayTr.push(findDay(items[k]))
+						arrayTr.push(j + 1)
+						objChild = { start: arrayTr[0], end: arrayTr[1], famille: arrayTr[2], jour: arrayTr[3], enfant: arrayTr[4] }
+						arrayObject.push(objChild)
+						countId++
 					};
 					arrayChildren.push(...arrayObject)
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 					// localStorage.setItem('items', JSON.stringify([]));
 					i++;
 					j++;
-					childCalendar =  notMyChild[j]
+					childCalendar = notMyChild[j]
 					this.setState({ countMyChild: i })
 					this.setState({ countNotMyChild: j })
 					this.setState({ countTimeSlot: countId })
-					this.setState({showOthersChildName : nameChildOthers})
-          this.setState({calendarChild: childCalendar})
-          this.setState({ colorState: childColor })
-          console.log("color dans j", colorState)
+					this.setState({ showOthersChildName: nameChildOthers })
+					this.setState({ calendarChild: childCalendar })
+					this.setState({ colorState: childColor })
+					console.log("color dans j", colorState)
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
@@ -301,12 +294,12 @@ export default class FamilyAgenda extends React.Component {
 	resetCalendar = () => {
 		localStorage.setItem('items', JSON.stringify([]))
 		this.setState({ items: [] })
-  }
-  
-  addChildReset = () => {
-    this.addChild()
-    this.resetCalendar()
-  }
+	}
+
+	addChildReset = () => {
+		this.addChild()
+		this.resetCalendar()
+	}
 
 	wipeLastSelect = () => {
 		let itemState = this.state.items
@@ -402,8 +395,16 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		// console.log('slot hours', this.state.slotHours);
+		console.log('getSelection', this.state.slotHours);
 	}
+
+	// <<_________________ CLEMENT MODIFIED THIS _________________
+
+	// handleMouseOver = (e) => {
+	// 	let yScroll = window.scrollY;
+	// 	let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
+	// 	this.handleRangeSelection(arr, end)
+	// }
 
 	handleMouseOver = e => {
 		let yScroll = window.scrollY
@@ -486,8 +487,8 @@ export default class FamilyAgenda extends React.Component {
 				let vert = last.getBoundingClientRect()
 				element2 = document.createElement('div')
 				element2.className = 'slot'
-        element2.style.backgroundColor =  '#' + this.state.colorState
-        // element2.style.backgroundColor = 'black'
+				element2.style.backgroundColor = '#' + this.state.colorState
+				// element2.style.backgroundColor = 'black'
 				element2.style.width = horiz.right - horiz.left - 5 + 'px'
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 'px'
@@ -519,15 +520,14 @@ export default class FamilyAgenda extends React.Component {
 				this.validateSelect()
 				this.getSelect()
 			} else {
-				this.validateSelect()
 				this.getSelect()
 			}
 		}
-  }
-  
-  handleResetPlanning = (e) => {
-    this.setState({ valueOnClick: e.target.value })
-    }
+	}
+
+	handleResetPlanning = (e) => {
+		this.setState({ valueOnClick: e.target.value })
+	}
 
 	/* -------- Define and change Current Week -------- */
 
@@ -579,12 +579,12 @@ export default class FamilyAgenda extends React.Component {
 		let countMyChild = this.state.countMyChild
 		let countNotMyChild = this.state.countNotMyChild
 		let firstChild;
-		if (this.state.calendarChild == '' ) {
+		if (this.state.calendarChild == '') {
 			firstChild = myChild[0]
-			this.setState({calendarChild: firstChild})
-    }
-     if (this.state.calendarChild == undefined  && countMyChild == myChild.length ) { // && countMyChild - countNotMyChild == countMyChild
-			
+			this.setState({ calendarChild: firstChild })
+		}
+		if (this.state.calendarChild == undefined && countMyChild == myChild.length) { // && countMyChild - countNotMyChild == countMyChild
+
 			firstChild = notMyChild[0]
 			this.setState({countMyChild : 100}) //here to prevent the function to replay the function
 			this.setState({calendarChild: firstChild})
@@ -607,14 +607,9 @@ export default class FamilyAgenda extends React.Component {
 		this.updateDimensions()
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
-		
-		
+
+
 	}
-
-	componentDidUpdate() {
-
-		
-	 }
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
@@ -631,12 +626,12 @@ export default class FamilyAgenda extends React.Component {
 
 	render() {
 		this.createSelectionDiv()
-    this.createValidateDiv()
-    this.updateChildName()
-    this.updateColor()
-   
-		
-	
+		this.createValidateDiv()
+		this.updateChildName()
+		this.updateColor()
+
+
+
 		let columns = [
 			{
 				key: 'Monday',
@@ -790,25 +785,6 @@ export default class FamilyAgenda extends React.Component {
 							}
 						</tbody>					
             </table>
-	
-			  {/* <div>
-				"name Famille A" :
-				{this.state.showMyChildName.map(child => (
-				  <div>{child}</div>
-				))}
-			  </div>
-			  <div>
-				"name Famille B" :{' '}
-				{this.state.showOthersChildName.map(child => (
-				  <div>{child}</div>
-				))}
-			  </div> */}
-			  {/* <div>
-			  Vous avez sélectionné
-			  {this.state.time
-				? this.state.time
-				: `Vous n'avez pas sélectionné de créneau`}
-			</div> */}
 			</div>
 	
 			<h1 className='h1Name'>{this.state.calendarChild}</h1>
@@ -821,36 +797,35 @@ export default class FamilyAgenda extends React.Component {
                 >
                   Voulez-vous copier ce planning pour l'enfant suivant ?
                 </option>
-				<option
-                  selected
-                  value="oui"
-                >
-                  Copier ce planning pour l'enfant suivant
+						<option
+							selected
+							value="oui"
+						>
+							Copier ce planning pour l'enfant suivant
                 </option>
-                <option value="non">
-                  Non, je veux partir d'un planning vide
+						<option value="non">
+							Non, je veux partir d'un planning vide
                 </option>
-              </select>
-              <div class="input-group-append">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  onClick={() =>
-                    this.state.valueOnClick == 'oui'
-                      ? this.addChild()
-                      : this.addChildReset()
-                  }
-                >
-                  Valider le planning de l'enfant
+					</select>
+					<div class="input-group-append">
+						<button
+							type="button"
+							class="btn btn-primary"
+							onClick={() =>
+								this.state.valueOnClick == 'oui'
+									? this.addChild()
+									: this.addChildReset()
+							}
+						>
+							Valider le planning de l'enfant
                 </button>
-              </div>
-            </div>
-
+					</div>
+				</div>
 				<button
-				  class="btn btn-warning btn-sm col-2 "
-				  type="button"
-				  value="effacer"
-				  onClick={() => this.resetCalendarPage()}
+					class="btn btn-warning btn-sm col-2 "
+					type="button"
+					value="effacer"
+					onClick={() => this.resetCalendarPage()}
 				>
 				  Effacer ce planning
 				</button>
