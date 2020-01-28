@@ -17,7 +17,7 @@ const SimForm = () => {
   const initialAnswer4 = () =>
     false //parentIsole
   const initialAnswer5 = () =>
-    Number(window.localStorage.getItem('repartitionFamille')) || 0
+    Number(window.localStorage.getItem('repartitionFamille')) || 100
   const initialAnswer6 = () =>
     Number(window.localStorage.getItem('nbEnfants')) || 0
   const initialAnswer7 = () =>
