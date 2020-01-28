@@ -705,9 +705,10 @@ export default class FamilyAgenda extends React.Component {
 
 		return (
 			<>
+				
 
-				<div id="someTableId" className="agendaContainer">
-
+				<div id="someTableId" className="agendaContainer row">
+					<div className="col-10">
 					<div className="selectWeek">
 
 					</div>
@@ -783,11 +784,31 @@ export default class FamilyAgenda extends React.Component {
 								}
 							})
 							}
-						</tbody>					
-            </table>
+						</tbody>		
+						</table>
+						</div>
+					<div className ="buttonSelect col-2">
+						
+						<button
+							class="simulateurbtn"
+							type="button"
+							value="effacer dernier"
+							onClick={() => this.wipeLastSelect()}
+						>
+							Effacer dernière selection
+				</button>
+				<button
+					class="simulateurbtn"
+					type="button"
+					value="effacer"
+					onClick={() => this.resetCalendarPage()}
+				>
+				  Effacer ce planning
+				</button>
+				</div>
 			</div>
 	
-			<h1 className='h1Name'>{this.state.calendarChild}</h1>
+			<h1 className='h1Name'>Planning pour {this.state.calendarChild}</h1>
 		    
       <div class="input-group">
               <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
@@ -795,7 +816,7 @@ export default class FamilyAgenda extends React.Component {
                   selected
                   value="null"
                 >
-                  Voulez-vous copier ce planning pour l'enfant suivant ?
+                  --Merci de choisir une option--
                 </option>
 						<option
 							selected
@@ -810,37 +831,22 @@ export default class FamilyAgenda extends React.Component {
 					<div class="input-group-append">
 						<button
 							type="button"
-							class="btn btn-primary"
+							class="calendar_simulateurbtn"
 							onClick={() =>
 								this.state.valueOnClick == 'oui'
 									? this.addChild()
 									: this.addChildReset()
 							}
 						>
-							Valider le planning de l'enfant
+							Valider
                 </button>
 					</div>
 				</div>
-				<button
-					class="btn btn-warning btn-sm col-2 "
-					type="button"
-					value="effacer"
-					onClick={() => this.resetCalendarPage()}
-				>
-				  Effacer ce planning
-				</button>
-						<button
-							class="btn btn-warning btn-sm col-2 "
-							type="button"
-							value="effacer dernier"
-							onClick={() => this.wipeLastSelect()}
-						>
-							Effacer dernière selection
-				</button>
+				
 				
 			  <div className ='row'>
 			  <button
-				  class="btn btn-warning btn-sm col-2 "
+				  class="calendar_simulateurbtn_calcul"
 				  type="button"
 				  value="envoi data"
 				  onClick={() => this.sendData()}
