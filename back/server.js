@@ -39,6 +39,7 @@ mongoose
 
 
 app.post('/api/calculscharges', function (req, res) {
+  console.log(req.body)
 
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 

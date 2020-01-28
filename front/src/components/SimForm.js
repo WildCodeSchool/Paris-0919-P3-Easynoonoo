@@ -15,7 +15,7 @@ const SimForm = () => {
   const initialAnswer3 = () =>
     Number(window.localStorage.getItem('tauxHoraire')) || 10
   const initialAnswer4 = () =>
-    window.localStorage.getItem('gardeAlternee') || false
+    false //parentIsole
   const initialAnswer5 = () =>
     Number(window.localStorage.getItem('repartitionFamille')) || 100
   const initialAnswer6 = () =>
@@ -32,7 +32,7 @@ const SimForm = () => {
   const [heuresHebdo, setheuresHebdo] = useState(initialAnswer1)
   const [alsaceMoselle, setalsaceMoselle] = useState(initialAnswer2)
   const [tauxHoraire, settauxHoraire] = useState(initialAnswer3)
-  const [gardeAlternee, setgardeAlternee] = useState(initialAnswer4)
+  const [gardePartagee, setGardePartagee] = useState(initialAnswer4)
   const [repartitionFamille, setrepartitionFamille] = useState(
     initialAnswer5,
   )
@@ -59,7 +59,7 @@ const SimForm = () => {
   }
 
   // hooks + variables pour hypothèses de calculs
-  
+
   let aujd = new Date()
   const initialAnswerPanierRepas = () =>
     Number(window.localStorage.getItem('panierRepas')) || 5
@@ -71,11 +71,13 @@ const SimForm = () => {
     Number(window.localStorage.getItem('priseEnChargeAbonnement')) || 50
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
     Boolean(window.localStorage.getItem('premiereAnneeEmploiDomicile')) || true
-  const initialJoursCp = () => 
+  const initialJoursCp = () =>
     Number(window.localStorage.getItem('joursCP')) || 25
-  const initialJoursRecup = () => 
+  const initialJoursRecup = () =>
     Number(window.localStorage.getItem('joursRecup')) || 0
-    
+  const initialAnswersGardeAlternee = () =>
+    window.localStorage.getItem('gardeAlternee') || false
+
 
   const [requestCalcul, setRequestCalcul] = useState([])
   const [showResults, setShowResults] = useState(false)
@@ -85,8 +87,9 @@ const SimForm = () => {
   const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas)
   const [joursCP, setJoursCP] = useState(initialJoursCp)
   const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
-  const [joursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
-  
+  const [joursTravaillesSemaines, setJoursTravaillesSemaines] = useState(initialAnswersJoursTravaillesHebdo)
+  const [gardeAlternee, setGardeAlternee] = useState(initialAnswersGardeAlternee)
+
 
   const returnBoolean = (e) => {
     if (e == "true") {
@@ -95,33 +98,33 @@ const SimForm = () => {
       return false
     }
   }
-  
+
   let dataObject = []
-    
+
   const getData = () => {
     return (
       new Promise(resolve => {
         resolve(
           dataObject = {
-           "dateDebutAnnee": aujd.getFullYear(),
-           "enfantPlusJeune": enfantPlusJeune,
-           "nbEnfants": nbEnfants,
-           "parentsIsole": returnBoolean(parentIsole),
-           "ressourcesAnnuelles": ressourcesAnnuelles, 
-           "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo), 
-           "heuresSup" : heuresSeparees(heuresHebdo),
-           "heuresHebdoTotales" : heuresHebdo,
-           "tauxHoraire": tauxHoraire,
-           "repartitionFamille": repartitionFamille / 100, 
-           "alsaceMoselle": alsaceMoselle,
-           "montantRepas": panierRepas,
-           "joursTravaillesSemaines": joursTravaillesSemaines,
-           "joursCP" : joursCP,
-           "joursRecup" : joursRecup,
-           "priseEnChargeAbonnement": partPriseCharge / 100, 
-           "montantAbonnementTransports": montantTransport, 
-           "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi), 
-           "gardeAlternee": returnBoolean(gardeAlternee)
+            "dateDebutAnnee": aujd.getFullYear(),
+            "enfantPlusJeune": enfantPlusJeune,
+            "nbEnfants": nbEnfants,
+            "parentsIsole": returnBoolean(parentIsole),
+            "ressourcesAnnuelles": ressourcesAnnuelles,
+            "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo),
+            "heuresSup": heuresSeparees(heuresHebdo),
+            "heuresHebdoTotales": heuresHebdo,
+            "tauxHoraire": tauxHoraire,
+            "repartitionFamille": repartitionFamille / 100,
+            "alsaceMoselle": alsaceMoselle,
+            "montantRepas": panierRepas,
+            "joursTravaillesSemaines": joursTravaillesSemaines,
+            "joursCP": joursCP,
+            "joursRecup": joursRecup,
+            "priseEnChargeAbonnement": partPriseCharge / 100,
+            "montantAbonnementTransports": montantTransport,
+            "premiereAnneeEmploiDomicile": returnBoolean(anneeEmploi),
+            "gardeAlternee": returnBoolean(gardeAlternee)
 
           }
 
@@ -137,22 +140,24 @@ const SimForm = () => {
         setRequestCalcul(res.data) // je mets les calculs dans la state
       }).catch((error) => {
         console.log(error)
+
       })
+
   }
 
-  console.log('yoyo', requestCalcul)
-  
-
   async function showData() {
-      await getData();
-      sendData();
-      setShowResults(true)
+    await getData();
+    sendData();
+    setShowResults(true)
 
   }
 
   //store the data in local storage
-  useEffect(() => {  
-    
+  useEffect(() => {
+
+    console.log('ici requestCalcul', requestCalcul)
+
+
     window.localStorage.setItem('heuresHebdo', heuresHebdo)
     window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
     window.localStorage.setItem('tauxHoraire', tauxHoraire)
@@ -167,7 +172,11 @@ const SimForm = () => {
     window.localStorage.setItem(
       'ressourcesAnnuelles', ressourcesAnnuelles,
     )
-    window.localStorage.setItem('nbEnfants', nbEnfants)
+    window.localStorage.setItem('panierRepas', panierRepas)
+    window.localStorage.setItem('joursTravaillesSemaines', joursTravaillesSemaines)
+    window.localStorage.setItem('montantAbonnementTransports', montantTransport)
+    window.localStorage.setItem('priseEnChargeAbonnement', partPriseCharge)
+    window.localStorage.setItem('premiereAnneeEmploiDomicile', anneeEmploi)
   }, [
     heuresHebdo,
     alsaceMoselle,
@@ -178,7 +187,13 @@ const SimForm = () => {
     enfantPlusJeune,
     parentIsole,
     ressourcesAnnuelles,
-    requestCalcul
+    requestCalcul,
+    panierRepas,
+    joursTravaillesSemaines,
+    montantTransport,
+    partPriseCharge,
+    anneeEmploi,
+    gardePartagee
   ]) //callback run only the answers change
 
   const handleQuestion9 = () => {
@@ -276,6 +291,7 @@ const SimForm = () => {
     ) {
       return (
         <div>
+
           <select class="form-control">
             <option defaultValue="">
               --Merci de choisir une option--
@@ -374,7 +390,7 @@ const SimForm = () => {
               setheuresHebdo(parseInt(e.target.value, 10))
             }
             min="1"
-            max="48"
+            max="50"
           />
         </div>
 
@@ -387,7 +403,7 @@ const SimForm = () => {
             name="region"
             id="region-select"
             onChange={e => setalsaceMoselle(parseInt(e.target.value))}
-            //value={alsaceMoselle}
+          //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
             <option value="0">
@@ -411,6 +427,7 @@ const SimForm = () => {
             }
             min="10"
             max="100"
+            step="0.1"
           />
         </div>
 
@@ -422,8 +439,8 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="true"
-                checked={gardeAlternee == "true"}
-                onChange={e => setgardeAlternee(e.target.value)}
+                checked={gardePartagee == "true"}
+                onChange={e => setGardePartagee(e.target.value)}
               />
               Oui
             </label>
@@ -435,15 +452,15 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={gardeAlternee == "false"}
-                onChange={e => setgardeAlternee(e.target.value)}
+                checked={gardePartagee == "false"}
+                onChange={e => setGardePartagee(e.target.value)}
               />
               Non
             </label>
           </div>
         </div>
 
-        {gardeAlternee == "true" ? (
+        {gardePartagee == "true" ? (
           <div className="simFormNumberInput">
             <label>
               Quelle part du coût de la garde allez-vous supporter ?
@@ -477,13 +494,13 @@ const SimForm = () => {
             onChange={e => setnbEnfants(parseInt(e.target.value))}
             value={nbEnfants}
           >
-            <option value="">--Merci de choisir une option--</option> 
+            <option value="">--Merci de choisir une option--</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
-          
+
         </div>
 
         <div className="simFormNumberInput">
@@ -521,7 +538,7 @@ const SimForm = () => {
                 type="radio"
                 className="checked"
                 value="false"
-                checked={parentIsole == "false" }
+                checked={parentIsole == "false"}
                 onChange={e => setparentIsole(e.target.value)}
               />
               Non
@@ -553,15 +570,74 @@ const SimForm = () => {
             </div>
           )}
 
-          <button className=" col-3 btn btn-primary" type="submit" onClick={() =>showData()}>Calculer</button>
+        <button className=" col-3 btn btn-primary" type="submit" onClick={() => showData()}>Calculer</button>
 
-        
 
-        {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
 
-        {showResults == true ? <ResultCharges results={requestCalcul}/> : ''}
+        {showResults == true ?
 
-        
+          <div className="container-fluid">
+            <ResultCharges results={requestCalcul} />
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Hypothèses modifiables</th>
+                  <th scope="col"></th>
+
+                </tr>
+              </thead>
+
+              <tbody >
+                <tr>
+                  <th scope="row">Panier repas (en euros)</th>
+                  <input type='number' value={panierRepas} onChange={(e) => setPanierRepas(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Nombre jours travaillés par semaine</th>
+                  <input type='number' value={joursTravaillesSemaines} onChange={(e) => setJoursTravaillesSemaines(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Abonnement transports publics (en euros)</th>
+                  <input type='number' value={montantTransport} onChange={(e) => setMontantTransport(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Prise en charge de l'abonnement (%)</th>
+                  <input type='number' value={partPriseCharge} onChange={(e) => setPartPriseCharge(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">Part garde (%)</th>
+                  <input type='number' value={repartitionFamille} onChange={(e) => setrepartitionFamille(parseInt(e.target.value))}></input>
+                </tr>
+                <tr>
+                  <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
+                  <select class="form-control form-control-lg" value={anneeEmploi} onChange={(e) => setAnneeEmploi(e.target.value)}>
+                    <option value={true}>oui</option>
+                    <option value={false}>non</option>
+                  </select>
+                </tr>
+                <tr className='align-items-center'>
+                  <th scope="row">Garde alternée</th>
+                  <select class="form-control form-control-lg" value={gardeAlternee} onChange={(e) => setGardeAlternee(e.target.value)}>
+                    <option value={true}>oui</option>
+                    <option value={false}>non</option>
+                  </select>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+          </div>
+
+
+          : ''}
+
+
+
+
+
+
+
 
 
         <Link to="/">

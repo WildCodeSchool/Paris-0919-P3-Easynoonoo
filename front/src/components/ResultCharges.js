@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import SimpleReactValidator from 'simple-react-validator'
 import './ResultCharges.css'
 
 const ResultCharges = ({ results }) => {
     return (
         <div className='container-fluid'>
-            <p>MAQUETTE</p>
+            
+            <input type='button' value='hey' ></input>
+            <div>
+                
+            </div>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -32,7 +37,7 @@ const ResultCharges = ({ results }) => {
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Heure</th>
+                        
                         <th scope="col">Mois</th>
                         <th scope="col">Année</th>
                     </tr>
@@ -40,13 +45,13 @@ const ResultCharges = ({ results }) => {
                 <tbody>
                     <tr>
                         <th scope="row">Salaire brut</th>
-                        <td>/</td>
+                        
                         <td>{Math.round(results.brutMensuelFamilleA)}</td>
                         <td>{results.brutAnnuelFamilleA}</td>
                     </tr>
                     <tr>
                         <th scope="row">Salaire net</th>
-                        <td>/</td>
+                        
                         <td>{Math.round(results.netMensuelFamilleA)}</td>
                         <td>{results.netAnnuelFamilleA}</td>
                     </tr>
@@ -76,19 +81,19 @@ const ResultCharges = ({ results }) => {
                     </tr>
                     <tr>
                         <th scope="row">Repas</th>
-                        <td>/</td>
+                        
                         <td>{Math.round(results.primePanierRepasFamilleA)}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <th scope="row">Transports</th>
-                        <td>/</td>
+                        
                         <td>{results.remboursementMensuelTransportFamilleA}</td>
                         <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Charges patronales</th>
-                        <td>/</td>
+                        
                         <td>{results.chargesPatronalesFamilleA}</td>
                         <td>{results.chargesPatronalesFamilleA * 12}</td>
                     </tr>
@@ -100,44 +105,44 @@ const ResultCharges = ({ results }) => {
                     </tr>
                     <tr>
                         <th scope="row">Crédits</th>
-                        <td>/</td>
+                        
                         <td>{results.creditImpotMensuelFamilleA}</td>
                         <td>{results.creditImpotAnnuelFamilleA}</td>
                     </tr>
                     <tr>
                         <th scope="row">Déduction forfaitaire des charges</th>
-                        <td>/</td>
+                        
                         <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
                         <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aide Paje pour les charges</th>
-                        <td>/</td>
+                        
                         <td>{results.aidesPajeFamilleA}</td>
                         <td>{results.aidesPajeFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">CMG</th>
-                        <td>/</td>
+                        
                         <td>{results.cmgFamilleA}</td>
                         <td>{results.cmgFamilleA * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aides additionnelles</th>
-                        <td>/</td>
+                        
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <th scope="row">Crédit d'impôts</th>
-                        <td>/</td>
+                        
                         <td>{results.creditImpotMensuelFamilleA}</td>
                         <td>{results.creditImpotAnnuelFamilleA}</td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="table">
+            {/* <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Hypothèses modifiables</th>
@@ -181,7 +186,7 @@ const ResultCharges = ({ results }) => {
                         </select>
                     </tr>
                 </tbody>
-            </table>
+            </table> */}
 
             {/* <table class="table">
                 <thead class="thead-dark">

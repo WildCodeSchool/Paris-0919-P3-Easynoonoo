@@ -12,12 +12,12 @@ const FamilyForm = () => {
   const initialAnswer2 = () =>
     Number(window.localStorage.getItem('nbEnfants')) || 0
   const initialAnswer3 = () =>
-    Boolean(window.localStorage.getItem('parentIsole')) || Boolean(false)
+    false //so that it restarts for a new simulation without divorcee
 
   // state en hook pour les réponses
   const [totalEnfants, setTotalEnfants] = useState(initialAnswer1) //nbr d'enfants total
   const [nbEnfants, setNbEnfants] = useState(initialAnswer2) // propres enfants
-  const [parentIsole, setParentIsole] = useState(initialAnswer3) // parent isolé
+  const [gardeAlternee, setGardeAlternee] = useState(initialAnswer3) // parent isolé
 
   // state qui contient les prénoms des enfants
   const [myChild, setmyChild] = useState([])
@@ -34,12 +34,12 @@ const FamilyForm = () => {
   useEffect(() => {
     window.localStorage.setItem('totalEnfants', totalEnfants)
     window.localStorage.setItem('nbEnfants', nbEnfants)
-    window.localStorage.setItem('parentIsole', parentIsole)
+    window.localStorage.setItem('gardeAlternee', gardeAlternee)
     window.localStorage.setItem('myChild', JSON.stringify(myChild)) //transforme la valeur en strings dans un tableau
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]))
     window.localStorage.setItem('allChildren', JSON.stringify([]) )
-  }, [totalEnfants, nbEnfants, parentIsole, myChild, notMyChild]) //callback run if only the answers change
+  }, [totalEnfants, nbEnfants, gardeAlternee, myChild, notMyChild]) //callback run if only the answers change
     
   // 1. stocke la nouvelle valeur de l'input dans la state myChild
   // 2. réinitialise firstname à vide
@@ -94,7 +94,7 @@ const FamilyForm = () => {
       {(count === nbEnfants &&
         count2 === totalEnfants - nbEnfants &&
         count2 !== 0) ||
-      (count === totalEnfants && count2 === 0 && parentIsole === 'oui') ? (
+      (count === totalEnfants && count2 === 0 && gardeAlternee === "true") ? (
         '' //if calendar appears, questions disappears
       ) : (
         <div className="container-fluid d-flex flex-column justify-content-center no-wrap ">
@@ -159,8 +159,8 @@ const FamilyForm = () => {
                     type="radio"
                     className="checked"
                     value="true"
-                    checked={parentIsole == "true"}
-                    onChange={e => setParentIsole(e.target.value)}
+                    checked={gardeAlternee == "true"}
+                    onChange={e => setGardeAlternee(e.target.value)}
                   />
                   Oui
                 </label>
@@ -172,8 +172,8 @@ const FamilyForm = () => {
                     type="radio"
                     className="checked"
                     value="false"
-                    checked={parentIsole == "false"}
-                    onChange={e => setParentIsole(e.target.value)}
+                    checked={gardeAlternee == "false"}
+                    onChange={e => setGardeAlternee(e.target.value)}
                   />
                   Non
                 </label>
@@ -197,8 +197,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     value="true"
-                    checked={parentIsole === "true"}
-                    onChange={e => setParentIsole(e.target.value)}
+                    checked={gardeAlternee === "true"}
+                    onChange={e => setGardeAlternee(e.target.value)}
                   />
                   Oui
                 </label>
@@ -209,8 +209,8 @@ const FamilyForm = () => {
                   <input
                     type="radio"
                     value="false"
-                    checked={parentIsole === "false"}
-                    onChange={e => setParentIsole(e.target.value)}
+                    checked={gardeAlternee === "false"}
+                    onChange={e => setGardeAlternee(e.target.value)}
                   />
                   Non
                 </label>
@@ -221,7 +221,7 @@ const FamilyForm = () => {
           )}
 
           {/* Message erreur si pas garde partagée  */}
-          {totalEnfants === 1 && parentIsole === "false" ? (
+          {totalEnfants === 1 && gardeAlternee === "false" ? (
             <p className="error1">
               La garde de l'enfant n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
@@ -230,7 +230,7 @@ const FamilyForm = () => {
             ''
           )}
 
-          {totalEnfants === nbEnfants && parentIsole === "false" ? (
+          {totalEnfants === nbEnfants && gardeAlternee === "false" ? (
             <p className="error1">
               La garde des enfants n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
@@ -241,7 +241,7 @@ const FamilyForm = () => {
 
           {/* si on est en co-partage : la question des prénoms apparaît */}
 
-          {totalEnfants === 1 && parentIsole === "true" ? (
+          {totalEnfants === 1 && gardeAlternee === "true" ? (
             <div className="row question4">
               <p>Comment s'appelle l'enfant ?</p>
               <div class="input-group mb-3">
@@ -273,7 +273,7 @@ const FamilyForm = () => {
             ''
           )}
 
-          {totalEnfants === nbEnfants && parentIsole === "true" ? (
+          {totalEnfants === nbEnfants && gardeAlternee === "true" ? (
             <div className="row question4">
               <p>Comment s'appellent les enfants ?</p>
               <div class="input-group mb-3">
@@ -359,7 +359,7 @@ const FamilyForm = () => {
         )}
 
         {/* enfants en garde partagée : calendrier apparait  */}
-        {count === totalEnfants && count2 === 0 && parentIsole === "true" ? (
+        {count === totalEnfants && count2 === 0 && gardeAlternee === "true" ? (
           <FamilyAgenda />
         ) : (
           ''
