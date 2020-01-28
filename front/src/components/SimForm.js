@@ -196,12 +196,15 @@ const SimForm = () => {
     gardePartagee
   ]) //callback run only the answers change
 
+  
+
   const handleQuestion9 = () => {
     if (
       (nbEnfants == 1 && enfantPlusJeune <= 3) ||
       (nbEnfants == 1 && enfantPlusJeune >= 3)
     ) {
       return (
+
         <div>
           <select class="form-control">
             <option defaultValue="">
@@ -374,7 +377,8 @@ const SimForm = () => {
   }
 
   return (
-    <div className="container">
+    
+    <div className="container simForm-parent">
       <h2>Simulation de salaire</h2>
       <div class="form-group">
         <div>
@@ -570,13 +574,10 @@ const SimForm = () => {
             </div>
           )}
 
-        <button className=" col-3 btn btn-primary" type="submit" onClick={() => showData()}>Calculer</button>
-
-
-
+      
         {showResults == true ?
 
-          <div className="container-fluid">
+          <div className="container-fluid simFormHypothesis">
             <ResultCharges results={requestCalcul} />
             <table class="table">
               <thead class="thead-dark">
@@ -631,6 +632,13 @@ const SimForm = () => {
 
 
           : ''}
+          
+
+      <div className='row justify-content-end'>
+      <button className=" col-3 btn btn-primary simForm-Button " type="submit" onClick={() => showData()}>Calculer</button>
+
+      </div>
+      
 
 
 
