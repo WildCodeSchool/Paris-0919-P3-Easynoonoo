@@ -399,7 +399,7 @@ const SimForm = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container simForm-parent">
       <h2>Simulation de salaire</h2>
       <form class="form-group" class="needs-validation" novalidate>
         <div>
@@ -601,14 +601,14 @@ const SimForm = () => {
           </div>
         )}
 
-        <button
-          className=" col-3 btn btn-primary"
-          type="submit"
-          onClick={() => showData()}
-        >
-          Calculer
-        </button>
-
+        <div className="row justify-content-end">
+          <button
+            className=" col-3 btn btn-primary simForm-Button "
+            onClick={() => showData()}
+          >
+            Calculer
+          </button>
+        </div>
         {showResults == true ? (
           <div className="container-fluid">
             <ResultCharges results={requestCalcul} />

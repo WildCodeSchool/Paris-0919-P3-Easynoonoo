@@ -6,13 +6,9 @@ import './ResultCharges.css'
 
 const ResultCharges = ({ results }) => {
     return (
-        <div className='container-fluid'>
-            
-            <input type='button' value='hey' ></input>
-            <div>
-                
-            </div>
-            <table class="table">
+        <div className='justify-content-center resultsCharges-parent'>
+                        
+            <table className="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"></th>
@@ -29,6 +25,13 @@ const ResultCharges = ({ results }) => {
                     <tr>
                         <th scope="row">Mon coût mensuel</th>
                         <td>{Math.round(results.coutPatronalFamilleA)}</td>
+                        
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -36,8 +39,7 @@ const ResultCharges = ({ results }) => {
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col"></th>
-                        
+                        <th scope="col"></th>                       
                         <th scope="col">Mois</th>
                         <th scope="col">Année</th>
                     </tr>
@@ -61,7 +63,8 @@ const ResultCharges = ({ results }) => {
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                   
+                    {/* <tr>
                         <th scope="row">Coût net de crédit et aides</th>
                         <td></td>
                         <td></td>
@@ -78,12 +81,12 @@ const ResultCharges = ({ results }) => {
                         <td></td>
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <th scope="row">Repas</th>
                         
                         <td>{Math.round(results.primePanierRepasFamilleA)}</td>
-                        <td></td>
+                        <td>{Math.round(results.primePanierRepasFamilleA) * 12}</td>
                     </tr>
                     <tr>
                         <th scope="row">Transports</th>
@@ -127,17 +130,23 @@ const ResultCharges = ({ results }) => {
                         <td>{results.cmgFamilleA}</td>
                         <td>{results.cmgFamilleA * 12}</td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                         <th scope="row">Aides additionnelles</th>
                         
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr> */}
                     <tr>
                         <th scope="row">Crédit d'impôts</th>
                         
                         <td>{results.creditImpotMensuelFamilleA}</td>
                         <td>{results.creditImpotAnnuelFamilleA}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
