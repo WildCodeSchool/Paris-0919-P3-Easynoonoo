@@ -132,7 +132,19 @@ export default class FamilyAgenda extends React.Component {
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
-			// console.log('______VALIDATE SELECT')
+
+			const modifyingNumber = () => {
+				let n = parseInt(this.state.items[1].split(' ')[1].split(':')[1]) + 15
+				
+				if(n === 60){
+					return '00'
+				}
+				return n
+			}
+			console.log(modifyingNumber());
+			
+
+			
 
 			// __________________ CALCULS DES DATES ________________
 
@@ -395,7 +407,7 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		console.log('getSelection', this.state.slotHours);
+		
 	}
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
@@ -475,7 +487,7 @@ export default class FamilyAgenda extends React.Component {
 
 	/* -------- Create new Div from selection in local storage -------- */
 
-	getSelect = () => {
+	getSelect = () => {		
 		let yScroll = window.scrollY
 		let slot = JSON.parse(localStorage.getItem('items'))
 
@@ -485,28 +497,24 @@ export default class FamilyAgenda extends React.Component {
 				let last = document.getElementById(slot.end)
 				let horiz = first.getBoundingClientRect()
 				let vert = last.getBoundingClientRect()
-				element2 = document.createElement('div')
-				element2.className = 'slot'
-				element2.style.backgroundColor = '#' + this.state.colorState
-				// element2.style.backgroundColor = 'black'
-				element2.style.width = horiz.right - horiz.left - 5 + 'px'
-				element2.style.height = vert.bottom - horiz.top + 'px'
-				element2.style.left = horiz.left + 'px'
-				element2.style.top = horiz.top + yScroll + 'px'
-        document.body.appendChild(element2)
-				console.log('________getSelect', this.state.slotHours);
-				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
-				element2.style.fontSize = '12px';
-				element2.style.textAlign = 'center';
+				element = document.createElement('div')
+				element.className = 'slot'
+				element.style.backgroundColor = '#' + this.state.colorState
+				element.style.width = horiz.right - horiz.left - 5 + 'px'
+				element.style.height = vert.bottom - horiz.top + 'px'
+				element.style.left = horiz.left + 'px'
+				element.style.top = horiz.top + yScroll + 'px'
+				document.body.appendChild(element)
+				
+				element.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
+				
+				element.style.fontSize = '12px';
+				element.style.textAlign = 'center';
 			})
 		}
-		// else {
-		// 	return null
-		// }
 	}
 
 	createValidateDiv = () => {
-		console.log('_________createValidateDiv');
 
 		let slot = JSON.parse(localStorage.getItem('items'))
 		if (slot != null && document.getElementById('calendarBodyId')) {
