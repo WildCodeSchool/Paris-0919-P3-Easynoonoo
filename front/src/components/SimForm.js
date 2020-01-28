@@ -110,7 +110,7 @@ const SimForm = () => {
            "ressourcesAnnuelles": ressourcesAnnuelles, 
            "heuresHebdo": heuresHebdo - heuresSeparees(heuresHebdo), 
            "heuresSup" : heuresSeparees(heuresHebdo),
-           "heureHebdoTotal" : heuresHebdo,
+           "heuresHebdoTotales" : heuresHebdo,
            "tauxHoraire": tauxHoraire,
            "repartitionFamille": repartitionFamille / 100, 
            "alsaceMoselle": alsaceMoselle,
@@ -131,16 +131,18 @@ const SimForm = () => {
   }
 
   const sendData = () => {
-    axios.post('http://localhost:4000/api/calculRepartition', dataObject) //POST - POST => envoyer infos
-    .then((res) => {
-      console.log(res.json)
-    }).catch((error) => {
-      console.log(error)
-    
-  })}
+    axios.post('http://localhost:4000/api/calculscharges', dataObject) //POST - POST => envoyer infos
+      .then((res) => {
+        console.log(res.data) //ici affiche la réponse du back (calculs)
+        setRequestCalcul(res.data) // je mets les calculs dans la state
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
 
-
+  console.log('yoyo', requestCalcul)
   
+
   async function showData() {
       await getData();
       sendData();
@@ -148,7 +150,6 @@ const SimForm = () => {
 
   }
 
-  
   //store the data in local storage
   useEffect(() => {  
     
@@ -558,7 +559,7 @@ const SimForm = () => {
 
         {/* Ici nouveau composant pour résultats + hypothèses modifiables */}
 
-        {showResults == true ? <ResultCharges /> : ''}
+        {showResults == true ? <ResultCharges results={requestCalcul}/> : ''}
 
         
 
