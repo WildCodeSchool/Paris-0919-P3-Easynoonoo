@@ -469,18 +469,26 @@ app.post('/api/calculscharges', function (req, res) {
   const calculChargesSalarialesFamilleB = () => {
     return (
       new Promise(resolve => {
-        resolve(
-          chargesSalarialesFamilleB = Math.round(((trancheAFamilleB * 0.01 * (
-            maladieMaterniteInvaliditeDecesEmployes +
-            assuranceVieillesseDeplafonneeEmployes +
-            vieillessePlafonneeEmployes +
-            IrcemRetraiteComplementaireTrAEmployes +
-            CegTrAEmployes +
-            cotisationSupplementaireAlsaceMoselleEmployes * req.body.alsaceMoselle +
-            assuranceChomageEmployes +
-            IrcemPrevoyanceEmployes))
-            + baseCommuneChargesSalariales) * 100) / 100
-        )
+        if(req.body.repartitionFamille != 1){
+          resolve(
+            chargesSalarialesFamilleB = Math.round(((trancheAFamilleB * 0.01 * (
+              maladieMaterniteInvaliditeDecesEmployes +
+              assuranceVieillesseDeplafonneeEmployes +
+              vieillessePlafonneeEmployes +
+              IrcemRetraiteComplementaireTrAEmployes +
+              CegTrAEmployes +
+              cotisationSupplementaireAlsaceMoselleEmployes * req.body.alsaceMoselle +
+              assuranceChomageEmployes +
+              IrcemPrevoyanceEmployes))
+              + baseCommuneChargesSalariales) * 100) / 100,
+              console.log(chargesSalarialesFamilleB)
+          )
+        }
+        else{
+          resolve(
+            chargesSalarialesFamilleB = 0
+          )
+        }
       })
     )
   }
@@ -1270,6 +1278,8 @@ app.get('/api/calculsRepartition', function (req, res) {
     let heuresExcluB
     let commonArrayB
     let ponderateA = 0
+    let ponderateFamilleA
+    let ponderateFamilleB
     let ponderateB = 0
     let hourSupp25Commune
     let hourSupp25A
@@ -1280,7 +1290,10 @@ app.get('/api/calculsRepartition', function (req, res) {
     let heuresExcluANormale
     let heuresExcluBNormale
     let heuresCommuneNormales
-
+    let heuresExcluFamille
+    let heuresRepartitionEgale
+    let heuresCommune
+    let NounouTotale
 
     const calculCommonMinutes = () => {
       return (
@@ -1353,11 +1366,16 @@ app.get('/api/calculsRepartition', function (req, res) {
                 }
               }
             })
-            resolve(
-              ponderateA = ponderateA + ((nbEnfantA / (nbEnfantA + nbEnfantB)) * 15),
-              ponderateB = ponderateB + ((nbEnfantB / (nbEnfantA + nbEnfantB)) * 15)
-            )
+            if(nbEnfantB >= 1 && nbEnfantA >= 1){
+              resolve(
+                ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15,
+                ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15,
+              )
+            }
           })
+          ponderateTotale = ponderateA + ponderateB
+          ponderateFamilleA = (ponderateA / ponderateTotale)
+          ponderateFamilleB = (ponderateB / ponderateTotale)
         })
       )
     }
@@ -1373,42 +1391,142 @@ app.get('/api/calculsRepartition', function (req, res) {
       )
     }
 
-   /*  const calculRepartitionExclu = () => {
+    const calculRepartitionExclu = () => {
       return (
         new Promise (resolve => {
-          heuresCommuneNormales = Math.min(ponderateA + ponderateB, 40*60)
-          hourSupp25Commune = Math.max(Math.min(8 * 60 , ponderateA + ponderateB - 40*60), 0)
-          hourSupp50Commune = Math.max(Math.min(2 * 60 , ponderateA + ponderateB - 48*60), 0)
-          if (heuresExcluA <= heuresExcluB){
-              heuresExcluANormale = Math.min(((40 * 60) - heuresCommuneNormales)/2, heuresExcluA)
-              hourSupp25A = Math.min(heuresExcluA - heuresExcluANormale, (8*60 - hourSupp25Commune)/2)
-              hourSupp50A = Math.min(heuresExcluA - heuresExcluANormale - hourSupp25A, (2*60 - hourSupp50Commune)/2)
-              if((heuresExcluA > (((40 * 60) - heuresCommuneNormales)/2)) && (heuresExcluB > ((40*60) - heuresCommuneNormales - heuresExcluANormale))){
-                heuresExcluBNormale = ((40*60) - heuresCommuneNormales - heuresExcluANormale)
-              }
-              else if(heuresExcluA > (((40 * 60) - heuresCommuneNormales)/2)) {
-                heuresExcluBNormale = ((40 * 60) - heuresCommuneNormales)/2 
+          heuresCommune = commonMinutes
+          console.log(heuresCommune)
+          heuresRepartitionEgale = (Math.min(heuresExcluA, heuresExcluB))
+          if(heuresExcluB >= heuresExcluA) {
+            if (heuresCommune <= 40*60) {
+              resolve(
+                heuresCommuneNormales = heuresCommune,
+                hourSupp25Commune = 0,
+                hourSupp50Commune = 0,
+                heuresExcluANormale = Math.min(heuresRepartitionEgale, (40*60 - heuresCommuneNormales) / 2),
+                heuresExcluBNormale = Math.min(heuresRepartitionEgale, (40*60 - heuresCommuneNormales) / 2) + Math.min(heuresExcluB, (40*60 - (heuresCommuneNormales + 2 * heuresExcluANormale))),
+                heuresRepartitionEgale = heuresRepartitionEgale - (heuresExcluANormale),
+                hourSupp25A = Math.min(heuresRepartitionEgale, 4*60),
+                hourSupp25B = Math.min(heuresRepartitionEgale, 4*60) + Math.min((heuresExcluB - heuresRepartitionEgale), (8*60) - (2 * hourSupp25A)),
+                heuresExclu = heuresExcluA - (hourSupp25A + heuresExcluANormale),
+                heuresRepartitionEgale = heuresRepartitionEgale - (hourSupp25A * 2),
+                hourSupp50A = Math.min(heuresRepartitionEgale, 1*60),
+                hourSupp50B = Math.min(heuresRepartitionEgale, 1*60) + Math.min((heuresExclu - heuresRepartitionEgale), (2*60) - (2 * hourSupp50A))
+              )
+            }
+            else if (heuresCommune <= 48*60 && heuresCommune > 40*60) {
+              resolve(
+                heuresCommuneNormales = 40*60,
+                hourSupp25Commune = Math.min(heuresCommune - heuresCommuneNormale, 8*60),
+                hourSupp50Commune =  0,
+                heuresExcluANormale = 0,
+                heuresExcluBNormale = 0,
+                hourSupp25A = Math.min(heuresRepartitionEgale, (8*60 - hourSupp25Commune) / 2),
+                hourSupp25B = Math.min(heuresRepartitionEgale, (8*60 - hourSupp25Commune) / 2) + Math.min(heuresExcluB, (8*60 - (hourSupp25Commune + 2 * hourSupp25A))),
+                heuresExclu = heuresExcluA - (hourSupp25A + heuresExcluANormale),
+                heuresRepartitionEgale = heuresRepartitionEgale - (hourSupp25A * 2),
+                hourSupp50A = Math.min(heuresRepartitionEgale, 1*60),
+                hourSupp50B = Math.min(heuresRepartitionEgale, 1*60) + Math.min((heuresExclu - heuresRepartitionEgale), (2*60) - (2 * hourSupp50A))
+              )
+            }
+            else {
+              resolve (
+                heuresCommuneNormales = 40*60,
+                hourSupp25Commune = 8*60,
+                hourSupp50Commune =  Math.min(heuresCommune - heuresCommuneNormale - hourSupp25Commune, 2*60),
+                heuresExcluANormale = 0,
+                heuresExcluBNormale = 0,
+                hourSupp25A = 0,
+                hourSupp25B = 0,
+                hourSupp50A = Math.min(heuresRepartitionEgale, (2*60 - hourSupp50Commune) / 2),
+                hourSupp50B = Math.min(heuresRepartitionEgale, (2*60 - hourSupp50Commune) / 2) + Math.min(heuresExcluB  - heuresRepartitionEgale, (2*60 - (hourSupp50Commune + 2 * hourSupp50A)))
+              )
+            }
+          }
+          else {
+            if (heuresCommune <= 40*60) {
+              resolve (
+                heuresCommuneNormales = heuresCommune,
+                hourSupp25Commune = 0,
+                hourSupp50Commune = 0,
+                heuresExcluBNormale = Math.min(heuresRepartitionEgale, (40*60 - heuresCommuneNormales) / 2),
+                heuresExcluANormale = Math.min(heuresRepartitionEgale, (40*60 - heuresCommuneNormales) / 2) + Math.min(heuresExcluA, (40*60 - (heuresCommuneNormales + 2 * heuresExcluBNormale))),
+                heuresRepartitionEgale = heuresRepartitionEgale - (heuresExcluANormale),
+                hourSupp25B = Math.min(heuresRepartitionEgale, 4*60),
+                hourSupp25A = Math.min(heuresRepartitionEgale, 4*60) + Math.min((heuresExcluA - heuresRepartitionEgale - heuresExcluANormale), (8*60) - (2 * hourSupp25B)),
+                heuresExclu = heuresExcluA - (hourSupp25A + heuresExcluANormale),
+                heuresRepartitionEgale = Math.min(Math.abs(heuresRepartitionEgale - (hourSupp25B * 2)), 0),
+                hourSupp50B = Math.min(heuresRepartitionEgale, 1*60),
+                hourSupp50A = Math.min(heuresRepartitionEgale, 1*60) + Math.min((heuresExclu - heuresRepartitionEgale), (2*60) - (2 * hourSupp50B))
+              )
+            }
+              else if (heuresCommune <= 48*60 && heuresCommune > 40*60) {
+                resolve(
+                  heuresCommuneNormales = 40*60,
+                  hourSupp25Commune = Math.min(heuresCommune - heuresCommuneNormales, 8*60),
+                  hourSupp50Commune =  0,
+                  heuresExcluBNormale = 0,
+                  heuresExcluANormale = 0,
+                  hourSupp25B = Math.min(heuresRepartitionEgale, (8*60 - hourSupp25Commune) / 2),
+                  hourSupp25A = Math.min(heuresRepartitionEgale, (8*60 - hourSupp25Commune) / 2) + Math.min(heuresExcluA, (8*60 - (hourSupp25Commune + 2 * hourSupp25B))),
+                  heuresExclu = heuresExcluA - (hourSupp25A + heuresExcluANormale),
+                  heuresRepartitionEgale = Math.min(Math.abs(heuresRepartitionEgale - (hourSupp25B * 2)), 0),
+                  hourSupp50B = Math.min(heuresRepartitionEgale, 1*60),
+                  hourSupp50A = Math.min(heuresRepartitionEgale, 1*60) + Math.min((heuresExclu - heuresRepartitionEgale), (2*60) - (2 * hourSupp50B))
+                )
               }
               else {
-                heuresExcluBNormale = heuresExcluB
+                resolve(
+                  heuresCommuneNormales = 40*60,
+                  hourSupp25Commune = 8*60,
+                  hourSupp50Commune =  Math.min(heuresCommune - heuresCommuneNormales - hourSupp25Commune, 2*60),
+                  heuresExcluANormale = 0,
+                  heuresExcluBNormale = 0,
+                  hourSupp25A = 0,
+                  hourSupp25B = 0,
+                  hourSupp50B = Math.min(heuresRepartitionEgale, (2*60 - hourSupp50Commune) / 2),
+                  hourSupp50A = Math.min(heuresRepartitionEgale, (2*60 - hourSupp50Commune) / 2) + Math.min(heuresExcluA  - heuresRepartitionEgale, (2*60 - (hourSupp50Commune + 2 * hourSupp50B)))
+                )
               }
           }
         })
       )
-    } */
+    }
 
-    const calculRepartitionExclu = () => {
+    const calculNounouTotale = () => {
       return (
-        new Promise (resolve => {
+        new Promise(resolve => {
+          if(MinutesTot <= 60 * 40) {
+            resolve(NounouTotale = MinutesTot)
+          }
+          else if(MinutesTot > 60 * 40 && MinutesTot <= 60 * 48){
+            resolve(NounouTotale = (60*40) + ((MinutesTot - 60*40) * 1.25))
+          }
+          else {
+            resolve(NounouTotale = (60*40) + (8 * 60 * 1.25) + ((MinutesTot - (60*48)) * 1.50))
+          }
         })
       )
     }
+
+    const calculRepartitionTotale =() => { 
+      return(
+        new Promise (resolve => {
+          resolve (
+            RepartitionA = ((((heuresCommuneNormales +   hourSupp25Commune +  hourSupp50Commune) * ponderateFamilleA) + heuresExcluANormale + (hourSupp25A * 1.25) + (hourSupp50A * 1.50)) / NounouTotale),
+            RepartitionB = ((((heuresCommuneNormales +   hourSupp25Commune +  hourSupp50Commune) * ponderateFamilleB) + heuresExcluBNormale + (hourSupp25B * 1.25) + (hourSupp50B * 1.50)) / NounouTotale),
+            console.log(heuresCommuneNormales / 60, hourSupp25Commune / 60, hourSupp50Commune / 60, ponderateFamilleA, heuresExcluANormale / 60, (hourSupp25A) / 60, (hourSupp25B) / 60, (hourSupp50A) / 60, NounouTotale / 60)
+          )
+        })
+      )
+    }
+
 
     const sendResults = () => {
       return (
         new Promise(resolve => {
           resolve(
-            res.send({heuresExcluA, heuresExcluB, commonMinutes, MinutesTot, ponderateA, ponderateB})
+            res.send({commonArrayB, heuresCommuneNormales, hourSupp25Commune, hourSupp50Commune, heuresExcluANormale, heuresExcluBNormale, hourSupp25A, hourSupp25B, hourSupp50B, hourSupp50A, RepartitionA, RepartitionB, heuresExcluA, heuresExcluB})
           )
         })
       )
@@ -1419,7 +1537,9 @@ app.get('/api/calculsRepartition', function (req, res) {
       await calculCommonMinutes(),
       await calculPonderationCommunes(),
       await calculHeuresExclusives(),
-      await  calculRepartitionExclu(),
+      await calculRepartitionExclu(),
+      await calculNounouTotale(),
+      await calculRepartitionTotale(),
       await sendResults()
     ]
     return result4
