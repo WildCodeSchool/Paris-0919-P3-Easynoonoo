@@ -8,7 +8,6 @@ const ResultCharges = ({ results }) => {
     return (
         <div className='container-fluid'>
             
-            <input type='button' value='hey' ></input>
             <div>
                 
             </div>
