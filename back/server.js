@@ -35,12 +35,14 @@ mongoose
 
  app.post("/api/calculRepartition", function(req, res) {
    console.log(req.body)
+   
  });
 
 
 app.post('/api/calculscharges', function (req, res) {
   console.log(req.body)
-
+  
+  
   /*---------------------- ROUTE CHARGES EMPLOYES ----------------------------*/
 
   let salaireBrutMensuel
@@ -930,7 +932,7 @@ app.post('/api/calculscharges', function (req, res) {
               resolve(cmgArray.push(cmgCouplePalier2)) // 88,68
             }
             else if (coupleRevenusB <= money && money <= coupleRevenusF && age < ageEnfant1) {
-              resolev(cmgArray.push(cmgCouplePalier3)) // 295,62
+              resolve(cmgArray.push(cmgCouplePalier3)) // 295,62
             }
             else if (coupleRevenusB <= money && money <= coupleRevenusF && age > ageEnfant1 && age < ageEnfant2) {
               resolve(cmgArray.push(cmgCouplePalier4)) // 147,83
