@@ -94,7 +94,7 @@ const FamilyForm = () => {
       {(count === nbEnfants &&
         count2 === totalEnfants - nbEnfants &&
         count2 !== 0) ||
-      (count === totalEnfants && count2 === 0 && gardeAlternee === 'oui') ? (
+      (count === totalEnfants && count2 === 0 && gardeAlternee === "true") ? (
         '' //if calendar appears, questions disappears
       ) : (
         <div className="container-fluid d-flex flex-column justify-content-center no-wrap ">
