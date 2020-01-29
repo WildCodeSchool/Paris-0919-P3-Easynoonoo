@@ -268,10 +268,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="20755">
               Inférieures ou égales à 20 755 €
             </option>
@@ -289,10 +287,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="23701">
               Inférieures ou égales à 23 701 €
             </option>
@@ -310,10 +306,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="26647">
               Inférieures ou égales à 26 647 €
             </option>
@@ -331,10 +325,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="29593">
               Inférieures ou égales à 29 593 €
             </option>
@@ -356,10 +348,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="29057">
               Inférieures ou égales à 29 057 €
             </option>
@@ -377,10 +367,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="33181">
               Inférieures ou égales à 33 181 €
             </option>
@@ -398,10 +386,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="37306">
               Inférieures ou égales à 37 306 €
             </option>
@@ -419,10 +405,8 @@ const SimForm = () => {
     ) {
       return (
         <div>
-          <select class="form-control">
-            <option defaultValue="">
-              --Merci de choisir une option--
-            </option>
+          <select class="form-control" required>
+            <option value="">--Merci de choisir une option--</option>
             <option value="41430">
               Inférieures ou égales à 41 430 €
             </option>
@@ -460,6 +444,7 @@ const SimForm = () => {
             }
             min="1"
             max="50"
+            required
           />
         </div>
 
@@ -497,38 +482,43 @@ const SimForm = () => {
             min="10"
             max="100"
             step="0.1"
+            required
           />
         </div>
 
         <p>La garde est-elle partagée ?</p>
-        <div className="input-group">
-          <div className="radio">
-            <label class="input-group-text">
-              <input
-                type="radio"
-                className="checked"
-                value="true"
-                checked={gardePartagee == 'true'}
-                onChange={e => setGardePartagee(e.target.value)}
-              />
-              Oui
-            </label>
-          </div>
 
-          <div className="radio">
-            <label class="input-group-text">
-              <input
-                type="radio"
-                className="checked"
-                value="false"
-                checked={gardePartagee == 'false'}
-                onChange={e => setGardePartagee(e.target.value)}
-                onClick={() => resetGardePartagee()}
-              />
-              Non
-            </label>
-          </div>
-          <div class="valid-feedback">Looks good!</div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <label class="form-check-label" for="customRadioInline1">
+            <input
+              value="true"
+              checked={gardePartagee == 'true'}
+              onChange={e => setGardePartagee(e.target.value)}
+              type="radio"
+              id="customRadioInline1"
+              name="customRadioInline1"
+              class="form-check-input"
+              required
+            />
+            Oui
+          </label>
+        </div>
+
+        <div class="custom-control custom-radio custom-control-inline">
+          <label class="form-check-label" for="customRadioInline2">
+            <input
+              value="false"
+              checked={gardePartagee == 'false'}
+              onChange={e => setGardePartagee(e.target.value)}
+              onClick={() => resetGardePartagee()}
+              type="radio"
+              id="customRadioInline2"
+              name="customRadioInline1"
+              class="form-check-input"
+              required
+            />
+            Non
+          </label>
         </div>
 
         {gardePartagee == 'true' ? (
@@ -564,6 +554,7 @@ const SimForm = () => {
             id="child-select"
             onChange={e => setnbEnfants(parseInt(e.target.value))}
             value={nbEnfants}
+            required
           >
             <option value="">--Merci de choisir une option--</option>
             <option value="1">1</option>
@@ -584,36 +575,44 @@ const SimForm = () => {
             }
             min="0"
             max="18"
+            required
           />
         </div>
 
         <p className="question8">Elevez-vous seul.e votre enfant ?</p>
-        <div className="input-group">
-          <div className="radio">
-            <label class="input-group-text">
-              <input
-                type="radio"
-                className="checked"
-                value="true"
-                checked={parentIsole == 'true'}
-                onChange={e => setparentIsole(e.target.value)}
-              />
-              Oui
-            </label>
-          </div>
 
-          <div className="radio">
-            <label class="input-group-text">
-              <input
-                type="radio"
-                className="checked"
-                value="false"
-                checked={parentIsole == 'false'}
-                onChange={e => setparentIsole(e.target.value)}
-              />
-              Non
-            </label>
-          </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <label class="form-check-label" for="customRadioInline3">
+            <input
+              type="radio"
+              className="checked"
+              value="true"
+              checked={parentIsole == 'true'}
+              onChange={e => setparentIsole(e.target.value)}
+              id="customRadioInline2"
+              name="customRadioInline2"
+              class="form-check-input"
+              required
+            />
+            Oui
+          </label>
+        </div>
+
+        <div class="custom-control custom-radio custom-control-inline">
+          <label class="form-check-label" for="customRadioInline4">
+            <input
+              type="radio"
+              className="checked"
+              value="false"
+              checked={parentIsole == 'false'}
+              onChange={e => setparentIsole(e.target.value)}
+              id="customRadioInline2"
+              name="customRadioInline2"
+              class="form-check-input"
+              required
+            />
+            Non
+          </label>
         </div>
 
         {parentIsole == 'true' ? (
