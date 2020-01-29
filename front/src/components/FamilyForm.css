@@ -3,7 +3,7 @@
 
 .familyForm p {
     font-size : 1rem;
-    margin-bottom : 0px;
+    margin-bottom : 1%;;
 }
 
 .familyForm h2 {
@@ -17,7 +17,6 @@
     margin-top : 0px;
     margin-bottom : 10px;
     /*border-style :  none none solid none /*haut droite bas gauche */
-
 }
 
 .sansMargin {

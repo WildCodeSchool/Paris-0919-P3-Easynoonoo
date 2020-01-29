@@ -14,12 +14,12 @@ const FamilyForm = () => {
   const initialAnswer3 = () =>
     false //so that it restarts for a new simulation without divorcee
 
-  // state en hook pour les réponses
+  //answers 1 2 3
   const [totalEnfants, setTotalEnfants] = useState(initialAnswer1) //total children
   const [nbEnfants, setNbEnfants] = useState(initialAnswer2) // own children
-  const [gardeAlternee, setGardeAlternee] = useState(initialAnswer3) // for divorced
+  const [gardeAlternee, setGardeAlternee] = useState(initialAnswer3) // for divorcee
 
-  // state qui contient les prénoms des enfants
+  // children's names
   const [myChild, setmyChild] = useState([])
   const [notMyChild, setNotMyChild] = useState([])
 
@@ -30,10 +30,13 @@ const FamilyForm = () => {
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
 
+  // state to show the Calendar
   const [showCalendar, setShowCalendar] = useState(false)
+
+  // state to hide questions ?
+
   //store the data in local storage
   useEffect(() => {
-    console.log('ici dans useEffect dans FamilyForm', myChild)
     window.localStorage.setItem('totalEnfants', totalEnfants)
     window.localStorage.setItem('nbEnfants', nbEnfants)
     window.localStorage.setItem('gardeAlternee', gardeAlternee)
@@ -47,25 +50,30 @@ const FamilyForm = () => {
   // 2. réinitialise firstname à vide
   // 3. écoute la valeur de l'input avec Count
   // 4. + cas pour l'enfant unique
-  let test;
+
   const handleName = () => {
-    if (
-      (count < totalEnfants && nbEnfants == 0) ||
-      (count < nbEnfants && nbEnfants != 0)
-    ) {
-      setmyChild([...myChild, firstname])
-      setFirstname('')
-      setCount(count + 1)
-      console.log('hey je rentre dans la condition 1 aussi mdr')
-    } else {
-      if (count2 < totalEnfants - nbEnfants && nbEnfants > 0) {
-        setNotMyChild([...notMyChild, firstname])
+    if (firstname != '') {
+      if (
+        (count < totalEnfants && nbEnfants == 0) ||
+        (count < nbEnfants && nbEnfants != 0)
+      ) {
+        setmyChild([...myChild, firstname])
         setFirstname('')
-        setCount2(count2 + 1)
-        console.log('hey je rentre dans la condition 2 aussi mdr')
+        setCount(count + 1)
+
       } else {
-        return alert("Il n'y a plus d'enfants à ajouter")
+        if (count2 < totalEnfants - nbEnfants && nbEnfants > 0) {
+          setNotMyChild([...notMyChild, firstname])
+          setFirstname('')
+          setCount2(count2 + 1)
+
+        } else {
+          return alert("Il n'y a plus d'enfants à ajouter")
+        }
       }
+
+    } else {
+      return alert("Veuillez entrer un prénom")
     }
   }
 
@@ -100,10 +108,9 @@ const FamilyForm = () => {
       ) : (
           <div className="container-fluid">
             {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
-            <div class="form-group">
-
+            <div className="form-group">
               <label>
-                1. Au total combien d'enfants sont gardés par votre nounou ?
+                Au total combien d'enfants sont gardés par votre nounou ?
               </label>
               <input
                 class="form-control"
@@ -117,10 +124,8 @@ const FamilyForm = () => {
                 max="8"
               />
             </div>
-            
 
             {/* si on a plus d'un enfant question 2 apparait */}
-
             {totalEnfants > 1 ? (
 
               <div class="form-group">
@@ -140,23 +145,7 @@ const FamilyForm = () => {
                   max={totalEnfants}
                 />
               </div>
-              // <div className="row familyFormNumberInput">
-              //   <label className="question2">
-              //     Parmi ces {totalEnfants} enfants, combien sont de votre
-              //     famille ?
-              // </label>{' '}
-              //   <input
-              //     type="number"
-              //     classname="answers2"
-              //     value={nbEnfants}
-              //     onChange={e =>
-              //       setNbEnfants(parseInt(e.target.value, 10))
-              //     }
-              //     min="1"
-              //     max="4"
-              //     onClick={() => restart2()}
-              //   />{' '}
-              // </div>
+
             ) : (
                 ''
               )}
