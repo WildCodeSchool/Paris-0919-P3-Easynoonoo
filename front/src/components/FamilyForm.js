@@ -100,20 +100,22 @@ const FamilyForm = () => {
   }
 
   return (
-    <div className="familyForm">
-      <h2>Simulation de garde partagée</h2>
+    <div className="familyForm ">
+
+
 
       {showCalendar == true ? (
         '' //if calendar appears, questions + input disappear
       ) : (
-          <div className="container-fluid">
+          <div className="zifamosoSimulateur container-fluid ">
+            <h2>Simulation de garde partagée</h2>
             {/* question 1 toujours visible + envoi de la valeur dans le state answers1 + converti la valeur obtenue en number*/}
             <div className="form-group">
               <label>
                 Au total combien d'enfants sont gardés par votre nounou ?
               </label>
               <input
-                class="form-control"
+                className="form-control "
                 type="number"
                 value={totalEnfants}
                 onChange={e =>
@@ -125,8 +127,8 @@ const FamilyForm = () => {
               />
             </div>
 
-            {/* si on a plus d'un enfant question 2 apparait */}
-            {totalEnfants > 1 ? (
+            {/* si on a plus d'un enfant question 2 apparait + si on a moins de 4 enfants */}
+            {totalEnfants > 1 && totalEnfants <= 4 ? (
 
               <div class="form-group">
 
@@ -150,10 +152,35 @@ const FamilyForm = () => {
                 ''
               )}
 
+            {/* si on a plus de 4 enfants, bloquer le max d'enfants à 4 */}
+            {totalEnfants > 4  ? (
+
+              <div class="form-group">
+
+                <label>
+                  Parmi ces {totalEnfants} enfants, combien sont de votre famille ?
+  </label>
+                <input
+                  class="form-control"
+                  type="number"
+                  value={nbEnfants}
+                  onChange={e =>
+                    setNbEnfants(parseInt(e.target.value, 10))
+                  }
+                  onClick={() => restart2()}
+                  min="1"
+                  max="4"
+                />
+              </div>
+
+            ) : (
+                ''
+              )}
+
             {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
             {totalEnfants === nbEnfants && totalEnfants > 1 ? (
-              <div className="row question3">
+              <div className="question3">
                 <p>
                   La garde de vos enfants est-elle partagée avec l'autre
                   parent des enfants dont vous seriez séparé(e) ?
@@ -246,25 +273,6 @@ const FamilyForm = () => {
 
             {/* si on est en co-partage : la question des prénoms apparaît */}
 
-
-            {/* <div class="form-group">
-
-              <label>
-                1. Au total combien d'enfants sont gardés par votre nounou ?
-          </label>
-              <input
-                class="form-control"
-                type="number"
-                value={totalEnfants}
-                onChange={e =>
-                  setTotalEnfants(parseInt(e.target.value, 10))
-                }
-                onClick={() => restart1()}
-                min="1"
-                max="8"
-              />
-            </div> */}
-
             {totalEnfants === 1 && gardeAlternee === "true" ? (
               <div className=" question4">
                 <p>Comment s'appelle l'enfant ?</p>
@@ -290,9 +298,12 @@ const FamilyForm = () => {
                   </button>
                   </div>
                 </div>
-                {myChild.map(e => (
-                  <div>Mon enfant : {e}</div>
-                ))}
+                <div className='container-fluid arrayNameChildren '>
+                  <div className='row familyFormHeaderName'>Mon enfant</div>
+                  {myChild.map(e => (
+                    <div className='row blocName'> {e} </div>
+                  ))}
+                </div>
               </div>
             ) : (
                 ''
@@ -322,12 +333,13 @@ const FamilyForm = () => {
                   </button>
                   </div>
                 </div>
-                {myChild.map(e => (
-                  <div>Mon enfant : {e} </div>
-                ))}
-                {notMyChild.map(e => (
-                  <div>L'enfant de la co-famille : {e} </div>
-                ))}
+
+                <div className='container-fluid arrayNameChildren '>
+                  <div className='row familyFormHeaderName'>Mes enfants</div>
+                  {myChild.map(e => (
+                    <div className='row blocName'> {e} </div>
+                  ))}
+                </div>
               </div>
             ) : (
                 ''
@@ -356,30 +368,41 @@ const FamilyForm = () => {
                   </button>
                   </div>
                 </div>
-                {myChild.map(e => (
-                  <div>Mon enfant : {e} </div>
-                ))}
-                {notMyChild.map(e => (
-                  <div>L'enfant de la co-famille : {e} </div>
-                ))}
+
+                <div className='container-fluid arrayNameChildren '>
+                  <div className='row familyFormHeaderName'>Mes enfants</div>
+                  {myChild.map(e => (
+                    <div className='row blocName'> {e} </div>
+                  ))}
+                </div>
+
+                {myChild.length == nbEnfants && totalEnfants - nbEnfants >= 1 ?
+                  (
+                    <div className='container-fluid arrayNameChildren'>
+                      <div className='row familyFormHeaderName'>Les enfants de la co-famille</div>
+                      {notMyChild.map(e => (
+                        <div className='row blocName'> {e} </div>
+                      ))}
+                    </div>
+                  ) : ''}
               </div>
             ) : (
                 ''
               )}
 
-            <div className="container-fluid d-flex justify-content-center familyFormComponent">
+            <div className="container-fluid d-flex justify-content-end familyFormComponent">
               {/* enfants multiples en garde co-famille : calendrier apparait  */}
               {count === nbEnfants &&
                 count2 === totalEnfants - nbEnfants &&
                 count2 !== 0 && showCalendar == false ? (
                   <div class="input-group-append">
                     <button
-                      class="btn btn-outline-secondary"
+                      className="btn btn-outline-secondary buttonPlanning"
                       type="button"
                       id="button-addon2"
                       onClick={() => setShowCalendar(true)}
                     >
-                      Afficher le planning
+                      Suivant
                     </button>
                   </div>
                 ) : (
@@ -390,12 +413,12 @@ const FamilyForm = () => {
               {count === totalEnfants && count2 === 0 && gardeAlternee === "true" && showCalendar == false ?
                 <div class="input-group-append">
                   <button
-                    class="btn btn-outline-secondary"
+                    className="btn btn-outline-secondary buttonPlanning"
                     type="button"
                     id="button-addon2"
                     onClick={() => setShowCalendar(true)}
                   >
-                    Afficher le planning
+                    Suivant
                   </button>
                 </div>
 
@@ -419,7 +442,8 @@ const FamilyForm = () => {
 
 
 
-      {showCalendar ? <FamilyAgenda /> : ''}
+
+      {showCalendar ? <div className='container-fluid'><FamilyAgenda /></div> : ''}
     </div>
   )
 }
