@@ -167,6 +167,45 @@ const SimForm = () => {
     setrepartitionFamille(100)
   }
 
+  // disabling form submissions if there are invalid fields
+
+  const submit = event => {
+    event.preventDefault()
+    validationForm()
+    showData()
+  }
+
+  const validationForm = () => {
+    'use strict'
+    window.addEventListener(
+      'load',
+      function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName(
+          'needs-validation',
+        )
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(
+          form,
+        ) {
+          form.addEventListener(
+            'submit',
+            function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+
+              form.classList.add('was-validated')
+            },
+            false,
+          )
+        })
+      },
+      false,
+    )
+  }
+
   //store the data in local storage
   useEffect(() => {
     console.log('ici requestCalcul', requestCalcul)
@@ -401,7 +440,12 @@ const SimForm = () => {
   return (
     <div className="container simForm-parent">
       <h2>Simulation de salaire</h2>
-      <form class="form-group" class="needs-validation" novalidate>
+      <form
+        class="form-group"
+        class="needs-validation"
+        novalidate
+        onSubmit={submit}
+      >
         <div>
           <label>
             Quel est le temps de travail effectif hebdomadaire de
@@ -430,7 +474,6 @@ const SimForm = () => {
             onChange={e => setalsaceMoselle(parseInt(e.target.value))}
             class="custom-select"
             required
-            //value={alsaceMoselle}
           >
             <option value="">--Merci de choisir une option--</option>
             <option value="0">France Métropolitaine ou DOM</option>
@@ -601,14 +644,6 @@ const SimForm = () => {
           </div>
         )}
 
-        <div className="row justify-content-end">
-          <button
-            className=" col-3 btn btn-primary simForm-Button "
-            onClick={() => showData()}
-          >
-            Calculer
-          </button>
-        </div>
         {showResults == true ? (
           <div className="container-fluid">
             <ResultCharges results={requestCalcul} />
@@ -710,10 +745,18 @@ const SimForm = () => {
           ''
         )}
 
-        <Link to="/">
-          <p className="simFormReturn">Retour aux simulateurs</p>
-        </Link>
+        <div className="row justify-content-end">
+          <input
+            className=" col-3 btn btn-primary simForm-Button btnSeccion"
+            type="submit"
+            value="Calculer"
+          />
+        </div>
       </form>
+
+      <Link to="/">
+        <p className="simFormReturn">Retour aux simulateurs</p>
+      </Link>
     </div>
   )
 }
