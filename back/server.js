@@ -291,7 +291,7 @@ app.post('/api/calculscharges', function (req, res) {
                 fondsNationalAideAuLogement = val.fondsNationalAideAuLogement
                 contributionAuFinancementDesOrganisationsSyndicales = val.contributionAuFinancementDesOrganisationsSyndicales
                 dateDebutAnneeEmployeurs = val.dateDebutAnneeEmployeurs
-                joursOuvres = val.dateDebutAnneeEmployeurs
+                joursOuvres = val.joursOuvres
               })
             )
           })
@@ -712,7 +712,8 @@ app.post('/api/calculscharges', function (req, res) {
     return (
       new Promise(resolve => {
         resolve(
-          primePanierRepasFamilleA = (joursOuvres - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5) / 12 * req.body.montantRepas * req.body.repartitionFamille * 100 / 100
+          primePanierRepasFamilleA = ((joursOuvres - req.body.joursCP - req.body.joursRecup) * (req.body.joursTravaillesSemaines / 5)) / 12 * req.body.montantRepas * req.body.repartitionFamille * 100 / 100,
+          console.log(joursOuvres, req.body.joursCP, req.body.joursRecup, req.body.joursTravaillesSemaines, req.body.montantRepas, req.body.repartitionFamille)
         )
       })
     )
