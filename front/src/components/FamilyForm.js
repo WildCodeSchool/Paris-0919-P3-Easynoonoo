@@ -32,11 +32,13 @@ const FamilyForm = () => {
 
   // state to show the Calendar
   const [showCalendar, setShowCalendar] = useState(false)
+  const [hideQuestion, setHideQuestions] = useState(false)
 
   // state to hide questions ?
 
   //store the data in local storage
   useEffect(() => {
+    
     window.localStorage.setItem('totalEnfants', totalEnfants)
     window.localStorage.setItem('nbEnfants', nbEnfants)
     window.localStorage.setItem('gardeAlternee', gardeAlternee)
@@ -128,7 +130,7 @@ const FamilyForm = () => {
             </div>
 
             {/* si on a plus d'un enfant question 2 apparait + si on a moins de 4 enfants */}
-            {totalEnfants > 1 && totalEnfants <= 4 ? (
+            {totalEnfants > 1 && totalEnfants <= 4  ? (
 
               <div class="form-group">
 
@@ -179,7 +181,7 @@ const FamilyForm = () => {
 
             {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
-            {totalEnfants === nbEnfants && totalEnfants > 1 ? (
+            {totalEnfants === nbEnfants && totalEnfants > 1? (
               <div className="question3">
                 <p>
                   La garde de vos enfants est-elle partagée avec l'autre
@@ -317,6 +319,7 @@ const FamilyForm = () => {
                     type="text"
                     value={firstname}
                     onChange={e => setFirstname(e.target.value)}
+                    onClick={ () => setHideQuestions(true)}
                     class="form-control"
                     placeholder="Prénom"
                     aria-label="Prénom"
