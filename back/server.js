@@ -337,12 +337,13 @@ app.post('/api/calculscharges', function (req, res) {
         if (req.body.heuresSup > 8) {
           resolve(
             heuresMensuellesMajorees = Math.ceil(8 * (52 / 12)),
-            heuresRecuperation = req.body.heuresSup - 8
+            heuresRecuperation = req.body.heuresSup - 8,
           )
         }
         else {
           resolve(
-            heuresMensuellesMajorees = Math.ceil(8 * (52 / 12))
+            heuresMensuellesMajorees = Math.ceil(req.body.heuresSup * (52 / 12)),
+            console.log(heuresMensuellesMajorees)
           )
         }
       })
@@ -419,6 +420,7 @@ app.post('/api/calculscharges', function (req, res) {
       new Promise(resolve => {
         resolve(
           trancheAFamilleA = Math.min((salaireBrutMensuel * req.body.repartitionFamille - 0 * PMSS), (1 * PMSS - 0 * PMSS)),
+          console.log(trancheAFamilleA),
           trancheAFamilleB = Math.min((salaireBrutMensuel * (1 - req.body.repartitionFamille) - 0 * PMSS), (1 * PMSS - 0 * PMSS)),
           trancheB = Math.max(Math.min((salaireBrutMensuel - 1 * PMSS), (4 * PMSS - 1 * PMSS)), 0),
           trancheC = Math.max(Math.min((salaireBrutMensuel - 4 * PMSS), (8 * PMSS - 4 * PMSS)), 0),
@@ -928,7 +930,7 @@ app.post('/api/calculscharges', function (req, res) {
               resolve(cmgArray.push(cmgCouplePalier2)) // 88,68
             }
             else if (coupleRevenusB <= money && money <= coupleRevenusF && age < ageEnfant1) {
-              resolev(cmgArray.push(cmgCouplePalier3)) // 295,62
+              resolve(cmgArray.push(cmgCouplePalier3)) // 295,62
             }
             else if (coupleRevenusB <= money && money <= coupleRevenusF && age > ageEnfant1 && age < ageEnfant2) {
               resolve(cmgArray.push(cmgCouplePalier4)) // 147,83
@@ -1367,15 +1369,16 @@ app.get('/api/calculsRepartition', function (req, res) {
               }
             })
             if(nbEnfantB >= 1 && nbEnfantA >= 1){
-              resolve(
-                ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15,
-                ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15,
-              )
+                ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15
+                ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15
             }
           })
-          ponderateTotale = ponderateA + ponderateB
-          ponderateFamilleA = (ponderateA / ponderateTotale)
-          ponderateFamilleB = (ponderateB / ponderateTotale)
+          resolve (
+            ponderateTotale = ponderateA + ponderateB,
+            ponderateFamilleA = (ponderateA / ponderateTotale),
+            ponderateFamilleB = (ponderateB / ponderateTotale),
+            console.log(ponderateFamilleA, ponderateFamilleB),
+          )
         })
       )
     }
@@ -1395,7 +1398,6 @@ app.get('/api/calculsRepartition', function (req, res) {
       return (
         new Promise (resolve => {
           heuresCommune = commonMinutes
-          console.log(heuresCommune)
           heuresRepartitionEgale = (Math.min(heuresExcluA, heuresExcluB))
           if(heuresExcluB >= heuresExcluA) {
             if (heuresCommune <= 40*60) {
@@ -1409,7 +1411,7 @@ app.get('/api/calculsRepartition', function (req, res) {
                 hourSupp25A = Math.min(heuresRepartitionEgale, 4*60),
                 hourSupp25B = Math.min(heuresRepartitionEgale, 4*60) + Math.min((heuresExcluB - heuresRepartitionEgale), (8*60) - (2 * hourSupp25A)),
                 heuresExclu = heuresExcluA - (hourSupp25A + heuresExcluANormale),
-                heuresRepartitionEgale = heuresRepartitionEgale - (hourSupp25A * 2),
+                heuresRepartitionEgale = Math.min(Math.abs(heuresRepartitionEgale - (hourSupp25B * 2)), 0),
                 hourSupp50A = Math.min(heuresRepartitionEgale, 1*60),
                 hourSupp50B = Math.min(heuresRepartitionEgale, 1*60) + Math.min((heuresExclu - heuresRepartitionEgale), (2*60) - (2 * hourSupp50A))
               )
@@ -1496,15 +1498,9 @@ app.get('/api/calculsRepartition', function (req, res) {
     const calculNounouTotale = () => {
       return (
         new Promise(resolve => {
-          if(MinutesTot <= 60 * 40) {
-            resolve(NounouTotale = MinutesTot)
-          }
-          else if(MinutesTot > 60 * 40 && MinutesTot <= 60 * 48){
-            resolve(NounouTotale = (60*40) + ((MinutesTot - 60*40) * 1.25))
-          }
-          else {
-            resolve(NounouTotale = (60*40) + (8 * 60 * 1.25) + ((MinutesTot - (60*48)) * 1.50))
-          }
+          resolve (
+            NounouTotale = heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50
+          )
         })
       )
     }
@@ -1515,7 +1511,18 @@ app.get('/api/calculsRepartition', function (req, res) {
           resolve (
             RepartitionA = ((((heuresCommuneNormales +   hourSupp25Commune +  hourSupp50Commune) * ponderateFamilleA) + heuresExcluANormale + (hourSupp25A * 1.25) + (hourSupp50A * 1.50)) / NounouTotale),
             RepartitionB = ((((heuresCommuneNormales +   hourSupp25Commune +  hourSupp50Commune) * ponderateFamilleB) + heuresExcluBNormale + (hourSupp25B * 1.25) + (hourSupp50B * 1.50)) / NounouTotale),
-            console.log(heuresCommuneNormales / 60, hourSupp25Commune / 60, hourSupp50Commune / 60, ponderateFamilleA, heuresExcluANormale / 60, (hourSupp25A) / 60, (hourSupp25B) / 60, (hourSupp50A) / 60, NounouTotale / 60)
+            heuresCommuneNormales = heuresCommuneNormales / 60,
+            hourSupp25Commune = hourSupp25Commune / 60,
+            hourSupp50Commune = hourSupp50Commune / 60,
+            heuresExcluANormale = heuresExcluANormale / 60,
+            heuresExcluBNormale = heuresExcluBNormale / 60,
+            hourSupp25A = hourSupp25A / 60,
+            hourSupp25B = hourSupp25B / 60,
+            hourSupp50B = hourSupp50B / 60,
+            hourSupp50A = hourSupp50A / 60,
+            tauxTot = (RepartitionA + RepartitionB) * 100,
+            heuresExcluA = heuresExcluA / 60,
+            heuresExcluB = heuresExcluB / 60,
           )
         })
       )
@@ -1526,7 +1533,7 @@ app.get('/api/calculsRepartition', function (req, res) {
       return (
         new Promise(resolve => {
           resolve(
-            res.send({commonArrayB, heuresCommuneNormales, hourSupp25Commune, hourSupp50Commune, heuresExcluANormale, heuresExcluBNormale, hourSupp25A, hourSupp25B, hourSupp50B, hourSupp50A, RepartitionA, RepartitionB, heuresExcluA, heuresExcluB})
+            res.send({heuresCommuneNormales, hourSupp25Commune, hourSupp50Commune, heuresExcluANormale, heuresExcluBNormale, hourSupp25A, hourSupp25B, hourSupp50B, hourSupp50A, RepartitionA, RepartitionB, tauxTot, heuresExcluA, heuresExcluB})
           )
         })
       )
