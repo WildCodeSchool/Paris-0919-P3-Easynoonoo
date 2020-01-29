@@ -15,9 +15,9 @@ const FamilyForm = () => {
     false //so that it restarts for a new simulation without divorcee
 
   // state en hook pour les réponses
-  const [totalEnfants, setTotalEnfants] = useState(initialAnswer1) //nbr d'enfants total
-  const [nbEnfants, setNbEnfants] = useState(initialAnswer2) // propres enfants
-  const [gardeAlternee, setGardeAlternee] = useState(initialAnswer3) // parent isolé
+  const [totalEnfants, setTotalEnfants] = useState(initialAnswer1) //total children
+  const [nbEnfants, setNbEnfants] = useState(initialAnswer2) // own children
+  const [gardeAlternee, setGardeAlternee] = useState(initialAnswer3) // for divorced
 
   // state qui contient les prénoms des enfants
   const [myChild, setmyChild] = useState([])
@@ -56,14 +56,15 @@ const FamilyForm = () => {
       setmyChild([...myChild, firstname])
       setFirstname('')
       setCount(count + 1)
-      console.log('ici dans le lancement du setName dans familyForm', myChild)
+      console.log('hey je rentre dans la condition 1 aussi mdr')
     } else {
-      if (count2 < totalEnfants - nbEnfants) {
+      if (count2 < totalEnfants - nbEnfants && nbEnfants > 0) {
         setNotMyChild([...notMyChild, firstname])
         setFirstname('')
         setCount2(count2 + 1)
+        console.log('hey je rentre dans la condition 2 aussi mdr')
       } else {
-        return alert("Can't add more children")
+        return alert("Il n'y a plus d'enfants à ajouter")
       }
     }
   }
@@ -90,10 +91,6 @@ const FamilyForm = () => {
     window.localStorage.getItem('items', JSON.stringify([]))
   }
 
-
-
-
-
   return (
     <div className="familyForm">
       <h2>Simulation de garde partagée</h2>
@@ -107,7 +104,7 @@ const FamilyForm = () => {
 
               <label>
                 1. Au total combien d'enfants sont gardés par votre nounou ?
-          </label>
+              </label>
               <input
                 class="form-control"
                 type="number"
@@ -120,27 +117,7 @@ const FamilyForm = () => {
                 max="8"
               />
             </div>
-
-            {/* <div className="row d-flex firstQuestion">
-            <label className="col-10 question1">
-              <p>
-                Au total, combien d'enfants sont gardés par votre
-                nounou ?
-              </p>
-            </label>
-            <input
-              className="familyFormNumber col-1"
-              type="number"
-              classname="answers1"
-              value={totalEnfants}
-              onChange={e =>
-                setTotalEnfants(parseInt(e.target.value, 10))
-              }
-              min="1"
-              max="5"
-              onClick={() => restart1()}
-            />
-          </div> */}
+            
 
             {/* si on a plus d'un enfant question 2 apparait */}
 
@@ -156,8 +133,8 @@ const FamilyForm = () => {
                   type="number"
                   value={nbEnfants}
                   onChange={e =>
-                          setNbEnfants(parseInt(e.target.value, 10))
-                       }
+                    setNbEnfants(parseInt(e.target.value, 10))
+                  }
                   onClick={() => restart2()}
                   min="1"
                   max={totalEnfants}
@@ -180,7 +157,7 @@ const FamilyForm = () => {
               //     onClick={() => restart2()}
               //   />{' '}
               // </div>
-          ) : (
+            ) : (
                 ''
               )}
 
@@ -280,10 +257,30 @@ const FamilyForm = () => {
 
             {/* si on est en co-partage : la question des prénoms apparaît */}
 
+
+            {/* <div class="form-group">
+
+              <label>
+                1. Au total combien d'enfants sont gardés par votre nounou ?
+          </label>
+              <input
+                class="form-control"
+                type="number"
+                value={totalEnfants}
+                onChange={e =>
+                  setTotalEnfants(parseInt(e.target.value, 10))
+                }
+                onClick={() => restart1()}
+                min="1"
+                max="8"
+              />
+            </div> */}
+
             {totalEnfants === 1 && gardeAlternee === "true" ? (
-              <div className="row question4">
+              <div className=" question4">
                 <p>Comment s'appelle l'enfant ?</p>
-                <div class="input-group mb-3">
+                <div className="input-group mb-3 ">
+
                   <input
                     type="text"
                     value={firstname}
@@ -313,7 +310,7 @@ const FamilyForm = () => {
               )}
 
             {totalEnfants === nbEnfants && gardeAlternee === "true" ? (
-              <div className="row question4">
+              <div className="question4">
                 <p>Comment s'appellent les enfants ?</p>
                 <div class="input-group mb-3">
                   <input
@@ -347,7 +344,7 @@ const FamilyForm = () => {
                 ''
               )}
             {nbEnfants < totalEnfants && nbEnfants !== 0 ? (
-              <div className="row question4">
+              <div className="question4">
                 <p>Comment s'appellent les enfants ?</p>
                 <div class="input-group mb-3">
                   <input
@@ -380,49 +377,57 @@ const FamilyForm = () => {
             ) : (
                 ''
               )}
+
+            <div className="container-fluid d-flex justify-content-center familyFormComponent">
+              {/* enfants multiples en garde co-famille : calendrier apparait  */}
+              {count === nbEnfants &&
+                count2 === totalEnfants - nbEnfants &&
+                count2 !== 0 && showCalendar == false ? (
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="button-addon2"
+                      onClick={() => setShowCalendar(true)}
+                    >
+                      Afficher le planning
+                    </button>
+                  </div>
+                ) : (
+                  ''
+                )}
+
+              {/* enfants en garde partagée : calendrier apparait  */}
+              {count === totalEnfants && count2 === 0 && gardeAlternee === "true" && showCalendar == false ?
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                    onClick={() => setShowCalendar(true)}
+                  >
+                    Afficher le planning
+                  </button>
+                </div>
+
+                :
+                ''
+              }
+            </div>
+
+
+
+
+
+
             <Link to="/">
               <p className="simFormReturn" onClick={() => restartCalendar()}>Retour aux simulateurs
-         </p>
+              </p>
             </Link>
           </div>
         )}
 
-      <div className="container-fluid d-flex flex-column justify-content-center familyFormComponent">
-        {/* enfants multiples en garde co-famille : calendrier apparait  */}
-        {count === nbEnfants &&
-          count2 === totalEnfants - nbEnfants &&
-          count2 !== 0 && showCalendar == false ? (
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                onClick={() => setShowCalendar(true)}
-              >
-                Afficher calendrier
-          </button>
-            </div>
-          ) : (
-            ''
-          )}
 
-        {/* enfants en garde partagée : calendrier apparait  */}
-        {count === totalEnfants && count2 === 0 && gardeAlternee === "true" && showCalendar == false ?
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-              onClick={() => setShowCalendar(true)}
-            >
-              Afficher calendrier
-        </button>
-          </div>
-
-          :
-          ''
-        }
-      </div>
 
 
       {showCalendar ? <FamilyAgenda /> : ''}
