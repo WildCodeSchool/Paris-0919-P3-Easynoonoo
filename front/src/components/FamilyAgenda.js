@@ -579,9 +579,11 @@ export default class FamilyAgenda extends React.Component {
 		let countMyChild = this.state.countMyChild
 		let countNotMyChild = this.state.countNotMyChild
 		let firstChild;
-		if (this.state.calendarChild == '') {
-			firstChild = myChild[0]
+		if (this.state.calendarChild == '') { //condition good
+			firstChild = myChild[0] // []
 			this.setState({ calendarChild: firstChild })
+			console.log('updateChildName is playing', this.state.calendarChild) //vide
+			console.log('ici dans updateChildName familyAgenda', myChild) //undefined
 		}
 		if (this.state.calendarChild == undefined && countMyChild == myChild.length) { // && countMyChild - countNotMyChild == countMyChild
 
@@ -589,7 +591,11 @@ export default class FamilyAgenda extends React.Component {
 			this.setState({countMyChild : 100}) //here to prevent the function to replay the function
 			this.setState({calendarChild: firstChild})
 		} 
-  }
+	}
+
+	
+	
+	
   
 
 
@@ -607,6 +613,8 @@ export default class FamilyAgenda extends React.Component {
 		this.updateDimensions()
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
+		console.log('ici calendarChild ds le mount', this.state.calendarChild)
+		//this.updateChildName()
 
 
 	}
@@ -629,6 +637,7 @@ export default class FamilyAgenda extends React.Component {
 		this.createValidateDiv()
 		this.updateChildName()
 		this.updateColor()
+		console.log('ici calendarChild dans le render', this.state.calendarChild)
 
 
 

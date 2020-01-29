@@ -30,8 +30,10 @@ const FamilyForm = () => {
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
 
+  const [showCalendar,setShowCalendar] = useState(false)
   //store the data in local storage
   useEffect(() => {
+    console.log('ici dans useEffect dans FamilyForm',myChild)
     window.localStorage.setItem('totalEnfants', totalEnfants)
     window.localStorage.setItem('nbEnfants', nbEnfants)
     window.localStorage.setItem('gardeAlternee', gardeAlternee)
@@ -39,13 +41,13 @@ const FamilyForm = () => {
     window.localStorage.setItem('notMyChild', JSON.stringify(notMyChild))
     window.localStorage.setItem('items', JSON.stringify([]))
     window.localStorage.setItem('allChildren', JSON.stringify([]) )
-  }, [totalEnfants, nbEnfants, gardeAlternee, myChild, notMyChild]) //callback run if only the answers change
+  }, [totalEnfants, nbEnfants, gardeAlternee, myChild, notMyChild, showCalendar]) //callback run if only the answers change
     
   // 1. stocke la nouvelle valeur de l'input dans la state myChild
   // 2. réinitialise firstname à vide
   // 3. écoute la valeur de l'input avec Count
   // 4. + cas pour l'enfant unique
-
+  let test;
   const handleName = () => {
     if (
       (count < totalEnfants && nbEnfants == 0) ||
@@ -53,7 +55,8 @@ const FamilyForm = () => {
     ) {
       setmyChild([...myChild, firstname])
       setFirstname('')
-      setCount(count + 1)
+      setCount(count + 1)      
+      console.log('ici dans le lancement du setName dans familyForm',myChild)
     } else {
       if (count2 < totalEnfants - nbEnfants) {
         setNotMyChild([...notMyChild, firstname])
@@ -91,10 +94,7 @@ const FamilyForm = () => {
     <div className="familyForm">
       <h2>Simulation de garde partagée</h2>
 
-      {(count === nbEnfants &&
-        count2 === totalEnfants - nbEnfants &&
-        count2 !== 0) ||
-      (count === totalEnfants && count2 === 0 && gardeAlternee === "true") ? (
+      { showCalendar == true ? (
         '' //if calendar appears, questions disappears
       ) : (
         <div className="container-fluid d-flex flex-column justify-content-center no-wrap ">
@@ -352,20 +352,41 @@ const FamilyForm = () => {
         {/* enfants multiples en garde co-famille : calendrier apparait  */}
         {count === nbEnfants &&
         count2 === totalEnfants - nbEnfants &&
-        count2 !== 0 ? (
-          <FamilyAgenda/>
+        count2 !== 0 && showCalendar == false ? (
+          <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+            onClick={() => setShowCalendar(true)}
+          >
+            Afficher calendrier
+          </button>
+        </div>
         ) : (
           ''
         )}
 
         {/* enfants en garde partagée : calendrier apparait  */}
-        {count === totalEnfants && count2 === 0 && gardeAlternee === "true" ? (
-          <FamilyAgenda />
-        ) : (
-          ''
-        )}
+        {count === totalEnfants && count2 === 0 && gardeAlternee === "true" && showCalendar == false? 
+        <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          id="button-addon2"
+          onClick={() => setShowCalendar(true)}
+        >
+          Afficher calendrier
+        </button>
       </div>
-      <div></div>
+          
+         : 
+          ''
+        }
+      </div>
+
+
+      { showCalendar ? <FamilyAgenda /> : '' }
     </div>
   )
 }
