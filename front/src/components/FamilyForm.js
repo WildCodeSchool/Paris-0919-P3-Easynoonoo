@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import FamilyAgenda from './FamilyAgenda'
+import ResultsTaux from './ResultsTaux' // delete later, only for test
 
 import './FamilyForm.css'
 
@@ -447,6 +448,8 @@ const FamilyForm = () => {
 
 
       {showCalendar ? <div className='container-fluid'><FamilyAgenda /></div> : ''}
+
+      <ResultsTaux />
     </div>
   )
 }

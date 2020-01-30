@@ -3,6 +3,7 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import ResultsTaux from './ResultsTaux'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
@@ -891,8 +892,8 @@ export default class FamilyAgenda extends React.Component {
 
 				}
 
-				{this.state.hideCalendar == true ? 'hello' : ''}
-
+				{/* {this.state.hideCalendar == true ? <ResultsTaux/> : ''} */}
+				
 			</>
 		)
 	}
