@@ -478,11 +478,21 @@ export default class FamilyAgenda extends React.Component {
 
     let mapResult = await mapStart.map((startDif, index) => {
       if (
+        timeStart.isBetween(
+          mapStart[index],
+          mapEnd[index],
+          null,
+          '[]',
+        ) ||
         timeEnd.isBetween(mapStart[index], mapEnd[index], null, '[]')
       ) {
-        console.log('déjà sélectionné !')
+        var action1 = true
       } else {
-        console.log("ok c'est libre !!!")
+        var action2 = true
+      }
+      if (action1 != false && action2 != true) {
+        console.log('occupé!!!!!!!!!!!!!')
+        this.wipeLastSelect()
       }
     })
   }
