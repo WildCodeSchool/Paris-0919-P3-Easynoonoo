@@ -1,8 +1,7 @@
 .tauxRepartitionBloc {
     background-color : #2e3858;
     color : #ffffff;    
-    padding : 8%;
-    
+    padding : 8%;    
 }
 
 .tauxRepartitionBloc h2 {
@@ -13,14 +12,13 @@
     font-size : 1rem;
 }
 
-
-
 .buttonTaux {
     margin-top : 10%;
 }
 
-.resultsTauxParents p {
-    background-color : white;
+.tauxRepartitionBloc p {
+    background-color : #f4f6fa;
     color : black;
     padding : 5% 10% 5%  10%;
 }
+
