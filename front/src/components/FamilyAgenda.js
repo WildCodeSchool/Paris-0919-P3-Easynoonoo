@@ -508,7 +508,10 @@ export default class FamilyAgenda extends React.Component {
 				
 				element.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
 
+				element.style.fontWeight = '900'
 				element.style.fontSize = '12px';
+				element.style.color = 'white';
+				element.style.alignItems = 'center'
 				element.style.textAlign = 'center';
 			})
 		}

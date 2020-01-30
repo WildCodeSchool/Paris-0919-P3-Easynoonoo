@@ -42,13 +42,13 @@ const ResultCharges = ({ results }) => {
                         <th scope="row">Salaire brut</th>
                         <td>/</td>
                         <td>{Math.round(results.brutMensuelFamilleA)}</td>
-                        <td>{results.brutAnnuelFamilleA}</td>
+                        <td>{Math.round(results.brutAnnuelFamilleA)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Salaire net</th>
                         <td>/</td>
                         <td>{Math.round(results.netMensuelFamilleA)}</td>
-                        <td>{results.netAnnuelFamilleA}</td>
+                        <td>{Math.round(results.netAnnuelFamilleA)}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -83,14 +83,14 @@ const ResultCharges = ({ results }) => {
                     <tr>
                         <th scope="row">Transports</th>
                         <td>/</td>
-                        <td>{results.remboursementMensuelTransportFamilleA}</td>
+                        <td>{Math.round(results.remboursementMensuelTransportFamilleA)}</td>
                         <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Charges patronales</th>
                         <td>/</td>
-                        <td>{results.chargesPatronalesFamilleA}</td>
-                        <td>{results.chargesPatronalesFamilleA * 12}</td>
+                        <td>{Math.round(results.chargesPatronalesFamilleA)}</td>
+                        <td>{Math.round(results.chargesPatronalesFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -101,26 +101,26 @@ const ResultCharges = ({ results }) => {
                     <tr>
                         <th scope="row">Crédits</th>
                         <td>/</td>
-                        <td>{results.creditImpotMensuelFamilleA}</td>
-                        <td>{results.creditImpotAnnuelFamilleA}</td>
+                        <td>{Math.round(results.creditImpotMensuelFamilleA)}</td>
+                        <td>{Math.round(results.creditImpotAnnuelFamilleA)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Déduction forfaitaire des charges</th>
                         <td>/</td>
-                        <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
-                        <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
+                        <td>{Math.round(results.deductionForfaitaireChargesSocialesFamilleA)}</td>
+                        <td>{Math.round(results.deductionForfaitaireChargesSocialesFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aide Paje pour les charges</th>
                         <td>/</td>
-                        <td>{results.aidesPajeFamilleA}</td>
-                        <td>{results.aidesPajeFamilleA * 12}</td>
+                        <td>{Math.round(results.aidesPajeFamilleA)}</td>
+                        <td>{Math.round(results.aidesPajeFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">CMG</th>
                         <td>/</td>
-                        <td>{results.cmgFamilleA}</td>
-                        <td>{results.cmgFamilleA * 12}</td>
+                        <td>{Math.round(results.cmgFamilleA)}</td>
+                        <td>{Math.round(results.cmgFamilleA * 12)}</td>
                     </tr>
                     <tr>
                         <th scope="row">Aides additionnelles</th>
@@ -131,8 +131,8 @@ const ResultCharges = ({ results }) => {
                     <tr>
                         <th scope="row">Crédit d'impôts</th>
                         <td>/</td>
-                        <td>{results.creditImpotMensuelFamilleA}</td>
-                        <td>{results.creditImpotAnnuelFamilleA}</td>
+                        <td>{Math.round(results.creditImpotMensuelFamilleA)}</td>
+                        <td>{Math.round(results.creditImpotAnnuelFamilleA)}</td>
                     </tr>
                 </tbody>
             </table>
