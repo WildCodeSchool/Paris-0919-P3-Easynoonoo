@@ -22,6 +22,9 @@ let mouse = {
 	startY: 0,
 }
 let item = []
+let realTime
+let hoursCalcul
+let minCalcul
 
 export default class FamilyAgenda extends React.Component {
 
@@ -118,34 +121,33 @@ export default class FamilyAgenda extends React.Component {
 		return findTheDay
 	}
 
-	findDuree = () => {
-		// __________________ CALCULS DES DATES ________________
+	// findDuree = () => {
+	// 	// __________________ CALCULS DES DATES ________________
 
-			   let date1 = moment(this.state.items[0])
-			   let minutes = this.state.minutes
-			   let date2 = moment(this.state.items[1])
-			   let difference = date2.diff(date1, 'minutes')
-			   minutes.push(difference)
+	// 		   let date1 = moment(this.state.items[0])
+	// 		   let minutes = this.state.minutes
+	// 		   let date2 = moment(this.state.items[1])
+	// 		   let difference = date2.diff(date1, 'minutes')
+	// 		   minutes.push(difference)
 
-			   this.setState({ minutes: difference })
-			   this.setState({ minutes: minutes })
+	// 		   this.setState({ minutes: difference })
+	// 		   this.setState({ minutes: minutes })
 
-			   let total = minutes.reduce((a, b) => a + b, 0)
+	// 		   let total = minutes.reduce((a, b) => a + b, 0)
 
-			   // _____ CALCULS MINUTES EN HEURES
+	// 		   // _____ CALCULS MINUTES EN HEURES
 
-			   let time = total / 60
-			   let min = (time % 1) * 60
-			   let hours = Math.trunc(total / 60)
+	// 		   let time = total / 60
+	// 		   let min = (time % 1) * 60
+	// 		   let hours = Math.trunc(total / 60)
 
-			   let realTime = hours + ' heures et ' + min + ' min'
-			   this.setState({ time: realTime, setTime: true })
-			   console.log('TIME', realTime) 
-			// } else {
-	}
+	// 		   let realTime = hours + ' heures et ' + min + ' min'
+	// 		   this.setState({ time: realTime, setTime: true })
+	// 		   console.log('TIME', realTime) 
+	// 		// } else {
+	// }
 
 	validateSelect = () => {
-
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
 			if (items === null) {
@@ -155,21 +157,21 @@ export default class FamilyAgenda extends React.Component {
 			}
 			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
-					console.log('ici dans items[0] ds validate select',this.state.items[0])
+					console.log('ici dans items[0] ds validate select', this.state.items[0])
 					let startItem = this.state.items[0]
 					let endItem = this.state.items[1]
-					let dayStart = startItem.substr(0,10)					
-					let endStart = endItem.substr(0,10)
-					let endEnd = endItem.substr(11,6)
+					let dayStart = startItem.substr(0, 10)
+					let endStart = endItem.substr(0, 10)
+					let endEnd = endItem.substr(11, 6)
 					let newEnd = [dayStart + ' ' + endEnd]
-					
+
 					if (dayStart == endStart) { // if the same day was selected in start and end
 						items.push({ start: this.state.items[0], end: this.state.items[1] })
-											
+
 					} else {
-						items.push({start: this.state.items[0], end: newEnd[0]})						
-					}				
-					
+						items.push({ start: this.state.items[0], end: newEnd[0] })
+					}
+
 				}
 			}
 			//this.findDuree()
@@ -177,9 +179,32 @@ export default class FamilyAgenda extends React.Component {
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
-			// console.log('______VALIDATE SELECT')
 
-			
+			// __________________ CALCULS DES DATES ________________
+
+			let minutes = this.state.minutes
+			let date1 = moment(this.state.items[0])
+			let date2 = moment(this.state.items[1]).add(15, 'minutes')
+			let test = moment(this.state.items[1]).add(15, 'minutes').format('HH:mm')
+
+			let difference = date2.diff(date1, 'minutes')
+			minutes.push(difference)
+
+			//_____________TOTAL DES MINUTES PAR ENFANT
+
+			let total = minutes.reduce((a, b) => a + b, 0)
+			console.log('_____TOTAL MINUTES_______', total);
+
+			// _____ CALCULS MINUTES EN HEURES
+
+			let time = total / 60
+			minCalcul = (time % 1) * 60
+			hoursCalcul = Math.trunc(total / 60)
+			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
+			this.setState({ time: realTime })
+
+			console.log('______TIME TOTAL______', this.state.time)
+		} else {
 			return null
 		}
 	}
@@ -310,6 +335,7 @@ export default class FamilyAgenda extends React.Component {
 	resetCalendar = () => {
 		localStorage.setItem('items', JSON.stringify([]))
 		this.setState({ items: [] })
+		this.setState({ minutes: [] })
 	}
 
 	addChildReset = () => {
@@ -325,11 +351,29 @@ export default class FamilyAgenda extends React.Component {
 
 		localStorage.setItem('items', JSON.stringify(items))
 		this.setState({ itemState: itemState })
+
+		let slotHoursState = this.state.slotHours
+		slotHoursState.pop()
+		slotHoursState.pop()
+		this.setState({ slotHours: slotHoursState })
+		console.log('wipeSlotHours', this.state.slotHours);
+
+		let minutesState = this.state.minutes
+		minutesState.pop()
+		this.setState({ minutes: minutesState })
+
+		this.setState({ time: '' })
 	}
 
 	resetCalendarPage = () => {
 		localStorage.setItem('items', JSON.stringify([]))
 		this.setState({ items: [] })
+		this.setState({ time: '' })
+		this.setState({ slotHours: [] })
+		this.setState({ minutes: [] })
+		realTime = null
+		minCalcul = 0
+		hoursCalcul = 0
 	}
 	/* -------- Start Selection on click -------- */
 
@@ -411,16 +455,9 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		console.log('getSelection', this.state.slotHours);
 	}
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
-
-	// handleMouseOver = (e) => {
-	// 	let yScroll = window.scrollY;
-	// 	let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
-	// 	this.handleRangeSelection(arr, end)
-	// }
 
 	handleMouseOver = e => {
 		let yScroll = window.scrollY
@@ -504,26 +541,31 @@ export default class FamilyAgenda extends React.Component {
 				element2 = document.createElement('div')
 				element2.className = 'slot'
 				element2.style.backgroundColor = '#' + this.state.colorState
+				console.log('color_getSelect', element2.style.backgroundColor)
+
 				// element2.style.backgroundColor = 'black'
 				element2.style.width = horiz.right - horiz.left - 5 + 'px'
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 'px'
 				element2.style.top = horiz.top + yScroll + 'px'
 				document.body.appendChild(element2)
-				console.log('________getSelect', this.state.slotHours);
-				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
-				element2.style.fontSize = '12px';
+
+				// AFFICHAGES DES HEURES SUR SLOT
+				let realEnd = moment(slot.end).add(15, "minutes").format("HH:mm")
+				element2.innerText = slot.start.split(' ')[1] + '\n' + realEnd;
+				element2.style.fontSize = '14px';
 				element2.style.textAlign = 'center';
+				element2.style.color = "white";
+				element2.style.fontWeight = "bold";
 			})
 		}
-		// else {
-		// 	return null
-		// }
+	}
+
+	resetTime = () => {
+		this.setState({ time: null })
 	}
 
 	createValidateDiv = () => {
-		console.log('_________createValidateDiv');
-
 		let slot = JSON.parse(localStorage.getItem('items'))
 		if (slot != null && document.getElementById('calendarBodyId')) {
 			if (document.getElementsByClassName('slot')) {
@@ -616,7 +658,6 @@ export default class FamilyAgenda extends React.Component {
 		if (this.state.colorState == '') {
 			color = Math.floor(Math.random() * 16777215).toString(16)
 			this.setState({ colorState: color })
-
 		}
 	}
 
@@ -641,7 +682,7 @@ export default class FamilyAgenda extends React.Component {
 
 		this.resetCalendar() //clean the slot
 
-		this.setState({ hideCalendar: true }) 
+		this.setState({ hideCalendar: true })
 	};
 
 	render() {
@@ -729,7 +770,8 @@ export default class FamilyAgenda extends React.Component {
 			<>
 				{this.state.hideCalendar == true ? '' :
 					<div>
-						<h2 >Remplir la semaine-type de {this.state.calendarChild} </h2>
+						<h2 >Remplir la semaine-type de {this.state.calendarChild}</h2>
+						<div>Vous avez sélectionné : {this.state.time}</div>
 
 
 						<div id="someTableId" className="agendaContainer row">
@@ -873,7 +915,7 @@ export default class FamilyAgenda extends React.Component {
 
 						{/* enfants en garde partagée : calendrier apparait  */}
 
-						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0  ?
+						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0 ?
 							<div className="container-fluid d-flex justify-content-end buttonCalculAgenda">
 								<div class="input-group-append">
 									<button
@@ -905,8 +947,8 @@ export default class FamilyAgenda extends React.Component {
 
 				}
 
-				 {this.state.hideCalendar == true ? <ResultsTaux/> : ''} 
-				
+				{this.state.hideCalendar == true ? <ResultsTaux /> : ''}
+
 			</>
 		)
 	}

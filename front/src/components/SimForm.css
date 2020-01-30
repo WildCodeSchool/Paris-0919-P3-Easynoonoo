@@ -22,4 +22,22 @@
 .infosRecap {
   background-color : #687189;
   color : white;
+
+}
+
+
+.table-responsive {
+  background: rgb(230, 230, 230);
+  overflow-x: unset;
+  margin-top: -2em;
+}
+
+.collapse_display {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  margin-bottom: 1em;
 }

@@ -670,107 +670,120 @@ const SimForm = () => {
         {/* Afficher hypothèses + résultats */}
 
         {showResults == true ? (
-          <div className="container-fluid">
+          // <div className="container-fluid">
+          <div className="table-responsive">
             <ResultCharges results={requestCalcul} />
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">Hypothèses modifiables</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
 
-              <tbody>
-                <tr>
-                  <th scope="row">Panier repas (en euros)</th>
-                  <input
-                    type="number"
-                    value={panierRepas}
-                    onChange={e =>
-                      setPanierRepas(parseInt(e.target.value))
-                    }
-                  ></input>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    Nombre jours travaillés par semaine
+            <p className="collapse_display">
+              <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Affiner le calcul</a>
+            </p>
+
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Hypothèses modifiables</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th scope="row">Panier repas (en euros)</th>
+                      <input
+                        type="number"
+                        value={panierRepas}
+                        onChange={e =>
+                          setPanierRepas(parseInt(e.target.value))
+                        }
+                      ></input>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        Nombre jours travaillés par semaine
                   </th>
-                  <input
-                    type="number"
-                    value={joursTravaillesSemaines}
-                    onChange={e =>
-                      setJoursTravaillesSemaines(
-                        parseInt(e.target.value),
-                      )
-                    }
-                  ></input>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    Abonnement transports publics (en euros)
+                      <input
+                        type="number"
+                        value={joursTravaillesSemaines}
+                        onChange={e =>
+                          setJoursTravaillesSemaines(
+                            parseInt(e.target.value),
+                          )
+                        }
+                      ></input>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        Abonnement transports publics (en euros)
                   </th>
-                  <input
-                    type="number"
-                    value={montantTransport}
-                    onChange={e =>
-                      setMontantTransport(parseInt(e.target.value))
-                    }
-                  ></input>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    Prise en charge de l'abonnement (%)
+                      <input
+                        type="number"
+                        value={montantTransport}
+                        onChange={e =>
+                          setMontantTransport(parseInt(e.target.value))
+                        }
+                      ></input>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        Prise en charge de l'abonnement (%)
                   </th>
-                  <input
-                    type="number"
-                    value={partPriseCharge}
-                    onChange={e =>
-                      setPartPriseCharge(parseInt(e.target.value))
-                    }
-                  ></input>
-                </tr>
-                <tr>
-                  <th scope="row">Part garde (%)</th>
-                  <input
-                    type="number"
-                    value={repartitionFamille}
-                    onChange={e =>
-                      setrepartitionFamille(parseInt(e.target.value))
-                    }
-                  ></input>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    1ère année d'emploi d'un salarié à domicile
+                      <input
+                        type="number"
+                        value={partPriseCharge}
+                        onChange={e =>
+                          setPartPriseCharge(parseInt(e.target.value))
+                        }
+                      ></input>
+                    </tr>
+                    <tr>
+                      <th scope="row">Part garde (%)</th>
+                      <input
+                        type="number"
+                        value={repartitionFamille}
+                        onChange={e =>
+                          setrepartitionFamille(parseInt(e.target.value))
+                        }
+                      ></input>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        1ère année d'emploi d'un salarié à domicile
                   </th>
-                  <select
-                    class="form-control form-control-lg"
-                    value={anneeEmploi}
-                    onChange={e => setAnneeEmploi(e.target.value)}
-                  >
-                    <option value={true}>oui</option>
-                    <option value={false}>non</option>
-                  </select>
-                </tr>
-                <tr className="align-items-center">
-                  <th scope="row">Garde alternée</th>
-                  <select
-                    class="form-control form-control-lg"
-                    value={gardeAlternee}
-                    onChange={e => setGardeAlternee(e.target.value)}
-                  >
-                    <option value={true}>oui</option>
-                    <option value={false}>non</option>
-                  </select>
-                </tr>
-              </tbody>
-            </table>
+                      <select
+                        class="form-control form-control-lg"
+                        value={anneeEmploi}
+                        onChange={e => setAnneeEmploi(e.target.value)}
+                      >
+                        <option value={true}>oui</option>
+                        <option value={false}>non</option>
+                      </select>
+                    </tr>
+                    <tr className="align-items-center">
+                      <th scope="row">Garde alternée</th>
+                      <select
+                        class="form-control form-control-lg"
+                        value={gardeAlternee}
+                        onChange={e => setGardeAlternee(e.target.value)}
+                      >
+                        <option value={true}>oui</option>
+                        <option value={false}>non</option>
+                      </select>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {/* </div> */}
           </div>
         ) : (
             ''
           )}
 
-        <div className="row justify-content-end">
+        <div className="row justify-content-center">
           <input
             className=" col-3 btn btn-primary simForm-Button btnSeccion"
             type="submit"
