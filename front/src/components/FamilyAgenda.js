@@ -114,6 +114,32 @@ export default class FamilyAgenda extends React.Component {
 		return findTheDay
 	}
 
+	findDuree = () => {
+		// __________________ CALCULS DES DATES ________________
+
+			   let date1 = moment(this.state.items[0])
+			   let minutes = this.state.minutes
+			   let date2 = moment(this.state.items[1])
+			   let difference = date2.diff(date1, 'minutes')
+			   minutes.push(difference)
+
+			   this.setState({ minutes: difference })
+			   this.setState({ minutes: minutes })
+
+			   let total = minutes.reduce((a, b) => a + b, 0)
+
+			   // _____ CALCULS MINUTES EN HEURES
+
+			   let time = total / 60
+			   let min = (time % 1) * 60
+			   let hours = Math.trunc(total / 60)
+
+			   let realTime = hours + ' heures et ' + min + ' min'
+			   this.setState({ time: realTime, setTime: true })
+			   console.log('TIME', realTime) 
+			// } else {
+	}
+
 	validateSelect = () => {
 
 		if (this.state.items.length > 0) {
@@ -123,41 +149,33 @@ export default class FamilyAgenda extends React.Component {
 					{ start: this.state.items[0], end: this.state.items[1] }
 				]
 			}
-			else {
+			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
-					items.push({ start: this.state.items[0], end: this.state.items[1] })
+					console.log('ici dans items[0] ds validate select',this.state.items[0])
+					let startItem = this.state.items[0]
+					let endItem = this.state.items[1]
+					let dayStart = startItem.substr(0,10)					
+					let endStart = endItem.substr(0,10)
+					let endEnd = endItem.substr(11,6)
+					let newEnd = [dayStart + ' ' + endEnd]
+					
+					if (dayStart == endStart) { // if the same day was selected in start and end
+						items.push({ start: this.state.items[0], end: this.state.items[1] })
+											
+					} else {
+						items.push({start: this.state.items[0], end: newEnd[0]})						
+					}				
+					
 				}
 			}
+			//this.findDuree()
 
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
 			// console.log('______VALIDATE SELECT')
 
-			// __________________ CALCULS DES DATES ________________
-
-			//   let date1 = moment(this.state.items[0])
-
-			//   let minutes = this.state.minutes
-			//   let date2 = moment(this.state.items[1])
-			//   let difference = date2.diff(date1, 'minutes')
-			//   minutes.push(difference)
-
-			//   this.setState({ minutes: difference })
-			//   this.setState({ minutes: minutes })
-
-			//   let total = minutes.reduce((a, b) => a + b, 0)
-
-			//   // _____ CALCULS MINUTES EN HEURES
-
-			//   let time = total / 60
-			//   let min = (time % 1) * 60
-			//   let hours = Math.trunc(total / 60)
-
-			//   let realTime = hours + ' heures et ' + min + ' min'
-			//   this.setState({ time: realTime, setTime: true })
-			//   console.log('TIME', realTime) */
-			// } else {
+			
 			return null
 		}
 	}
