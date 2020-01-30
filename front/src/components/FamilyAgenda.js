@@ -50,9 +50,9 @@ export default class FamilyAgenda extends React.Component {
 		slotHours: [],
 		slotFixedHours: [],
 		valueOnClick: '',
-		nameStop : 0,
-		hideCalendar : false
-		
+		nameStop: 0,
+		hideCalendar: false
+
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -183,10 +183,10 @@ export default class FamilyAgenda extends React.Component {
 		let colorState = this.state.colorState
 
 		// here for the counter later
-		this.setState({ showMyChildName: myChild})
-		this.setState({ showOthersChildName: notMyChild})
+		this.setState({ showMyChildName: myChild })
+		this.setState({ showOthersChildName: notMyChild })
 
-		
+
 
 		if (i < myChild.length) { //look at the size of my Children array
 
@@ -233,7 +233,7 @@ export default class FamilyAgenda extends React.Component {
 				this.setState({ countTimeSlot: countId })
 				this.setState({ calendarChild: childCalendar })
 				this.setState({ colorState: childColor })
-				
+
 			} else {
 				alert('Pas de plages horaires sélectionnées pour cet enfant')
 			};
@@ -274,7 +274,7 @@ export default class FamilyAgenda extends React.Component {
 					arrayChildren.push(...arrayObject)
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 					// localStorage.setItem('items', JSON.stringify([]));
-					
+
 					j++;
 					childCalendar = notMyChild[j]
 					this.setState({ countMyChild: i })
@@ -283,7 +283,7 @@ export default class FamilyAgenda extends React.Component {
 					this.setState({ showOthersChildName: nameChildOthers })
 					this.setState({ calendarChild: childCalendar })
 					this.setState({ colorState: childColor })
-					
+
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
 				}
@@ -602,7 +602,7 @@ export default class FamilyAgenda extends React.Component {
 		if (this.state.colorState == '') {
 			color = Math.floor(Math.random() * 16777215).toString(16)
 			this.setState({ colorState: color })
-			
+
 		}
 	}
 
@@ -625,7 +625,9 @@ export default class FamilyAgenda extends React.Component {
 				console.log(error)
 			})
 
-		this.setState({hideCalendar : true})
+		this.resetCalendar() //clean the slot
+
+		this.setState({ hideCalendar: true }) 
 	};
 
 	render() {
@@ -633,7 +635,11 @@ export default class FamilyAgenda extends React.Component {
 		this.createValidateDiv()
 		this.updateChildName()
 		this.updateColor()
-		
+		console.log('i', this.state.countMyChild)
+		console.log('showMyChild', this.state.showMyChildName)
+		console.log('j', this.state.countNotMyChild)
+		console.log('showMyChild', this.state.showOthersChildName)
+
 		let columns = [
 			{
 				key: 'Monday',
@@ -707,188 +713,185 @@ export default class FamilyAgenda extends React.Component {
 
 		return (
 			<>
+				{this.state.hideCalendar == true ? '' :
+					<div>
+						<h2 >Remplir la semaine-type de {this.state.calendarChild} </h2>
 
 
-				<div id="someTableId" className="agendaContainer row">
-					<div className="col-10">
-						<div className="selectWeek">
+						<div id="someTableId" className="agendaContainer row">
+							<div className="col-10">
+								<div className="selectWeek">
 
+
+								</div>
+
+								<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
+
+									<thead>
+
+										<tr>
+											<th className='calendarCell head first'></th>
+											{columns.map(column => {
+												return (
+													<th className='calendarCell head'>
+														<p className='headColumnName'>{column.name}</p>
+													</th>
+												)
+											})
+											}
+										</tr>
+
+									</thead>
+
+									<tbody id="calendarBodyId"
+										className="calendarTableBody"
+										onMouseDown={this.handleAllClickStarts}
+										onMouseUp={this.handleAllClickEnds}
+										onMouseOver={this.handleMouseOver}>
+
+										{rows.map((row, i) => {
+											this.createTable(row.id)
+											if (i % 2 === 0) {
+												return (
+													<>
+														<tr>
+															<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+														</tr>
+														{hours.map((hour) => {
+															return (
+																<tr className="agenda__row_hour-start" draggable='false'>
+																	{columns.map(column => {
+																		return (
+																			<td id={column.date + hour} className='calendarCell'></td>
+																		)
+																	})
+																	}
+																</tr>
+															)
+														})
+														}
+													</>
+												)
+											} else {
+												return (
+													<>
+														<tr>
+															<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+														</tr>
+														{hours.map((hour) => {
+															return (
+																<tr className="agenda__row_hour-startBis" draggable='false'>
+																	{columns.map(column => {
+																		return (
+																			<td id={column.date + hour} className='calendarCell'></td>
+																		)
+																	})
+																	}
+																</tr>
+															)
+														})
+														}
+													</>
+												)
+											}
+										})
+										}
+									</tbody>
+								</table>
+							</div>
+							<div className="buttonSelect col-2">
+
+								<button
+									class="simulateurbtn"
+									type="button"
+									value="effacer dernier"
+									onClick={() => this.wipeLastSelect()}
+								>
+									Effacer dernière selection
+				</button>
+								<button
+									class="simulateurbtn"
+									type="button"
+									value="effacer"
+									onClick={() => this.resetCalendarPage()}
+								>
+									Effacer ce planning
+				</button>
+							</div>
 						</div>
 
-						<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
 
-							<thead>
 
-								<tr>
-									<th className='calendarCell head first'></th>
-									{columns.map(column => {
-										return (
-											<th className='calendarCell head'>
-												<p className='headColumnName'>{column.name}</p>
-											</th>
-										)
-									})
+						<div class="input-group inputChoixPlagesHoraires">
+							<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
+								<option
+									selected
+									value="null"
+								>
+									--Merci de choisir une option--
+                </option>
+								<option
+									selected
+									value="oui"
+								>
+									Copier ce planning pour l'enfant suivant
+                </option>
+								<option value="non">
+									Non, je veux partir d'un planning vide
+                </option>
+							</select>
+							<div class="input-group-append">
+								<button
+									type="button"
+									class="calendar_simulateurbtn"
+									onClick={() =>
+										this.state.valueOnClick == 'oui'
+											? this.addChild()
+											: this.addChildReset()
 									}
-								</tr>
-
-							</thead>
-
-							<tbody id="calendarBodyId"
-								className="calendarTableBody"
-								onMouseDown={this.handleAllClickStarts}
-								onMouseUp={this.handleAllClickEnds}
-								onMouseOver={this.handleMouseOver}>
-
-								{rows.map((row, i) => {
-									this.createTable(row.id)
-									if (i % 2 === 0) {
-										return (
-											<>
-												<tr>
-													<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
-												</tr>
-												{hours.map((hour) => {
-													return (
-														<tr className="agenda__row_hour-start" draggable='false'>
-															{columns.map(column => {
-																return (
-																	<td id={column.date + hour} className='calendarCell'></td>
-																)
-															})
-															}
-														</tr>
-													)
-												})
-												}
-											</>
-										)
-									} else {
-										return (
-											<>
-												<tr>
-													<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
-												</tr>
-												{hours.map((hour) => {
-													return (
-														<tr className="agenda__row_hour-startBis" draggable='false'>
-															{columns.map(column => {
-																return (
-																	<td id={column.date + hour} className='calendarCell'></td>
-																)
-															})
-															}
-														</tr>
-													)
-												})
-												}
-											</>
-										)
-									}
-								})
-								}
-							</tbody>
-						</table>
-					</div>
-					<div className="buttonSelect col-2">
-
-						<button
-							class="simulateurbtn"
-							type="button"
-							value="effacer dernier"
-							onClick={() => this.wipeLastSelect()}
-						>
-							Effacer dernière selection
-				</button>
-						<button
-							class="simulateurbtn"
-							type="button"
-							value="effacer"
-							onClick={() => this.resetCalendarPage()}
-						>
-							Effacer ce planning
-				</button>
-					</div>
-				</div>
-
-				<h1 className='h1Name'>Planning pour {this.state.calendarChild}</h1>
-
-				<div class="input-group">
-					<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
-						<option
-							selected
-							value="null"
-						>
-							--Merci de choisir une option--
-                </option>
-						<option
-							selected
-							value="oui"
-						>
-							Copier ce planning pour l'enfant suivant
-                </option>
-						<option value="non">
-							Non, je veux partir d'un planning vide
-                </option>
-					</select>
-					<div class="input-group-append">
-						<button
-							type="button"
-							class="calendar_simulateurbtn"
-							onClick={() =>
-								this.state.valueOnClick == 'oui'
-									? this.addChild()
-									: this.addChildReset()
-							}
-						>
-							Valider
+								>
+									Valider
                 </button>
-					</div>
-				</div>
+							</div>
+						</div>
 
 
-				{/* <div className='row'>
-					<button
-						class="calendar_simulateurbtn_calcul"
-						type="button"
-						value="envoi data"
-						onClick={() => this.sendData()}
-					>
-						Calculer mon taux
-				</button>
 
-				</div> */}
+						{/* enfants en garde partagée : calendrier apparait  */}
 
-				{/* enfants en garde partagée : calendrier apparait  */}
-				
-				{this.state.countMyChild + this.state.countNotMyChild === this.state.showMyChildName.length + this.state.showOthersChildName.length ?
-				<div className="container-fluid d-flex justify-content-end familyFormComponent">
-                <div class="input-group-append">
-                  <button
-                    className="btn btn-outline-secondary buttonPlanning"
-                    type="button"
-					id="button-addon2"
-					value="send data and receive data"
-                    onClick={() => this.sendData()}
-                  >
-                    Calculer mon taux
-                  </button>
-                </div>
-				</div>
+						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0  ?
+							<div className="container-fluid d-flex justify-content-end buttonCalculAgenda">
+								<div class="input-group-append">
+									<button
+										className="btn btn-outline-secondary buttonPlanning"
+										type="button"
+										id="button-addon2"
+										value="send data and receive data"
+										onClick={() => this.sendData()}
+									>
+										Calculer mon taux
+                  					</button>
+								</div>
+							</div>
 
-                :
-                ''
-              } 
+							:
+							''
+						}
 
-				
-
-				<Link to="/">
-					<p
-						class="btn btn-link"
-						onMouseDown={() => this.resetCalendar()}
-					>
-						Retour aux simulateurs
+						<Link to="/">
+							<p
+								class="btn btn-link"
+								onMouseDown={() => this.resetCalendar()}
+							>
+								Retour aux simulateurs
 				</p>
-				</Link>
+						</Link>
+
+					</div>
+
+				}
+
+				{this.state.hideCalendar == true ? 'hello' : ''}
 
 			</>
 		)

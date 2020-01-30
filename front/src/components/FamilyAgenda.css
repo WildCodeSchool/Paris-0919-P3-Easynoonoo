@@ -206,3 +206,12 @@ background-color: #2E3858;
   border : none;
   box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
 }
+
+.buttonCalculAgenda {
+  margin : 7% 0 0 0;
+  padding : 0px;
+}
+
+.inputChoixPlagesHoraires {
+  margin-top : 5%;
+}
