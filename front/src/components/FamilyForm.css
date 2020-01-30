@@ -1,6 +1,39 @@
+.zifamosoSimulateur {
+    border : #e2e5ed 0.5px solid;
+    background-color : #FFFFFF;
+    box-shadow: 8px 8px 11px 0.5px rgba(0, 0, 255, .2);    
+    padding : 0 8% 0 8%;  
+}
+
+.familyFormHeaderName {
+    background-color : #2e3858;
+    color : #FFFFFF;
+    padding : 2%;
+    
+}
+
+.blocName {
+    border-style : none solid solid solid;
+    border-color : #687189;
+    border-width : 1px;
+    padding : 1%;
+    
+}
+
+.arrayNameChildren {
+    margin-top : 5%;
+    
+}
+
+.familyForm {
+    background-color : #f4f6fa;
+    padding : 10%;    
+    margin-top : 2%;
+}
+
 .familyForm p {
     font-size : 1rem;
-    margin-bottom : 0px;
+    margin-bottom : 1%;;
 }
 
 .familyForm h2 {
@@ -13,6 +46,7 @@
 .familyForm input {
     margin-top : 0px;
     margin-bottom : 10px;
+    /*border-style :  none none solid none /*haut droite bas gauche */
 }
 
 .sansMargin {
@@ -24,8 +58,12 @@
     margin-bottom : 5%;    
 }
 
-
-
+.buttonPlanning {
+    background-color: #EE5E6A;
+    color : #FFFFFF;   
+    border : none;
+    box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+}
 
 
 
