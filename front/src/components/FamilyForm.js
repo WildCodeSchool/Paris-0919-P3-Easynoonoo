@@ -449,7 +449,7 @@ const FamilyForm = () => {
 
       {showCalendar ? <div className='container-fluid'><FamilyAgenda /></div> : ''}
 
-      <ResultsTaux />
+      {/* <ResultsTaux /> */}
     </div>
   )
 }

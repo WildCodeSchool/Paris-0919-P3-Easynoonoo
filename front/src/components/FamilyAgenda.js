@@ -892,7 +892,7 @@ export default class FamilyAgenda extends React.Component {
 
 				}
 
-				{/* {this.state.hideCalendar == true ? <ResultsTaux/> : ''} */}
+				 {this.state.hideCalendar == true ? <ResultsTaux/> : ''} 
 				
 			</>
 		)

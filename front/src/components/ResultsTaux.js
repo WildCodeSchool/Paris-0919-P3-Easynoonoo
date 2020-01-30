@@ -7,6 +7,7 @@ import './ResultsTaux.css'
 
 
 
+
 const ResultsTaux = () => {
 
     /*Here to send the values to the local storage (needed for calculs)  */
@@ -22,17 +23,32 @@ const ResultsTaux = () => {
         <div className='resultsTauxParents container-fluid'>
             <div className='tauxRepartitionBloc row d-flex flex-column justify-content-center align-items-center wrap'>
                 <h2 >Mon taux de répartition</h2>
-                <p >Ici futur taux</p>
+                <p> %</p>
             </div>
 
-            <button
-                className="btn btn-outline-secondary buttonTaux"
-                type="button"
-                id="button-addon2"
-                
-            >
-                Continuer vers le calcul des charges ?
+            <div className='row justify-content-end'>
+                <button
+                    className="btn btn-outline-secondary buttonTaux"
+                    type="button"
+                    id="button-addon2"
+
+                >
+                    Continuer vers le calcul des charges ?
                   </button>
+
+
+            </div>
+
+            {/* <Link to="/">
+                <p
+                    class="btn btn-link"
+                    onMouseDown={() => this.resetCalendar()}
+                >
+                    Retour aux simulateurs
+				</p>
+            </Link> */}
+
+
         </div>
     )
 }
