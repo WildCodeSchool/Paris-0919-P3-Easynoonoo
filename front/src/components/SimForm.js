@@ -179,18 +179,18 @@ const SimForm = () => {
     'use strict'
     window.addEventListener(
       'load',
-      function() {
+      function () {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.getElementsByClassName(
           'needs-validation',
         )
         // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(
+        var validation = Array.prototype.filter.call(forms, function (
           form,
         ) {
           form.addEventListener(
             'submit',
-            function(event) {
+            function (event) {
               if (form.checkValidity() === false) {
                 event.preventDefault()
                 event.stopPropagation()
@@ -430,218 +430,244 @@ const SimForm = () => {
         novalidate
         onSubmit={submit}
       >
-        <div>
-          <label>
-            Quel est le temps de travail effectif hebdomadaire de
-            votre garde d'enfant(s) ?
+        {showResults == true ? '' : (
+          <div>
+            <div>
+              <label>
+                Quel est le temps de travail effectif hebdomadaire de
+                votre garde d'enfant(s) ?
           </label>
-          <input
-            class="form-control"
-            type="number"
-            value={heuresHebdo}
-            onChange={e =>
-              setheuresHebdo(parseInt(e.target.value, 10))
-            }
-            min="1"
-            max="50"
-            required
-          />
-        </div>
+              <input
+                class="form-control"
+                type="number"
+                value={heuresHebdo}
+                onChange={e =>
+                  setheuresHebdo(parseInt(e.target.value, 10))
+                }
+                min="1"
+                max="50"
+                required
+              />
+            </div>
 
-        <div class="form-group">
-          <label for="region-select">
-            Dans quelle région habitez-vous ?
+            <div class="form-group">
+              <label for="region-select">
+                Dans quelle région habitez-vous ?
           </label>
-          <select
-            class="form-control"
-            name="region"
-            id="region-select"
-            onChange={e => setalsaceMoselle(parseInt(e.target.value))}
-            class="custom-select"
-            required
-          >
-            <option value="">--Merci de choisir une option--</option>
-            <option value="0">France Métropolitaine ou DOM</option>
-            <option value="1">Alsace-Moselle</option>
-          </select>
-          <div class="invalid-feedback">Sélectionnez svp...</div>
-        </div>
+              <select
+                class="form-control"
+                name="region"
+                id="region-select"
+                onChange={e => setalsaceMoselle(parseInt(e.target.value))}
+                class="custom-select"
+                required
+              >
+                <option value="">--Merci de choisir une option--</option>
+                <option value="0">France Métropolitaine ou DOM</option>
+                <option value="1">Alsace-Moselle</option>
+              </select>
+              <div class="invalid-feedback">Sélectionnez svp...</div>
+            </div>
 
-        <div className="simFormNumberInput">
-          <label>
-            Quel est le salaire brut horaire de votre garde
-            d'enfant(s) ?
+            <div className="simFormNumberInput">
+              <label>
+                Quel est le salaire brut horaire de votre garde
+                d'enfant(s) ?
           </label>
-          <input
-            class="form-control"
-            type="number"
-            value={tauxHoraire}
-            onChange={e =>
-              settauxHoraire(parseFloat(e.target.value, 10))
-            }
-            min="10"
-            max="100"
-            step="0.1"
-            required
-          />
-        </div>
+              <input
+                class="form-control"
+                type="number"
+                value={tauxHoraire}
+                onChange={e =>
+                  settauxHoraire(parseFloat(e.target.value, 10))
+                }
+                min="10"
+                max="100"
+                step="0.1"
+                required
+              />
+            </div>
 
-        <p>La garde est-elle partagée ?</p>
+            <p>La garde est-elle partagée ?</p>
 
-        <div class="custom-control custom-radio custom-control-inline">
-          <label class="form-check-label" for="customRadioInline1">
-            <input
-              value="true"
-              checked={gardePartagee == 'true'}
-              onChange={e => setGardePartagee(e.target.value)}
-              type="radio"
-              id="customRadioInline1"
-              name="customRadioInline1"
-              class="form-check-input"
-              required
-            />
-            Oui
+            <div class="custom-control custom-radio custom-control-inline">
+              <label class="form-check-label" for="customRadioInline1">
+                <input
+                  value="true"
+                  checked={gardePartagee == 'true'}
+                  onChange={e => setGardePartagee(e.target.value)}
+                  type="radio"
+                  id="customRadioInline1"
+                  name="customRadioInline1"
+                  class="form-check-input"
+                  required
+                />
+                Oui
           </label>
-        </div>
+            </div>
 
-        <div class="custom-control custom-radio custom-control-inline">
-          <label class="form-check-label" for="customRadioInline2">
-            <input
-              value="false"
-              checked={gardePartagee == 'false'}
-              onChange={e => setGardePartagee(e.target.value)}
-              onClick={() => resetGardePartagee()}
-              type="radio"
-              id="customRadioInline2"
-              name="customRadioInline1"
-              class="form-check-input"
-              required
-            />
-            Non
+            <div class="custom-control custom-radio custom-control-inline">
+              <label class="form-check-label" for="customRadioInline2">
+                <input
+                  value="false"
+                  checked={gardePartagee == 'false'}
+                  onChange={e => setGardePartagee(e.target.value)}
+                  onClick={() => resetGardePartagee()}
+                  type="radio"
+                  id="customRadioInline2"
+                  name="customRadioInline1"
+                  class="form-check-input"
+                  required
+                />
+                Non
           </label>
-        </div>
+            </div>
 
-        {gardePartagee == 'true' ? (
-          <div className="simFormNumberInput">
-            <label>
-              Quelle part du coût de la garde allez-vous supporter ?
+            {gardePartagee == 'true' ? (
+              <div className="simFormNumberInput">
+                <label>
+                  Quelle part du coût de la garde allez-vous supporter ?
             </label>
-            <input
-              type="range"
-              class="custom-range"
-              value={repartitionFamille}
-              onChange={e =>
-                setrepartitionFamille(parseInt(e.target.value))
-              }
-              min="0"
-              max="100"
-              step="10"
-              id="customRange3"
-            ></input>
-            {repartitionFamille} %
+                <input
+                  type="range"
+                  class="custom-range"
+                  value={repartitionFamille}
+                  onChange={e =>
+                    setrepartitionFamille(parseInt(e.target.value))
+                  }
+                  min="0"
+                  max="100"
+                  step="10"
+                  id="customRange3"
+                ></input>
+                {repartitionFamille} %
           </div>
-        ) : (
-          ''
+            ) : (
+                ''
+              )}
+
+            <div className="simFormNumberInput">
+              <label for="child-number">
+                Combien d'enfants avez-vous à charge ?
+          </label>
+              <select
+                class="form-control"
+                name="childs"
+                id="child-select"
+                onChange={e => setnbEnfants(parseInt(e.target.value))}
+                value={nbEnfants}
+                required
+              >
+                <option value="">--Merci de choisir une option--</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <div className="simFormNumberInput">
+              <label>Quel est l'âge du plus jeune enfant gardé ?</label>
+              <input
+                class="form-control"
+                type="number"
+                value={enfantPlusJeune}
+                onChange={e =>
+                  setenfantPlusJeune(parseInt(e.target.value))
+                }
+                min="0"
+                max="18"
+                required
+              />
+            </div>
+
+            <p className="question8">Elevez-vous seul.e votre enfant ?</p>
+
+            <div class="custom-control custom-radio custom-control-inline">
+              <label class="form-check-label" for="customRadioInline3">
+                <input
+                  type="radio"
+                  className="checked"
+                  value="true"
+                  checked={parentIsole == 'true'}
+                  onChange={e => setparentIsole(e.target.value)}
+                  id="customRadioInline2"
+                  name="customRadioInline2"
+                  class="form-check-input"
+                  required
+                />
+                Oui
+          </label>
+            </div>
+
+            <div class="custom-control custom-radio custom-control-inline">
+              <label class="form-check-label" for="customRadioInline4">
+                <input
+                  type="radio"
+                  className="checked"
+                  value="false"
+                  checked={parentIsole == 'false'}
+                  onChange={e => setparentIsole(e.target.value)}
+                  id="customRadioInline2"
+                  name="customRadioInline2"
+                  class="form-check-input"
+                  required
+                />
+                Non
+          </label>
+            </div>
+
+            {parentIsole == 'true' ? (
+              <div className="simFormNumberInput">
+                <label for="salarySelect">
+                  Quels sont vos revenus nets mensuels ?
+            </label>
+                <div
+                  onChange={e =>
+                    setressourcesAnnuelles(parseInt(e.target.value))
+                  }
+                >
+                  {handleQuestion9True()}
+                </div>
+              </div>
+            ) : (
+                <div className="simFormNumberInput">
+                  <label for="salarySelect">
+                    9. Quels sont les revenus nets annuels du foyer ?
+            </label>
+                  <div
+                    onChange={e =>
+                      setressourcesAnnuelles(parseInt(e.target.value))
+                    }
+                  >
+                    {handleQuestion9()}
+                  </div>
+                </div>
+              )}
+
+          </div>
+
         )}
 
-        <div className="simFormNumberInput">
-          <label for="child-number">
-            Combien d'enfants avez-vous à charge ?
-          </label>
-          <select
-            class="form-control"
-            name="childs"
-            id="child-select"
-            onChange={e => setnbEnfants(parseInt(e.target.value))}
-            value={nbEnfants}
-            required
-          >
-            <option value="">--Merci de choisir une option--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
+        {/* Afficher récap hypothèses */}
 
-        <div className="simFormNumberInput">
-          <label>Quel est l'âge du plus jeune enfant gardé ?</label>
-          <input
-            class="form-control"
-            type="number"
-            value={enfantPlusJeune}
-            onChange={e =>
-              setenfantPlusJeune(parseInt(e.target.value))
-            }
-            min="0"
-            max="18"
-            required
-          />
-        </div>
-
-        <p className="question8">Elevez-vous seul.e votre enfant ?</p>
-
-        <div class="custom-control custom-radio custom-control-inline">
-          <label class="form-check-label" for="customRadioInline3">
-            <input
-              type="radio"
-              className="checked"
-              value="true"
-              checked={parentIsole == 'true'}
-              onChange={e => setparentIsole(e.target.value)}
-              id="customRadioInline2"
-              name="customRadioInline2"
-              class="form-check-input"
-              required
-            />
-            Oui
-          </label>
-        </div>
-
-        <div class="custom-control custom-radio custom-control-inline">
-          <label class="form-check-label" for="customRadioInline4">
-            <input
-              type="radio"
-              className="checked"
-              value="false"
-              checked={parentIsole == 'false'}
-              onChange={e => setparentIsole(e.target.value)}
-              id="customRadioInline2"
-              name="customRadioInline2"
-              class="form-check-input"
-              required
-            />
-            Non
-          </label>
-        </div>
-
-        {parentIsole == 'true' ? (
-          <div className="simFormNumberInput">
-            <label for="salarySelect">
-              Quels sont vos revenus nets mensuels ?
-            </label>
-            <div
-              onChange={e =>
-                setressourcesAnnuelles(parseInt(e.target.value))
-              }
-            >
-              {handleQuestion9True()}
-            </div>
+         {showResults == true ? ( 
+          <div className='row d-flex flex-column justify-content-center align-items-center infosRecap'>
+            <h3>Informations</h3>
+            <p>Nombre d'heures hebdomadaires : {heuresHebdo}</p>
+            <p>Taux horaire : {tauxHoraire} </p>
+            <p>Garde partagée : {gardePartagee}</p>
+            { gardePartagee === true ? 
+            <p> Taux de répartition : {repartitionFamille}</p> : ''}
+            <p>Situation familiale : {parentIsole} </p>
+            <p>Nombre d'enfants à charges : {nbEnfants}</p>
+            <p>Revenus du foyer : {ressourcesAnnuelles} </p>
+            <p>Alsace-Moselle : {alsaceMoselle}</p>
           </div>
-        ) : (
-          <div className="simFormNumberInput">
-            <label for="salarySelect">
-              9. Quels sont les revenus nets annuels du foyer ?
-            </label>
-            <div
-              onChange={e =>
-                setressourcesAnnuelles(parseInt(e.target.value))
-              }
-            >
-              {handleQuestion9()}
-            </div>
-          </div>
-        )}
+         ): ''}
+
+
+        {/* Afficher hypothèses + résultats */}
 
         {showResults == true ? (
           <div className="container-fluid">
@@ -741,8 +767,8 @@ const SimForm = () => {
             </table>
           </div>
         ) : (
-          ''
-        )}
+            ''
+          )}
 
         <div className="row justify-content-end">
           <input
