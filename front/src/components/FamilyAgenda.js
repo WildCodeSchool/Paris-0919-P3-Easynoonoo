@@ -146,7 +146,7 @@ export default class FamilyAgenda extends React.Component {
 			minutes.push(difference)
 
 			let total = minutes.reduce((a, b) => a + b, 0)
-			console.log('TOTAL_____',total);
+			console.log('_____TOTAL MINUTES_______',total);
 
 			// _____ CALCULS MINUTES EN HEURES
 
@@ -156,7 +156,7 @@ export default class FamilyAgenda extends React.Component {
 
 			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
 			this.setState({ time: realTime })
-			console.log('______TIME______', realTime)
+			console.log('______TIME TOTAL______', this.state.time)
 		} else {
 			return null
 		}
@@ -312,13 +312,13 @@ export default class FamilyAgenda extends React.Component {
 		this.setState({ itemState: itemState })
 
 		let slotHoursState = this.state.slotHours
-		let newHours = slotHoursState.splice(-1, 2)
-		this.setState({ slotHours: newHours })
+		slotHoursState.pop()
+		slotHoursState.pop()
+		this.setState({ slotHours: slotHoursState })
 
 		let minutesState = this.state.minutes
 		minutesState.pop()
 		this.setState({ minutes: minutesState })
-
 	}
 
 	resetCalendarPage = () => {
