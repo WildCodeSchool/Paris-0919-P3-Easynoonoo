@@ -7,64 +7,64 @@ import './ResultCharges.css'
 const ResultCharges = ({ results }) => {
     return (
         <div className='justify-content-center resultsCharges-parent'>
-                        
-            <table className="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Ma part</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Salaire perçu par la nounou</th>
-                        <td>{Math.round(results.netMensuelFamilleA)}</td>
-                        <td>{Math.round(results.netMensuelTotal)}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Mon coût mensuel</th>
-                        <td>{Math.round(results.coutPatronalFamilleA)}</td>
-                        
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="table-responsive">
+                <table className="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Ma part</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Salaire perçu par la nounou</th>
+                            <td>{Math.round(results.netMensuelFamilleA)}</td>
+                            <td>{Math.round(results.netMensuelTotal)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Mon coût mensuel</th>
+                            <td>{Math.round(results.coutPatronalFamilleA)}</td>
 
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>                       
-                        <th scope="col">Mois</th>
-                        <th scope="col">Année</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Salaire brut</th>
-                        
-                        <td>{Math.round(results.brutMensuelFamilleA)}</td>
-                        <td>{results.brutAnnuelFamilleA}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Salaire net</th>
-                        
-                        <td>{Math.round(results.netMensuelFamilleA)}</td>
-                        <td>{results.netAnnuelFamilleA}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                   
-                    {/* <tr>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Mois</th>
+                            <th scope="col">Année</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Salaire brut</th>
+
+                            <td>{Math.round(results.brutMensuelFamilleA)}</td>
+                            <td>{results.brutAnnuelFamilleA}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Salaire net</th>
+
+                            <td>{Math.round(results.netMensuelFamilleA)}</td>
+                            <td>{results.netAnnuelFamilleA}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        {/* <tr>
                         <th scope="row">Coût net de crédit et aides</th>
                         <td></td>
                         <td></td>
@@ -82,74 +82,68 @@ const ResultCharges = ({ results }) => {
                         <td></td>
                         <td></td>
                     </tr> */}
-                    <tr>
-                        <th scope="row">Repas</th>
-                        
-                        <td>{Math.round(results.primePanierRepasFamilleA)}</td>
-                        <td>{Math.round(results.primePanierRepasFamilleA) * 12}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Transports</th>
-                        
-                        <td>{results.remboursementMensuelTransportFamilleA}</td>
-                        <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Charges patronales</th>
-                        
-                        <td>{results.chargesPatronalesFamilleA}</td>
-                        <td>{results.chargesPatronalesFamilleA * 12}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Crédits</th>
-                        
-                        <td>{results.creditImpotMensuelFamilleA}</td>
-                        <td>{results.creditImpotAnnuelFamilleA}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Déduction forfaitaire des charges</th>
-                        
-                        <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
-                        <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Aide Paje pour les charges</th>
-                        
-                        <td>{results.aidesPajeFamilleA}</td>
-                        <td>{results.aidesPajeFamilleA * 12}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">CMG</th>
-                        
-                        <td>{results.cmgFamilleA}</td>
-                        <td>{results.cmgFamilleA * 12}</td>
-                    </tr>
-                    {/* <tr>
+                        <tr>
+                            <th scope="row">Repas</th>
+
+                            <td>{Math.round(results.primePanierRepasFamilleA)}</td>
+                            <td>{Math.round(results.primePanierRepasFamilleA) * 12}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Transports</th>
+
+                            <td>{results.remboursementMensuelTransportFamilleA}</td>
+                            <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Charges patronales</th>
+
+                            <td>{results.chargesPatronalesFamilleA}</td>
+                            <td>{results.chargesPatronalesFamilleA * 12}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Crédits</th>
+
+                            <td>{results.creditImpotMensuelFamilleA}</td>
+                            <td>{results.creditImpotAnnuelFamilleA}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Déduction forfaitaire des charges</th>
+
+                            <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
+                            <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Aide Paje pour les charges</th>
+
+                            <td>{results.aidesPajeFamilleA}</td>
+                            <td>{results.aidesPajeFamilleA * 12}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">CMG</th>
+
+                            <td>{results.cmgFamilleA}</td>
+                            <td>{results.cmgFamilleA * 12}</td>
+                        </tr>
+                        {/* <tr>
                         <th scope="row">Aides additionnelles</th>
                         
                         <td></td>
                         <td></td>
                     </tr> */}
-                    <tr>
-                        <th scope="row">Crédit d'impôts</th>
-                        
-                        <td>{results.creditImpotMensuelFamilleA}</td>
-                        <td>{results.creditImpotAnnuelFamilleA}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <th scope="row">Crédit d'impôts</th>
+
+                            <td>{results.creditImpotMensuelFamilleA}</td>
+                            <td>{results.creditImpotAnnuelFamilleA}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             {/* <table class="table">
                 <thead class="thead-dark">
