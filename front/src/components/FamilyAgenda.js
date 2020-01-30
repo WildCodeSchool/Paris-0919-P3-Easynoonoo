@@ -140,22 +140,24 @@ export default class FamilyAgenda extends React.Component {
 			let minutes = this.state.minutes
 			let date1 = moment(this.state.items[0])
 			let date2 = moment(this.state.items[1]).add(15, 'minutes')
-			let test = moment(this.state.items[1]).add(15, 'minutes').format('HH:mm')		
+			let test = moment(this.state.items[1]).add(15, 'minutes').format('HH:mm')
 
 			let difference = date2.diff(date1, 'minutes')
 			minutes.push(difference)
 
+			//_____________TOTAL DES MINUTES PAR ENFANT
+
 			let total = minutes.reduce((a, b) => a + b, 0)
-			console.log('_____TOTAL MINUTES_______',total);
+			console.log('_____TOTAL MINUTES_______', total);
 
 			// _____ CALCULS MINUTES EN HEURES
 
 			let time = total / 60
 			minCalcul = (time % 1) * 60
 			hoursCalcul = Math.trunc(total / 60)
-
 			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
 			this.setState({ time: realTime })
+
 			console.log('______TIME TOTAL______', this.state.time)
 		} else {
 			return null
@@ -315,10 +317,13 @@ export default class FamilyAgenda extends React.Component {
 		slotHoursState.pop()
 		slotHoursState.pop()
 		this.setState({ slotHours: slotHoursState })
+		console.log('wipeSlotHours', this.state.slotHours);
 
 		let minutesState = this.state.minutes
 		minutesState.pop()
 		this.setState({ minutes: minutesState })
+
+		this.setState({ time: '' })
 	}
 
 	resetCalendarPage = () => {
