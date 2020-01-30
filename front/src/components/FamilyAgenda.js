@@ -21,6 +21,9 @@ let mouse = {
 	startY: 0,
 }
 let item = []
+let realTime
+let hoursCalcul
+let minCalcul
 
 export default class FamilyAgenda extends React.Component {
 
@@ -48,8 +51,8 @@ export default class FamilyAgenda extends React.Component {
 		time: '',
 		setTime: false,
 		slotHours: [],
-    slotFixedHours: [],
-    valueOnClick: '',	
+		slotFixedHours: [],
+		valueOnClick: '',
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -115,7 +118,6 @@ export default class FamilyAgenda extends React.Component {
 	}
 
 	validateSelect = () => {
-
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
 			if (items === null) {
@@ -132,32 +134,30 @@ export default class FamilyAgenda extends React.Component {
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
-			// console.log('______VALIDATE SELECT')
 
 			// __________________ CALCULS DES DATES ________________
 
-			//   let date1 = moment(this.state.items[0])
+			let minutes = this.state.minutes
+			let date1 = moment(this.state.items[0])
+			let date2 = moment(this.state.items[1]).add(15, 'minutes')
+			let test = moment(this.state.items[1]).add(15, 'minutes').format('HH:mm')		
 
-			//   let minutes = this.state.minutes
-			//   let date2 = moment(this.state.items[1])
-			//   let difference = date2.diff(date1, 'minutes')
-			//   minutes.push(difference)
+			let difference = date2.diff(date1, 'minutes')
+			minutes.push(difference)
 
-			//   this.setState({ minutes: difference })
-			//   this.setState({ minutes: minutes })
+			let total = minutes.reduce((a, b) => a + b, 0)
+			console.log('TOTAL_____',total);
 
-			//   let total = minutes.reduce((a, b) => a + b, 0)
+			// _____ CALCULS MINUTES EN HEURES
 
-			//   // _____ CALCULS MINUTES EN HEURES
+			let time = total / 60
+			minCalcul = (time % 1) * 60
+			hoursCalcul = Math.trunc(total / 60)
 
-			//   let time = total / 60
-			//   let min = (time % 1) * 60
-			//   let hours = Math.trunc(total / 60)
-
-			//   let realTime = hours + ' heures et ' + min + ' min'
-			//   this.setState({ time: realTime, setTime: true })
-			//   console.log('TIME', realTime) */
-			// } else {
+			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
+			this.setState({ time: realTime })
+			console.log('______TIME______', realTime)
+		} else {
 			return null
 		}
 	}
@@ -294,6 +294,7 @@ export default class FamilyAgenda extends React.Component {
 	resetCalendar = () => {
 		localStorage.setItem('items', JSON.stringify([]))
 		this.setState({ items: [] })
+		this.setState({ minutes: [] })
 	}
 
 	addChildReset = () => {
@@ -309,11 +310,26 @@ export default class FamilyAgenda extends React.Component {
 
 		localStorage.setItem('items', JSON.stringify(items))
 		this.setState({ itemState: itemState })
+
+		let slotHoursState = this.state.slotHours
+		let newHours = slotHoursState.splice(-1, 2)
+		this.setState({ slotHours: newHours })
+
+		let minutesState = this.state.minutes
+		minutesState.pop()
+		this.setState({ minutes: minutesState })
+
 	}
 
 	resetCalendarPage = () => {
 		localStorage.setItem('items', JSON.stringify([]))
 		this.setState({ items: [] })
+		this.setState({ time: '' })
+		this.setState({ slotHours: [] })
+		this.setState({ minutes: [] })
+		realTime = null
+		minCalcul = 0
+		hoursCalcul = 0
 	}
 	/* -------- Start Selection on click -------- */
 
@@ -395,16 +411,9 @@ export default class FamilyAgenda extends React.Component {
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
-		console.log('getSelection', this.state.slotHours);
 	}
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
-
-	// handleMouseOver = (e) => {
-	// 	let yScroll = window.scrollY;
-	// 	let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
-	// 	this.handleRangeSelection(arr, end)
-	// }
 
 	handleMouseOver = e => {
 		let yScroll = window.scrollY
@@ -444,7 +453,7 @@ export default class FamilyAgenda extends React.Component {
 		element.style.top = horiz.top + yScroll + 'px'
 		document.body.appendChild(element)
 		element.style.fontSize = '12px';
-		element.style.textAlign = 'center';	
+		element.style.textAlign = 'center';
 	}
 
 	createSelectionDiv = () => {
@@ -488,26 +497,31 @@ export default class FamilyAgenda extends React.Component {
 				element2 = document.createElement('div')
 				element2.className = 'slot'
 				element2.style.backgroundColor = '#' + this.state.colorState
+				console.log('color_getSelect', element2.style.backgroundColor)
+
 				// element2.style.backgroundColor = 'black'
 				element2.style.width = horiz.right - horiz.left - 5 + 'px'
 				element2.style.height = vert.bottom - horiz.top + 'px'
 				element2.style.left = horiz.left + 'px'
 				element2.style.top = horiz.top + yScroll + 'px'
-        document.body.appendChild(element2)
-				console.log('________getSelect', this.state.slotHours);
-				element2.innerText = slot.start.split(' ')[1] + '\n' + slot.end.split(' ')[1];
-				element2.style.fontSize = '12px';
+				document.body.appendChild(element2)
+
+				// AFFICHAGES DES HEURES SUR SLOT
+				let realEnd = moment(slot.end).add(15, "minutes").format("HH:mm")
+				element2.innerText = slot.start.split(' ')[1] + '\n' + realEnd;
+				element2.style.fontSize = '14px';
 				element2.style.textAlign = 'center';
+				element2.style.color = "white";
+				element2.style.fontWeight = "bold";
 			})
 		}
-		// else {
-		// 	return null
-		// }
+	}
+
+	resetTime = () => {
+		this.setState({ time: null })
 	}
 
 	createValidateDiv = () => {
-		console.log('_________createValidateDiv');
-
 		let slot = JSON.parse(localStorage.getItem('items'))
 		if (slot != null && document.getElementById('calendarBodyId')) {
 			if (document.getElementsByClassName('slot')) {
@@ -586,30 +600,30 @@ export default class FamilyAgenda extends React.Component {
 		if (this.state.calendarChild == undefined && countMyChild == myChild.length) { // && countMyChild - countNotMyChild == countMyChild
 
 			firstChild = notMyChild[0]
-			this.setState({countMyChild : 100}) //here to prevent the function to replay the function
-			this.setState({calendarChild: firstChild})
-		} 
-  }
-  
+			this.setState({ countMyChild: 100 }) //here to prevent the function to replay the function
+			this.setState({ calendarChild: firstChild })
+		}
+	}
 
 
-  updateColor = () => {
-    let color
-	  if (this.state.colorState == '') {
-		  color = Math.floor(Math.random() * 16777215).toString(16)
-      this.setState({colorState : color})
-      console.log("don't enter here")
-	  }
-  }
+
+	updateColor = () => {
+		let color
+		if (this.state.colorState == '') {
+			color = Math.floor(Math.random() * 16777215).toString(16)
+			this.setState({ colorState: color })
+			console.log("don't enter here")
+		}
+	}
 
 	componentDidMount = () => {
 		// this.removeRectangle()
 		this.updateDimensions()
 		// this.getSelect()
 		window.addEventListener('resize', this.updateDimensions)
-
-
 	}
+
+
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
@@ -705,118 +719,119 @@ export default class FamilyAgenda extends React.Component {
 
 		return (
 			<>
-				
+
 
 				<div id="someTableId" className="agendaContainer row">
 					<div className="col-10">
-					<div className="selectWeek">
+						<div className="selectWeek">
 
-					</div>
+						</div>
 
-					<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
+						<table id='tamèreenstring' className="calendarTable" cellPadding='0' cellSpacing='0'>
 
-						<thead>
+							<thead>
 
-							<tr>
-								<th className='calendarCell head first'></th>
-								{columns.map(column => {
-									return (
-										<th className='calendarCell head'>
-											<p className='headColumnName'>{column.name}</p>
-										</th>
-									)
+								<tr>
+									<th className='calendarCell head first'></th>
+									{columns.map(column => {
+										return (
+											<th className='calendarCell head'>
+												<p className='headColumnName'>{column.name}</p>
+											</th>
+										)
+									})
+									}
+								</tr>
+
+							</thead>
+
+							<tbody id="calendarBodyId"
+								className="calendarTableBody"
+								onMouseDown={this.handleAllClickStarts}
+								onMouseUp={this.handleAllClickEnds}
+								onMouseOver={this.handleMouseOver}>
+
+								{rows.map((row, i) => {
+									this.createTable(row.id)
+									if (i % 2 === 0) {
+										return (
+											<>
+												<tr>
+													<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+												</tr>
+												{hours.map((hour) => {
+													return (
+														<tr className="agenda__row_hour-start" draggable='false'>
+															{columns.map(column => {
+																return (
+																	<td id={column.date + hour} className='calendarCell'></td>
+																)
+															})
+															}
+														</tr>
+													)
+												})
+												}
+											</>
+										)
+									} else {
+										return (
+											<>
+												<tr>
+													<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
+												</tr>
+												{hours.map((hour) => {
+													return (
+														<tr className="agenda__row_hour-startBis" draggable='false'>
+															{columns.map(column => {
+																return (
+																	<td id={column.date + hour} className='calendarCell'></td>
+																)
+															})
+															}
+														</tr>
+													)
+												})
+												}
+											</>
+										)
+									}
 								})
 								}
-							</tr>
-
-						</thead>
-
-						<tbody id="calendarBodyId"
-							className="calendarTableBody"
-							onMouseDown={this.handleAllClickStarts}
-							onMouseUp={this.handleAllClickEnds}
-							onMouseOver={this.handleMouseOver}>
-
-							{rows.map((row, i) => {
-								this.createTable(row.id)
-								if (i % 2 === 0) {
-									return (
-										<>
-											<tr>
-												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
-											</tr>
-											{hours.map((hour) => {
-												return (
-													<tr className="agenda__row_hour-start" draggable='false'>
-														{columns.map(column => {
-															return (
-																<td id={column.date + hour} className='calendarCell'></td>
-															)
-														})
-														}
-													</tr>
-												)
-											})
-											}
-										</>
-									)
-								} else {
-									return (
-										<>
-											<tr>
-												<th className='calendarCell time' draggable='false' rowSpan='5'>{row.hours}</th>
-											</tr>
-											{hours.map((hour) => {
-												return (
-													<tr className="agenda__row_hour-startBis" draggable='false'>
-														{columns.map(column => {
-															return (
-																<td id={column.date + hour} className='calendarCell'></td>
-															)
-														})
-														}
-													</tr>
-												)
-											})
-											}
-										</>
-									)
-								}
-							})
-							}
-						</tbody>		
+							</tbody>
 						</table>
-						</div>
-					<div className ="buttonSelect col-2">
-						
+					</div>
+					<div className="buttonSelect col-2">
+
 						<button
 							class="simulateurbtn"
 							type="button"
 							value="effacer dernier"
 							onClick={() => this.wipeLastSelect()}
 						>
-							Effacer dernière selection
+							Effacer la dernière selection
 				</button>
-				<button
-					class="simulateurbtn"
-					type="button"
-					value="effacer"
-					onClick={() => this.resetCalendarPage()}
-				>
-				  Effacer ce planning
+						<button
+							class="simulateurbtn"
+							type="button"
+							value="effacer"
+							onClick={() => this.resetCalendarPage()}
+						>
+							Effacer ce planning
 				</button>
+					</div>
 				</div>
-			</div>
-	
-			<h1 className='h1Name'>Planning pour {this.state.calendarChild}</h1>
-		    
-      <div class="input-group">
-              <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
-			  <option
-                  selected
-                  value="null"
-                >
-                  --Merci de choisir une option--
+
+				<h1 className='h1Name'>Planning pour {this.state.calendarChild}</h1>
+				<div>Temps de garde sélectionné : {this.state.time}</div>
+
+				<div class="input-group">
+					<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
+						<option
+							selected
+							value="null"
+						>
+							--Merci de choisir une option--
                 </option>
 						<option
 							selected
@@ -842,30 +857,30 @@ export default class FamilyAgenda extends React.Component {
                 </button>
 					</div>
 				</div>
-				
-				
-			  <div className ='row'>
-			  <button
-				  class="calendar_simulateurbtn_calcul"
-				  type="button"
-				  value="envoi data"
-				  onClick={() => this.sendData()}
-				>
-				  Calculer mon taux
+
+
+				<div className='row'>
+					<button
+						class="calendar_simulateurbtn_calcul"
+						type="button"
+						value="envoi data"
+						onClick={() => this.sendData()}
+					>
+						Calculer mon taux
 				</button>
 
-					</div>
+				</div>
 
-					<Link to="/">
-						<p
-							class="btn btn-link"
-							onMouseDown={() => this.resetCalendar()}
-						>
-							Retour aux simulateurs
+				<Link to="/">
+					<p
+						class="btn btn-link"
+						onMouseDown={() => this.resetCalendar()}
+					>
+						Retour aux simulateurs
 				</p>
-			  </Link>
-			
-		  </>
+				</Link>
+
+			</>
 		)
 	}
 }
