@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from "react-router";
 
 import axios from 'axios'
 import moment from 'moment'
@@ -26,7 +27,7 @@ let realTime
 let hoursCalcul
 let minCalcul
 
-export default class FamilyAgenda extends React.Component {
+class FamilyAgenda extends React.Component {
 
 	state = {
 		items: [],
@@ -55,7 +56,9 @@ export default class FamilyAgenda extends React.Component {
 		slotFixedHours: [],
 		valueOnClick: '',
 		nameStop: 0,
-		hideCalendar: false
+    hideCalendar: false,
+    currentPathname: null,
+    currentSearch : null
 
 	}
 
@@ -157,7 +160,7 @@ export default class FamilyAgenda extends React.Component {
 			}
 			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
-					console.log('ici dans items[0] ds validate select', this.state.items[0])
+					
 					let startItem = this.state.items[0]
 					let endItem = this.state.items[1]
 					let dayStart = startItem.substr(0, 10)
@@ -193,7 +196,7 @@ export default class FamilyAgenda extends React.Component {
 			//_____________TOTAL DES MINUTES PAR ENFANT
 
 			let total = minutes.reduce((a, b) => a + b, 0)
-			console.log('_____TOTAL MINUTES_______', total);
+			
 
 			// _____ CALCULS MINUTES EN HEURES
 
@@ -203,7 +206,7 @@ export default class FamilyAgenda extends React.Component {
 			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
 			this.setState({ time: realTime })
 
-			console.log('______TIME TOTAL______', this.state.time)
+			
 		} else {
 			return null
 		}
@@ -364,7 +367,7 @@ export default class FamilyAgenda extends React.Component {
 		slotHoursState.pop()
 		slotHoursState.pop()
 		this.setState({ slotHours: slotHoursState })
-		console.log('wipeSlotHours', this.state.slotHours);
+		
 
 		let minutesState = this.state.minutes
 		minutesState.pop()
@@ -549,7 +552,7 @@ export default class FamilyAgenda extends React.Component {
 				element2 = document.createElement('div')
 				element2.className = 'slot'
 				element2.style.backgroundColor = '#' + this.state.colorState
-				console.log('color_getSelect', element2.style.backgroundColor)
+				
 
 				// element2.style.backgroundColor = 'black'
 				element2.style.width = horiz.right - horiz.left - 5 + 'px'
@@ -670,7 +673,33 @@ export default class FamilyAgenda extends React.Component {
 		// this.removeRectangle()
 		this.updateDimensions()
 		// this.getSelect()
-		window.addEventListener('resize', this.updateDimensions)
+    window.addEventListener('resize', this.updateDimensions)
+
+    const { history } = this.props;
+    
+    history.listen((newLocation, action) => {
+      if (action === "PUSH") {
+        if (
+          newLocation.pathname !== this.currentPathname ||
+          newLocation.search !== this.currentSearch
+        ) {
+          // Save new location
+          this.currentPathname = newLocation.pathname;
+          this.currentSearch = newLocation.search;
+
+          // Clone location object and push it to history
+          history.push({
+            pathname: newLocation.pathname,
+            search: newLocation.search
+          });
+        }
+      } else {
+        // Send user back if they try to navigate back
+        window.location.reload()
+        
+        
+      }
+    });
 	}
 
 	/* -------- Sending the data (allChild) to the back -------- */
@@ -680,9 +709,9 @@ export default class FamilyAgenda extends React.Component {
 
 		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
 			.then((res) => {
-				console.log(res.data)
+				
 			}).catch((error) => {
-				console.log(error)
+				
 			})
 
 		this.resetCalendar() //clean the slot
@@ -691,14 +720,12 @@ export default class FamilyAgenda extends React.Component {
 	};
 
 	render() {
+    const { history } = this.props;
 		this.createSelectionDiv()
 		this.createValidateDiv()
 		this.updateChildName()
 		this.updateColor()
-		console.log('i', this.state.countMyChild)
-		console.log('showMyChild', this.state.showMyChildName)
-		console.log('j', this.state.countNotMyChild)
-		console.log('showMyChild', this.state.showOthersChildName)
+		
 
 		let columns = [
 			{
@@ -958,3 +985,5 @@ export default class FamilyAgenda extends React.Component {
 		)
 	}
 }
+
+export default withRouter(FamilyAgenda);
