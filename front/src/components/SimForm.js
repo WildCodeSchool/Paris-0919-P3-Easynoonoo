@@ -445,7 +445,7 @@ const SimForm = () => {
                   setheuresHebdo(parseInt(e.target.value, 10))
                 }
                 min="1"
-                max="50"
+                max="48"
                 required
               />
             </div>
@@ -674,6 +674,7 @@ const SimForm = () => {
         {showResults == true ? (
           // <div className="container-fluid">
           <div className="table-responsive">
+            
             <ResultCharges results={requestCalcul} />
 
             <p className="collapse_display">
