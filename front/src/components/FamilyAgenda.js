@@ -120,61 +120,34 @@ export default class FamilyAgenda extends React.Component {
 		let findTheDay = weekday[getDay];
 		return findTheDay
 	}
-
-	// findDuree = () => {
-	// 	// __________________ CALCULS DES DATES ________________
-
-	// 		   let date1 = moment(this.state.items[0])
-	// 		   let minutes = this.state.minutes
-	// 		   let date2 = moment(this.state.items[1])
-	// 		   let difference = date2.diff(date1, 'minutes')
-	// 		   minutes.push(difference)
-
-	// 		   this.setState({ minutes: difference })
-	// 		   this.setState({ minutes: minutes })
-
-	// 		   let total = minutes.reduce((a, b) => a + b, 0)
-
-	// 		   // _____ CALCULS MINUTES EN HEURES
-
-	// 		   let time = total / 60
-	// 		   let min = (time % 1) * 60
-	// 		   let hours = Math.trunc(total / 60)
-
-	// 		   let realTime = hours + ' heures et ' + min + ' min'
-	// 		   this.setState({ time: realTime, setTime: true })
-	// 		   console.log('TIME', realTime) 
-	// 		// } else {
-	// }
-
+	
 	validateSelect = () => {
 		if (this.state.items.length > 0) {
 			let items = JSON.parse(localStorage.getItem('items'))
+			
 			if (items === null) {
 				items = [
 					{ start: this.state.items[0], end: this.state.items[1] }
-				]
+				]				
 			}
 			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
-					console.log('ici dans items[0] ds validate select', this.state.items[0])
 					let startItem = this.state.items[0]
-					let endItem = this.state.items[1]
+					let endItem = moment(this.state.items[1]).subtract(15, 'minutes').format('YYYY-MM-DD HH:mm')
+					
 					let dayStart = startItem.substr(0, 10)
 					let endStart = endItem.substr(0, 10)
 					let endEnd = endItem.substr(11, 6)
 					let newEnd = [dayStart + ' ' + endEnd]
 
 					if (dayStart == endStart) { // if the same day was selected in start and end
-						items.push({ start: this.state.items[0], end: this.state.items[1] })
-
+						items.push({ start: this.state.items[0], end: endItem })
 					} else {
 						items.push({ start: this.state.items[0], end: newEnd[0] })
 					}
-
 				}
 			}
-			//this.findDuree()
+			console.log('STATE_ITEMS', this.state.items);
 
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
@@ -184,8 +157,7 @@ export default class FamilyAgenda extends React.Component {
 
 			let minutes = this.state.minutes
 			let date1 = moment(this.state.items[0])
-			let date2 = moment(this.state.items[1]).add(15, 'minutes')
-			let test = moment(this.state.items[1]).add(15, 'minutes').format('HH:mm')
+			let date2 = moment(this.state.items[1])
 
 			let difference = date2.diff(date1, 'minutes')
 			minutes.push(difference)
@@ -193,7 +165,6 @@ export default class FamilyAgenda extends React.Component {
 			//_____________TOTAL DES MINUTES PAR ENFANT
 
 			let total = minutes.reduce((a, b) => a + b, 0)
-			console.log('_____TOTAL MINUTES_______', total);
 
 			// _____ CALCULS MINUTES EN HEURES
 
@@ -203,7 +174,6 @@ export default class FamilyAgenda extends React.Component {
 			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
 			this.setState({ time: realTime })
 
-			console.log('______TIME TOTAL______', this.state.time)
 		} else {
 			return null
 		}
@@ -538,7 +508,7 @@ export default class FamilyAgenda extends React.Component {
 
 	getSelect = () => {
 		let yScroll = window.scrollY
-		let slot = JSON.parse(localStorage.getItem('items'))
+		let slot = JSON.parse(localStorage.getItem('items'))		
 
 		if (slot != null) {
 			slot.map((slot, index) => {
@@ -695,10 +665,6 @@ export default class FamilyAgenda extends React.Component {
 		this.createValidateDiv()
 		this.updateChildName()
 		this.updateColor()
-		console.log('i', this.state.countMyChild)
-		console.log('showMyChild', this.state.showMyChildName)
-		console.log('j', this.state.countNotMyChild)
-		console.log('showMyChild', this.state.showOthersChildName)
 
 		let columns = [
 			{
