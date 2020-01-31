@@ -186,11 +186,14 @@ th.calendarCell.time {
 .calendar_simulateurbtn {
   background-color: #2E3858;
   color : #FFFFFF;
-  width : 150px;
-  height : 40px;
-  margin-top : 1%;
-  border : none;
-  box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+  width : 150px;  
+  border-color : #2E3858;
+  
+}
+
+.calendar_simulateurbtn:hover {
+  background-color : 
+
 }
 
 .calendar_simulateurbtn_calcul {
@@ -202,4 +205,13 @@ background-color: #2E3858;
   margin-left : 2.5%;
   border : none;
   box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+}
+
+.buttonCalculAgenda {
+  margin : 7% 0 0 0;
+  padding : 0px;
+}
+
+.inputChoixPlagesHoraires {
+  margin-top : 5%;
 }
