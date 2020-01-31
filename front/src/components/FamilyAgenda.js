@@ -17,10 +17,10 @@ let element2 = null
 let helper = null
 let hours = []
 let mouse = {
-	x: 0,
-	y: 0,
-	startX: 0,
-	startY: 0,
+  x: 0,
+  y: 0,
+  startX: 0,
+  startY: 0,
 }
 let item = []
 let realTime
@@ -58,7 +58,9 @@ class FamilyAgenda extends React.Component {
 		nameStop: 0,
     hideCalendar: false,
     currentPathname: null,
-    currentSearch : null
+		currentSearch : null,
+		selectStart: [],
+    selectEnd: [],
 
 	}
 
@@ -447,18 +449,44 @@ class FamilyAgenda extends React.Component {
 	}
 
 	getSelection = (start, end) => {
-		let strt = moment(start)
-		let endd = moment(end)
+    let strt = moment(start)
+    let endd = moment(end)
 
-		let realEnd = moment(end).add(15, 'minutes').format('HH:mm')
-		let realStart = moment(start).format('HH:mm')
+    let realEnd = moment(end)
+      .add(15, 'minutes')
+      .format('HH:mm')
+    let realStart = moment(start).format('HH:mm')
 
-		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
+    let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
 
-		this.handleRangeSelection(arr, end);
+    this.handleRangeSelection(arr, end)
 
-		this.state.slotHours.push(realStart, realEnd)
-	}
+    this.state.slotHours.push(realStart, realEnd)
+
+    let realAllEnd = moment(end)
+      .add(15, 'minutes')
+      .format('YYYY-MM-DD HH:mm')
+
+    this.state.selectStart.push(
+      moment(strt, moment.format).format('YYYY-MM-DD HH:mm'),
+    )
+    this.state.selectEnd.push(
+      moment(realAllEnd, moment.format).format('YYYY-MM-DD HH:mm'),
+    )
+    this.isAlreadyIn()
+    this.getSelectBis()
+  }
+
+  getSelectBis = () => {
+    this.setState({
+      SUPERday: [
+        this.findWeekDay(this.state.selectStart.slice(-1)[0]),
+      ],
+      SUPERstart: [this.state.selectStart.slice(-1)[0]],
+      SUPERend: [this.state.selectEnd.slice(-1)[0]],
+    })
+  }
+
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
 
@@ -567,6 +595,39 @@ class FamilyAgenda extends React.Component {
 	resetTime = () => {
 		this.setState({ time: null })
 	}
+
+	isAlreadyIn = async () => {
+    let alreadyIn = JSON.parse(localStorage.getItem('items'))
+
+    const mapStart = await alreadyIn.map(x => x.start)
+    const mapEnd = await alreadyIn.map(y => y.end)
+
+    console.log('mapStart and mapEnd', mapStart, mapEnd)
+
+    const format = 'YYYY-MM-DD HH:mm'
+    let timeStart = moment(this.state.SUPERstart, format)
+    let timeEnd = moment(this.state.SUPERend, format)
+
+    let mapResult = await mapStart.map((startDif, index) => {
+      if (
+        timeStart.isBetween(
+          mapStart[index],
+          mapEnd[index],
+          null,
+          '[]',
+        ) ||
+        timeEnd.isBetween(mapStart[index], mapEnd[index], null, '[]')
+      ) {
+        var action1 = true
+      } else {
+        var action2 = true
+      }
+      if (action1 != false && action2 != true) {
+        console.log('occupé!!!!!!!!!!!!!')
+        this.wipeLastSelect()
+      }
+    })
+  }
 
 	createValidateDiv = () => {
 		let slot = JSON.parse(localStorage.getItem('items'))
