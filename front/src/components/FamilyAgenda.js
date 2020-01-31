@@ -120,30 +120,40 @@ export default class FamilyAgenda extends React.Component {
 		let findTheDay = weekday[getDay];
 		return findTheDay
 	}
-	
+
 	validateSelect = () => {
 		if (this.state.items.length > 0) {
-			let items = JSON.parse(localStorage.getItem('items'))
-			
+			let items = JSON.parse(localStorage.getItem('items'))		
+
 			if (items === null) {
 				items = [
 					{ start: this.state.items[0], end: this.state.items[1] }
-				]				
+				]
 			}
 			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
 					let startItem = this.state.items[0]
 					let endItem = moment(this.state.items[1]).subtract(15, 'minutes').format('YYYY-MM-DD HH:mm')
-					
+
+					console.log('state items',this.state.items[1]);
+
 					let dayStart = startItem.substr(0, 10)
 					let endStart = endItem.substr(0, 10)
 					let endEnd = endItem.substr(11, 6)
-					let newEnd = [dayStart + ' ' + endEnd]
+
+
+					let n = moment(endEnd, 'HH:mm').add(15, 'minutes').format(('HH:mm'))
+					let newEnd = [dayStart + ' ' + n]
+
+					// let newEnd = [dayStart + ' ' + endEnd]
 
 					if (dayStart == endStart) { // if the same day was selected in start and end
 						items.push({ start: this.state.items[0], end: endItem })
-					} else {
-						items.push({ start: this.state.items[0], end: newEnd[0] })
+						console.log('IF items', items);
+
+					}
+					else {
+						items.push({ start: this.state.items[0], end: newEnd })
 					}
 				}
 			}
@@ -152,6 +162,7 @@ export default class FamilyAgenda extends React.Component {
 			// alert(`Création d'une plage horaire de ${this.state.items[0]} à ${this.state.items[1]}`)
 			localStorage.setItem('items', JSON.stringify(items))
 			this.setState({ items: [] })
+			console.log('ITEMS____LOCAL STORAGE', items);
 
 			// __________________ CALCULS DES DATES ________________
 
@@ -429,7 +440,7 @@ export default class FamilyAgenda extends React.Component {
 		let realStart = moment(start).format('HH:mm')
 
 		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start];
-
+		
 		this.handleRangeSelection(arr, end);
 
 		this.state.slotHours.push(realStart, realEnd)
@@ -508,7 +519,7 @@ export default class FamilyAgenda extends React.Component {
 
 	getSelect = () => {
 		let yScroll = window.scrollY
-		let slot = JSON.parse(localStorage.getItem('items'))		
+		let slot = JSON.parse(localStorage.getItem('items'))
 
 		if (slot != null) {
 			slot.map((slot, index) => {
