@@ -12,29 +12,32 @@ const ResultCharges = ({ results }) => {
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Charges et coûts</th>
+                            <th scope="col" className="testJ">CHARGES</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">Salaire brut</th>
-                            <td>{Math.round(results.brutMensuelFamilleA)}</td>
+                            <td className="testJ">{Math.ceil(results.brutMensuelFamilleA*100)/100}</td>
+                            
                         </tr>
                         <tr>
                             <th scope="row">Salaire net</th>
-                            <td>{Math.round(results.netMensuelFamilleA)}</td>
+                            <td className="testJ">{Math.ceil(results.netMensuelFamilleA*100)/100}</td>
+                            
                         </tr>
                         <tr>
                             <th scope="row">Indemnité de repas</th>
-                            <td>{Math.round(results.primePanierRepasFamilleA / 12)}</td>
+                            <td className="testJ">{Math.ceil((results.primePanierRepasFamilleA/12)*100)/100}</td>
                         </tr>
                         <tr>
                             <th scope="row">Charges sociales</th>
-                            <td>{results.chargesPatronalesFamilleA + results.chargesSalarialesFamilleA}</td>
+                            <td className="testJ">{Math.ceil((results.chargesPatronalesFamilleA + results.chargesSalarialesFamilleA)*100)/100}</td>
                         </tr>
                         <tr>
                             <th scope="row">Coût net patronal</th>
-                            <td>{results.coutPatronalFamilleA}</td>
+                            <td className="testJ">{results.coutPatronalFamilleA}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -45,22 +48,22 @@ const ResultCharges = ({ results }) => {
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">AIDES</th>
+                            <th scope="col thTitle" className="testJ">AIDES</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">Aides</th>
-                            <td>- {Math.round((results.cmgFamilleA + results.aidesPajeFamilleA))}</td>
+                            <td className="testJ">- {results.cmgFamilleA + results.aidesPajeFamilleA}</td>
                         </tr>
                         <tr>
                             <th scope="row">Déduction forfaitaire</th>
-                            <td>- {Math.round(results.deductionForfaitaireChargesSocialesFamilleA)}</td>
+                            <td className="testJ">- {results.deductionForfaitaireChargesSocialesFamilleA}</td>
 
                         </tr>
                         <tr>
                             <th scope="row">Montant à payer</th>
-                            <td>{Math.round(results.montantAPayerFamilleA)}</td>
+                            <td className="testJ">{Math.ceil(results.montantAPayerFamilleA*100)/100}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -71,17 +74,17 @@ const ResultCharges = ({ results }) => {
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">CREDIT</th>
+                            <th scope="col" className="testJ">CREDIT</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">Crédit impôts</th>
-                            <td>- {Math.round(results.creditImpotMensuelFamilleA)}</td>
+                            <td className="testJ">- {results.creditImpotMensuelFamilleA}</td>
                         </tr>
                         <tr>
                             <th scope="row">Coût réel par mois</th>
-                            <td>{Math.round(results.montantAPayerPostCreditImpotFamilleA)}</td>
+                            <td className='highlightedInfos testJ'>{Math.ceil(results.montantAPayerPostCreditImpotFamilleA*100)/100}</td>
 
                         </tr>
                     </tbody>

@@ -431,11 +431,6 @@ const FamilyForm = () => {
               }
             </div>
 
-
-
-
-
-
             <Link to="/">
               <p className="simFormReturn" onClick={() => restartCalendar()}>Retour aux simulateurs
               </p>

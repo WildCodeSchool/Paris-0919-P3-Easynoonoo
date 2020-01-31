@@ -163,7 +163,7 @@ export default class FamilyAgenda extends React.Component {
 					let dayStart = startItem.substr(0, 10)
 					let endStart = endItem.substr(0, 10)
 					let endEnd = endItem.substr(11, 6)
-					let newEnd = [dayStart + ' ' + endEnd]
+					let newEnd = [dayStart + ' ' + endEnd]					
 
 					if (dayStart == endStart) { // if the same day was selected in start and end
 						items.push({ start: this.state.items[0], end: this.state.items[1] })

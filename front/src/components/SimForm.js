@@ -273,7 +273,7 @@ const SimForm = () => {
             <option value="20755">
               Inférieures ou égales à 20 755 €
             </option>
-            <option value="46123">
+            <option value="20756">
               Supérieures à 20 755 € et inférieures ou égales à
               46 123 €
             </option>
@@ -292,7 +292,7 @@ const SimForm = () => {
             <option value="23701">
               Inférieures ou égales à 23 701 €
             </option>
-            <option value="52670">
+            <option value="23702">
               Supérieures à 23 701 € et inférieures ou égales à
               52 670 €
             </option>
@@ -311,7 +311,7 @@ const SimForm = () => {
             <option value="26647">
               Inférieures ou égales à 26 647 €
             </option>
-            <option value="59217">
+            <option value="26648">
               Supérieures à 26 647 € et inférieures ou égales à
               59 217 €
             </option>
@@ -330,7 +330,7 @@ const SimForm = () => {
             <option value="29593">
               Inférieures ou égales à 29 593 €
             </option>
-            <option value="65764">
+            <option value="29594">
               Supérieures à 29 593 € et inférieures ou égales à
               65 764 €
             </option>
@@ -353,7 +353,7 @@ const SimForm = () => {
             <option value="29057">
               Inférieures ou égales à 29 057 €
             </option>
-            <option value="64572">
+            <option value="29058">
               Supérieures à 29 057 € et inférieures ou égales à 64
               572 €
             </option>
@@ -372,7 +372,7 @@ const SimForm = () => {
             <option value="33181">
               Inférieures ou égales à 33 181 €
             </option>
-            <option value="73738">
+            <option value="33182">
               Supérieures à 33 181 € et inférieures ou égales à 73
               738 €
             </option>
@@ -391,7 +391,7 @@ const SimForm = () => {
             <option value="37306">
               Inférieures ou égales à 37 306 €
             </option>
-            <option value="82904">
+            <option value="37307">
               Supérieures à 37 306 € et inférieures ou égales à 82
               904 €
             </option>
@@ -410,7 +410,7 @@ const SimForm = () => {
             <option value="41430">
               Inférieures ou égales à 41 430 €
             </option>
-            <option value="92070">
+            <option value="41431">
               Supérieures à 41430 € et inférieures ou égales à 92
               070 €
             </option>
@@ -654,15 +654,17 @@ const SimForm = () => {
          {showResults == true ? ( 
           <div className='row d-flex flex-column justify-content-center align-items-center infosRecap'>
             <h3>Informations</h3>
-            <p>Nombre d'heures hebdomadaires : {heuresHebdo}</p>
-            <p>Taux horaire : {tauxHoraire} </p>
-            <p>Garde partagée : {gardePartagee}</p>
+            <p>Nombre d'heures hebdomadaires : {heuresHebdo}h</p>
+            <p>Taux horaire : {tauxHoraire} euros </p>
+            <p>Garde partagée : {gardePartagee == true ? 'Oui' : 'Non'} </p>
             { gardePartagee === true ? 
             <p> Taux de répartition : {repartitionFamille}</p> : ''}
-            <p>Situation familiale : {parentIsole} </p>
-            <p>Nombre d'enfants à charges : {nbEnfants}</p>
-            <p>Revenus du foyer : {ressourcesAnnuelles} </p>
-            <p>Alsace-Moselle : {alsaceMoselle}</p>
+            <p>Parent isolé : {parentIsole == true ? 'Oui' : 'Non'} </p>
+            <p>Nombre d'enfants à charges : {nbEnfants} </p>
+            { ressourcesAnnuelles == 20755 || ressourcesAnnuelles == 23701 || ressourcesAnnuelles == 26647 || ressourcesAnnuelles == 29593 ||ressourcesAnnuelles == 29057 || ressourcesAnnuelles == 33181 || ressourcesAnnuelles == 37306 || ressourcesAnnuelles == 41430
+             ? <p> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
+             : <p> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
+            <p>Alsace-Moselle : {alsaceMoselle == true ? 'Oui' : 'Non'}</p>
           </div>
          ): ''}
 
