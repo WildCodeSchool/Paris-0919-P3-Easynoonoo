@@ -51,7 +51,6 @@ export default class FamilyAgenda extends React.Component {
     valueOnClick: '',
     selectStart: [],
     selectEnd: [],
-    select: [{ start: '', end: '' }],
   }
 
   /* -------- Define Mouse Position -------- */
