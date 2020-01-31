@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Redirect, Switch, Route, withRouter } from 'react-router'
 
 import SimForm from './components/SimForm'
 import FamilyForm from './components/FamilyForm'
@@ -23,4 +23,4 @@ function App() {
   )
 }
 
-export default App
+export default withRouter(App)
