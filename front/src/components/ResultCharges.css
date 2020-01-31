@@ -3,6 +3,17 @@
     font-size : 0.8rem;
 }
 
+
+
 .resultChargesTables {
     margin : 5%;
+}
+.highlightedInfos {
+    background-color : #ee5e6a; 
+    color : white;
+    
+}
+
+.testJ {
+    padding-left : 30px;
 }

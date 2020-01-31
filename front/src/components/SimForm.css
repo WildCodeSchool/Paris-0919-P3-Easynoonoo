@@ -19,6 +19,15 @@
   margin-bottom : 5%;
 }
 
+.infosRecap {
+  background-color : #687189;
+  color : white;
+  margin : 0.3%;
+  padding : 3%;
+
+}
+
+
 .table-responsive {
   background: rgb(230, 230, 230);
   overflow-x: unset;

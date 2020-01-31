@@ -27,26 +27,28 @@ const ResultsTaux = () => {
             </div>
 
             <div className='row justify-content-end'>
-                <button
-                    className="btn btn-outline-secondary buttonTaux"
-                    type="button"
-                    id="button-addon2"
+                <Link to="/simform">
+                    <button
+                        className="btn btn-outline-secondary buttonTaux"
+                        type="button"
+                        id="button-addon2"
 
-                >
-                    Continuer vers le calcul des charges ?
+                    >
+                        Continuer vers le calcul des charges ?
                   </button>
+                </Link>
 
 
             </div>
 
-            {/* <Link to="/">
-                <p
-                    class="btn btn-link"
-                    onMouseDown={() => this.resetCalendar()}
+            <Link to="/">
+                <p 
+                    className="btn btn-link backToHomepage "
+                    
                 >
-                    Retour aux simulateurs
+                    Retour à l'écran principal
 				</p>
-            </Link> */}
+            </Link>
 
 
         </div>

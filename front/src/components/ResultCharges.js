@@ -7,30 +7,44 @@ import './ResultCharges.css'
 const ResultCharges = ({ results }) => {
     return (
         <div className='justify-content-center resultsCharges-parent'>
+            
             <div className="table-responsive">
                 <table className="table">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Ma part</th>
-                            <th scope="col">Total</th>
+                            <th scope="col" className="testJ">COÛTS</th>
+                            <th scope="col"></th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">Salaire perçu par la nounou</th>
-                            <td>{Math.round(results.netMensuelFamilleA)}</td>
-                            <td>{Math.round(results.netMensuelTotal)}</td>
+                            <th scope="row">Salaire brut</th>
+                            <td className="testJ">{Math.ceil(results.brutMensuelFamilleA*100)/100}</td>
+                            <td className="testJ">{Math.ceil(results.brutAnnuelFamilleA*100)/100}</td>
+                            
                         </tr>
                         <tr>
-                            <th scope="row">Mon coût mensuel</th>
-                            <td>{Math.round(results.coutPatronalFamilleA)}</td>
-
+                            <th scope="row">Salaire net</th>
+                            <td className="testJ">{Math.ceil(results.netMensuelFamilleA*100)/100}</td>
+                            <td className="testJ">{Math.ceil((results.netMensuelFamilleA*100*12))/100}</td>
+                            
                         </tr>
                         <tr>
-                            <th scope="row"></th>
-                            <td></td>
-                            <td></td>
+                            <th scope="row">Indemnité de repas</th>
+                            <td className="testJ">{Math.ceil((results.primePanierRepasFamilleA/12)*100)/100}</td>
+                            <td className="testJ">{Math.ceil((results.primePanierRepasFamilleA)*100)/100}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Charges sociales</th>
+                            <td className="testJ">{Math.ceil((results.chargesPatronalesFamilleA + results.chargesSalarialesFamilleA)*100)/100}</td>
+                            <td className="testJ">{Math.ceil(((results.chargesPatronalesFamilleA + results.chargesSalarialesFamilleA*12))*100)/100}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Coût net patronal</th>
+                            <td className="testJ">{results.coutPatronalFamilleA}</td>
+                            <td className="testJ">{results.coutPatronalFamilleA*12}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -41,183 +55,60 @@ const ResultCharges = ({ results }) => {
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Mois</th>
-                            <th scope="col">Année</th>
+                            <th scope="col thTitle" className="testJ">AIDES</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">Salaire brut</th>
-
-                            <td>{Math.round(results.brutMensuelFamilleA)}</td>
-                            <td>{results.brutAnnuelFamilleA}</td>
+                            <th scope="row">Aides</th>
+                            <td className="testJ">- {results.cmgFamilleA + results.aidesPajeFamilleA}</td>
+                            <td className="testJ">- {(results.cmgFamilleA + results.aidesPajeFamilleA)*12}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Salaire net</th>
+                            <th scope="row">Déduction forfaitaire</th>
+                            <td className="testJ">- {results.deductionForfaitaireChargesSocialesFamilleA}</td>
+                            <td className="testJ">- {results.deductionForfaitaireChargesSocialesFamilleA*12}</td>
 
-                            <td>{Math.round(results.netMensuelFamilleA)}</td>
-                            <td>{results.netAnnuelFamilleA}</td>
                         </tr>
                         <tr>
-                            <th scope="row"></th>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        {/* <tr>
-                        <th scope="row">Coût net de crédit et aides</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Coût</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Salaire</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr> */}
-                        <tr>
-                            <th scope="row">Repas</th>
-
-                            <td>{Math.round(results.primePanierRepasFamilleA)}</td>
-                            <td>{Math.round(results.primePanierRepasFamilleA) * 12}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Transports</th>
-
-                            <td>{results.remboursementMensuelTransportFamilleA}</td>
-                            <td>{Math.round(results.remboursementMensuelTransportFamilleA * 12)}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Charges patronales</th>
-
-                            <td>{results.chargesPatronalesFamilleA}</td>
-                            <td>{results.chargesPatronalesFamilleA * 12}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"></th>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Crédits</th>
-
-                            <td>{results.creditImpotMensuelFamilleA}</td>
-                            <td>{results.creditImpotAnnuelFamilleA}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Déduction forfaitaire des charges</th>
-
-                            <td>{results.deductionForfaitaireChargesSocialesFamilleA}</td>
-                            <td>{results.deductionForfaitaireChargesSocialesFamilleA * 12}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Aide Paje pour les charges</th>
-
-                            <td>{results.aidesPajeFamilleA}</td>
-                            <td>{results.aidesPajeFamilleA * 12}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">CMG</th>
-
-                            <td>{results.cmgFamilleA}</td>
-                            <td>{results.cmgFamilleA * 12}</td>
-                        </tr>
-                        {/* <tr>
-                        <th scope="row">Aides additionnelles</th>
-                        
-                        <td></td>
-                        <td></td>
-                    </tr> */}
-                        <tr>
-                            <th scope="row">Crédit d'impôts</th>
-
-                            <td>{results.creditImpotMensuelFamilleA}</td>
-                            <td>{results.creditImpotAnnuelFamilleA}</td>
+                            <th scope="row">Montant à payer</th>
+                            <td className="testJ">{Math.ceil(results.montantAPayerFamilleA*100)/100}</td>
+                            <td className="testJ">{Math.ceil((results.montantAPayerFamilleA*12)*100)/100}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            {/* <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Hypothèses modifiables</th>
-                        <th scope="col"></th>
+            <div className="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col" className="testJ">CREDIT</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Crédit impôts</th>
+                            <td className="testJ">- {results.creditImpotMensuelFamilleA}</td>
+                            <td className="testJ">- {results.creditImpotAnnuelFamilleA}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Coût réel </th>
+                            <td className='highlightedInfos testJ'>{Math.ceil(results.montantAPayerPostCreditImpotFamilleA*100)/100}</td>
+                            <td className='highlightedInfos testJ'>{Math.ceil((results.montantAPayerPostCreditImpotFamilleA*12)*100)/100}</td>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Panier repas</th>
-                        <input type='number'></input>
-                    </tr>
-                    <tr>
-                        <th scope="row">Nb jours travaillés par semaine</th>
-                        <input type='number'></input>
-                    </tr>
-                    <tr>
-                        <th scope="row">Abonnement transports publics</th>
-                        <input type='number'></input>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Part garde</th>
-                        <input type='number'></input>
-                    </tr>
-                    <tr>
-                        <th scope="row">1ère année d'emploi d'un salarié à domicile</th>
-                        <select class="form-control form-control-lg">
-                            <option value={true}>oui</option>
-                            <option value={false}>non</option>
-                        </select>
-                    </tr>
-                    <tr className='align-items-center'>
-                        <th scope="row">Garde alternée</th>
-                        <select class="form-control form-control-lg">
-                            <option value={true}>oui</option>
-                            <option value={false}>non</option>
-                        </select>
-                    </tr>
-                </tbody>
-            </table> */}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            {/* <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Heures</th>
-                                                
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Totales</th>
-                        <td></td>                        
-                    </tr>
-                    <tr>
-                        <th scope="row">Normales</th>
-                        <td></td>                       
-                    </tr> 
-                    <tr>
-                        <th scope="row">Dont présence responsable</th>
-                        <td></td>                       
-                    </tr>
-                    <tr>
-                        <th scope="row">Supplémentaires</th>
-                        <td></td>                       
-                    </tr>                     
-                </tbody>
-            </table> */}
+
+
+
+
 
 
 

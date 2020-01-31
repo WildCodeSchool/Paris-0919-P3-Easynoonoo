@@ -163,7 +163,7 @@ export default class FamilyAgenda extends React.Component {
 					let dayStart = startItem.substr(0, 10)
 					let endStart = endItem.substr(0, 10)
 					let endEnd = endItem.substr(11, 6)
-					let newEnd = [dayStart + ' ' + endEnd]
+					let newEnd = [dayStart + ' ' + endEnd]					
 
 					if (dayStart == endStart) { // if the same day was selected in start and end
 						items.push({ start: this.state.items[0], end: this.state.items[1] })
@@ -226,12 +226,7 @@ export default class FamilyAgenda extends React.Component {
 		let childColor = Math.floor(Math.random() * 16777215).toString(16);
 		let colorState = this.state.colorState
 
-		// here for the counter later
-		this.setState({ showMyChildName: myChild })
-		this.setState({ showOthersChildName: notMyChild })
-
-
-
+		
 		if (i < myChild.length) { //look at the size of my Children array
 
 			if (items.length > 0) { // if the user selected some timeslot
@@ -318,13 +313,10 @@ export default class FamilyAgenda extends React.Component {
 					arrayChildren.push(...arrayObject)
 					localStorage.setItem('allChildren', JSON.stringify(arrayChildren));
 					// localStorage.setItem('items', JSON.stringify([]));
-
 					j++;
 					childCalendar = notMyChild[j]
-					this.setState({ countMyChild: i })
 					this.setState({ countNotMyChild: j })
 					this.setState({ countTimeSlot: countId })
-					this.setState({ showOthersChildName: nameChildOthers })
 					this.setState({ calendarChild: childCalendar })
 					this.setState({ colorState: childColor })
 
@@ -643,14 +635,17 @@ export default class FamilyAgenda extends React.Component {
 		let myChild = JSON.parse(localStorage.getItem('myChild'))
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'))
 		let countMyChild = this.state.countMyChild
-		let countNotMyChild = this.state.countNotMyChild
 		let firstChild
 		let nameStop = this.state.nameStop
-		if (this.state.calendarChild == '') { //condition good
-			firstChild = myChild[0] // []
+		if (this.state.calendarChild == '') { 
+			firstChild = myChild[0] 
 			this.setState({ calendarChild: firstChild })
+			//here for the counter of the button to send data
+			this.setState({showMyChildName : myChild})
+			this.setState({showOthersChildName : notMyChild})
+			console.log('is it really playing two times')
 		}
-		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) { // && countMyChild - countNotMyChild == countMyChild
+		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) { 
 
 			firstChild = notMyChild[0]
 			this.setState({ nameStop: 100 }) //here to prevent the function to replay the function
@@ -698,7 +693,7 @@ export default class FamilyAgenda extends React.Component {
 		console.log('i', this.state.countMyChild)
 		console.log('showMyChild', this.state.showMyChildName)
 		console.log('j', this.state.countNotMyChild)
-		console.log('showMyChild', this.state.showOthersChildName)
+		console.log('showNoteMyChild', this.state.showOthersChildName)
 
 		let columns = [
 			{
