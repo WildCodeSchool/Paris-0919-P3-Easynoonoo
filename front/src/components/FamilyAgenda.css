@@ -191,11 +191,6 @@ th.calendarCell.time {
   
 }
 
-.calendar_simulateurbtn:hover {
-  background-color : 
-
-}
-
 .calendar_simulateurbtn_calcul {
 background-color: #2E3858;
   color : #FFFFFF;
@@ -214,4 +209,8 @@ background-color: #2E3858;
 
 .inputChoixPlagesHoraires {
   margin-top : 5%;
+}
+
+h5 {
+  text-align: center;
 }

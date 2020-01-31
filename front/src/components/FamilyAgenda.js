@@ -776,7 +776,7 @@ export default class FamilyAgenda extends React.Component {
 				{this.state.hideCalendar == true ? '' :
 					<div>
 						<h2 >Remplir la semaine-type de {this.state.calendarChild}</h2>
-						<div>Vous avez sélectionné : {this.state.time}</div>
+						<h5>Vous avez sélectionné : {this.state.time}</h5>
 
 
 						<div id="someTableId" className="agendaContainer row">
