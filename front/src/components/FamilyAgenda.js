@@ -61,7 +61,7 @@ class FamilyAgenda extends React.Component {
 		currentSearch: null,
 		selectStart: [],
 		selectEnd: [],
-
+		tauxRepartition: []
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -760,23 +760,24 @@ class FamilyAgenda extends React.Component {
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
-	sendData = () => {
+	getData = () => {
 		let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
-		console.log('TIMESLOT', timeSlotObject);
 
-		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
+		axios.post('http://localhost:4000/api/calculsRepartition', timeSlotObject)
 			.then((res) => {
-				console.log('YOYO', res.data)
+				this.setState({ tauxRepartition: res.data })
+				console.log('state.taux',this.state.tauxRepartition);
 			}).catch((error) => {
 				console.log(error);
-			})
-
+			})		
+			
 		this.resetCalendar() //clean the slot
 
 		this.setState({ hideCalendar: true })
 	};
-
+	
 	render() {
+
 		const { history } = this.props;
 		this.createSelectionDiv()
 		this.createValidateDiv()
@@ -1012,7 +1013,7 @@ class FamilyAgenda extends React.Component {
 										type="button"
 										id="button-addon2"
 										value="send data and receive data"
-										onClick={() => this.sendData()}
+										onClick={() => this.getData()}
 									>
 										Calculer mon taux
                   					</button>
@@ -1035,8 +1036,7 @@ class FamilyAgenda extends React.Component {
 
 				}
 
-				{this.state.hideCalendar == true ? <ResultsTaux tauxRepartition={this.sendData} /> : ''}
-
+				{this.state.hideCalendar == true ? <ResultsTaux data={this.state.tauxRepartition} /> : ''}
 			</>
 		)
 	}

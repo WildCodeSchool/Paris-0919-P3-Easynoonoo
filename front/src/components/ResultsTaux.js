@@ -5,24 +5,22 @@ import SimpleReactValidator from 'simple-react-validator'
 import './ResultsTaux.css'
 
 const ResultsTaux = ({ data }) => {
-    console.log('Taux répartition', data)
-    /*Here to send the values to the local storage (needed for calculs)  */
-    const [tauxRepartition, setTauxRepartition] = useState([data])
-    const [heuresHebdo, setHeuresHebdo] = useState([])
-
-    useEffect(() => {
-        window.localStorage.setItem('heuresHebdo', JSON.stringify([]))
-        window.localStorage.setItem('tauxRepartition', JSON.stringify([]))
-    }, [heuresHebdo, tauxRepartition]) //callback run if only the answers change
-
     
+    // /*Here to send the values to the local storage (needed for calculs)  */
+    // const [tauxRepartition, setTauxRepartition] = useState([])
+    // const [heuresHebdo, setHeuresHebdo] = useState([])
+
+    // useEffect(() => {
+    //     window.localStorage.setItem('heuresHebdo', JSON.stringify([]))
+    //     window.localStorage.setItem('tauxRepartition', JSON.stringify([]))
+    // }, [heuresHebdo, tauxRepartition]) //callback run if only the answers change
 
     return (
 
         <div className='resultsTauxParents container-fluid'>
             <div className='tauxRepartitionBloc row d-flex flex-column justify-content-center align-items-center wrap'>
                 <h2 >Mon taux de répartition</h2>
-                <p>{tauxRepartition}%</p>
+                <p>{data.RepartitionA} %</p>
             </div>
 
             <div className='row justify-content-end'>

@@ -1277,12 +1277,14 @@ app.post('/api/calculscharges', function (req, res) {
 // ________________________________ TAUX REPARTITION ___________________________________
 
 
-app.get('/api/calculsRepartition', function (req, res) {
+app.post('/api/calculsRepartition', (req, res) => {
+  console.log(req);
+  
 
     let enfants = req.body
+
     console.log('enfants',enfants);
     
-
     let hoursStart = '07:00'
     let hoursA =[]
     let hoursB =[]
