@@ -181,7 +181,7 @@ const FamilyForm = () => {
 
           {/* question 3 avec un radio check oui/non : garde partagée avec ex si plusieurs enfants */}
 
-          {totalEnfants === nbEnfants && totalEnfants > 1 ? (
+          {/* {totalEnfants === nbEnfants && totalEnfants > 1 ? (
             <div className="question3">
               <p>
                 La garde de vos enfants est-elle partagée avec l'autre
@@ -215,11 +215,11 @@ const FamilyForm = () => {
             </div>
           ) : (
             ''
-          )}
+          )} */}
 
           {/* question 3 avec un radio check oui/non : garde partagée avec ex si un enfant */}
 
-          {totalEnfants === 1 ? (
+          {/* {totalEnfants === 1 ? (
             <div className="question3">
               <p>
                 La garde de votre enfant est-elle partagée avec
@@ -252,10 +252,10 @@ const FamilyForm = () => {
             </div>
           ) : (
             ''
-          )}
+          )} */}
 
           {/* Message erreur si pas garde partagée  */}
-          {totalEnfants === 1 && gardeAlternee === 'false' ? (
+          {totalEnfants === 1  ? (
             <p className="error1">
               La garde de l'enfant n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
@@ -264,7 +264,7 @@ const FamilyForm = () => {
             ''
           )}
 
-          {totalEnfants === nbEnfants && gardeAlternee === 'false' ? (
+          {totalEnfants === nbEnfants  ? (
             <p className="error1">
               La garde des enfants n'étant pas partagée, l'intégralité
               des coûts de celle-ci est à votre charge
