@@ -17,10 +17,10 @@ let element2 = null
 let helper = null
 let hours = []
 let mouse = {
-  x: 0,
-  y: 0,
-  startX: 0,
-  startY: 0,
+	x: 0,
+	y: 0,
+	startX: 0,
+	startY: 0,
 }
 let item = []
 let realTime
@@ -56,12 +56,12 @@ class FamilyAgenda extends React.Component {
 		slotFixedHours: [],
 		valueOnClick: '',
 		nameStop: 0,
-    hideCalendar: false,
-    currentPathname: null,
-		currentSearch : null,
+		hideCalendar: false,
+		currentPathname: null,
+		currentSearch: null,
 		selectStart: [],
-    selectEnd: [],
-
+		selectEnd: [],
+		tauxRepartition: []
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -162,13 +162,13 @@ class FamilyAgenda extends React.Component {
 			}
 			else { //rajouter un if
 				if (this.state.items[0] != this.state.items[1]) {
-					
+
 					let startItem = this.state.items[0]
 					let endItem = this.state.items[1]
 					let dayStart = startItem.substr(0, 10)
 					let endStart = endItem.substr(0, 10)
 					let endEnd = endItem.substr(11, 6)
-					let newEnd = [dayStart + ' ' + endEnd]					
+					let newEnd = [dayStart + ' ' + endEnd]
 
 					if (dayStart == endStart) { // if the same day was selected in start and end
 						items.push({ start: this.state.items[0], end: this.state.items[1] })
@@ -198,7 +198,7 @@ class FamilyAgenda extends React.Component {
 			//_____________TOTAL DES MINUTES PAR ENFANT
 
 			let total = minutes.reduce((a, b) => a + b, 0)
-			
+
 
 			// _____ CALCULS MINUTES EN HEURES
 
@@ -208,7 +208,7 @@ class FamilyAgenda extends React.Component {
 			realTime = hoursCalcul + ' heures et ' + minCalcul + ' min'
 			this.setState({ time: realTime })
 
-			
+
 		} else {
 			return null
 		}
@@ -231,7 +231,7 @@ class FamilyAgenda extends React.Component {
 		let childColor = Math.floor(Math.random() * 16777215).toString(16);
 		let colorState = this.state.colorState
 
-		
+
 		if (i < myChild.length) { //look at the size of my Children array
 
 			if (items.length > 0) { // if the user selected some timeslot
@@ -361,7 +361,7 @@ class FamilyAgenda extends React.Component {
 		slotHoursState.pop()
 		slotHoursState.pop()
 		this.setState({ slotHours: slotHoursState })
-		
+
 
 		let minutesState = this.state.minutes
 		minutesState.pop()
@@ -449,43 +449,43 @@ class FamilyAgenda extends React.Component {
 	}
 
 	getSelection = (start, end) => {
-    let strt = moment(start)
-    let endd = moment(end)
+		let strt = moment(start)
+		let endd = moment(end)
 
-    let realEnd = moment(end)
-      .add(15, 'minutes')
-      .format('HH:mm')
-    let realStart = moment(start).format('HH:mm')
+		let realEnd = moment(end)
+			.add(15, 'minutes')
+			.format('HH:mm')
+		let realStart = moment(start).format('HH:mm')
 
-    let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
+		let arr = endd.diff(strt) > 0 ? [start, end] : [end, start]
 
-    this.handleRangeSelection(arr, end)
+		this.handleRangeSelection(arr, end)
 
-    this.state.slotHours.push(realStart, realEnd)
+		this.state.slotHours.push(realStart, realEnd)
 
-    let realAllEnd = moment(end)
-      .add(15, 'minutes')
-      .format('YYYY-MM-DD HH:mm')
+		let realAllEnd = moment(end)
+			.add(15, 'minutes')
+			.format('YYYY-MM-DD HH:mm')
 
-    this.state.selectStart.push(
-      moment(strt, moment.format).format('YYYY-MM-DD HH:mm'),
-    )
-    this.state.selectEnd.push(
-      moment(realAllEnd, moment.format).format('YYYY-MM-DD HH:mm'),
-    )
-    this.isAlreadyIn()
-    this.getSelectBis()
-  }
+		this.state.selectStart.push(
+			moment(strt, moment.format).format('YYYY-MM-DD HH:mm'),
+		)
+		this.state.selectEnd.push(
+			moment(realAllEnd, moment.format).format('YYYY-MM-DD HH:mm'),
+		)
+		this.isAlreadyIn()
+		this.getSelectBis()
+	}
 
-  getSelectBis = () => {
-    this.setState({
-      SUPERday: [
-        this.findWeekDay(this.state.selectStart.slice(-1)[0]),
-      ],
-      SUPERstart: [this.state.selectStart.slice(-1)[0]],
-      SUPERend: [this.state.selectEnd.slice(-1)[0]],
-    })
-  }
+	getSelectBis = () => {
+		this.setState({
+			SUPERday: [
+				this.findWeekDay(this.state.selectStart.slice(-1)[0]),
+			],
+			SUPERstart: [this.state.selectStart.slice(-1)[0]],
+			SUPERend: [this.state.selectEnd.slice(-1)[0]],
+		})
+	}
 
 
 	// <<_________________ CLEMENT MODIFIED THIS _________________
@@ -572,7 +572,7 @@ class FamilyAgenda extends React.Component {
 				element2 = document.createElement('div')
 				element2.className = 'slot'
 				element2.style.backgroundColor = '#' + this.state.colorState
-				
+
 
 				// element2.style.backgroundColor = 'black'
 				element2.style.width = horiz.right - horiz.left - 5 + 'px'
@@ -597,37 +597,37 @@ class FamilyAgenda extends React.Component {
 	}
 
 	isAlreadyIn = async () => {
-    let alreadyIn = JSON.parse(localStorage.getItem('items'))
+		let alreadyIn = JSON.parse(localStorage.getItem('items'))
 
-    const mapStart = await alreadyIn.map(x => x.start)
-    const mapEnd = await alreadyIn.map(y => y.end)
+		const mapStart = await alreadyIn.map(x => x.start)
+		const mapEnd = await alreadyIn.map(y => y.end)
 
-    console.log('mapStart and mapEnd', mapStart, mapEnd)
+		console.log('mapStart and mapEnd', mapStart, mapEnd)
 
-    const format = 'YYYY-MM-DD HH:mm'
-    let timeStart = moment(this.state.SUPERstart, format)
-    let timeEnd = moment(this.state.SUPERend, format)
+		const format = 'YYYY-MM-DD HH:mm'
+		let timeStart = moment(this.state.SUPERstart, format)
+		let timeEnd = moment(this.state.SUPERend, format)
 
-    let mapResult = await mapStart.map((startDif, index) => {
-      if (
-        timeStart.isBetween(
-          mapStart[index],
-          mapEnd[index],
-          null,
-          '[]',
-        ) ||
-        timeEnd.isBetween(mapStart[index], mapEnd[index], null, '[]')
-      ) {
-        var action1 = true
-      } else {
-        var action2 = true
-      }
-      if (action1 != false && action2 != true) {
-        console.log('occupé!!!!!!!!!!!!!')
-        this.wipeLastSelect()
-      }
-    })
-  }
+		let mapResult = await mapStart.map((startDif, index) => {
+			if (
+				timeStart.isBetween(
+					mapStart[index],
+					mapEnd[index],
+					null,
+					'[]',
+				) ||
+				timeEnd.isBetween(mapStart[index], mapEnd[index], null, '[]')
+			) {
+				var action1 = true
+			} else {
+				var action2 = true
+			}
+			if (action1 != false && action2 != true) {
+				console.log('occupé!!!!!!!!!!!!!')
+				this.wipeLastSelect()
+			}
+		})
+	}
 
 	createValidateDiv = () => {
 		let slot = JSON.parse(localStorage.getItem('items'))
@@ -701,15 +701,15 @@ class FamilyAgenda extends React.Component {
 		let countMyChild = this.state.countMyChild
 		let firstChild
 		let nameStop = this.state.nameStop
-		if (this.state.calendarChild == '') { 
-			firstChild = myChild[0] 
+		if (this.state.calendarChild == '') {
+			firstChild = myChild[0]
 			this.setState({ calendarChild: firstChild })
 			//here for the counter of the button to send data
-			this.setState({showMyChildName : myChild})
-			this.setState({showOthersChildName : notMyChild})
+			this.setState({ showMyChildName: myChild })
+			this.setState({ showOthersChildName: notMyChild })
 			console.log('is it really playing two times')
 		}
-		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) { 
+		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) {
 
 			firstChild = notMyChild[0]
 			this.setState({ nameStop: 100 }) //here to prevent the function to replay the function
@@ -729,59 +729,61 @@ class FamilyAgenda extends React.Component {
 		// this.removeRectangle()
 		this.updateDimensions()
 		// this.getSelect()
-    window.addEventListener('resize', this.updateDimensions)
+		window.addEventListener('resize', this.updateDimensions)
 
-    const { history } = this.props;
-    
-    history.listen((newLocation, action) => {
-      if (action === "PUSH") {
-        if (
-          newLocation.pathname !== this.currentPathname ||
-          newLocation.search !== this.currentSearch
-        ) {
-          // Save new location
-          this.currentPathname = newLocation.pathname;
-          this.currentSearch = newLocation.search;
+		const { history } = this.props;
 
-          // Clone location object and push it to history
-          history.push({
-            pathname: newLocation.pathname,
-            search: newLocation.search
-          });
-        }
-      } else {
-        // Send user back if they try to navigate back
-        window.location.reload()
-        
-        
-      }
-    });
+		history.listen((newLocation, action) => {
+			if (action === "PUSH") {
+				if (
+					newLocation.pathname !== this.currentPathname ||
+					newLocation.search !== this.currentSearch
+				) {
+					// Save new location
+					this.currentPathname = newLocation.pathname;
+					this.currentSearch = newLocation.search;
+
+					// Clone location object and push it to history
+					history.push({
+						pathname: newLocation.pathname,
+						search: newLocation.search
+					});
+				}
+			} else {
+				// Send user back if they try to navigate back
+				window.location.reload()
+
+
+			}
+		});
 	}
 
 	/* -------- Sending the data (allChild) to the back -------- */
 
-	sendData = () => {
+	getData = () => {
 		let timeSlotObject = JSON.parse(localStorage.getItem('allChildren'));
 
-		axios.post('http://localhost:4000/api/calculRepartition', timeSlotObject) //POST - POST => envoyer infos
+		axios.post('http://localhost:4000/api/calculsRepartition', timeSlotObject)
 			.then((res) => {
-				
+				this.setState({ tauxRepartition: res.data })
+				console.log('state.taux',this.state.tauxRepartition);
 			}).catch((error) => {
-				
-			})
-
+				console.log(error);
+			})		
+			
 		this.resetCalendar() //clean the slot
 
 		this.setState({ hideCalendar: true })
 	};
-
+	
 	render() {
-    const { history } = this.props;
+
+		const { history } = this.props;
 		this.createSelectionDiv()
 		this.createValidateDiv()
 		this.updateChildName()
 		this.updateColor()
-	
+
 
 		let columns = [
 			{
@@ -1011,7 +1013,7 @@ class FamilyAgenda extends React.Component {
 										type="button"
 										id="button-addon2"
 										value="send data and receive data"
-										onClick={() => this.sendData()}
+										onClick={() => this.getData()}
 									>
 										Calculer mon taux
                   					</button>
@@ -1030,13 +1032,11 @@ class FamilyAgenda extends React.Component {
 								Retour aux simulateurs
 				</p>
 						</Link>
-
 					</div>
 
 				}
 
-				{this.state.hideCalendar == true ? <ResultsTaux /> : ''}
-
+				{this.state.hideCalendar == true ? <ResultsTaux data={this.state.tauxRepartition} /> : ''}
 			</>
 		)
 	}
