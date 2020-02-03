@@ -718,10 +718,11 @@ class FamilyAgenda extends React.Component {
 	}
 
 	updateColor = () => {
-		let color
+		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
 		if (this.state.colorState == '') {
-			color = Math.floor(Math.random() * 16777215).toString(16)
+			let color = arr[Math.floor(Math.random() * arr.length)]
 			this.setState({ colorState: color })
+			console.log('color',color);
 		}
 	}
 
