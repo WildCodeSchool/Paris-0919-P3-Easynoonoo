@@ -6,15 +6,6 @@ import './ResultsTaux.css'
 
 const ResultsTaux = ({ data }) => {
     
-    // /*Here to send the values to the local storage (needed for calculs)  */
-    // const [tauxRepartition, setTauxRepartition] = useState([])
-    // const [heuresHebdo, setHeuresHebdo] = useState([])
-
-    // useEffect(() => {
-    //     window.localStorage.setItem('heuresHebdo', JSON.stringify([]))
-    //     window.localStorage.setItem('tauxRepartition', JSON.stringify([]))
-    // }, [heuresHebdo, tauxRepartition]) //callback run if only the answers change
-
     return (
 
         <div className='resultsTauxParents container-fluid'>
