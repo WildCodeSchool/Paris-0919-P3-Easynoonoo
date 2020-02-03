@@ -33,10 +33,11 @@ mongoose
 
 //route to test if local storage is sent to back
 
- app.post("/api/calculRepartition", function(req, res) {
-   console.log(req.body)
-   
- });
+// _____________
+
+//  app.post("/api/calculRepartition", function(req, res) {
+//    console.log('ici répartition',req.body)
+//  });
 
 
 app.post('/api/calculscharges', function (req, res) {
@@ -1270,7 +1271,9 @@ app.post('/api/calculscharges', function (req, res) {
 
 app.get('/api/calculsRepartition', function (req, res) {
 
-    let enfants = req.body.items
+    let enfants = req.body
+    console.log('enfants',enfants);
+    
 
     let hoursStart = '07:00'
     let hoursA =[]
