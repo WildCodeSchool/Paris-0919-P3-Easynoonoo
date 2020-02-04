@@ -221,6 +221,7 @@ class FamilyAgenda extends React.Component {
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let arrayChildren = JSON.parse(localStorage.getItem('allChildren'));
+		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
 		let i = this.state.countMyChild;
 		let j = this.state.countNotMyChild;
 		let countId = this.state.countTimeSlot;
@@ -228,7 +229,7 @@ class FamilyAgenda extends React.Component {
 		let nameChildOthers = this.state.nameChildOthers;
 		let arrayObject = [];
 		let childCalendar;
-		let childColor = Math.floor(Math.random() * 16777215).toString(16);
+		let childColor = arr[Math.floor(Math.random() * arr.length)]
 		let colorState = this.state.colorState
 
 
@@ -334,6 +335,9 @@ class FamilyAgenda extends React.Component {
 			}
 		}
 	}
+
+	
+
 
 	/* -------- reset-------- */
 
@@ -720,7 +724,7 @@ class FamilyAgenda extends React.Component {
 	updateColor = () => {
 		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
 		if (this.state.colorState == '') {
-			let color = arr[Math.floor(Math.random() * arr.length)]
+			let color = arr[Math.floor(Math.random() * 6)]
 			this.setState({ colorState: color })
 			console.log('color',color);
 		}
@@ -861,7 +865,7 @@ class FamilyAgenda extends React.Component {
 			<>
 				{this.state.hideCalendar == true ? '' :
 					<div>
-						<h2 >Remplir la semaine-type de {this.state.calendarChild}</h2>
+						<h2 >Remplir la semaine-type pour {this.state.calendarChild}</h2>
 						<div>Vous avez sélectionné : {this.state.time}</div>
 
 
@@ -964,13 +968,14 @@ class FamilyAgenda extends React.Component {
 								>
 									Effacer ce planning
 				</button>
+
 							</div>
 						</div>
 
 
 
 						<div class="input-group inputChoixPlagesHoraires">
-							<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
+							{/* <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
 								<option
 									selected
 									value="null"
@@ -986,20 +991,8 @@ class FamilyAgenda extends React.Component {
 								<option value="non">
 									Non, je veux partir d'un planning vide
                 </option>
-							</select>
-							<div class="input-group-append">
-								<button
-									type="button"
-									class="calendar_simulateurbtn"
-									onClick={() =>
-										this.state.valueOnClick == 'oui'
-											? this.addChild()
-											: this.addChildReset()
-									}
-								>
-									Valider
-                </button>
-							</div>
+							</select> */}
+
 						</div>
 
 
@@ -1021,8 +1014,20 @@ class FamilyAgenda extends React.Component {
 								</div>
 							</div>
 
-							:
-							''
+							: <div class="container-fluid d-flex justify-content-end buttonCalculAgenda">
+								<button
+									type="button"
+									class="calendar_simulateurbtn"
+									onClick={() =>
+										
+											this.addChild()
+											
+									}
+								>
+									Valider
+                </button>
+							</div>
+							
 						}
 
 						<Link to="/">
