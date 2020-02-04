@@ -1,37 +1,83 @@
+/*CSS simform general*/
+
 .error1 {
   color: #ee5e6a;
   font-style: italic;
 }
 
-.simFormHypothesis {
-  font-size : 0.8rem;
-}
-
 .simForm-Button {
-  margin-top : 3%;
+  margin-top : 5%;
+  margin-bottom : 3%;
   background-color : #EE5E6A;
   border : none;
+  color : #ffffff;
 }
 
 .simForm-parent h2 {
   text-align : center;
   margin-top : 5%;
   margin-bottom : 5%;
+  font-size : 3vw;
 }
+
+.simForm-parent {
+  background-color : #f4f6fa;
+  padding : 8%;
+  margin-top : 2%;
+  font-size : 1.5vw;
+}
+
+.formGeneral input {
+  font-size : 1.5vw;
+  margin-bottom : 2%;
+}
+
+.formGeneral select {
+  font-size : 1.5vw;
+}
+
+.formGeneral {
+  background-color : #ffffff;
+  padding : 4% 8% 4% 8%;
+  border : #e2e5ed 0.5px solid;
+  box-shadow: 8px 8px 11px 0.5px rgba(0, 0, 255, .2);    
+}
+
+
+/*CSS général result */
+.resultSimFormCompo {
+  background-color : #ffffff;
+  padding : 4% 8% 4% 8%;
+  border : #e2e5ed 0.5px solid;
+  box-shadow: 8px 8px 11px 0.5px rgba(0, 0, 255, .2);    
+
+
+}
+
+/*CSS recap réponses*/
 
 .infosRecap {
   background-color : #687189;
   color : white;
   margin : 0.3%;
   padding : 3%;
+  font-size : 1.5vw;
+  margin-bottom : 2%;
 
 }
 
+.infosRecap h3 {
+  font-size : 2vw;
+}
+
+/*CSS hypothèses */
+
 
 .table-responsive {
-  background: rgb(230, 230, 230);
   overflow-x: unset;
-  margin-top: -2em;
+  /* margin-top: -2em; */
+  margin-bottom : 2%;
+  font-size : 1.5vw;
 }
 
 .collapse_display {
@@ -40,6 +86,16 @@
   justify-content: center;
 }
 
-.btn {
-  margin-bottom: 1em;
+.table-responsive input {
+  font-size : 1.5vw;
+  margin-bottom : 1%;
+}
+
+.table-responsive select{
+  font-size : 1.5vw;
+  margin-bottom : 1%;
+}
+
+.buttonAffiner {
+  margin-top : 5%;
 }

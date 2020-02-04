@@ -423,7 +423,7 @@ const SimForm = () => {
 
   return (
     <div className="container simForm-parent">
-      <h2>Simulation de salaire</h2>
+      
       <form
         class="form-group"
         class="needs-validation"
@@ -431,7 +431,8 @@ const SimForm = () => {
         onSubmit={submit}
       >
         {showResults == true ? '' : (
-          <div>
+          <div className='formGeneral'>
+            <h2>Simulation de salaire</h2>
             <div>
               <label>
                 Quel est le temps de travail effectif hebdomadaire de
@@ -649,138 +650,143 @@ const SimForm = () => {
 
         )}
 
-        {/* Afficher récap hypothèses */}
 
-         {showResults == true ? ( 
-          <div className='row d-flex flex-column justify-content-center align-items-center infosRecap'>
-            <h3>Informations</h3>
-            <p>Nombre d'heures hebdomadaires : {heuresHebdo}h</p>
-            <p>Taux horaire : {tauxHoraire} euros </p>
-            <p>Garde partagée : {gardePartagee == true ? 'Oui' : 'Non'} </p>
-            { gardePartagee === true ? 
-            <p> Taux de répartition : {repartitionFamille}</p> : ''}
-            <p>Parent isolé : {parentIsole == true ? 'Oui' : 'Non'} </p>
-            <p>Nombre d'enfants à charges : {nbEnfants} </p>
-            { ressourcesAnnuelles == 20755 || ressourcesAnnuelles == 23701 || ressourcesAnnuelles == 26647 || ressourcesAnnuelles == 29593 ||ressourcesAnnuelles == 29057 || ressourcesAnnuelles == 33181 || ressourcesAnnuelles == 37306 || ressourcesAnnuelles == 41430
-             ? <p> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
-             : <p> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
-            <p>Alsace-Moselle : {alsaceMoselle == true ? 'Oui' : 'Non'}</p>
-          </div>
-         ): ''}
+        {showResults == true ? (
+          <div className="container-fluid resultSimFormCompo">
+            <h2>Coûts mensuels</h2>
+            <div className="row d-flex justify-content-around parentResult flex-wrap">
+
+              <div className='col-12 col-lg-7'>
+                <ResultCharges results={requestCalcul} />
+              </div>
 
 
-        {/* Afficher hypothèses + résultats */}
 
-        {showResults == false ? (
-          // <div className="container-fluid">
-          <div className="table-responsive">
-            
-            <ResultCharges results={requestCalcul} />
+              <div className='col-12 col-lg-4'>
+                <div className='infosRecap d-flex flex-column justify-content-center align-items-center'>
+                  <h3>Informations</h3>
+                  <p>Nombre d'heures hebdomadaires : {heuresHebdo}h</p>
+                  <p>Taux horaire : {tauxHoraire} euros </p>
+                  <p>Garde partagée : {gardePartagee == true ? 'Oui' : 'Non'} </p>
+                  {gardePartagee === true ?
+                    <p> Taux de répartition : {repartitionFamille}</p> : ''}
+                  <p>Parent isolé : {parentIsole == true ? 'Oui' : 'Non'} </p>
+                  <p>Nombre d'enfants à charge : {nbEnfants} </p>
+                  {ressourcesAnnuelles == 20755 || ressourcesAnnuelles == 23701 || ressourcesAnnuelles == 26647 || ressourcesAnnuelles == 29593 || ressourcesAnnuelles == 29057 || ressourcesAnnuelles == 33181 || ressourcesAnnuelles == 37306 || ressourcesAnnuelles == 41430
+                    ? <p> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
+                    : <p> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
+                  <p>Alsace-Moselle : {alsaceMoselle == true ? 'Oui' : 'Non'}</p>
+                </div>
 
-            <p className="collapse_display">
-              <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Affiner le calcul</a>
-            </p>
+                <div className='table-responsive'>
+                  <p className="collapse_display">
+                    <a class="btn btn-primary buttonAffiner" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                      Affiner le calcul</a>
+                  </p>
+                  <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                      <div className='lineTable'>
+                        <label>
+                          Panier repas (en euros)
+                        </label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={panierRepas}
+                          onChange={e =>
+                            setPanierRepas(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className='lineTable'>
+                        <label>
+                          Nombre jours travaillés par semaine
+                        </label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={joursTravaillesSemaines}
+                          onChange={e =>
+                            setJoursTravaillesSemaines(
+                              parseInt(e.target.value),
+                            )
+                          }
+                        />
+                      </div>
+                      <div className='lineTable'>
+                        <label>
+                          Abonnement transports publics (en euros)
+                        </label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={montantTransport}
+                          onChange={e =>
+                            setMontantTransport(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className='lineTable'>
+                        <label >
+                          Prise en charge de l'abonnement (%)
+                        </label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={repartitionFamille}
+                          onChange={e =>
+                            setrepartitionFamille(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className='lineTable'>
+                        <label>
+                          Part garde (%)
+                        </label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={repartitionFamille}
+                          onChange={e =>
+                            setrepartitionFamille(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className='lineTable'>
+                        <label>
+                          1ère année d'emploi d'un salarié à domicile
+                        </label>
+                        <select
+                          class="form-control form-control-lg"
+                          value={anneeEmploi}
+                          onChange={e => setAnneeEmploi(e.target.value)}
+                        >
+                          <option value={true}>oui</option>
+                          <option value={false}>non</option>
+                        </select>
+                      </div>
+                      <div className='lineTable'>
+                        <label>
+                          Garde alternée
+                        </label>
+                        <select
+                          class="form-control form-control-lg"
+                          value={gardeAlternee}
+                          onChange={e => setGardeAlternee(e.target.value)}
+                        >
+                          <option value={true}>oui</option>
+                          <option value={false}>non</option>
+                        </select>
+                      </div>
 
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
 
-                <table class="table">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Hypothèses modifiables</th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
+                     
+                    </div>
+                  </div>
+                </div>
 
-                  <tbody>
-                    <tr>
-                      <th scope="row">Panier repas (en euros)</th>
-                      <input
-                        type="number"
-                        value={panierRepas}
-                        onChange={e =>
-                          setPanierRepas(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Nombre jours travaillés par semaine
-                  </th>
-                      <input
-                        type="number"
-                        value={joursTravaillesSemaines}
-                        onChange={e =>
-                          setJoursTravaillesSemaines(
-                            parseInt(e.target.value),
-                          )
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Abonnement transports publics (en euros)
-                  </th>
-                      <input
-                        type="number"
-                        value={montantTransport}
-                        onChange={e =>
-                          setMontantTransport(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Prise en charge de l'abonnement (%)
-                  </th>
-                      <input
-                        type="number"
-                        value={partPriseCharge}
-                        onChange={e =>
-                          setPartPriseCharge(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">Part garde (%)</th>
-                      <input
-                        type="number"
-                        value={repartitionFamille}
-                        onChange={e =>
-                          setrepartitionFamille(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        1ère année d'emploi d'un salarié à domicile
-                  </th>
-                      <select
-                        class="form-control form-control-lg"
-                        value={anneeEmploi}
-                        onChange={e => setAnneeEmploi(e.target.value)}
-                      >
-                        <option value={true}>oui</option>
-                        <option value={false}>non</option>
-                      </select>
-                    </tr>
-                    <tr className="align-items-center">
-                      <th scope="row">Garde alternée</th>
-                      <select
-                        class="form-control form-control-lg"
-                        value={gardeAlternee}
-                        onChange={e => setGardeAlternee(e.target.value)}
-                      >
-                        <option value={true}>oui</option>
-                        <option value={false}>non</option>
-                      </select>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
-            {/* </div> */}
           </div>
         ) : (
             ''
@@ -788,8 +794,9 @@ const SimForm = () => {
 
         <div className="row justify-content-center">
           <input
-            className=" col-3 btn btn-primary simForm-Button btnSeccion"
+            className=" col-3 btn btn-outline-secondary simForm-Button"
             type="submit"
+            id="button-addon2"
             value="Calculer"
           />
         </div>

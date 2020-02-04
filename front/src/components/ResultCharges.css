@@ -1,29 +1,15 @@
 .resultsCharges-parent {
-    margin-top : 10%;
-    font-size : 2vw;
+    font-size : 1.5vw;
     background-color : #ffffff;
 }
 
 .resultsCharges-parent h3 {
-    font-size : 3.5vw;
+    font-size : 2vw;
     color : black;
 }
 
-
-/* .resultChargesTables {
-    margin : 5%;
-}
-.highlightedInfos {
-    background-color : #ee5e6a; 
-    color : white;
-    
-}
-
-.testJ {
-    padding-left : 30px;
-} */
-
 .lineTable {
+    border-width : 1px;
     border-style : solid none none none;
     border-color : #2e3858;
 }
