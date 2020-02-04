@@ -671,7 +671,7 @@ const SimForm = () => {
 
         {/* Afficher hypothèses + résultats */}
 
-        {showResults == true ? (
+        {showResults == false ? (
           // <div className="container-fluid">
           <div className="table-responsive">
             
