@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom'
 import Header from './Header'
 import Simform from './SimForm'
 import FamilyForm from './FamilyForm'
-import logo from '../../src/assets/noonoo1.svg'
+import logo from '../../src/assets/easynoonoo_banner.png'
 import logoRappel from '../assets/alerte2.svg'
 import logoOutil from '../assets/outil_rh_2.svg'
 import logoPaie from '../assets/paie2.svg'
@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <div className="Homepage">
 
-      
+
       {/* Introduction */}
 
       <article className="container-fluid articleDescription">
@@ -64,7 +64,7 @@ const Home = () => {
               <h2>Nous construisons la solution qu’il vous faut !
               </h2>
               <p>Pour découvrir notre service de gestion administrative pour les gardes à domicile en avant-première, laissez-nous votre adresse mail. Nous vous donnerons un accès prioritaire au service avant sa sortie.</p>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3 emailHome">
                 <input
                   type="text"
                   value=''
@@ -83,8 +83,6 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              
-
             </div>
           </div>
 
@@ -106,10 +104,22 @@ const Home = () => {
         <h2>Une solution RH pour les particuliers employeur</h2>
         <h3>Concentrez-vous sur l’essentiel grâce à un logiciel pour la gestion de la paie et de votre garde à domicile.</h3>
         <div className='row'>
-          <img src={logoPaie} className="HomepageIcon" alt='logo paie' />
+          <div className='col d-flex flex-column align-items-center'>
+            <img src={logoPaie} className="HomepageIcon" alt='logo paie' />
+            <p>PAIE</p>
+          </div>
+          <div className='col d-flex flex-column align-items-center'>
           <img src={logoContrat} className="HomepageIcon" alt='logo contrat' />
+            <p>CONTRAT</p>
+          </div>
+          <div className='col d-flex flex-column align-items-center'>
           <img src={logoOutil} className="HomepageIcon" alt='logo assistant rh' />
+            <p>OUTIL RH</p>
+          </div>
+          <div className='col d-flex flex-column align-items-center'>
           <img src={logoRappel} className="HomepageIcon" alt='logo outil rh' />
+            <p>ASSISTANT</p>
+          </div>          
         </div>
       </div>
 
