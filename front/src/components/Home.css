@@ -30,8 +30,18 @@
     color : #687189;      
 }
 
-.articleDescription h2 {  
+.articleDescription h3 {  
     color:#2E3858;    
+}
+
+.articleDescription h2 {  
+    color : #EE5E6A;  
+}
+
+.articleDescription button {  
+    background-color : #EE5E6A;
+    color : white;
+    border : none;  
 }
 
 /* placeholder pour le logo */

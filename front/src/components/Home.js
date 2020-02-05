@@ -17,12 +17,13 @@ import './Home.css'
 const Home = () => {
   return (
     <div className="Homepage">
+
+      
       {/* Introduction */}
 
       <article className="container-fluid articleDescription">
         <div className="row justify-content-center wrap">
           <div className="col-10 col-xl-6 d-flex flex-column justify-between articleVision">
-            <h2>Introduction</h2>
 
             <div>
               <ol className="carousel-indicators">
@@ -48,63 +49,42 @@ const Home = () => {
                   className="carousel-item active"
                   data-interval="10000"
                 >
-                  <p>
-                    Vous souhaitez embaucher ou vous embauchez une
-                    garde à domicile ? Félicitations! Vous voilà promu
-                    DRH et à vous les responsabilités associés : paie,
-                    gestion des congés, déclarations URSSAF, etc...
-                    <br />
-                    <br />
-                    Easynoonoo est votre plateforme paie et RH dédiée
-                    à la gestion de votre garde à domicile. Elle vous
-                    libère de la complexité de cette gestion tout au
-                    long de la durée de votre contrat.
-                    <br />
-                    <br />
-                    Easynoonoo est le résultat de nombreuses
-                    frustrations et incompréhensions de leurs
-                    créateurs durant leur propre expérience dans
-                    l'emploi d'une garde à domicile. Nous avons tout
-                    mis à plat pour que vous puissiez sereinement et
-                    rapidement traiter ce sujet crucial, en vous
-                    évitant de potentiels problèmes légaux et/ou
-                    financiers par manque de temps ou de connaissance
-                  </p>
+                  <h3>
+                    Manque de temps pour gérer correctement la paie et l’administratif de votre garde à domicile ?
+                  </h3>
                 </div>
                 <div className="carousel-item" data-interval="10000">
-                  <p>Easynoonoo propose les services suivants:</p>
-                  <ul>
-                    <li>
-                      <a href="#simulateur">Simulateurs</a>
-                    </li>
-                    <li>
-                      <a href="#contract">Contrat</a>
-                    </li>
-                    <li>
-                      <a href="#pajemploi">
-                        Déclaration Pajemploi et fiche de paie
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#fincontrat">Fin de contrat</a>
-                    </li>
-                    <li>
-                      <a href="#conge">
-                        Gestion des congés et absences
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#rappel">Rappels</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Easynoonoo est l'outil pour retrouver de la
-                    sérénité dans la gestion, vous éviter des tracas
-                    administratifs et soulager (un peu) votre charge
-                    mentale.
-                  </p>
+                  <h3>Peur de ne pas prendre soin de votre garde à domicile comme elle prend soin de vos enfants ?</h3>
                 </div>
               </div>
+            </div>
+
+
+            <div>
+              <h2>Nous construisons la solution qu’il vous faut !
+              </h2>
+              <p>Pour découvrir notre service de gestion administrative pour les gardes à domicile en avant-première, laissez-nous votre adresse mail. Nous vous donnerons un accès prioritaire au service avant sa sortie.</p>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  value=''
+                  class="form-control"
+                  placeholder="Votre e-mail"
+                  aria-label="email"
+                  aria-describedby="button-addon2"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                  >
+                    Demander mon accès
+                  </button>
+                </div>
+              </div>
+              
+
             </div>
           </div>
 
@@ -126,10 +106,10 @@ const Home = () => {
         <h2>Une solution RH pour les particuliers employeur</h2>
         <h3>Concentrez-vous sur l’essentiel grâce à un logiciel pour la gestion de la paie et de votre garde à domicile.</h3>
         <div className='row'>
-          <img src={logoPaie} className="HomepageIcon" alt='logo paie'/>
-          <img src={logoContrat} className="HomepageIcon" alt='logo contrat'/>
-          <img src={logoOutil} className="HomepageIcon" alt='logo assistant rh'/>
-          <img src={logoRappel} className="HomepageIcon" alt='logo outil rh'/>          
+          <img src={logoPaie} className="HomepageIcon" alt='logo paie' />
+          <img src={logoContrat} className="HomepageIcon" alt='logo contrat' />
+          <img src={logoOutil} className="HomepageIcon" alt='logo assistant rh' />
+          <img src={logoRappel} className="HomepageIcon" alt='logo outil rh' />
         </div>
       </div>
 

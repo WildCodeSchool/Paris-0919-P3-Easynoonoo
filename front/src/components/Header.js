@@ -6,15 +6,15 @@ const Header = () => {
 
     return (
         <div className='container-fluid headerWebsite'>
-            <nav className='row justify-content-between navbarWebsite' >
+            <nav className='row justify-content-center navbarWebsite' >
                 <div className='col-8 d-flex'>
                     <img className='headerLogo' src={logo} alt='logo' />
                     {/* <p>Produits</p>
                     <p>Simulateurs</p>
                     <p>Tarifs</p> */}
                 </div>
-                <div className='col-4 d-flex justify-content-end align-items-center'>
-                    {/* <p>Se connecter</p> */}
+                {/* <div className='col-4 d-flex justify-content-end align-items-center'>
+                     <p>Se connecter</p> 
                     <button
                         className="btn btn-outline-secondary buttonPlanning"
                         type="button"
@@ -22,7 +22,7 @@ const Header = () => {
                     >
                         Demander une démo
                     </button>
-                </div>
+                </div> */}
                 {/* <input type='button' value = 'Connexion'/> */}
             </nav>
         </div>
