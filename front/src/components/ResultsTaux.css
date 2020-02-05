@@ -5,9 +5,12 @@
 }
 
 .tauxRepartitionBloc h2 {
-    font-size : 2rem;
+    font-size : 2vw;
 }
 
+.tauxRepartitionBloc p {
+    font-size : 1.2vw;
+}
 
 .buttonTaux {
     margin-top : 10%;
