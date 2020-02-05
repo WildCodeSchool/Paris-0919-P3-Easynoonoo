@@ -21,8 +21,7 @@
 
 /*BANNER */
 
-.Homepage .articleDescription {  
-    margin-top : 5%;  
+.Homepage .articleDescription {      
     background-color : #f4f6fa;
     padding-top : 5%;
     padding-bottom : 5%;  
@@ -72,8 +71,8 @@
 /*Encart*/
 
 .bannerIntro {
-    margin-top : 5%;
-    margin-bottom : 5%;
+    padding-top : 5%;
+    padding-bottom : 5%;
 }
 
 .bannerIntro h2  {
@@ -101,8 +100,8 @@
 }
 
 .Homepage .screen {
-    padding-top : 10%;
-    padding-bottom : 10%;    
+    padding-top : 6%;
+    padding-bottom : 6%;    
 }
 
 .Homepage .desc {       
