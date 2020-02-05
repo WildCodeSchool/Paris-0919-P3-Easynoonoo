@@ -656,25 +656,25 @@ const SimForm = () => {
             <h2>Coûts mensuels</h2>
             <div className="row d-flex justify-content-around parentResult flex-wrap">
 
-              <div className='col-12 col-lg-7'>
+              <div className='col-12 col-lg-6'>
                 <ResultCharges results={requestCalcul} />
               </div>
 
 
 
-              <div className='col-12 col-lg-4'>
+              <div className='col-12 col-lg-5'>
                 <div className='infosRecap d-flex flex-column justify-content-center align-items-center'>
                   <h3>Informations</h3>
-                  <p>Nombre d'heures hebdomadaires : {heuresHebdo}h</p>
+                  <p id='centerTextRevenu'>Heures hebdomadaires : {heuresHebdo}h</p>
                   <p>Taux horaire : {tauxHoraire} euros </p>
                   <p>Garde partagée : {gardePartagee == true ? 'Oui' : 'Non'} </p>
                   {gardePartagee === true ?
                     <p> Taux de répartition : {repartitionFamille}</p> : ''}
                   <p>Parent isolé : {parentIsole == true ? 'Oui' : 'Non'} </p>
-                  <p>Nombre d'enfants à charge : {nbEnfants} </p>
+                  <p>Enfants à charge : {nbEnfants} </p>
                   {ressourcesAnnuelles == 20755 || ressourcesAnnuelles == 23701 || ressourcesAnnuelles == 26647 || ressourcesAnnuelles == 29593 || ressourcesAnnuelles == 29057 || ressourcesAnnuelles == 33181 || ressourcesAnnuelles == 37306 || ressourcesAnnuelles == 41430
-                    ? <p> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
-                    : <p> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
+                    ? <p id='centerTextRevenu'> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
+                    : <p id='centerTextRevenu'> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
                   <p>Alsace-Moselle : {alsaceMoselle == true ? 'Oui' : 'Non'}</p>
                 </div>
 

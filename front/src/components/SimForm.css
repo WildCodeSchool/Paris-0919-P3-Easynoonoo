@@ -24,21 +24,21 @@
   background-color : #f4f6fa;
   padding : 8%;
   margin-top : 2%;
-  font-size : 1.5vw;
+  font-size : 1.2vw;
 }
 
 .formGeneral input {
-  font-size : 1.5vw;
+  font-size : 1.2vw;
   margin-bottom : 2%;
 }
 
 .formGeneral select {
-  font-size : 1.5vw;
+  font-size : 1.2vw;
 }
 
 .formGeneral {
   background-color : #ffffff;
-  padding : 4% 8% 4% 8%;
+  padding : 4% 7% 4% 7%;
   border : #e2e5ed 0.5px solid;
   box-shadow: 8px 8px 11px 0.5px rgba(0, 0, 255, .2);    
 }
@@ -47,7 +47,7 @@
 /*CSS général result */
 .resultSimFormCompo {
   background-color : #ffffff;
-  padding : 4% 8% 4% 8%;
+  padding : 4% 7% 4% 7%;
   border : #e2e5ed 0.5px solid;
   box-shadow: 8px 8px 11px 0.5px rgba(0, 0, 255, .2);    
 
@@ -57,17 +57,23 @@
 /*CSS recap réponses*/
 
 .infosRecap {
-  background-color : #687189;
-  color : white;
+  background-color : #e2e5ed;
+  color : #2e3858;
   margin : 0.3%;
   padding : 3%;
-  font-size : 1.5vw;
+  font-size : 1vw;
   margin-bottom : 2%;
-
+  border-style : solid;
+  border-width : 1px;
+  border-color : #687189;
 }
 
 .infosRecap h3 {
   font-size : 2vw;
+}
+
+#centerTextRevenu {
+  text-align : center
 }
 
 /*CSS hypothèses */
@@ -77,7 +83,7 @@
   overflow-x: unset;
   /* margin-top: -2em; */
   margin-bottom : 2%;
-  font-size : 1.5vw;
+  font-size : 1vw;
 }
 
 .collapse_display {
@@ -87,15 +93,22 @@
 }
 
 .table-responsive input {
-  font-size : 1.5vw;
+  font-size : 1vw;
   margin-bottom : 1%;
+  
 }
 
 .table-responsive select{
-  font-size : 1.5vw;
+  font-size : 1vw;
   margin-bottom : 1%;
 }
 
 .buttonAffiner {
   margin-top : 5%;
+  background-color : #2E3858;
+  border-style : none;
+}
+
+.buttonAffiner:hover {
+  background-color :  rgb(81, 91, 124);
 }
