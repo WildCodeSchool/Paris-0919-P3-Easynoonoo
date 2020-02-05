@@ -3,12 +3,16 @@
 }
 
 .Homepage p {
-    font-size : 1rem;
+    font-size : 1.2vw;
 }
 
 .Homepage h2 {
-    font-size : 2rem;
+    font-size : 2.8vw;
     margin-bottom : 0px;
+}
+
+.Homepage h3 {
+    font-size : 1.5vw;    
 }
 
 .Homepage a {
@@ -44,7 +48,31 @@
     transform: rotate(360deg);
 }
 
+/*Banniere logo*/
+
+.bannerIntro {
+    margin-top : 5%;
+    margin-bottom : 5%;
+}
+
+.bannerIntro h2  {
+    text-align : center;
+    color : #2E3858;
+}
+
+.bannerIntro h3  {
+    text-align : center;
+    color : #687189;
+    margin-top : 2%;
+    margin-bottom : 2%;
+}
+
 /*Contrat -> rappel*/
+
+.imgHome {
+    width : 80%;
+    height : auto;
+}
 
 .Homepage .screen {
     padding-top : 10%;
@@ -52,16 +80,17 @@
 }
 
 .Homepage .screenv2 {  /*background for the second screen*/
-    background-color : #687189;       
+       
 }
 
 .Homepage .desc {       
-    color : #2E3858;    
-    font-size : 20px;      
+    color : #687189;    
+    font-size : 1.2vw;      
 }
 
+
 .Homepage .descColor { /*background for the second description */
-   color : #FFFFFF;
+   
 }
 
 .Homepage .desc h2{       
@@ -69,8 +98,12 @@
     margin-left : 1%;           
 }
 
+.simuDesc2 h3 {
+    color : white;
+}
+
 #rappel {
-    margin-bottom : 10%;
+    
 }
 
 
@@ -80,7 +113,7 @@
 
 .h2Simulateur {
     text-align : center;
-    font-size : 40px;
+    font-size : 3vw;
     color : #2E3858;
     margin-top : 8%;
     margin-bottom : 3%;    
@@ -94,9 +127,16 @@
 /*Simulateur / Txt + btn*/
 
 .simulateur h3 {
-    font-size : 20px;
+    font-size : 1.5vw;
     margin : 0px;
     margin-bottom : 2%;
+}
+
+.h3Title {
+    text-align : center;
+    margin-top : 2%;
+    font-size : 1.5vw;
+    color : #687189;
 }
 
 .simulateurDescription {    
@@ -129,8 +169,8 @@
 }
 
 .Homepage .HomepageIcon {
-    height : 50px;
-    width : 50px;
+    height : 75px;
+    width : 75px;
     
 }
 
