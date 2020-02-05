@@ -8,23 +8,23 @@ const Footer = () => {
             <footer className ='footerWebsite'>
                 <div className='footerInfos'>
                     <h4>Easynoonoo</h4>
-                    <p> "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant" </p>
                 </div>
                 <div className ='footerLink'>
                     <div className='footerElements'>
-                        <p>Link </p>
-                        <p>Link </p>
-                        <p>Link </p>
-                        <p>Link </p>
+                        <p>A propos</p>
+                        <p>Notre mission</p>
+                        <p>Accompagnement</p>
+                        <p>On recrute</p>
                     </div>
                     <div className='footerElements'>
-                        <p>Link </p>
-                        <p>Link </p>
-                        <p>Link </p>                        
-                        <p>Mentions légales</p>
+                        <p>Mentions</p>
+                        <p>CGU</p>
+                        <p>Mentions légales</p>                        
+                        <p>RGPD</p>
+                        <p>Cookies</p>
+                        <p>Statut</p>
                     </div>      
                     <div className='footerElements'>
-                        <p>Contact</p>
                         <p>Réseaux sociaux</p>
                     </div>              
                 </div>
