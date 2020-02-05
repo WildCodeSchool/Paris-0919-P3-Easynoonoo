@@ -270,13 +270,13 @@ const Home = () => {
       <div className="container-fluid simulateur">
         <div className="row d-flex justify-content-center wrap">
           <div className="col-10 col-lg-5 d-flex flex-column justify-content-between align-items-center simulateurDescription">
-            <h3>Estimer le coup de garde à domicile</h3>
+            <h3>Estimer le coût de garde à domicile</h3>
             <p>
               {' '}
               Besoin d’estimer le coût de la garde à domicile ou de simuler l’impact d’un changement de situation, notre simulateur est là pour vous aider{' '}
             </p>
 
-            <Link to="/familyform">
+            <Link to="/simform" >
               <input
                 type="button"
                 className="simulateurbtn"
@@ -291,10 +291,10 @@ const Home = () => {
             <h3>Calculer votre part en cas de garde partagée</h3>
             <p>
               {' '}
-              Entre des rythmes de garde qui changent au cours de l’année (période scolaire et vacances, par exemple) et des horaires différents d’une famille à l’autre, estimez la part des heures de garde à votre charge{' '}
+              Entre des rythmes de garde qui changent au cours de l’année (périodes scolaires et vacances, par exemple) et des horaires différents d’une famille à l’autre, estimez la part des heures de garde à votre charge{' '}
             </p>
 
-            <Link to="/simform">
+            <Link to="/familyform">
               <input
                 type="button"
                 id="simulateurBtn2"
