@@ -602,15 +602,10 @@ const SimForm = () => {
                     Heures hebdomadaires : {heuresHebdo}h
                   </p>
                   <p>Taux horaire : {tauxHoraire} euros </p>
-                  <p>
-                    Garde partagée : {gardePartagee == true ? "Oui" : "Non"}{" "}
-                  </p>
-                  {gardePartagee === true ? (
-                    <p> Taux de répartition : {repartitionFamille}</p>
-                  ) : (
-                    ""
-                  )}
-                  <p>Parent isolé : {parentIsole == true ? "Oui" : "Non"} </p>
+                  <p>Garde partagée : {gardePartagee == 'true' ? 'Oui' : 'Non'} </p>
+                  {gardePartagee === true ?
+                    <p> Taux de répartition : {repartitionFamille}</p> : ''}
+                  <p>Parent isolé : {parentIsole == 'true' ? 'Oui' : 'Non'} </p>
                   <p>Enfants à charge : {nbEnfants} </p>
                   {ressourcesAnnuelles == 20755 ||
                   ressourcesAnnuelles == 23701 ||
@@ -690,9 +685,9 @@ const SimForm = () => {
                         <input
                           class="form-control"
                           type="number"
-                          value={repartitionFamille}
+                          value={partPriseCharge}
                           onChange={e =>
-                            setrepartitionFamille(parseInt(e.target.value))
+                            setPartPriseCharge(parseInt(e.target.value))
                           }
                         />
                       </div>
