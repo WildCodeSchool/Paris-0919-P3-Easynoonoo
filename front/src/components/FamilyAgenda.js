@@ -327,6 +327,7 @@ class FamilyAgenda extends React.Component {
 					this.setState({ countTimeSlot: countId })
 					this.setState({ calendarChild: childCalendar })
 					this.setState({ colorState: childColor })
+					
 
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -962,6 +963,7 @@ class FamilyAgenda extends React.Component {
 									onClick={() => this.wipeLastSelect()}
 								>
 									<i class="fa fa-undo"></i>
+									Effacer la dernière sélection
 								</button>
 								<button
 									class="simulateurbtnwipe"
@@ -971,8 +973,11 @@ class FamilyAgenda extends React.Component {
 								>	
 								
 								<i className="fa fa-trash-o fa-lg"></i>
+								Effacer le planning
 
 								</button>
+								
+								
 						{/* enfants en garde partagée : calendrier apparait  */}
 
 						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0 ?
@@ -991,18 +996,31 @@ class FamilyAgenda extends React.Component {
 								</div>
 							</div>
 
-							: <div class="container-fluid d-flex ">
+							: <div class="container-fluid d-flex row ">
+								<div class="input-group-append row">
+								<button
+									class="calendar_simulateurbtn_validate"
+									type="button"
+									value="copier"
+									onClick={() => this.addChild()}
+								>
+									
+									Valider et copier le planning
+								</button>
+								</div>
+								<div class="input-group-append row">
 								<button
 									type="button"
-									class="calendar_simulateurbtn"
+									class="calendar_simulateurbtn_validate"
 									onClick={() =>
 										
-											this.addChild()
+											this.addChildReset()
 											
 									}
 								>
 									Valider
                 				</button>
+							</div>
 							</div>
 							
 						}

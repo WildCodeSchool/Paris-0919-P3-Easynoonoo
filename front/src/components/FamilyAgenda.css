@@ -185,19 +185,17 @@ th.calendarCell.time {
 .calendar_simulateurbtn {
   background-color: #2e3858;
   color: #ffffff;
-  width: 150px;
   border-color: #2e3858;
   margin-top: 20%;
   margin-right: 2%;
+  box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, 0.2);
 }
 
-.calendar_simulateurbtn_calcul {
+.calendar_simulateurbtn_validate {
   background-color: #2e3858;
+  border-color: #2e3858;
   color: #ffffff;
-  width: 150px;
-  height: 40px;
-  margin-top: 1%;
-  margin-left: 2.5%;
+  margin-top: 20%;
   border: none;
   box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, 0.2);
 }
@@ -205,13 +203,13 @@ th.calendarCell.time {
 .buttonCalculAgenda {
   margin: 0 0 0 0;
   padding: 0px;
+  box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, 0.2);
+  border-color: #2e3858;
 }
 
 .simulateurbtnwipe {
   background-color: #ee5e6a;
   color: #ffffff;
-  width: 50px;
-  height: 50px;
   margin-top: 4%;
   border: none;
   box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, 0.2);
@@ -219,4 +217,8 @@ th.calendarCell.time {
 
 .inputChoixPlagesHoraires {
   margin-top: 5%;
+}
+
+i {
+  margin-right: 10px;
 }
