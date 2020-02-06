@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const moment = require('moment');
+const dotenv = require('dotenv');
 
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
@@ -14,12 +15,11 @@ const port = 4000
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
+dotenv.config();
 
 // ____________ REMOTE DB ROUTE ______________
 
-const dbRoute =
-  'mongodb+srv://easynoonoo:easynoonoo@cluster0-mznsf.azure.mongodb.net/easynoonooDB?retryWrites=true&w=majority'
-
+const dbRoute = process.env.MONGOLAB_URI;
 // ____________ CHECK YOUR CONNECTION TO MONGO DB REMOTE ______________
 
 mongoose
@@ -589,22 +589,6 @@ app.post('/api/calculscharges', function (req, res) {
       })
     )
   }
-
-  /* netHoraire = Math.round((req.body.tauxHoraire -
-    ((req.body.tauxHoraire * 0.01 * (
-      maladieMaterniteInvaliditeDecesEmployes +
-      assuranceVieillesseDeplafonneeEmployes +
-      vieillessePlafonneeEmployes +
-      arrayTr[3] +
-      arrayTr[0] +
-      arrayTr[1] +
-      arrayTr[2] +
-      assuranceChomageEmployes +
-      IrcemPrevoyanceEmployes))
-      + (assietteCsgRdsHoraire * 0.01 * (
-        CsgDeductibleEmployes +
-        CsgNonDeductibleEmployes +
-        CrdsNonDeductibleEmployes)))) * 100) / 100 */
 
   /*--------------------------CALCUL SALAIRE NET---------------------*/
 
@@ -1370,8 +1354,8 @@ app.get('/api/calculsRepartition', function (req, res) {
                 }
               })
               if(nbEnfantB >= 1 && nbEnfantA >= 1){
-                  ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15
-                  ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15
+                  ponderateA = ponderateA + nbEnfantA * 15
+                  ponderateB = ponderateB + nbEnfantB * 15
                   console.log(ponderateA / 60, ponderateB / 60)
               }
             })
