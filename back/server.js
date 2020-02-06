@@ -1355,29 +1355,41 @@ app.get('/api/calculsRepartition', function (req, res) {
     const calculPonderationCommunes = () => {
       return (
         new Promise (resolve => {
-          commonArrayB.map(val => {
-            let nbEnfantA = 0 
-            let nbEnfantB = 0
-            enfants.map(hour => {
-              if((moment(val).isBetween(hour.start, hour.end)) || val === hour.start || val === hour.end ){
-                if(hour.famille === 'A'){
-                  nbEnfantA = nbEnfantA + 1
+          if (commonArrayB.length > 0){
+            commonArrayB.map(val => {
+              let nbEnfantA = 0 
+              let nbEnfantB = 0
+              enfants.map(hour => {
+                if((moment(val).isBetween(hour.start, hour.end)) || val === hour.start || val === hour.end ){
+                  if(hour.famille === 'A'){
+                    nbEnfantA = nbEnfantA + 1
+                  }
+                  else {
+                    nbEnfantB = nbEnfantB + 1
+                  }
                 }
-                else {
-                  nbEnfantB = nbEnfantB + 1
-                }
+              })
+              if(nbEnfantB >= 1 && nbEnfantA >= 1){
+                  ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15
+                  ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15
+                  console.log(ponderateA / 60, ponderateB / 60)
               }
             })
-            if(nbEnfantB >= 1 && nbEnfantA >= 1){
-                ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15
-                ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15
-            }
-          })
-          resolve (
-            ponderateTotale = ponderateA + ponderateB,
-            ponderateFamilleA = (ponderateA / ponderateTotale),
-            ponderateFamilleB = (ponderateB / ponderateTotale),
-          )
+            console.log(ponderateA / 60)
+            console.log(ponderateB / 60)
+            resolve (
+              ponderateTotale = ponderateA + ponderateB,
+              ponderateFamilleA = (ponderateA / ponderateTotale),
+              ponderateFamilleB = (ponderateB / ponderateTotale),
+              console.log(ponderateFamilleA, ponderateA / 60, ponderateTotale / 60)
+            )
+          }
+          else {
+            resolve(
+              ponderateFamilleA = 0,
+              ponderateFamilleB = 0
+            )
+          }
         })
       )
     }
@@ -1513,6 +1525,7 @@ app.get('/api/calculsRepartition', function (req, res) {
         new Promise(resolve => {
           resolve(
             NounouTotale = Math.min(heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50, 53*60),
+            console.log(NounouTotale/60)
           )  
         })
       )
@@ -1523,6 +1536,7 @@ app.get('/api/calculsRepartition', function (req, res) {
         new Promise (resolve => {
           resolve (
             RepartitionA = ((((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)) * ponderateFamilleA) + heuresExcluANormale + (hourSupp25A * 1.25) + (hourSupp50A * 1.50)) / NounouTotale),
+            console.log((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)), ponderateFamilleA, heuresExcluANormale, hourSupp25A, hourSupp50A),
             RepartitionB = ((((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)) * ponderateFamilleB) + heuresExcluBNormale + (hourSupp25B * 1.25) + (hourSupp50B * 1.50)) / NounouTotale),
             heuresCommuneNormales = heuresCommuneNormales / 60,
             hourSupp25Commune = hourSupp25Commune / 60,
