@@ -5,6 +5,7 @@ const cors = require('cors')
 const axios = require('axios')
 
 const moment = require('moment');
+const dotenv = require('dotenv');
 
 const { tauxChargesEmployes } = require('./models/chargesEmployes')
 const { tauxChargesEmployeurs } = require('./models/chargesEmployeurs')
@@ -16,12 +17,11 @@ const port = 4000
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
+dotenv.config();
 
 // ____________ REMOTE DB ROUTE ______________
 
-const dbRoute =
-  'mongodb+srv://easynoonoo:easynoonoo@cluster0-mznsf.azure.mongodb.net/easynoonooDB?retryWrites=true&w=majority'
-
+const dbRoute = process.env.MONGOLAB_URI;
 // ____________ CHECK YOUR CONNECTION TO MONGO DB REMOTE ______________
 
 mongoose
@@ -602,22 +602,6 @@ app.post('/api/calculscharges', function (req, res) {
       })
     )
   }
-
-  /* netHoraire = Math.round((req.body.tauxHoraire -
-    ((req.body.tauxHoraire * 0.01 * (
-      maladieMaterniteInvaliditeDecesEmployes +
-      assuranceVieillesseDeplafonneeEmployes +
-      vieillessePlafonneeEmployes +
-      arrayTr[3] +
-      arrayTr[0] +
-      arrayTr[1] +
-      arrayTr[2] +
-      assuranceChomageEmployes +
-      IrcemPrevoyanceEmployes))
-      + (assietteCsgRdsHoraire * 0.01 * (
-        CsgDeductibleEmployes +
-        CsgNonDeductibleEmployes +
-        CrdsNonDeductibleEmployes)))) * 100) / 100 */
 
   /*--------------------------CALCUL SALAIRE NET---------------------*/
 
@@ -1372,29 +1356,37 @@ app.post('/api/calculsRepartition', (req, res) => {
     const calculPonderationCommunes = () => {
       return (
         new Promise (resolve => {
-          commonArrayB.map(val => {
-            let nbEnfantA = 0 
-            let nbEnfantB = 0
-            enfants.map(hour => {
-              if((moment(val).isBetween(hour.start, hour.end)) || val === hour.start || val === hour.end ){
-                if(hour.famille === 'A'){
-                  nbEnfantA = nbEnfantA + 1
+          if (commonArrayB.length > 0){
+            commonArrayB.map(val => {
+              let nbEnfantA = 0 
+              let nbEnfantB = 0
+              enfants.map(hour => {
+                if((moment(val).isBetween(hour.start, hour.end)) || val === hour.start || val === hour.end ){
+                  if(hour.famille === 'A'){
+                    nbEnfantA = nbEnfantA + 1
+                  }
+                  else {
+                    nbEnfantB = nbEnfantB + 1
+                  }
                 }
-                else {
-                  nbEnfantB = nbEnfantB + 1
-                }
+              })
+              if(nbEnfantB >= 1 && nbEnfantA >= 1){
+                  ponderateA = ponderateA + nbEnfantA * 15
+                  ponderateB = ponderateB + nbEnfantB * 15
               }
             })
-            if(nbEnfantB >= 1 && nbEnfantA >= 1){
-                ponderateA = ponderateA + /* ((nbEnfantA / (nbEnfantA + nbEnfantB)) * */ nbEnfantA * 15
-                ponderateB = ponderateB + /* ((nbEnfantB / (nbEnfantA + nbEnfantB)) * */ nbEnfantB * 15
-            }
-          })
-          resolve (
-            ponderateTotale = ponderateA + ponderateB,
-            ponderateFamilleA = (ponderateA / ponderateTotale),
-            ponderateFamilleB = (ponderateB / ponderateTotale),
-          )
+            resolve (
+              ponderateTotale = ponderateA + ponderateB,
+              ponderateFamilleA = (ponderateA / ponderateTotale),
+              ponderateFamilleB = (ponderateB / ponderateTotale),
+            )
+          }
+          else {
+            resolve(
+              ponderateFamilleA = 0,
+              ponderateFamilleB = 0
+            )
+          }
         })
       )
     }
@@ -1529,7 +1521,7 @@ app.post('/api/calculsRepartition', (req, res) => {
       return (
         new Promise(resolve => {
           resolve(
-            NounouTotale = Math.min(heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50, 53*60),
+            NounouTotale = Math.min(heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50, 53*60)
           )  
         })
       )

@@ -1,120 +1,107 @@
-import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import SimpleReactValidator from 'simple-react-validator'
-import './SimForm.css'
-import ResultCharges from './ResultCharges'
-import { relativeTimeRounding } from 'moment'
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import SimpleReactValidator from "simple-react-validator";
+import "./SimForm.css";
+import ResultCharges from "./ResultCharges";
+import { relativeTimeRounding } from "moment";
 
 const SimForm = () => {
   // initialize value to the one in the localstorage in the first render
   const initialAnswer1 = () =>
-    Number(window.localStorage.getItem('heuresHebdo')) || 40
+    Number(window.localStorage.getItem("heuresHebdo")) || 40;
   const initialAnswer2 = () =>
-    Number(window.localStorage.getItem('alsaceMoselle')) || 0
+    Number(window.localStorage.getItem("alsaceMoselle")) || 0;
   const initialAnswer3 = () =>
-    Number(window.localStorage.getItem('tauxHoraire')) || 10
-  const initialAnswer4 = () => false //parentIsole
+    Number(window.localStorage.getItem("tauxHoraire")) || 10;
+  const initialAnswer4 = () => false; //parentIsole
   const initialAnswer5 = () =>
-    Number(window.localStorage.getItem('repartitionFamille')) || 100
+    Number(window.localStorage.getItem("repartitionFamille")) || 100;
   const initialAnswer6 = () =>
-    Number(window.localStorage.getItem('nbEnfants')) || 0
+    Number(window.localStorage.getItem("nbEnfants")) || 0;
   const initialAnswer7 = () =>
-    Number(window.localStorage.getItem('enfantPlusJeune')) || 0
+    Number(window.localStorage.getItem("enfantPlusJeune")) || 0;
   const initialAnswer8 = () =>
-    Boolean(window.localStorage.getItem('parentIsole')) || false
+    Boolean(window.localStorage.getItem("parentIsole")) || false;
   const initialAnswer9 = () =>
-    Number(window.localStorage.getItem('ressourcesAnnuelles')) || 0
+    Number(window.localStorage.getItem("ressourcesAnnuelles")) || 0;
 
   // state en hook pour les réponses
 
-  const [heuresHebdo, setheuresHebdo] = useState(initialAnswer1)
-  const [alsaceMoselle, setalsaceMoselle] = useState(initialAnswer2)
-  const [tauxHoraire, settauxHoraire] = useState(initialAnswer3)
-  const [gardePartagee, setGardePartagee] = useState(initialAnswer4)
-  const [repartitionFamille, setrepartitionFamille] = useState(
-    initialAnswer5,
-  )
-  const [nbEnfants, setnbEnfants] = useState(initialAnswer6)
-  const [enfantPlusJeune, setenfantPlusJeune] = useState(
-    initialAnswer7,
-  )
-  const [parentIsole, setparentIsole] = useState(initialAnswer8)
+  const [heuresHebdo, setheuresHebdo] = useState(initialAnswer1);
+  const [alsaceMoselle, setalsaceMoselle] = useState(initialAnswer2);
+  const [tauxHoraire, settauxHoraire] = useState(initialAnswer3);
+  const [gardePartagee, setGardePartagee] = useState(initialAnswer4);
+  const [repartitionFamille, setrepartitionFamille] = useState(initialAnswer5);
+  const [nbEnfants, setnbEnfants] = useState(initialAnswer6);
+  const [enfantPlusJeune, setenfantPlusJeune] = useState(initialAnswer7);
+  const [parentIsole, setparentIsole] = useState(initialAnswer8);
   const [ressourcesAnnuelles, setressourcesAnnuelles] = useState(
-    initialAnswer9,
-  )
+    initialAnswer9
+  );
 
   // function to find heureSup
   let heuresSeparees = heureHebdo => {
-    let heureSup
+    let heureSup;
     if (heureHebdo > 40) {
-      heureSup = heureHebdo - 40
-      return heureSup
+      heureSup = heureHebdo - 40;
+      return heureSup;
     } else {
-      heureSup = 0
-      return heureSup
+      heureSup = 0;
+      return heureSup;
     }
-  }
+  };
 
   // hooks + variables pour hypothèses de calculs
 
-  let aujd = new Date()
+  let aujd = new Date();
   const initialAnswerPanierRepas = () =>
-    Number(window.localStorage.getItem('panierRepas')) || 5
+    Number(window.localStorage.getItem("panierRepas")) || 5;
   const initialAnswersJoursTravaillesHebdo = () =>
-    Number(window.localStorage.getItem('joursTravaillesSemaines')) ||
-    5
+    Number(window.localStorage.getItem("joursTravaillesSemaines")) || 5;
   const initialAnswersAbonnementTransport = () =>
-    Number(
-      window.localStorage.getItem('montantAbonnementTransports'),
-    ) || 75.2
+    Number(window.localStorage.getItem("montantAbonnementTransports")) || 75.2;
   const initialAnswersPriseEnChargeAbonnement = () =>
-    Number(window.localStorage.getItem('priseEnChargeAbonnement')) ||
-    50
+    Number(window.localStorage.getItem("priseEnChargeAbonnement")) || 50;
   const initialAnswerspremiereAnneeEmploiDomicile = () =>
-    Boolean(
-      window.localStorage.getItem('premiereAnneeEmploiDomicile'),
-    ) || true
+    Boolean(window.localStorage.getItem("premiereAnneeEmploiDomicile")) || true;
   const initialJoursCp = () =>
-    Number(window.localStorage.getItem('joursCP')) || 25
+    Number(window.localStorage.getItem("joursCP")) || 25;
   const initialJoursRecup = () =>
-    Number(window.localStorage.getItem('joursRecup')) || 0
+    Number(window.localStorage.getItem("joursRecup")) || 0;
   const initialAnswersGardeAlternee = () =>
-    window.localStorage.getItem('gardeAlternee') || false
+    window.localStorage.getItem("gardeAlternee") || false;
 
-  const [requestCalcul, setRequestCalcul] = useState([])
-  const [showResults, setShowResults] = useState(false)
+  const [requestCalcul, setRequestCalcul] = useState([]);
+  const [showResults, setShowResults] = useState(false);
   const [anneeEmploi, setAnneeEmploi] = useState(
-    initialAnswerspremiereAnneeEmploiDomicile,
-  )
+    initialAnswerspremiereAnneeEmploiDomicile
+  );
   const [montantTransport, setMontantTransport] = useState(
-    initialAnswersAbonnementTransport,
-  )
+    initialAnswersAbonnementTransport
+  );
   const [partPriseCharge, setPartPriseCharge] = useState(
-    initialAnswersPriseEnChargeAbonnement,
-  )
-  const [panierRepas, setPanierRepas] = useState(
-    initialAnswerPanierRepas,
-  )
-  const [joursCP, setJoursCP] = useState(initialJoursCp)
-  const [joursRecup, setJoursRecup] = useState(initialJoursRecup)
-  const [
-    joursTravaillesSemaines,
-    setJoursTravaillesSemaines,
-  ] = useState(initialAnswersJoursTravaillesHebdo)
+    initialAnswersPriseEnChargeAbonnement
+  );
+  const [panierRepas, setPanierRepas] = useState(initialAnswerPanierRepas);
+  const [joursCP, setJoursCP] = useState(initialJoursCp);
+  const [joursRecup, setJoursRecup] = useState(initialJoursRecup);
+  const [joursTravaillesSemaines, setJoursTravaillesSemaines] = useState(
+    initialAnswersJoursTravaillesHebdo
+  );
   const [gardeAlternee, setGardeAlternee] = useState(
-    initialAnswersGardeAlternee,
-  )
+    initialAnswersGardeAlternee
+  );
 
   const returnBoolean = e => {
-    if (e == 'true') {
-      return true
+    if (e == "true") {
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
-  let dataObject = []
+  let dataObject = [];
 
   const getData = () => {
     return new Promise(resolve => {
@@ -138,110 +125,92 @@ const SimForm = () => {
           priseEnChargeAbonnement: partPriseCharge / 100,
           montantAbonnementTransports: montantTransport,
           premiereAnneeEmploiDomicile: returnBoolean(anneeEmploi),
-          gardeAlternee: returnBoolean(gardeAlternee),
-        }),
-      )
-    })
-  }
+          gardeAlternee: returnBoolean(gardeAlternee)
+        })
+      );
+    });
+  };
 
   const sendData = () => {
     axios
-      .post('http://localhost:4000/api/calculscharges', dataObject) //POST - POST => envoyer infos
+      .post("http://localhost:4000/api/calculscharges", dataObject) //POST - POST => envoyer infos
       .then(res => {
-        console.log(res.data) //ici affiche la réponse du back (calculs)
-        setRequestCalcul(res.data) // je mets les calculs dans la state
+        console.log(res.data); //ici affiche la réponse du back (calculs)
+        setRequestCalcul(res.data); // je mets les calculs dans la state
       })
       .catch(error => {
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
 
   async function showData() {
-    await getData()
-    sendData()
-    setShowResults(true)
+    await getData();
+    sendData();
+    setShowResults(true);
   }
 
   /* réinitialise les states quand on clique sur input des "gardes partagées" */
   const resetGardePartagee = () => {
-    setrepartitionFamille(100)
-  }
+    setrepartitionFamille(100);
+  };
 
   // disabling form submissions if there are invalid fields
 
   const submit = event => {
-    event.preventDefault()
-    validationForm()
-    showData()
-  }
+    event.preventDefault();
+    validationForm();
+    showData();
+  };
 
   const validationForm = () => {
-    'use strict'
+    "use strict";
     window.addEventListener(
-      'load',
-      function () {
+      "load",
+      function() {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName(
-          'needs-validation',
-        )
+        var forms = document.getElementsByClassName("needs-validation");
         // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function (
-          form,
-        ) {
+        var validation = Array.prototype.filter.call(forms, function(form) {
           form.addEventListener(
-            'submit',
-            function (event) {
+            "submit",
+            function(event) {
               if (form.checkValidity() === false) {
-                event.preventDefault()
-                event.stopPropagation()
+                event.preventDefault();
+                event.stopPropagation();
               }
 
-              form.classList.add('was-validated')
+              form.classList.add("was-validated");
             },
-            false,
-          )
-        })
+            false
+          );
+        });
       },
-      false,
-    )
-  }
+      false
+    );
+  };
 
   //store the data in local storage
   useEffect(() => {
-    console.log('ici requestCalcul', requestCalcul)
-
-    window.localStorage.setItem('heuresHebdo', heuresHebdo)
-    window.localStorage.setItem('alsaceMoselle', alsaceMoselle)
-    window.localStorage.setItem('tauxHoraire', tauxHoraire)
-    window.localStorage.setItem('gardeAlternee', gardeAlternee)
+    window.localStorage.setItem("heuresHebdo", heuresHebdo);
+    window.localStorage.setItem("alsaceMoselle", alsaceMoselle);
+    window.localStorage.setItem("tauxHoraire", tauxHoraire);
+    window.localStorage.setItem("gardeAlternee", gardeAlternee);
+    window.localStorage.setItem("repartitionFamille", repartitionFamille);
+    window.localStorage.setItem("nbEnfants", nbEnfants);
+    window.localStorage.setItem("enfantPlusJeune", enfantPlusJeune);
+    window.localStorage.setItem("parentIsole", parentIsole);
+    window.localStorage.setItem("ressourcesAnnuelles", ressourcesAnnuelles);
+    window.localStorage.setItem("panierRepas", panierRepas);
     window.localStorage.setItem(
-      'repartitionFamille',
-      repartitionFamille,
-    )
-    window.localStorage.setItem('nbEnfants', nbEnfants)
-    window.localStorage.setItem('enfantPlusJeune', enfantPlusJeune)
-    window.localStorage.setItem('parentIsole', parentIsole)
+      "joursTravaillesSemaines",
+      joursTravaillesSemaines
+    );
     window.localStorage.setItem(
-      'ressourcesAnnuelles',
-      ressourcesAnnuelles,
-    )
-    window.localStorage.setItem('panierRepas', panierRepas)
-    window.localStorage.setItem(
-      'joursTravaillesSemaines',
-      joursTravaillesSemaines,
-    )
-    window.localStorage.setItem(
-      'montantAbonnementTransports',
-      montantTransport,
-    )
-    window.localStorage.setItem(
-      'priseEnChargeAbonnement',
-      partPriseCharge,
-    )
-    window.localStorage.setItem(
-      'premiereAnneeEmploiDomicile',
-      anneeEmploi,
-    )
+      "montantAbonnementTransports",
+      montantTransport
+    );
+    window.localStorage.setItem("priseEnChargeAbonnement", partPriseCharge);
+    window.localStorage.setItem("premiereAnneeEmploiDomicile", anneeEmploi);
   }, [
     heuresHebdo,
     alsaceMoselle,
@@ -258,8 +227,8 @@ const SimForm = () => {
     montantTransport,
     partPriseCharge,
     anneeEmploi,
-    gardePartagee,
-  ]) //callback run only the answers change
+    gardePartagee
+  ]); //callback run only the answers change
 
   const handleQuestion9 = () => {
     if (
@@ -270,17 +239,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="20755">
-              Inférieures ou égales à 20 755 €
-            </option>
+            <option value="20755">Inférieures ou égales à 20 755 €</option>
             <option value="20756">
-              Supérieures à 20 755 € et inférieures ou égales à
-              46 123 €
+              Supérieures à 20 755 € et inférieures ou égales à 46 123 €
             </option>
             <option value="46124">Supérieures à 46 123 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 2 && enfantPlusJeune <= 3) ||
       (nbEnfants == 2 && enfantPlusJeune >= 3)
@@ -289,17 +255,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="23701">
-              Inférieures ou égales à 23 701 €
-            </option>
+            <option value="23701">Inférieures ou égales à 23 701 €</option>
             <option value="23702">
-              Supérieures à 23 701 € et inférieures ou égales à
-              52 670 €
+              Supérieures à 23 701 € et inférieures ou égales à 52 670 €
             </option>
             <option value="52671">Supérieures à 52 670 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 3 && enfantPlusJeune <= 3) ||
       (nbEnfants == 3 && enfantPlusJeune) >= 3
@@ -308,17 +271,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="26647">
-              Inférieures ou égales à 26 647 €
-            </option>
+            <option value="26647">Inférieures ou égales à 26 647 €</option>
             <option value="26648">
-              Supérieures à 26 647 € et inférieures ou égales à
-              59 217 €
+              Supérieures à 26 647 € et inférieures ou égales à 59 217 €
             </option>
             <option value="59218">Supérieures à 59 217 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 4 && enfantPlusJeune <= 3) ||
       (nbEnfants == 4 && enfantPlusJeune >= 3)
@@ -327,19 +287,16 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="29593">
-              Inférieures ou égales à 29 593 €
-            </option>
+            <option value="29593">Inférieures ou égales à 29 593 €</option>
             <option value="29594">
-              Supérieures à 29 593 € et inférieures ou égales à
-              65 764 €
+              Supérieures à 29 593 € et inférieures ou égales à 65 764 €
             </option>
             <option value="65765">Supérieures à 65 764 €</option>
           </select>
         </div>
-      )
+      );
     }
-  }
+  };
 
   const handleQuestion9True = () => {
     if (
@@ -350,17 +307,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="29057">
-              Inférieures ou égales à 29 057 €
-            </option>
+            <option value="29057">Inférieures ou égales à 29 057 €</option>
             <option value="29058">
-              Supérieures à 29 057 € et inférieures ou égales à 64
-              572 €
+              Supérieures à 29 057 € et inférieures ou égales à 64 572 €
             </option>
             <option value="64573">Supérieures à 64 572 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 2 && enfantPlusJeune <= 3) ||
       (nbEnfants == 2 && enfantPlusJeune >= 3)
@@ -369,17 +323,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="33181">
-              Inférieures ou égales à 33 181 €
-            </option>
+            <option value="33181">Inférieures ou égales à 33 181 €</option>
             <option value="33182">
-              Supérieures à 33 181 € et inférieures ou égales à 73
-              738 €
+              Supérieures à 33 181 € et inférieures ou égales à 73 738 €
             </option>
             <option value="73739">Supérieures à 73 738 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 3 && enfantPlusJeune <= 3) ||
       (nbEnfants == 3 && enfantPlusJeune) >= 3
@@ -388,17 +339,14 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="37306">
-              Inférieures ou égales à 37 306 €
-            </option>
+            <option value="37306">Inférieures ou égales à 37 306 €</option>
             <option value="37307">
-              Supérieures à 37 306 € et inférieures ou égales à 82
-              904 €
+              Supérieures à 37 306 € et inférieures ou égales à 82 904 €
             </option>
             <option value="82905">Supérieures à 82 904 €</option>
           </select>
         </div>
-      )
+      );
     } else if (
       (nbEnfants == 4 && enfantPlusJeune <= 3) ||
       (nbEnfants == 4 && enfantPlusJeune >= 3)
@@ -407,43 +355,40 @@ const SimForm = () => {
         <div>
           <select class="form-control" required>
             <option value="">--Merci de choisir une option--</option>
-            <option value="41430">
-              Inférieures ou égales à 41 430 €
-            </option>
+            <option value="41430">Inférieures ou égales à 41 430 €</option>
             <option value="41431">
-              Supérieures à 41430 € et inférieures ou égales à 92
-              070 €
+              Supérieures à 41430 € et inférieures ou égales à 92 070 €
             </option>
             <option value="92071">Supérieures à 92 070 €</option>
           </select>
         </div>
-      )
+      );
     }
-  }
+  };
 
   return (
     <div className="container simForm-parent">
-      <h2>Simulation de salaire</h2>
       <form
         class="form-group"
         class="needs-validation"
         novalidate
         onSubmit={submit}
       >
-        {showResults == true ? '' : (
-          <div>
+        {showResults == true ? (
+          ""
+        ) : (
+          <div className="formGeneral">
+            <h2>Simulation de salaire</h2>
             <div>
               <label>
-                Quel est le temps de travail effectif hebdomadaire de
-                votre garde d'enfant(s) ?
-          </label>
+                Quel est le temps de travail effectif hebdomadaire de votre
+                garde d'enfant(s) ?
+              </label>
               <input
                 class="form-control"
                 type="number"
                 value={heuresHebdo}
-                onChange={e =>
-                  setheuresHebdo(parseInt(e.target.value, 10))
-                }
+                onChange={e => setheuresHebdo(parseInt(e.target.value, 10))}
                 min="1"
                 max="48"
                 required
@@ -453,7 +398,7 @@ const SimForm = () => {
             <div class="form-group">
               <label for="region-select">
                 Dans quelle région habitez-vous ?
-          </label>
+              </label>
               <select
                 class="form-control"
                 name="region"
@@ -471,16 +416,13 @@ const SimForm = () => {
 
             <div className="simFormNumberInput">
               <label>
-                Quel est le salaire brut horaire de votre garde
-                d'enfant(s) ?
-          </label>
+                Quel est le salaire brut horaire de votre garde d'enfant(s) ?
+              </label>
               <input
                 class="form-control"
                 type="number"
                 value={tauxHoraire}
-                onChange={e =>
-                  settauxHoraire(parseFloat(e.target.value, 10))
-                }
+                onChange={e => settauxHoraire(parseFloat(e.target.value, 10))}
                 min="10"
                 max="100"
                 step="0.1"
@@ -494,7 +436,7 @@ const SimForm = () => {
               <label class="form-check-label" for="customRadioInline1">
                 <input
                   value="true"
-                  checked={gardePartagee == 'true'}
+                  checked={gardePartagee == "true"}
                   onChange={e => setGardePartagee(e.target.value)}
                   type="radio"
                   id="customRadioInline1"
@@ -503,14 +445,14 @@ const SimForm = () => {
                   required
                 />
                 Oui
-          </label>
+              </label>
             </div>
 
             <div class="custom-control custom-radio custom-control-inline">
               <label class="form-check-label" for="customRadioInline2">
                 <input
                   value="false"
-                  checked={gardePartagee == 'false'}
+                  checked={gardePartagee == "false"}
                   onChange={e => setGardePartagee(e.target.value)}
                   onClick={() => resetGardePartagee()}
                   type="radio"
@@ -520,14 +462,14 @@ const SimForm = () => {
                   required
                 />
                 Non
-          </label>
+              </label>
             </div>
 
-            {gardePartagee == 'true' ? (
+            {gardePartagee == "true" ? (
               <div className="simFormNumberInput">
                 <label>
                   Quelle part du coût de la garde allez-vous supporter ?
-            </label>
+                </label>
                 <input
                   type="range"
                   class="custom-range"
@@ -541,15 +483,15 @@ const SimForm = () => {
                   id="customRange3"
                 ></input>
                 {repartitionFamille} %
-          </div>
+              </div>
             ) : (
-                ''
-              )}
+              ""
+            )}
 
             <div className="simFormNumberInput">
               <label for="child-number">
                 Combien d'enfants avez-vous à charge ?
-          </label>
+              </label>
               <select
                 class="form-control"
                 name="childs"
@@ -572,9 +514,7 @@ const SimForm = () => {
                 class="form-control"
                 type="number"
                 value={enfantPlusJeune}
-                onChange={e =>
-                  setenfantPlusJeune(parseInt(e.target.value))
-                }
+                onChange={e => setenfantPlusJeune(parseInt(e.target.value))}
                 min="0"
                 max="18"
                 required
@@ -589,7 +529,7 @@ const SimForm = () => {
                   type="radio"
                   className="checked"
                   value="true"
-                  checked={parentIsole == 'true'}
+                  checked={parentIsole == "true"}
                   onChange={e => setparentIsole(e.target.value)}
                   id="customRadioInline2"
                   name="customRadioInline2"
@@ -597,7 +537,7 @@ const SimForm = () => {
                   required
                 />
                 Oui
-          </label>
+              </label>
             </div>
 
             <div class="custom-control custom-radio custom-control-inline">
@@ -606,7 +546,7 @@ const SimForm = () => {
                   type="radio"
                   className="checked"
                   value="false"
-                  checked={parentIsole == 'false'}
+                  checked={parentIsole == "false"}
                   onChange={e => setparentIsole(e.target.value)}
                   id="customRadioInline2"
                   name="customRadioInline2"
@@ -614,14 +554,14 @@ const SimForm = () => {
                   required
                 />
                 Non
-          </label>
+              </label>
             </div>
 
-            {parentIsole == 'true' ? (
+            {parentIsole == "true" ? (
               <div className="simFormNumberInput">
                 <label for="salarySelect">
                   Quels sont vos revenus nets mensuels ?
-            </label>
+                </label>
                 <div
                   onChange={e =>
                     setressourcesAnnuelles(parseInt(e.target.value))
@@ -631,165 +571,181 @@ const SimForm = () => {
                 </div>
               </div>
             ) : (
-                <div className="simFormNumberInput">
-                  <label for="salarySelect">
-                    9. Quels sont les revenus nets annuels du foyer ?
-            </label>
-                  <div
-                    onChange={e =>
-                      setressourcesAnnuelles(parseInt(e.target.value))
-                    }
-                  >
-                    {handleQuestion9()}
-                  </div>
+              <div className="simFormNumberInput">
+                <label for="salarySelect">
+                  9. Quels sont les revenus nets annuels du foyer ?
+                </label>
+                <div
+                  onChange={e =>
+                    setressourcesAnnuelles(parseInt(e.target.value))
+                  }
+                >
+                  {handleQuestion9()}
                 </div>
-              )}
-
+              </div>
+            )}
           </div>
-
         )}
 
-        {/* Afficher récap hypothèses */}
-
-         {showResults == true ? ( 
-          <div className='row d-flex flex-column justify-content-center align-items-center infosRecap'>
-            <h3>Informations</h3>
-            <p>Nombre d'heures hebdomadaires : {heuresHebdo}h</p>
-            <p>Taux horaire : {tauxHoraire} euros </p>
-            <p>Garde partagée : {gardePartagee == true ? 'Oui' : 'Non'} </p>
-            { gardePartagee === true ? 
-            <p> Taux de répartition : {repartitionFamille}</p> : ''}
-            <p>Parent isolé : {parentIsole == true ? 'Oui' : 'Non'} </p>
-            <p>Nombre d'enfants à charges : {nbEnfants} </p>
-            { ressourcesAnnuelles == 20755 || ressourcesAnnuelles == 23701 || ressourcesAnnuelles == 26647 || ressourcesAnnuelles == 29593 ||ressourcesAnnuelles == 29057 || ressourcesAnnuelles == 33181 || ressourcesAnnuelles == 37306 || ressourcesAnnuelles == 41430
-             ? <p> Revenus du foyer : Inférieurs ou égales à {ressourcesAnnuelles} euros </p>
-             : <p> Revenus du foyer : Supérieurs à {ressourcesAnnuelles} euros </p>}
-            <p>Alsace-Moselle : {alsaceMoselle == true ? 'Oui' : 'Non'}</p>
-          </div>
-         ): ''}
-
-
-        {/* Afficher hypothèses + résultats */}
-
         {showResults == true ? (
-          // <div className="container-fluid">
-          <div className="table-responsive">
-            
-            <ResultCharges results={requestCalcul} />
+          <div className="container-fluid resultSimFormCompo">
+            <h2>Coûts mensuels</h2>
+            <div className="row d-flex justify-content-around parentResult flex-wrap">
+              <div className="col-12 col-lg-6">
+                <ResultCharges results={requestCalcul} />
+              </div>
 
-            <p className="collapse_display">
-              <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Affiner le calcul</a>
-            </p>
+              <div className="col-12 col-lg-5">
+                <div className="infosRecap d-flex flex-column justify-content-center align-items-center">
+                  <h3>Informations</h3>
+                  <p id="centerTextRevenu">
+                    Heures hebdomadaires : {heuresHebdo}h
+                  </p>
+                  <p>Taux horaire : {tauxHoraire} euros </p>
+                  <p>
+                    Garde partagée : {gardePartagee == true ? "Oui" : "Non"}{" "}
+                  </p>
+                  {gardePartagee === true ? (
+                    <p> Taux de répartition : {repartitionFamille}</p>
+                  ) : (
+                    ""
+                  )}
+                  <p>Parent isolé : {parentIsole == true ? "Oui" : "Non"} </p>
+                  <p>Enfants à charge : {nbEnfants} </p>
+                  {ressourcesAnnuelles == 20755 ||
+                  ressourcesAnnuelles == 23701 ||
+                  ressourcesAnnuelles == 26647 ||
+                  ressourcesAnnuelles == 29593 ||
+                  ressourcesAnnuelles == 29057 ||
+                  ressourcesAnnuelles == 33181 ||
+                  ressourcesAnnuelles == 37306 ||
+                  ressourcesAnnuelles == 41430 ? (
+                    <p id="centerTextRevenu">
+                      {" "}
+                      Revenus du foyer : Inférieurs ou égales à{" "}
+                      {ressourcesAnnuelles} euros{" "}
+                    </p>
+                  ) : (
+                    <p id="centerTextRevenu">
+                      {" "}
+                      Revenus du foyer : Supérieurs à {ressourcesAnnuelles}{" "}
+                      euros{" "}
+                    </p>
+                  )}
+                  <p>
+                    Alsace-Moselle : {alsaceMoselle == true ? "Oui" : "Non"}
+                  </p>
+                </div>
 
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-
-                <table class="table">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Hypothèses modifiables</th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <th scope="row">Panier repas (en euros)</th>
-                      <input
-                        type="number"
-                        value={panierRepas}
-                        onChange={e =>
-                          setPanierRepas(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Nombre jours travaillés par semaine
-                  </th>
-                      <input
-                        type="number"
-                        value={joursTravaillesSemaines}
-                        onChange={e =>
-                          setJoursTravaillesSemaines(
-                            parseInt(e.target.value),
-                          )
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Abonnement transports publics (en euros)
-                  </th>
-                      <input
-                        type="number"
-                        value={montantTransport}
-                        onChange={e =>
-                          setMontantTransport(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        Prise en charge de l'abonnement (%)
-                  </th>
-                      <input
-                        type="number"
-                        value={partPriseCharge}
-                        onChange={e =>
-                          setPartPriseCharge(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">Part garde (%)</th>
-                      <input
-                        type="number"
-                        value={repartitionFamille}
-                        onChange={e =>
-                          setrepartitionFamille(parseInt(e.target.value))
-                        }
-                      ></input>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        1ère année d'emploi d'un salarié à domicile
-                  </th>
-                      <select
-                        class="form-control form-control-lg"
-                        value={anneeEmploi}
-                        onChange={e => setAnneeEmploi(e.target.value)}
-                      >
-                        <option value={true}>oui</option>
-                        <option value={false}>non</option>
-                      </select>
-                    </tr>
-                    <tr className="align-items-center">
-                      <th scope="row">Garde alternée</th>
-                      <select
-                        class="form-control form-control-lg"
-                        value={gardeAlternee}
-                        onChange={e => setGardeAlternee(e.target.value)}
-                      >
-                        <option value={true}>oui</option>
-                        <option value={false}>non</option>
-                      </select>
-                    </tr>
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <p className="collapse_display">
+                    <a
+                      class="btn btn-primary buttonAffiner"
+                      data-toggle="collapse"
+                      href="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                    >
+                      Affiner le calcul
+                    </a>
+                  </p>
+                  <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                      <div className="lineTable">
+                        <label>Panier repas (en euros)</label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={panierRepas}
+                          onChange={e =>
+                            setPanierRepas(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="lineTable">
+                        <label>Nombre jours travaillés par semaine</label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={joursTravaillesSemaines}
+                          onChange={e =>
+                            setJoursTravaillesSemaines(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="lineTable">
+                        <label>Abonnement transports publics (en euros)</label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={montantTransport}
+                          onChange={e =>
+                            setMontantTransport(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="lineTable">
+                        <label>Prise en charge de l'abonnement (%)</label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={repartitionFamille}
+                          onChange={e =>
+                            setrepartitionFamille(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="lineTable">
+                        <label>Part garde (%)</label>
+                        <input
+                          class="form-control"
+                          type="number"
+                          value={repartitionFamille}
+                          onChange={e =>
+                            setrepartitionFamille(parseInt(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="lineTable">
+                        <label>
+                          1ère année d'emploi d'un salarié à domicile
+                        </label>
+                        <select
+                          class="form-control form-control-lg"
+                          value={anneeEmploi}
+                          onChange={e => setAnneeEmploi(e.target.value)}
+                        >
+                          <option value={true}>oui</option>
+                          <option value={false}>non</option>
+                        </select>
+                      </div>
+                      <div className="lineTable">
+                        <label>Garde alternée</label>
+                        <select
+                          class="form-control form-control-lg"
+                          value={gardeAlternee}
+                          onChange={e => setGardeAlternee(e.target.value)}
+                        >
+                          <option value={true}>oui</option>
+                          <option value={false}>non</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            {/* </div> */}
           </div>
         ) : (
-            ''
-          )}
+          ""
+        )}
 
         <div className="row justify-content-center">
           <input
-            className=" col-3 btn btn-primary simForm-Button btnSeccion"
+            className=" col-3 btn btn-outline-secondary simForm-Button"
             type="submit"
+            id="button-addon2"
             value="Calculer"
           />
         </div>
@@ -799,7 +755,7 @@ const SimForm = () => {
         <p className="simFormReturn">Retour aux simulateurs</p>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default SimForm
+export default SimForm;

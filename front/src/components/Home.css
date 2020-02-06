@@ -3,31 +3,55 @@
 }
 
 .Homepage p {
-    font-size : 1rem;
+    font-size : 1.2vw;
 }
 
 .Homepage h2 {
-    font-size : 2rem;
+    font-size : 2.8vw;
     margin-bottom : 0px;
+}
+
+.Homepage h3 {
+    font-size : 1.5vw;    
 }
 
 .Homepage a {
     text-decoration: none;
 }
 
-.Homepage .articleDescription {  
-    margin-top : 5%;  
-    background-color : #E2E5ED;
+/*BANNER */
+
+.Homepage .articleDescription {      
+    background-color : #f4f6fa;
     padding-top : 5%;
-    padding-bottom : 5%;            
+    padding-bottom : 5%;  
+             
 }
 
 .articleVision {  
     color : #687189;      
 }
 
-.articleDescription h2 {  
+.articleDescription h3 {  
     color:#2E3858;    
+}
+
+.articleDescription h2 {  
+    color : #EE5E6A;
+    margin : 2% 0 2% 0;  
+}
+
+.articleDescription button {  
+    background-color : #EE5E6A;
+    color : white;
+    border : none; 
+    font-size : 1.2vw;
+     
+}
+
+.articleDescription input{
+    font-size : 1.2vw;
+    
 }
 
 /* placeholder pour le logo */
@@ -35,54 +59,74 @@
 .placeholderLogo {
     height: 400px;
     width: 400px;    
-    -webkit-transition: -webkit-transform .8s ease-in-out;
-    transition:         transform .8s ease-in-out;
+    /* -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition:         transform .8s ease-in-out; */
 }
 
-.placeholderLogo:hover {
+/* .placeholderLogo:hover {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+} */
+
+/*Encart*/
+
+.bannerIntro {
+    padding-top : 5%;
+    padding-bottom : 5%;
+}
+
+.bannerIntro h2  {
+    text-align : center;
+    color : #2E3858;
+}
+
+.bannerIntro h3  {
+    text-align : center;
+    color : #687189;
+    margin-top : 2%;
+    margin-bottom : 2%;
+}
+
+.bannerIntro p {
+    color : #EE5E6A;
+    text-align : center;
 }
 
 /*Contrat -> rappel*/
 
-.Homepage .screen {
-    padding-top : 10%;
-    padding-bottom : 10%;    
+.imgHome {
+    width : 80%;
+    height : auto;
 }
 
-.Homepage .screenv2 {  /*background for the second screen*/
-    background-color : #687189;       
+.Homepage .screen {
+    padding-top : 6%;
+    padding-bottom : 6%;    
 }
 
 .Homepage .desc {       
-    color : #2E3858;    
-    font-size : 20px;      
+    color : #687189;    
+    font-size : 1.2vw;      
 }
 
-.Homepage .descColor { /*background for the second description */
-   color : #FFFFFF;
+.desc h3 {
+    font-size : 2.8vw;
+    color : #2E3858;
 }
 
-.Homepage .desc h2{       
-    color : #EE5E6A; 
-    margin-left : 1%;           
+.desc h2 {
+    font-size : 2vw;
+    color : #EE5E6A;
+    margin-left : 1%;  
 }
-
-#rappel {
-    margin-bottom : 10%;
-}
-
 
 
 /*Partie simulateur*/
 
-
 .h2Simulateur {
     text-align : center;
-    font-size : 40px;
     color : #2E3858;
-    margin-top : 8%;
+    margin-top : 3%;
     margin-bottom : 3%;    
 }
 
@@ -94,9 +138,15 @@
 /*Simulateur / Txt + btn*/
 
 .simulateur h3 {
-    font-size : 20px;
     margin : 0px;
     margin-bottom : 2%;
+    font-size : 2vw;
+}
+
+.h3Title {
+    text-align : center;
+    margin-top : 2%;
+    color : #687189;
 }
 
 .simulateurDescription {    
@@ -120,6 +170,7 @@
     margin-top : 4%;
     border : none;
     box-shadow: 1px 8px 11px 0.5px rgba(0, 0, 255, .2);
+    
 }
 
 #simulateurBtn2 {
@@ -133,6 +184,7 @@
     width : 50px;
     
 }
+
 
 @media screen and (max-width: 1187px) { /*break point for the banner */
     .articleMission .logo {

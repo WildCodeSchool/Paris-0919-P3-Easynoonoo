@@ -150,7 +150,6 @@ class FamilyAgenda extends React.Component {
 
 	// 		   let realTime = hours + ' heures et ' + min + ' min'
 	// 		   this.setState({ time: realTime, setTime: true })
-	// 		   console.log('TIME', realTime) 
 	// 		// } else {
 	// }
 
@@ -609,9 +608,6 @@ class FamilyAgenda extends React.Component {
 
 		const mapStart = await alreadyIn.map(x => x.start)
 		const mapEnd = await alreadyIn.map(y => y.end)
-
-		console.log('mapStart and mapEnd', mapStart, mapEnd)
-
 		const format = 'YYYY-MM-DD HH:mm'
 		let timeStart = moment(this.state.SUPERstart, format)
 		let timeEnd = moment(this.state.SUPERend, format)
@@ -631,7 +627,6 @@ class FamilyAgenda extends React.Component {
 				var action2 = true
 			}
 			if (action1 != false && action2 != true) {
-				console.log('occupé!!!!!!!!!!!!!')
 				this.wipeLastSelect()
 			}
 		})
@@ -715,7 +710,6 @@ class FamilyAgenda extends React.Component {
 			//here for the counter of the button to send data
 			this.setState({ showMyChildName: myChild })
 			this.setState({ showOthersChildName: notMyChild })
-			console.log('is it really playing two times')
 		}
 		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) {
 
@@ -730,7 +724,6 @@ class FamilyAgenda extends React.Component {
 		if (this.state.colorState == '') {
 			let color = arr[Math.floor(Math.random() * 6)]
 			this.setState({ colorState: color })
-			console.log('color',color);
 		}
 	}
 
