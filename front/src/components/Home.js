@@ -3,23 +3,27 @@ import { Link, withRouter } from 'react-router-dom'
 import Header from './Header'
 import Simform from './SimForm'
 import FamilyForm from './FamilyForm'
-import logo from '../../src/assets/noonoo1.svg'
-import logoRappel from '../assets/schedule-24px.svg'
-import logoConge from '../assets/agenda.svg'
-import logoContrat from '../assets/contrat.svg'
-import logoFinContrat from '../assets/fin-contrat.svg'
-import logoDeclaration from '../assets/description-24px.svg'
+import logo from '../../src/assets/easynoonoo_banner.png'
+import logoRappel from '../assets/alerte2.svg'
+import logoOutil from '../assets/outil_rh_2.svg'
+import logoPaie from '../assets/paie2.svg'
+import logoContrat from '../assets/contractualisation.svg'
+import imagePaie from '../assets/serein_illustration.svg'
+import imageRappel from '../assets/Smartphonecontrol_illustration.svg'
+import imageOutil from '../assets/outilRH_illustration.svg'
+import imageContractualisation from '../assets/utilisateur_illustration.svg'
 import './Home.css'
 
 const Home = () => {
   return (
     <div className="Homepage">
+
+
       {/* Introduction */}
 
       <article className="container-fluid articleDescription">
         <div className="row justify-content-center wrap">
           <div className="col-10 col-xl-6 d-flex flex-column justify-between articleVision">
-            <h2>Introduction</h2>
 
             <div>
               <ol className="carousel-indicators">
@@ -45,61 +49,38 @@ const Home = () => {
                   className="carousel-item active"
                   data-interval="10000"
                 >
-                  <p>
-                    Vous souhaitez embaucher ou vous embauchez une
-                    garde à domicile ? Félicitations! Vous voilà promu
-                    DRH et à vous les responsabilités associés : paie,
-                    gestion des congés, déclarations URSSAF, etc...
-                    <br />
-                    <br />
-                    Easynoonoo est votre plateforme paie et RH dédiée
-                    à la gestion de votre garde à domicile. Elle vous
-                    libère de la complexité de cette gestion tout au
-                    long de la durée de votre contrat.
-                    <br />
-                    <br />
-                    Easynoonoo est le résultat de nombreuses
-                    frustrations et incompréhensions de leurs
-                    créateurs durant leur propre expérience dans
-                    l'emploi d'une garde à domicile. Nous avons tout
-                    mis à plat pour que vous puissiez sereinement et
-                    rapidement traiter ce sujet crucial, en vous
-                    évitant de potentiels problèmes légaux et/ou
-                    financiers par manque de temps ou de connaissance
-                  </p>
+                  <h3>
+                    Manque de temps pour gérer correctement la paie et l’administratif de votre garde à domicile ?
+                  </h3>
                 </div>
                 <div className="carousel-item" data-interval="10000">
-                  <p>Easynoonoo propose les services suivants:</p>
-                  <ul>
-                    <li>
-                      <a href="#simulateur">Simulateurs</a>
-                    </li>
-                    <li>
-                      <a href="#contract">Contrat</a>
-                    </li>
-                    <li>
-                      <a href="#pajemploi">
-                        Déclaration Pajemploi et fiche de paie
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#fincontrat">Fin de contrat</a>
-                    </li>
-                    <li>
-                      <a href="#conge">
-                        Gestion des congés et absences
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#rappel">Rappels</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Easynoonoo est l'outil pour retrouver de la
-                    sérénité dans la gestion, vous éviter des tracas
-                    administratifs et soulager (un peu) votre charge
-                    mentale.
-                  </p>
+                  <h3>Peur de ne pas prendre soin de votre garde à domicile comme elle prend soin de vos enfants ?</h3>
+                </div>
+              </div>
+            </div>
+
+
+            <div>
+              <h2>Nous construisons la solution qu’il vous faut !
+              </h2>
+              <p>Pour découvrir notre service de gestion administrative pour les gardes à domicile en avant-première, laissez-nous votre adresse mail. Nous vous donnerons un accès prioritaire au service avant sa sortie.</p>
+              <div className="input-group mb-3 emailHome">
+                <input
+                  type="text"
+                  value=''
+                  class="form-control"
+                  placeholder="Votre e-mail"
+                  aria-label="email"
+                  aria-describedby="button-addon2"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                  >
+                    Demander mon accès
+                  </button>
                 </div>
               </div>
             </div>
@@ -117,177 +98,111 @@ const Home = () => {
         </div>
       </article>
 
-      {/* SIMULATEUR */}
+      {/* BANNIERE  */}
 
-      <h2 id="simulateur" className="h2Simulateur">
-        Simulateurs
-      </h2>
-
-      <div className="container-fluid simulateur">
-        <div className="row d-flex justify-content-center wrap">
-          <div className="col-10 col-lg-5 d-flex flex-column justify-content-between align-items-center simulateurDescription">
-            <h3>Calculer mon taux de répartition</h3>
-            <p>
-              {' '}
-              Un calculateur pour définir la répartition du coût de la
-              garde. Nous l'avons vécu, le taux de répartition ne se
-              limite pas forcément à 50% : enfants scolarisés,
-              vacances ou mercredi chez les grands-parents, gardes
-              alternées beaucoup d'élèments vont influencer les heures
-              de garde de chaque enfants, de chaque familles. Définir
-              un taux équitable pour les deux familles permet de
-              d'établir une relation saine entre les familles. Nous
-              vous offrons un outil pour simuler vos besoins et
-              calculer ce taux.{' '}
-            </p>
-
-            <Link to="/familyform">
-              <input
-                type="button"
-                className="simulateurbtn"
-                value="Essayer"
-              />
-            </Link>
+      <div className=' row col-12 d-flex flex-column justify-content-center align-items-center bannerIntro'>
+        <h2>Une solution RH pour les particuliers employeur</h2>
+        <h3>Concentrez-vous sur l’essentiel grâce à un logiciel pour la gestion de la paie et de votre garde à domicile.</h3>
+        <div className='row'>
+          <div className='col d-flex flex-column align-items-center'>
+            <img src={logoPaie} className="HomepageIcon" alt='logo paie' />
+            <p>PAIE</p>
           </div>
-          <div
-            className="col-10 col-lg-5 d-flex flex-column justify-content-between align-items-center simulateurDescription"
-            id="simuDesc2"
-          >
-            <h3>Calculer les coûts de ma nounou</h3>
-            <p>
-              {' '}
-              Un simulateur du coût de la garde qui clarifie le
-              salaire reçu par votre garde à domicile, vos coûts, les
-              aides et crédits d'impôt auxquels vous avez droit en
-              fonction de vos besoin. Plus de confusion entre salaire
-              brut, net, montants à charge pour l'employeur, heures
-              supplémentaires et les aides!{' '}
-            </p>
-
-            <Link to="/simform">
-              <input
-                type="button"
-                id="simulateurBtn2"
-                className="simulateurbtn"
-                value="Essayer"
-              />
-            </Link>
+          <div className='col d-flex flex-column align-items-center'>
+          <img src={logoContrat} className="HomepageIcon" alt='logo contrat' />
+            <p>CONTRAT</p>
           </div>
+          <div className='col d-flex flex-column align-items-center'>
+          <img src={logoOutil} className="HomepageIcon" alt='logo assistant rh' />
+            <p>OUTIL RH</p>
+          </div>
+          <div className='col d-flex flex-column align-items-center'>
+          <img src={logoRappel} className="HomepageIcon" alt='logo outil rh' />
+            <p>ASSISTANT</p>
+          </div>          
         </div>
       </div>
 
-      {/* CONTRAT */}
-
-      <div id="contract" className="container-fluid screen screenv2">
-        <div className="desc descColor">
-          <div className="row d-flex justify-content-center flex-wrap">
-            <div className="col-10 col-lg-4 d-flex justify-content-center align-items-center homepageTitle">
-              <img
-                className="HomepageIcon"
-                src={logoContrat}
-                alt="logo contrat"
-              />
-              <h2> Contrat.</h2>
-            </div>
-            <div className="col-10 col-lg-6 d-flex justify-content-center">
-              <p>
-                Créer son contrat de garde à domicile devient très
-                simple avec Easynoonoo. Nous vous proposons un
-                parcours de questions pour définir un contrat clair et
-                intelligible, fait sur mesure. Après validation de
-                votre contrat, il est prêt à être signé par les
-                parties et votre espace de gestion est automatiquement
-                paramétré.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* PAJEMPLOI */}
+      {/* LA PAIE */}
 
       <div id="pajemploi" className="container-fluid screen">
         <div className="desc">
           <div className="row d-flex justify-content-center flex-wrap-reverse">
-            <div className="col-10 col-lg-6 d-flex justify-content-center">
+            <div className="col-10 col-lg-6 d-flex justify-content-center flex-column">
+              <div className='row'>
+                <img
+                  className="HomepageIcon"
+                  src={logoPaie}
+                  alt="logo contrat"
+                />
+                <h2>LA PAIE</h2>
+
+              </div>
+              <h3>Aucune erreur, aucun retard.</h3>
+
+
               <p>
-                Chaque fin de mois, c'est le moment de la déclaration
-                et de la fiche de paie. Pajemploi vous demande un
-                salaire net horaire, le salaire net mensuel, des
-                heures, mais êtes-vous certains de ce que vous
-                remplissez ?
-                <br />
-                <br />
-                Easynoonoo vous calcule automatiquement ces montants
-                en fonction de la situation du mois écoulé et de votre
-                contrat. Nous vous aidons également à remplir votre
-                déclaration.
-                <br />
-                <br /> Légalement, l'employeur doit fournir une fiche
-                de paie à son employé. Vous vous dites que Pajemploi
-                le fait et que tout est bon... Erreur, Pajemploi ne
-                calcule pas l'exonération sur les heures
-                supplémentaires, si vous versez une prime de panier
-                repas, impossible de l'ajouter. Enfin, le suivi des
-                congés doit y être annoté à la main et signé par les
-                parties! Détendez-vous! Nous faisons tout celà pour
-                vous et nous mettons la fiche de paie à disposition de
-                votre nounou.
+                Automatiser la paie de votre salarié.e ainsi que vos déclarations fiscales. Easynoonoo s’occupe de tout !
               </p>
             </div>
-            <div className="col-10 col-lg-4 d-flex justify-content-center align-items-center homepageTitle">
+            <div className="col-10 col-lg-5 d-flex justify-content-center align-items-center homepageTitle">
               <img
-                className="HomepageIcon"
-                src={logoDeclaration}
+                className='imgHome'
+                src={imagePaie}
                 alt=""
               />
-              <h2>Déclaration Pajemploi et fiche de paie.</h2>
+
             </div>
           </div>
         </div>
       </div>
 
-      {/* FIN CONTRAT */}
+      {/*LA CONTRACTUALISATION*/}
 
-      <div
-        className="container-fluid screen screenv2"
-        id="fincontrat"
-      >
+      <div id="contract" className="container-fluid screen screenv2">
         <div className="desc descColor">
           <div className="row d-flex justify-content-center flex-wrap">
-            <div className="col-10 col-lg-4 d-flex justify-content-center align-items-center homepageTitle">
+            <div className="col-10 col-lg-5 d-flex justify-content-center align-items-center homepageTitle">
+
               <img
-                className="HomepageIcon"
-                src={logoFinContrat}
-                alt="logo fin contrat"
+                className='imgHome'
+                src={imageContractualisation}
+                alt="img contract"
               />
-              <h2>Fin de contrat.</h2>
             </div>
-            <div className="col-10 col-lg-6 d-flex justify-content-center">
+            <div className="col-10 col-lg-6 d-flex justify-content-center flex-column">
+              <div className='row'>
+                <img
+                  className="HomepageIcon"
+                  src={logoContrat}
+                  alt="logo contrat"
+                />
+                <h2>LA CONTRACTUALISATION</h2>
+              </div>
+              <h3>Un contrat sur mesure</h3>
               <p>
-                Un évènement de vie arrive et vous devez vous séparer
-                de votre garde à domicile. Et là, le vertige vous
-                atteint: Quel est la durée du préavis? Quelles sont
-                les démarches? Comment rédiger les courriers? Comment
-                calculer les indemnités et avec quelles données? Quels
-                documents remettre à mon employé?
-                <br />
-                <br /> Easynoonoo est là. Comme nous vous avons
-                accompagnés, nous disposons des informations clées
-                pour établir tout celà et vous fournir les clés pour
-                naviguer dans ces méandres.
+                Générer facilement votre contrat en fonction de votre situation. Profitez de l’expertise des avocats spécialistes partenaires d’Easynoonoo sans avoir à payer les honoraires !
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* CONGE */}
+      {/* OUTIL RH */}
 
       <div className="container-fluid screen" id="conge">
         <div className="desc">
           <div className="row d-flex justify-content-center flex-wrap-reverse">
-            <div className="col-10 col-lg-6 d-flex justify-content-center">
+            <div className="col-10 col-lg-6 d-flex justify-content-center flex-column">
+              <div className='row'>
+                <img
+                  className="HomepageIcon"
+                  src={logoOutil}
+                  alt="logo contrat"
+                />
+                <h2>UN OUTIL RH</h2>
+              </div>
+              <h3>Solution de gestion complète.</h3>
               <p>
                 On ne vous évitera pas forcément les discussions
                 difficiles avec votre garde d'enfants, mais à
@@ -298,51 +213,101 @@ const Home = () => {
                 pas entendu parler.
               </p>
             </div>
-            <div className="col-10 col-lg-4 d-flex justify-content-center align-items-center homepageTitle">
+            <div className="col-10 col-lg-5 d-flex justify-content-center align-items-center homepageTitle">
               <img
-                className="HomepageIcon"
-                src={logoConge}
-                alt="logo agenda"
+                className="imgHome"
+                src={imageOutil}
+                alt="image outil"
               />
-              <h2>Gestion des congés et des absences.</h2>
+
             </div>
           </div>
 
-          <div className="row d-flex justify-content-center"></div>
         </div>
       </div>
 
-      {/* RAPPELS */}
+      {/* ASSISTANT PERSONNEL RH */}
 
       <div className="container-fluid screen screenv2" id="rappel">
         <div className="desc descColor">
           <div className="row d-flex justify-content-center flex-wrap">
-            <div className="col-10 col-lg-4 d-flex justify-content-center align-items-center homepageTitle">
+            <div className="col-10 col-lg-5 d-flex justify-content-center align-items-center homepageTitle">
               <img
-                className="HomepageIcon"
-                src={logoRappel}
+                className="imgHome"
+                src={imageRappel}
                 alt="logo rappel"
               />
-              <h2>Rappels.</h2>
+
             </div>
-            <div className="col-10 col-lg-6 d-flex justify-content-center">
+            <div className="col-10 col-lg-6 d-flex justify-content-center flex-column">
+              <div className='row'>
+                <img
+                  className="HomepageIcon"
+                  src={logoRappel}
+                  alt="logo contrat"
+                />
+                <h2>ASSISTANT PERSONNEL RH</h2>
+              </div>
+              <h3>Rappels de vos obligations.</h3>
+
               <p>
-                En tant qu'employeur, vous êtes soumis aux mêmes
-                obligations légales que les entreprises. Mais vous
-                avez déjà une activité qui vous occupe la journée,
-                vous n'avez pas le temps pour penser à ça !
-                <br />
-                <br />
-                Easynoonoo est là pour vous rappeler certaines dates
-                clés, vous informez des changements qui vous
-                impacterez dans votre relation avec votre garde à
-                domicile. Vous avez ainsi tous les clés en main pour
-                éviter les écueils
+                Devenez un employeur serein. Easynoonoo vous rappellera les dates clefs et vous informera des évolutions légales qui impactent la relation avec votre garde d’enfant.
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* SIMULATEUR */}
+      <div className='row justify-content-center'>
+        <h2 id="simulateur" className="h2Simulateur col-12">
+          Nos simulateurs gratuits pour vous aider à démarrer
+      </h2>
+        <h3 className='h3Title col-8'>Avant de vous engager avec une garde à domicile, estimez votre coût. De la même manière, testez nos services avant de nous engager ensemble !</h3>
+      </div>
+
+
+      <div className="container-fluid simulateur">
+        <div className="row d-flex justify-content-center wrap">
+          <div className="col-10 col-lg-5 d-flex flex-column justify-content-between align-items-center simulateurDescription">
+            <h3>Estimer le coût de garde à domicile</h3>
+            <p>
+              {' '}
+              Besoin d’estimer le coût de la garde à domicile ou de simuler l’impact d’un changement de situation, notre simulateur est là pour vous aider{' '}
+            </p>
+
+            <Link to="/simform" >
+              <input
+                type="button"
+                className="simulateurbtn"
+                value="Simulez votre coût"
+              />
+            </Link>
+          </div>
+          <div
+            className="col-10 col-lg-5 d-flex flex-column justify-content-between align-items-center simulateurDescription"
+            id="simuDesc2"
+          >
+            <h3>Calculer votre part en cas de garde partagée</h3>
+            <p>
+              {' '}
+              Entre des rythmes de garde qui changent au cours de l’année (périodes scolaires et vacances, par exemple) et des horaires différents d’une famille à l’autre, estimez la part des heures de garde à votre charge{' '}
+            </p>
+
+            <Link to="/familyform">
+              <input
+                type="button"
+                id="simulateurBtn2"
+                className="simulateurbtn"
+                value="Calculez votre part"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   )
 }

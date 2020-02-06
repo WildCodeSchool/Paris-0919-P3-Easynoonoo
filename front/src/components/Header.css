@@ -12,8 +12,21 @@
     background-color : white;
     height : 100%;
     font-size : 15px;
-    margin-top : 15px;
+    padding-top : 2%;
+    padding-bottom : 2%;
     
+}
+
+.navbarWebsite p {
+    
+    margin-bottom : 0px;
+    margin-left : 15px;
+    color : #687189;
+    
+}
+
+.endNavbar p {
+    margin-right : 30px;
 }
 
 
@@ -31,11 +44,15 @@
 
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1050px) {
     .headerLogo {
         display: block;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .navbarWebsite p {
+        display : none;
     }
     
 }
