@@ -5,6 +5,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import ResultsTaux from './ResultsTaux'
+import wipe from '../assets/wipe.svg'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
@@ -61,7 +62,8 @@ class FamilyAgenda extends React.Component {
 		currentSearch: null,
 		selectStart: [],
 		selectEnd: [],
-		tauxRepartition: []
+		tauxRepartition: [],
+		copyChild: false
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -148,7 +150,6 @@ class FamilyAgenda extends React.Component {
 
 	// 		   let realTime = hours + ' heures et ' + min + ' min'
 	// 		   this.setState({ time: realTime, setTime: true })
-	// 		   console.log('TIME', realTime) 
 	// 		// } else {
 	// }
 
@@ -221,6 +222,7 @@ class FamilyAgenda extends React.Component {
 		let myChild = JSON.parse(localStorage.getItem('myChild'));
 		let notMyChild = JSON.parse(localStorage.getItem('notMyChild'));
 		let arrayChildren = JSON.parse(localStorage.getItem('allChildren'));
+		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
 		let i = this.state.countMyChild;
 		let j = this.state.countNotMyChild;
 		let countId = this.state.countTimeSlot;
@@ -228,7 +230,7 @@ class FamilyAgenda extends React.Component {
 		let nameChildOthers = this.state.nameChildOthers;
 		let arrayObject = [];
 		let childCalendar;
-		let childColor = Math.floor(Math.random() * 16777215).toString(16);
+		let childColor = arr[Math.floor(Math.random() * arr.length)]
 		let colorState = this.state.colorState
 
 
@@ -324,6 +326,7 @@ class FamilyAgenda extends React.Component {
 					this.setState({ countTimeSlot: countId })
 					this.setState({ calendarChild: childCalendar })
 					this.setState({ colorState: childColor })
+					
 
 				} else {
 					alert('Pas de plages horaires sélectionnées pour cet enfant')
@@ -335,6 +338,9 @@ class FamilyAgenda extends React.Component {
 		}
 	}
 
+	
+
+
 	/* -------- reset-------- */
 
 	resetCalendar = () => {
@@ -344,8 +350,9 @@ class FamilyAgenda extends React.Component {
 	}
 
 	addChildReset = () => {
-		this.addChild()
-		this.resetCalendar()
+		if (this.state.copyChild === true) {this.addChild()}
+		else {this.addChild()
+		this.resetCalendar()}
 	}
 
 	wipeLastSelect = () => {
@@ -601,9 +608,6 @@ class FamilyAgenda extends React.Component {
 
 		const mapStart = await alreadyIn.map(x => x.start)
 		const mapEnd = await alreadyIn.map(y => y.end)
-
-		console.log('mapStart and mapEnd', mapStart, mapEnd)
-
 		const format = 'YYYY-MM-DD HH:mm'
 		let timeStart = moment(this.state.SUPERstart, format)
 		let timeEnd = moment(this.state.SUPERend, format)
@@ -623,7 +627,6 @@ class FamilyAgenda extends React.Component {
 				var action2 = true
 			}
 			if (action1 != false && action2 != true) {
-				console.log('occupé!!!!!!!!!!!!!')
 				this.wipeLastSelect()
 			}
 		})
@@ -707,7 +710,6 @@ class FamilyAgenda extends React.Component {
 			//here for the counter of the button to send data
 			this.setState({ showMyChildName: myChild })
 			this.setState({ showOthersChildName: notMyChild })
-			console.log('is it really playing two times')
 		}
 		if (this.state.calendarChild == undefined && countMyChild == myChild.length && nameStop == 0) {
 
@@ -718,11 +720,10 @@ class FamilyAgenda extends React.Component {
 	}
 
 	updateColor = () => {
-		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
+		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000', '40b632', '44452f', '010d9e']
 		if (this.state.colorState == '') {
-			let color = arr[Math.floor(Math.random() * arr.length)]
+			let color = arr[Math.floor(Math.random() * 6)]
 			this.setState({ colorState: color })
-			console.log('color',color);
 		}
 	}
 
@@ -861,7 +862,7 @@ class FamilyAgenda extends React.Component {
 			<>
 				{this.state.hideCalendar == true ? '' :
 					<div>
-						<h2 >Remplir la semaine-type de {this.state.calendarChild}</h2>
+						<h2 >Remplir la semaine-type pour {this.state.calendarChild}</h2>
 						<div>Vous avez sélectionné : {this.state.time}</div>
 
 
@@ -949,81 +950,83 @@ class FamilyAgenda extends React.Component {
 							<div className="buttonSelect col-2">
 
 								<button
-									class="simulateurbtn"
+									class="simulateurbtnwipe"
 									type="button"
 									value="effacer dernier"
 									onClick={() => this.wipeLastSelect()}
 								>
-									Effacer dernière selection
-				</button>
+									<i class="fa fa-undo"></i>
+									Effacer la dernière sélection
+								</button>
 								<button
-									class="simulateurbtn"
+									class="simulateurbtnwipe"
 									type="button"
 									value="effacer"
 									onClick={() => this.resetCalendarPage()}
-								>
-									Effacer ce planning
-				</button>
-							</div>
-						</div>
+								>	
+								
+								<i className="fa fa-trash-o fa-lg"></i>
+								Effacer le planning
 
-
-
-						<div class="input-group inputChoixPlagesHoraires">
-							<select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
-								<option
-									selected
-									value="null"
-								>
-									--Merci de choisir une option--
-                </option>
-								<option
-									selected
-									value="oui"
-								>
-									Copier ce planning pour l'enfant suivant
-                </option>
-								<option value="non">
-									Non, je veux partir d'un planning vide
-                </option>
-							</select>
-							<div class="input-group-append">
-								<button
-									type="button"
-									class="calendar_simulateurbtn"
-									onClick={() =>
-										this.state.valueOnClick == 'oui'
-											? this.addChild()
-											: this.addChildReset()
-									}
-								>
-									Valider
-                </button>
-							</div>
-						</div>
-
-
-
+								</button>
+								
+								
 						{/* enfants en garde partagée : calendrier apparait  */}
 
 						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0 ?
-							<div className="container-fluid d-flex justify-content-end buttonCalculAgenda">
+							<div className="container-fluid d-flex">
 								<div class="input-group-append">
 									<button
-										className="btn btn-outline-secondary buttonPlanning"
+										className="calendar_simulateurbtn"
 										type="button"
 										id="button-addon2"
 										value="send data and receive data"
 										onClick={() => this.getData()}
 									>
+									
 										Calculer mon taux
                   					</button>
 								</div>
 							</div>
 
-							:
-							''
+							: <div class="container-fluid d-flex row ">
+								<div class="input-group-append row">
+								<button
+									class="calendar_simulateurbtn_validate"
+									type="button"
+									value="copier"
+									onClick={() => this.addChild()}
+								>
+									
+									Valider et copier le planning
+								</button>
+								</div>
+								<div class="input-group-append row">
+								<button
+									type="button"
+									class="calendar_simulateurbtn_validate"
+									onClick={() =>
+										
+											this.addChildReset()
+											
+									}
+								>
+									Valider
+                				</button>
+							</div>
+							</div>
+							
 						}
+
+							</div>
+						</div>
+
+
+
+						
+
+
+
 
 						<Link to="/">
 							<p
