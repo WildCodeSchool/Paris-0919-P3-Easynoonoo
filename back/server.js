@@ -1373,16 +1373,12 @@ app.post('/api/calculsRepartition', (req, res) => {
               if(nbEnfantB >= 1 && nbEnfantA >= 1){
                   ponderateA = ponderateA + nbEnfantA * 15
                   ponderateB = ponderateB + nbEnfantB * 15
-                  console.log(ponderateA / 60, ponderateB / 60)
               }
             })
-            console.log(ponderateA / 60)
-            console.log(ponderateB / 60)
             resolve (
               ponderateTotale = ponderateA + ponderateB,
               ponderateFamilleA = (ponderateA / ponderateTotale),
               ponderateFamilleB = (ponderateB / ponderateTotale),
-              console.log(ponderateFamilleA, ponderateA / 60, ponderateTotale / 60)
             )
           }
           else {
@@ -1525,8 +1521,7 @@ app.post('/api/calculsRepartition', (req, res) => {
       return (
         new Promise(resolve => {
           resolve(
-            NounouTotale = Math.min(heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50, 53*60),
-            console.log(NounouTotale/60)
+            NounouTotale = Math.min(heuresCommuneNormales + heuresExcluANormale + heuresExcluBNormale + (hourSupp25Commune + hourSupp25A + hourSupp25B) * 1.25 + (hourSupp50Commune + hourSupp50A + hourSupp50B) * 1.50, 53*60)
           )  
         })
       )
@@ -1537,7 +1532,6 @@ app.post('/api/calculsRepartition', (req, res) => {
         new Promise (resolve => {
           resolve (
             RepartitionA = ((((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)) * ponderateFamilleA) + heuresExcluANormale + (hourSupp25A * 1.25) + (hourSupp50A * 1.50)) / NounouTotale),
-            console.log((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)), ponderateFamilleA, heuresExcluANormale, hourSupp25A, hourSupp50A),
             RepartitionB = ((((heuresCommuneNormales +   (hourSupp25Commune * 1.25) +  (hourSupp50Commune * 1.50)) * ponderateFamilleB) + heuresExcluBNormale + (hourSupp25B * 1.25) + (hourSupp50B * 1.50)) / NounouTotale),
             heuresCommuneNormales = heuresCommuneNormales / 60,
             hourSupp25Commune = hourSupp25Commune / 60,
