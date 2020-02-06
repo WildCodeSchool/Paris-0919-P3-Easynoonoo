@@ -5,6 +5,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import ResultsTaux from './ResultsTaux'
+import wipe from '../assets/wipe.svg'
 
 import './FamilyAgenda.css'
 import './utils/fonts/Hansief.ttf'
@@ -61,7 +62,8 @@ class FamilyAgenda extends React.Component {
 		currentSearch: null,
 		selectStart: [],
 		selectEnd: [],
-		tauxRepartition: []
+		tauxRepartition: [],
+		copyChild: false
 	}
 
 	/* -------- Define Mouse Position -------- */
@@ -348,8 +350,9 @@ class FamilyAgenda extends React.Component {
 	}
 
 	addChildReset = () => {
-		this.addChild()
-		this.resetCalendar()
+		if (this.state.copyChild === true) {this.addChild()}
+		else {this.addChild()
+		this.resetCalendar()}
 	}
 
 	wipeLastSelect = () => {
@@ -722,7 +725,7 @@ class FamilyAgenda extends React.Component {
 	}
 
 	updateColor = () => {
-		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000']
+		let arr = ['0336ff', 'dfb593', '63cde3', '532b24', 'f65ef0', '800000', '40b632', '44452f', '010d9e']
 		if (this.state.colorState == '') {
 			let color = arr[Math.floor(Math.random() * 6)]
 			this.setState({ colorState: color })
@@ -953,68 +956,42 @@ class FamilyAgenda extends React.Component {
 							<div className="buttonSelect col-2">
 
 								<button
-									class="simulateurbtn"
+									class="simulateurbtnwipe"
 									type="button"
 									value="effacer dernier"
 									onClick={() => this.wipeLastSelect()}
 								>
-									Effacer dernière selection
-				</button>
+									<i class="fa fa-undo"></i>
+								</button>
 								<button
-									class="simulateurbtn"
+									class="simulateurbtnwipe"
 									type="button"
 									value="effacer"
 									onClick={() => this.resetCalendarPage()}
-								>
-									Effacer ce planning
-				</button>
+								>	
+								
+								<i className="fa fa-trash-o fa-lg"></i>
 
-							</div>
-						</div>
-
-
-
-						<div class="input-group inputChoixPlagesHoraires">
-							{/* <select class="custom-select" id="inputGroupSelect04" value={this.state.valueOnClick} onChange={this.handleResetPlanning}>
-								<option
-									selected
-									value="null"
-								>
-									--Merci de choisir une option--
-                </option>
-								<option
-									selected
-									value="oui"
-								>
-									Copier ce planning pour l'enfant suivant
-                </option>
-								<option value="non">
-									Non, je veux partir d'un planning vide
-                </option>
-							</select> */}
-
-						</div>
-
-
-
+								</button>
 						{/* enfants en garde partagée : calendrier apparait  */}
 
 						{this.state.countMyChild + this.state.countNotMyChild == this.state.showMyChildName.length + this.state.showOthersChildName.length && this.state.countMyChild != 0 ?
-							<div className="container-fluid d-flex justify-content-end buttonCalculAgenda">
+							<div className="container-fluid d-flex">
 								<div class="input-group-append">
 									<button
-										className="btn btn-outline-secondary buttonPlanning"
+										className="calendar_simulateurbtn"
 										type="button"
 										id="button-addon2"
 										value="send data and receive data"
 										onClick={() => this.getData()}
 									>
+									
 										Calculer mon taux
                   					</button>
 								</div>
 							</div>
 
-							: <div class="container-fluid d-flex justify-content-end buttonCalculAgenda">
+							: <div class="container-fluid d-flex ">
 								<button
 									type="button"
 									class="calendar_simulateurbtn"
@@ -1025,10 +1002,20 @@ class FamilyAgenda extends React.Component {
 									}
 								>
 									Valider
-                </button>
+                				</button>
 							</div>
 							
 						}
+
+							</div>
+						</div>
+
+
+
+						
+
+
+
 
 						<Link to="/">
 							<p
